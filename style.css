@@ -194,8 +194,12 @@ html, body {
 .compare-title{ font-weight: 900; font-size: 13px; color: #111827; margin-bottom: 4px; }
 .compare-line{ font-size: 12px; color: #374151; margin-top: 2px; }
 .compare-price{ margin-top: 6px; font-weight: 900; font-size: 13px; color: #111827; }
-.compare-diff{ margin-top: 6px; font-size: 12px; font-weight: 800; }
-
+.compare-diff{
+  margin-top: 6px;
+  font-size: 14px;      /* was 12px */
+  font-weight: 800;
+  color: #FF0000;
+}
 /* Scroll hint (since iOS hides scrollbars) */
 .scroll-hint{
   margin-top: 6px;
@@ -237,7 +241,16 @@ html, body {
     border-radius: 999px;
     background: rgba(0,0,0,0.18);
   }
+.row-2{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 
+/* stack on very small screens */
+@media (max-width: 420px){
+  .row-2{ grid-template-columns: 1fr; }
+}
   /* make inner content scroll inside the sheet */
   .panel-inner{
     overflow: auto;
