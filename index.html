@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Medical Pricing Map MVP</title>
+  <title>Travel + Transform</title>
 
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
@@ -12,35 +12,34 @@
 <body>
   <div id="map"></div>
 
-  <aside id="panel" aria-label="Filters panel">
-    <!-- drag handle only (no “Filters” pill button) -->
-    <div id="panelHandle" class="panel-handle" aria-hidden="true"></div>
+  <aside id="panel">
+    <!-- Mobile drag handle -->
+    <div class="panel-handle" id="panelHandle" aria-label="Resize panel"></div>
 
     <div class="panel-inner">
-      <div class="label">Procedure</div>
+
+      <!-- Procedure dropdown (placeholder lives inside the dropdown) -->
       <select id="procedureSelect" class="control">
-        <option value="ALL">All procedures</option>
+        <option value="" selected>Choose Procedure</option>
       </select>
 
-    <div class="section row-2">
-  <div>
-    <div class="label">1) Search City</div>
-    <input id="citySearch" class="control" placeholder="e.g. Tokyo" />
-  </div>
+      <!-- Search + Country on one row -->
+      <div class="section row-2">
+        <div class="section">
+          <input id="citySearch" class="control" placeholder="Search city" />
+        </div>
 
-  <div>
-    <div class="label">2) Filter Country</div>
-    <select id="countrySelect" class="control">
-      <option value="ALL">All Countries</option>
-    </select>
-  </div>
-</div>
+        <div class="section">
+          <select id="countrySelect" class="control">
+            <option value="ALL" selected>Filter country</option>
+          </select>
+        </div>
+      </div>
 
-      <!-- Price filter removed -->
-
+      <!-- Compare -->
       <div class="section">
         <div class="compare-head">
-          <div class="label" style="margin:0;">Compare (Pick 2 Below)</div>
+          <div class="label" style="margin:0;">Compare results (Choose 2 below)</div>
           <button id="compareClear" class="compare-clear" type="button">Clear</button>
         </div>
 
@@ -52,11 +51,14 @@
         </div>
       </div>
 
+      <!-- Results -->
       <div class="section">
         <div class="label">Results (sorted by price)</div>
-        <div class="results results-scroll" id="resultsList" aria-label="Results list"></div>
-        <div class="scroll-hint" aria-hidden="true">Scroll</div>
+        <div class="results">
+          <div class="results-scroll" id="resultsList"></div>
+        </div>
       </div>
+
     </div>
   </aside>
 
