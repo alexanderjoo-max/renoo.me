@@ -20,6 +20,8 @@ const els = {
   panel: document.getElementById("panel"),
   panelHandle: document.getElementById("panelHandle"),
   procedureSelect: document.getElementById("procedureSelect"),
+  citySearch: document.getElementById("citySearch"),
+  countrySelect: document.getElementById("countrySelect"),
   resultsList: document.getElementById("resultsList"),
   compareClear: document.getElementById("compareClear"),
   compareEmpty: document.getElementById("compareEmpty"),
@@ -48,7 +50,7 @@ const els = {
 
     handle.setPointerCapture?.(e.pointerId);
 
-    // prevent page scroll while dragging
+    // prevent iOS overscroll / page pull-to-refresh while dragging
     document.documentElement.style.overscrollBehavior = "none";
     document.body.style.overflow = "hidden";
 
@@ -122,6 +124,9 @@ function flagFromCountry(countryName) {
 
 /* =========================
    PROCEDURE DISPLAY HELPERS
+   - Remove parentheses + inside
+   - Icons in dropdown
+   - Cherry emoji for breast augmentation
 ========================= */
 function stripParens(s) {
   return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, "").trim();
@@ -224,12 +229,13 @@ fetch("data.json")
       .filter((d) => Number.isFinite(d.lat) && Number.isFinite(d.lng) && d.city && d.country && d.procedure);
 
     populateProcedureDropdown(ALL);
+    populateCountryDropdown(ALL);
     wireUI();
 
-    // show nothing until a procedure is chosen
+    // IMPORTANT: show nothing until a procedure is chosen
     clearMarkers();
     renderResults([]);
-    renderCompareBox();
+    renderCompareBox([]);
   })
   .catch((err) => console.error("Failed to load data.json", err));
 
@@ -242,37 +248,45 @@ function wireUI() {
     applyFiltersAndRender();
   });
 
+  els.countrySelect?.addEventListener("change", applyFiltersAndRender);
+  els.citySearch?.addEventListener("input", debounce(applyFiltersAndRender, 120));
+
   els.compareClear?.addEventListener("click", () => {
     compareSelection = [];
     renderResults(currentFiltered);
-    renderCompareBox();
+    renderCompareBox(currentFiltered);
   });
 
-  // If the browser restores form state (bfcache), force placeholder again
+  // desktop sometimes restores selects from bfcache; force placeholder + clear pins/results
   window.addEventListener("pageshow", () => {
-    if (els.procedureSelect) {
-      els.procedureSelect.value = "";
-      els.procedureSelect.selectedIndex = 0;
-      compareSelection = [];
-      applyFiltersAndRender(); // clears pins/results
-    }
+    if (!els.procedureSelect) return;
+    if (els.procedureSelect.value) return; // user already picked
+    clearMarkers();
+    currentFiltered = [];
+    compareSelection = [];
+    renderResults([]);
+    renderCompareBox([]);
   });
 }
 
+function debounce(fn, ms) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), ms);
+  };
+}
+
 /* =========================
-   DROPDOWN
+   DROPDOWNS
 ========================= */
 function populateProcedureDropdown(data) {
   if (!els.procedureSelect) return;
 
+  // keep existing placeholder from HTML (value="")
+  const placeholder = els.procedureSelect.querySelector('option[value=""]');
   els.procedureSelect.innerHTML = "";
-
-  // Placeholder (NO icon)
-  const ph = document.createElement("option");
-  ph.value = "";
-  ph.textContent = "Choose Procedure";
-  ph.selected = true;
-  els.procedureSelect.appendChild(ph);
+  if (placeholder) els.procedureSelect.appendChild(placeholder);
 
   const procedures = [...new Set(data.map((d) => d.procedure))]
     .filter(Boolean)
@@ -285,9 +299,31 @@ function populateProcedureDropdown(data) {
     els.procedureSelect.appendChild(opt);
   }
 
-  // Force placeholder on load (desktop browsers sometimes restore last selection)
+  // force placeholder on load (prevents desktop remembering old selection)
   els.procedureSelect.value = "";
   els.procedureSelect.selectedIndex = 0;
+}
+
+function populateCountryDropdown(data) {
+  if (!els.countrySelect) return;
+  els.countrySelect.innerHTML = "";
+
+  const all = document.createElement("option");
+  all.value = "ALL";
+  all.textContent = "All countries";
+  els.countrySelect.appendChild(all);
+
+  const countries = [...new Set(data.map((d) => d.country))]
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+
+  for (const c of countries) {
+    const flag = flagFromCountry(c);
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = `${flag ? flag + " " : ""}${c}`;
+    els.countrySelect.appendChild(opt);
+  }
 }
 
 /* =========================
@@ -295,16 +331,22 @@ function populateProcedureDropdown(data) {
 ========================= */
 function applyFiltersAndRender() {
   const procVal = els.procedureSelect?.value ?? "";
-
   if (!procVal) {
+    // no selection => show NOTHING
     clearMarkers();
     currentFiltered = [];
     renderResults([]);
-    renderCompareBox();
+    renderCompareBox([]);
     return;
   }
 
+  const countryVal = els.countrySelect?.value ?? "ALL";
+  const q = (els.citySearch?.value ?? "").trim().toLowerCase();
+
   let filtered = ALL.filter((d) => d.procedure === procVal);
+
+  if (countryVal !== "ALL") filtered = filtered.filter((d) => d.country === countryVal);
+  if (q) filtered = filtered.filter((d) => d.city.toLowerCase().includes(q));
 
   // cheapest -> most expensive (nulls last)
   filtered.sort((a, b) => {
@@ -322,7 +364,7 @@ function applyFiltersAndRender() {
 
   renderMarkers(filtered);
   renderResults(filtered);
-  renderCompareBox();
+  renderCompareBox(filtered);
 }
 
 /* =========================
@@ -347,7 +389,10 @@ function renderMarkers(data) {
     const flag = flagFromCountry(d.country);
     const label = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
 
+    // flags beside price in bubbles
     el.textContent = `${flag ? flag + " " : ""}${label}`;
+
+    // price-based color
     el.style.background = priceToColor(d.price_usd, min, max);
 
     const popupHTML = `
@@ -355,9 +400,7 @@ function renderMarkers(data) {
         <div class="popup-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
         <div class="popup-row">${escapeHtml(d.country)}</div>
         <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
-        <div class="popup-row"><strong>Typical price:</strong> ${
-          Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"
-        }</div>
+        <div class="popup-row"><strong>Typical price:</strong> ${Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"}</div>
       </div>
     `;
 
@@ -382,28 +425,16 @@ function renderResults(data) {
   if (!els.resultsList) return;
 
   if (!els.procedureSelect?.value) {
-    els.resultsList.innerHTML = `
-      <div class="result-item">
-        <div class="result-left">
-          <div class="result-city">Choose a procedure</div>
-          <div class="result-meta">Nothing will show until you pick one</div>
-        </div>
-        <div class="result-price"></div>
-      </div>`;
+    els.resultsList.innerHTML =
+      `<div class="result-item"><div class="result-left"><div class="result-city">Choose a procedure</div><div class="result-meta">Nothing will show until you pick one</div></div><div class="result-price"></div></div>`;
     return;
   }
 
   els.resultsList.innerHTML = "";
 
   if (!data.length) {
-    els.resultsList.innerHTML = `
-      <div class="result-item">
-        <div class="result-left">
-          <div class="result-city">No results</div>
-          <div class="result-meta">Try another procedure</div>
-        </div>
-        <div class="result-price"></div>
-      </div>`;
+    els.resultsList.innerHTML =
+      `<div class="result-item"><div class="result-left"><div class="result-city">No results</div><div class="result-meta">Try changing filters</div></div><div class="result-price"></div></div>`;
     return;
   }
 
@@ -427,7 +458,7 @@ function renderResults(data) {
       toggleCompare(d._id);
       map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
       renderResults(currentFiltered);
-      renderCompareBox();
+      renderCompareBox(currentFiltered);
     });
 
     els.resultsList.appendChild(item);
@@ -450,7 +481,10 @@ function toggleCompare(id) {
 function renderCompareBox() {
   if (!els.compareGrid || !els.compareEmpty) return;
 
-  const picks = compareSelection.map((id) => ALL.find((d) => d._id === id)).filter(Boolean);
+  const picks = compareSelection
+    .map((id) => ALL.find((d) => d._id === id))
+    .filter(Boolean);
+
   els.compareGrid.innerHTML = "";
 
   if (!els.procedureSelect?.value) {
@@ -493,7 +527,7 @@ function renderCompareBox() {
       const cheaper = a < b ? picks[0].city : picks[1].city;
       diff.textContent = `${cheaper} is cheaper by $${delta.toLocaleString()}`;
     } else {
-      diff.textContent = "Price missing for one of the selections.";
+      diff.textContent = `Price missing for one of the selections.`;
     }
 
     els.compareGrid.appendChild(diff);
