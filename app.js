@@ -22,8 +22,6 @@ const els = {
   procedureSelect: document.getElementById("procedureSelect"),
   citySearch: document.getElementById("citySearch"),
   countrySelect: document.getElementById("countrySelect"),
-  minPrice: document.getElementById("minPrice"),
-  maxPrice: document.getElementById("maxPrice"),
   resultsList: document.getElementById("resultsList"),
   compareClear: document.getElementById("compareClear"),
   compareEmpty: document.getElementById("compareEmpty"),
