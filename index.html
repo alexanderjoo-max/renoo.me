@@ -13,6 +13,9 @@
   <div id="map"></div>
 
   <aside id="panel">
+    <!-- Mobile bottom-sheet toggle (CSS shows it only on mobile) -->
+    <button id="panelToggle" class="panel-toggle" type="button">Filters ▲</button>
+
     <div class="panel-inner">
 
       <div class="label">Procedure</div>
@@ -40,7 +43,8 @@
         </div>
       </div>
 
-	<div class="section">
+      <!-- Compare (above Results) -->
+      <div class="section">
         <div class="compare-head">
           <div class="label" style="margin:0;">Compare (pick 2)</div>
           <button id="compareClear" class="compare-clear" type="button">Clear</button>
@@ -52,15 +56,11 @@
           </div>
           <div class="compare-grid" id="compareGrid"></div>
         </div>
+      </div>
 
       <div class="section">
         <div class="label">Results (sorted by price)</div>
         <div class="results" id="resultsList"></div>
-      </div>
-
-      
-
-
       </div>
 
     </div>
