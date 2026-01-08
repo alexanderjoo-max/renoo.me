@@ -27,57 +27,40 @@ const els = {
   compareEmpty: document.getElementById("compareEmpty"),
   compareGrid: document.getElementById("compareGrid")
 };
-// --- Mobile: drag to resize bottom sheet panel (Pointer Events; iOS friendly) ---
-(() => {
-  const panel = document.getElementById("panel");
-  const handle = document.getElementById("panelHandle");
-  if (!panel || !handle) return;
 
-  let startY = 0;
-  let startH = 0;
-  let dragging = false;
+/* =========================
+   FORCE "Search City" + "Filter Country" INTO ONE ROW
+   (JS only, since you asked; no HTML/CSS edits needed)
+========================= */
+(function forceOneLineSearchAndCountry() {
+  const cityInput = els.citySearch;
+  const countrySelect = els.countrySelect;
+  if (!cityInput || !countrySelect) return;
 
-  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+  const citySection = cityInput.closest(".section");
+  const countrySection = countrySelect.closest(".section");
+  if (!citySection || !countrySection) return;
 
-  const onPointerDown = (e) => {
-    dragging = true;
-    startY = e.clientY;
-    startH = panel.getBoundingClientRect().height;
+  const parent = citySection.parentElement;
+  if (!parent) return;
 
-    // capture pointer so dragging keeps working even if finger moves off handle
-    handle.setPointerCapture?.(e.pointerId);
+  // Create a row container and insert it where the city section was
+  const row = document.createElement("div");
+  row.className = "row-2";
+  parent.insertBefore(row, citySection);
 
-    // prevent page scroll while dragging
-    document.documentElement.style.overscrollBehavior = "none";
-    document.body.style.overflow = "hidden";
-  };
+  // Move both sections into the row
+  row.appendChild(citySection);
+  row.appendChild(countrySection);
 
-  const onPointerMove = (e) => {
-    if (!dragging) return;
-
-    const dy = startY - e.clientY; // drag up => increase height
-    const vh = window.innerHeight;
-
-    const minH = Math.round(vh * 0.22);
-    const maxH = Math.round(vh * 0.90);
-
-    const next = clamp(startH + dy, minH, maxH);
-    panel.style.height = `${next}px`;
-  };
-
-  const onPointerUp = () => {
-    dragging = false;
-    document.body.style.overflow = "";
-    document.documentElement.style.overscrollBehavior = "";
-  };
-
-  handle.addEventListener("pointerdown", onPointerDown);
-  window.addEventListener("pointermove", onPointerMove);
-  window.addEventListener("pointerup", onPointerUp);
+  // Optional: tighten label spacing so it looks clean on one row
+  const labels = row.querySelectorAll(".label");
+  labels.forEach((l) => (l.style.marginTop = "0"));
 })();
 
 /* =========================
    MOBILE RESIZE (drag handle)
+   (single implementation; iOS-friendly)
 ========================= */
 (function initPanelResizer() {
   const panel = els.panel;
@@ -88,30 +71,41 @@ const els = {
   let startH = 0;
   let dragging = false;
 
-  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
   const onDown = (e) => {
     dragging = true;
     startY = e.clientY;
     startH = panel.getBoundingClientRect().height;
+
     handle.setPointerCapture?.(e.pointerId);
+
+    // prevent page scroll while dragging
+    document.documentElement.style.overscrollBehavior = "none";
+    document.body.style.overflow = "hidden";
+
     e.preventDefault();
   };
 
   const onMove = (e) => {
     if (!dragging) return;
-    const dy = startY - e.clientY; // dragging up increases height
-    const newH = startH + dy;
 
-    const minH = Math.round(window.innerHeight * 0.28);
-    const maxH = Math.round(window.innerHeight * 0.92);
+    const dy = startY - e.clientY; // drag up => increase height
+    const vh = window.innerHeight;
 
-    panel.style.height = clamp(newH, minH, maxH) + "px";
+    const minH = Math.round(vh * 0.22);
+    const maxH = Math.round(vh * 0.90);
+
+    const next = clamp(startH + dy, minH, maxH);
+    panel.style.height = `${next}px`;
+
     e.preventDefault();
   };
 
   const onUp = () => {
     dragging = false;
+    document.body.style.overflow = "";
+    document.documentElement.style.overscrollBehavior = "";
   };
 
   handle.addEventListener("pointerdown", onDown);
@@ -150,7 +144,10 @@ function iso2ToFlagEmoji(iso2) {
   const code = iso2.trim().toUpperCase();
   if (!/^[A-Z]{2}$/.test(code)) return "";
   const A = 0x1f1e6;
-  return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65);
+  return String.fromCodePoint(
+    A + code.charCodeAt(0) - 65,
+    A + code.charCodeAt(1) - 65
+  );
 }
 
 function flagFromCountry(countryName) {
@@ -163,6 +160,7 @@ function flagFromCountry(countryName) {
    - Remove parentheses + inside
    - Icons in dropdown
    - Cherry emoji for breast augmentation
+   - Only "Choose Procedure" has no icon (handled in dropdown builder)
 ========================= */
 function stripParens(s) {
   return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, "").trim();
@@ -196,9 +194,15 @@ function toNumber(v) {
   return Number.isFinite(n) ? n : null;
 }
 
-function lerp(a, b, t) { return a + (b - a) * t; }
-function hex(n) { return Math.round(n).toString(16).padStart(2, "0"); }
-function rgbToHex(r, g, b) { return `#${hex(r)}${hex(g)}${hex(b)}`; }
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+function hex(n) {
+  return Math.round(n).toString(16).padStart(2, "0");
+}
+function rgbToHex(r, g, b) {
+  return `#${hex(r)}${hex(g)}${hex(b)}`;
+}
 function lerpColor(c1, c2, t) {
   return rgbToHex(
     lerp(c1[0], c2[0], t),
@@ -209,7 +213,12 @@ function lerpColor(c1, c2, t) {
 
 // Green (cheap) -> Yellow -> Orange -> Red (expensive)
 function priceToColor(price, min, max) {
-  if (!Number.isFinite(price) || !Number.isFinite(min) || !Number.isFinite(max) || min === max) {
+  if (
+    !Number.isFinite(price) ||
+    !Number.isFinite(min) ||
+    !Number.isFinite(max) ||
+    min === max
+  ) {
     return "#2563eb";
   }
   const t = Math.min(1, Math.max(0, (price - min) / (max - min)));
@@ -262,7 +271,14 @@ fetch("data.json")
           price_usd: price
         };
       })
-      .filter((d) => Number.isFinite(d.lat) && Number.isFinite(d.lng) && d.city && d.country && d.procedure);
+      .filter(
+        (d) =>
+          Number.isFinite(d.lat) &&
+          Number.isFinite(d.lng) &&
+          d.city &&
+          d.country &&
+          d.procedure
+      );
 
     populateProcedureDropdown(ALL);
     populateCountryDropdown(ALL);
@@ -286,8 +302,6 @@ function wireUI() {
 
   els.countrySelect?.addEventListener("change", applyFiltersAndRender);
   els.citySearch?.addEventListener("input", debounce(applyFiltersAndRender, 120));
-  els.minPrice?.addEventListener("input", debounce(applyFiltersAndRender, 200));
-  els.maxPrice?.addEventListener("input", debounce(applyFiltersAndRender, 200));
 
   els.compareClear?.addEventListener("click", () => {
     compareSelection = [];
@@ -310,22 +324,29 @@ function debounce(fn, ms) {
 function populateProcedureDropdown(data) {
   if (!els.procedureSelect) return;
 
-  // keep existing placeholder
-  const placeholder = els.procedureSelect.querySelector('option[value=""]');
   els.procedureSelect.innerHTML = "";
-  if (placeholder) els.procedureSelect.appendChild(placeholder);
 
-  const procedures = [...new Set(data.map((d) => d.procedure))].sort((a, b) => a.localeCompare(b));
+  // Placeholder: NO ICON + no pins until chosen
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Choose Procedure";
+  els.procedureSelect.appendChild(placeholder);
+
+  const procedures = [...new Set(data.map((d) => d.procedure))].sort((a, b) =>
+    a.localeCompare(b)
+  );
+
   for (const p of procedures) {
     const opt = document.createElement("option");
     opt.value = p;
-    opt.textContent = procedureLabel(p);
+    opt.textContent = procedureLabel(p); // icon included
     els.procedureSelect.appendChild(opt);
   }
 }
 
 function populateCountryDropdown(data) {
   if (!els.countrySelect) return;
+
   els.countrySelect.innerHTML = "";
 
   const all = document.createElement("option");
@@ -333,7 +354,10 @@ function populateCountryDropdown(data) {
   all.textContent = "All countries";
   els.countrySelect.appendChild(all);
 
-  const countries = [...new Set(data.map((d) => d.country))].filter(Boolean).sort((a, b) => a.localeCompare(b));
+  const countries = [...new Set(data.map((d) => d.country))]
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+
   for (const c of countries) {
     const flag = flagFromCountry(c);
     const opt = document.createElement("option");
@@ -359,15 +383,11 @@ function applyFiltersAndRender() {
 
   const countryVal = els.countrySelect?.value ?? "ALL";
   const q = (els.citySearch?.value ?? "").trim().toLowerCase();
-  const minP = toNumber(els.minPrice?.value);
-  const maxP = toNumber(els.maxPrice?.value);
 
   let filtered = ALL.filter((d) => d.procedure === procVal);
 
   if (countryVal !== "ALL") filtered = filtered.filter((d) => d.country === countryVal);
   if (q) filtered = filtered.filter((d) => d.city.toLowerCase().includes(q));
-  if (minP !== null) filtered = filtered.filter((d) => d.price_usd !== null && d.price_usd >= minP);
-  if (maxP !== null) filtered = filtered.filter((d) => d.price_usd !== null && d.price_usd <= maxP);
 
   // cheapest -> most expensive (nulls last)
   filtered.sort((a, b) => {
@@ -408,7 +428,9 @@ function renderMarkers(data) {
     el.className = "price-marker";
 
     const flag = flagFromCountry(d.country);
-    const label = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
+    const label = Number.isFinite(d.price_usd)
+      ? `$${d.price_usd.toLocaleString()}`
+      : "N/A";
 
     // flags beside price in bubbles
     el.textContent = `${flag ? flag + " " : ""}${label}`;
@@ -421,7 +443,9 @@ function renderMarkers(data) {
         <div class="popup-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
         <div class="popup-row">${escapeHtml(d.country)}</div>
         <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
-        <div class="popup-row"><strong>Typical price:</strong> ${Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"}</div>
+        <div class="popup-row"><strong>Typical price:</strong> ${
+          Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"
+        }</div>
       </div>
     `;
 
@@ -431,7 +455,11 @@ function renderMarkers(data) {
       .addTo(map);
 
     el.addEventListener("click", () => {
-      map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
+      map.flyTo({
+        center: [d.lng, d.lat],
+        zoom: Math.max(map.getZoom(), 4),
+        speed: 0.9
+      });
       marker.togglePopup();
     });
 
@@ -446,16 +474,28 @@ function renderResults(data) {
   if (!els.resultsList) return;
 
   if (!els.procedureSelect?.value) {
-    els.resultsList.innerHTML =
-      `<div class="result-item"><div class="result-left"><div class="result-city">Choose a procedure</div><div class="result-meta">Nothing will show until you pick one</div></div><div class="result-price"></div></div>`;
+    els.resultsList.innerHTML = `
+      <div class="result-item">
+        <div class="result-left">
+          <div class="result-city">Choose a procedure</div>
+          <div class="result-meta">Nothing will show until you pick one</div>
+        </div>
+        <div class="result-price"></div>
+      </div>`;
     return;
   }
 
   els.resultsList.innerHTML = "";
 
   if (!data.length) {
-    els.resultsList.innerHTML =
-      `<div class="result-item"><div class="result-left"><div class="result-city">No results</div><div class="result-meta">Try changing filters</div></div><div class="result-price"></div></div>`;
+    els.resultsList.innerHTML = `
+      <div class="result-item">
+        <div class="result-left">
+          <div class="result-city">No results</div>
+          <div class="result-meta">Try changing filters</div>
+        </div>
+        <div class="result-price"></div>
+      </div>`;
     return;
   }
 
@@ -470,7 +510,9 @@ function renderResults(data) {
     item.innerHTML = `
       <div class="result-left">
         <div class="result-city">${escapeHtml(d.city)}</div>
-        <div class="result-meta">${flag ? flag + " " : ""}${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
+        <div class="result-meta">${flag ? flag + " " : ""}${escapeHtml(d.country)} • ${escapeHtml(
+      stripParens(d.procedure)
+    )}</div>
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
     `;
@@ -499,13 +541,10 @@ function toggleCompare(id) {
   compareSelection.push(id);
 }
 
-function renderCompareBox(filteredData) {
+function renderCompareBox() {
   if (!els.compareGrid || !els.compareEmpty) return;
 
-  const picks = compareSelection
-    .map((id) => ALL.find((d) => d._id === id))
-    .filter(Boolean);
-
+  const picks = compareSelection.map((id) => ALL.find((d) => d._id === id)).filter(Boolean);
   els.compareGrid.innerHTML = "";
 
   if (!els.procedureSelect?.value) {
@@ -548,7 +587,7 @@ function renderCompareBox(filteredData) {
       const cheaper = a < b ? picks[0].city : picks[1].city;
       diff.textContent = `${cheaper} is cheaper by $${delta.toLocaleString()}`;
     } else {
-      diff.textContent = `Price missing for one of the selections.`;
+      diff.textContent = "Price missing for one of the selections.";
     }
 
     els.compareGrid.appendChild(diff);
