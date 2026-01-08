@@ -48,17 +48,14 @@ html, body {
 }
 
 .control {
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid rgba(0,0,0,0.12);
   background: #fff;
   font-size: 14px;
   outline: none;
-  min-width: 0 !important; /* critical: prevents shrinking inside grid/flex */
-  display: block !important;
 }
 
 .control:focus {
@@ -67,37 +64,6 @@ html, body {
 }
 
 .section { margin-top: 12px; }
-
-/* Two-up row layout (Search + Country) */
-.row-2{
-  display: grid;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 10px;
-  width: 100%;
-  align-items: end;
-}
-
-/* critical: prevent grid items from forcing weird intrinsic sizing */
-.row-2 > * { 
-  min-width: 0 !important;
-  width: 100% !important;
-}
-
-/* if your row-2 children are .section blocks, remove extra top margin */
-.row-2 .section { margin-top: 0; }
-
-/* NUCLEAR: force these two fields full width no matter what loads later */
-#panel .row-2 input,
-#panel .row-2 select,
-#panel .row-2 .control,
-#citySearch,
-#countrySelect{
-  width: 100% !important;
-  max-width: 100% !important;
-  display: block !important;
-  box-sizing: border-box !important;
-  min-width: 0 !important;
-}
 
 /* Results container */
 .results {
@@ -282,14 +248,6 @@ html, body {
   color: #FF0000;
 }
 
-/* Scroll hint (iOS hides scrollbars) */
-.scroll-hint{
-  margin-top: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(17,24,39,0.55);
-}
-
 /* -------- Mobile bottom sheet -------- */
 @media (max-width: 768px) {
   #panel{
@@ -298,28 +256,31 @@ html, body {
     top: auto;
     bottom: 10px;
     width: auto;
-
-    /* ✅ remove the forced empty space */
-    height: auto;         /* was: 55vh */
-    max-height: 85vh;     /* keep the safety cap */
-    min-height: 260px;    /* optional: prevents it getting too tiny */
-
+    max-height: 85vh;
+    height: 55vh; /* JS can resize this */
     border-radius: 18px;
   }
 
-  /* keep your handle + scroll behavior */
+  /* show the drag handle on mobile */
   .panel-handle{
     display: block;
-    height: 56px;
+    height: 56px; /* bigger touch target */
     position: relative;
     cursor: ns-resize;
     touch-action: none;
     background: transparent;
   }
 
-  .panel-inner{
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+  .panel-handle::before{
+    content:"";
+    position:absolute;
+    left: 50%;
+    top: 18px;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.25);
   }
 
   .results-scroll{
@@ -327,9 +288,4 @@ html, body {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
-}
-
-/* Stack ONLY on extremely small screens */
-@media (max-width: 360px){
-  .row-2{ grid-template-columns: 1fr !important; }
 }
