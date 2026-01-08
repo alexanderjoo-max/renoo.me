@@ -9,6 +9,35 @@ html, body {
   inset: 0;
 }
 
+/* Visually-hidden (for SEO H1) */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Top-center logo overlay */
+#logo {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;            /* above map + panel */
+  pointer-events: none;  /* doesn't block map drag */
+}
+
+#logo svg {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
 /* -------- Desktop panel -------- */
 #panel {
   position: fixed;
@@ -307,18 +336,7 @@ html, body {
   @media (max-width: 420px){
     .row-2{ grid-template-columns: 1fr; }
   }
-  #logo{
-  position: fixed;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;           /* above map + panel */
-  pointer-events: none; /* doesn’t block map drag */
-}
 
-  #logo svg{
-  height: 48px;
-  width: auto;
-  display: block;
-  }
+  /* slightly smaller logo on mobile */
+  #logo svg { height: 40px; }
 }
