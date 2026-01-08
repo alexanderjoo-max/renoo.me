@@ -27,7 +27,7 @@ const els = {
   compareEmpty: document.getElementById("compareEmpty"),
   compareGrid: document.getElementById("compareGrid")
 };
-// --- Mobile: drag to resize bottom sheet panel ---
+// --- Mobile: drag to resize bottom sheet panel (Pointer Events; iOS friendly) ---
 (() => {
   const panel = document.getElementById("panel");
   const handle = document.getElementById("panelHandle");
@@ -35,43 +35,47 @@ const els = {
 
   let startY = 0;
   let startH = 0;
+  let dragging = false;
 
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-  const onDown = (e) => {
-    const pt = e.touches ? e.touches[0] : e;
-    startY = pt.clientY;
+  const onPointerDown = (e) => {
+    dragging = true;
+    startY = e.clientY;
     startH = panel.getBoundingClientRect().height;
 
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-    document.addEventListener("touchmove", onMove, { passive: false });
-    document.addEventListener("touchend", onUp);
+    // capture pointer so dragging keeps working even if finger moves off handle
+    handle.setPointerCapture?.(e.pointerId);
+
+    // prevent page scroll while dragging
+    document.documentElement.style.overscrollBehavior = "none";
+    document.body.style.overflow = "hidden";
   };
 
-  const onMove = (e) => {
-    if (e.cancelable) e.preventDefault();
-    const pt = e.touches ? e.touches[0] : e;
-    const dy = startY - pt.clientY; // drag up => increase height
+  const onPointerMove = (e) => {
+    if (!dragging) return;
+
+    const dy = startY - e.clientY; // drag up => increase height
     const vh = window.innerHeight;
 
-    const minH = Math.round(vh * 0.22); // ~22% of screen
-    const maxH = Math.round(vh * 0.88); // ~88% of screen
-    const next = clamp(startH + dy, minH, maxH);
+    const minH = Math.round(vh * 0.22);
+    const maxH = Math.round(vh * 0.90);
 
+    const next = clamp(startH + dy, minH, maxH);
     panel.style.height = `${next}px`;
   };
 
-  const onUp = () => {
-    document.removeEventListener("mousemove", onMove);
-    document.removeEventListener("mouseup", onUp);
-    document.removeEventListener("touchmove", onMove);
-    document.removeEventListener("touchend", onUp);
+  const onPointerUp = () => {
+    dragging = false;
+    document.body.style.overflow = "";
+    document.documentElement.style.overscrollBehavior = "";
   };
 
-  handle.addEventListener("mousedown", onDown);
-  handle.addEventListener("touchstart", onDown, { passive: true });
+  handle.addEventListener("pointerdown", onPointerDown);
+  window.addEventListener("pointermove", onPointerMove);
+  window.addEventListener("pointerup", onPointerUp);
 })();
+
 /* =========================
    MOBILE RESIZE (drag handle)
 ========================= */
