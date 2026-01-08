@@ -37,6 +37,16 @@ html, body {
   display: none;
 }
 
+.panel-handle{
+  touch-action: none;
+  user-select: none;
+}
+
+.panel-handle{
+  touch-action: none;
+  user-select: none;
+}
+
 .label {
   font-weight: 700;
   font-size: 13px;
