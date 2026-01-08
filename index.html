@@ -12,17 +12,14 @@
 <body>
   <div id="map"></div>
 
-  <aside id="panel">
-    <!-- Drag handle (mobile resizer) -->
-    <div id="panelHandle" aria-label="Drag to resize panel" role="button" tabindex="0">
-      <div class="handle-bar"></div>
-    </div>
+  <aside id="panel" aria-label="Filters panel">
+    <!-- drag handle only (no “Filters” pill button) -->
+    <div id="panelHandle" class="panel-handle" aria-hidden="true"></div>
 
     <div class="panel-inner">
       <div class="label">Procedure</div>
       <select id="procedureSelect" class="control">
-        <!-- IMPORTANT: placeholder has no function -->
-        <option value="" selected disabled>Choose procedure</option>
+        <option value="ALL">All procedures</option>
       </select>
 
       <div class="section">
@@ -37,13 +34,7 @@
         </select>
       </div>
 
-      <div class="section">
-        <div class="label">3) Price (USD)</div>
-        <div class="row">
-          <input id="minPrice" class="control" placeholder="Min" inputmode="numeric" />
-          <input id="maxPrice" class="control" placeholder="Max" inputmode="numeric" />
-        </div>
-      </div>
+      <!-- Price filter removed -->
 
       <div class="section">
         <div class="compare-head">
@@ -53,15 +44,16 @@
 
         <div class="compare" id="compareBox">
           <div class="compare-empty" id="compareEmpty">
-            Choose a procedure, then click two cities in Results to compare.
+            Click two cities in Results to compare.
           </div>
           <div class="compare-grid" id="compareGrid"></div>
         </div>
       </div>
 
-      <div class="section results-section">
+      <div class="section">
         <div class="label">Results (sorted by price)</div>
-        <div class="results" id="resultsList"></div>
+        <div class="results results-scroll" id="resultsList" aria-label="Results list"></div>
+        <div class="scroll-hint" aria-hidden="true">Scroll</div>
       </div>
     </div>
   </aside>
