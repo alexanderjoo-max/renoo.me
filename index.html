@@ -3,13 +3,52 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Travel + Transform</title>
 
+  <title>Renoo.me — Compare Medical Procedure Prices Worldwide</title>
+
+  <meta name="description" content="Compare typical prices for medical procedures around the world. Explore cities on an interactive map, compare destinations, and find cost differences globally." />
+  <link rel="canonical" href="https://renoo.me/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Renoo.me — Compare Medical Procedure Prices Worldwide" />
+  <meta property="og:description" content="Explore global medical procedure pricing on an interactive map. Compare cities, countries, and typical costs." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://renoo.me/" />
+  <meta property="og:image" content="https://renoo.me/og.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Renoo.me — Compare Medical Procedure Prices Worldwide" />
+  <meta name="twitter:description" content="Explore global medical procedure pricing on an interactive map. Compare cities, countries, and typical costs." />
+  <meta name="twitter:image" content="https://renoo.me/og.jpg" />
+
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Renoo.me",
+    "url": "https://renoo.me/",
+    "description": "Compare medical procedure prices worldwide using an interactive map.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://renoo.me/?procedure={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <link rel="icon" href="/favicon.ico" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <!-- SEO H1 (hidden visually, readable by search engines) -->
+  <h1 class="sr-only">Compare Medical Procedure Prices Worldwide</h1>
+
   <div id="map"></div>
 
   <aside id="panel">
@@ -18,12 +57,12 @@
 
     <div class="panel-inner">
 
-      <!-- Procedure dropdown (placeholder lives inside the dropdown) -->
+      <!-- Procedure dropdown -->
       <select id="procedureSelect" class="control">
         <option value="" selected>Choose Procedure</option>
       </select>
 
-      <!-- Search + Country on one row -->
+      <!-- Search + Country -->
       <div class="section row-2">
         <div class="section">
           <input id="citySearch" class="control" placeholder="Search city" />
