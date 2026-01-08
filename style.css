@@ -65,6 +65,13 @@ html, body {
 
 .section { margin-top: 12px; }
 
+/* Two-up row layout (Search + Country) */
+.row-2{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
 /* Results container */
 .results {
   margin-top: 8px;
@@ -76,9 +83,9 @@ html, body {
 
 /* Scrollable results list */
 .results-scroll{
-  max-height: 280px;
+  max-height: 280px;          /* desktop default */
   overflow: auto;
-  scrollbar-gutter: stable;
+  scrollbar-gutter: stable;   /* helps on desktop */
 }
 
 /* Desktop scrollbar styling */
@@ -144,7 +151,7 @@ html, body {
   font-weight: 700;
   color: #fff;
   white-space: nowrap;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18); /* reduced shadow */
   border: 1px solid rgba(255,255,255,0.35);
 }
 
@@ -243,7 +250,7 @@ html, body {
 
 .compare-diff{
   margin-top: 6px;
-  font-size: 14px;
+  font-size: 14px;      /* +2px */
   font-weight: 800;
   color: #FF0000;
 }
@@ -257,7 +264,7 @@ html, body {
     bottom: 10px;
     width: auto;
     max-height: 85vh;
-    height: 55vh; /* JS can resize this */
+    height: 55vh;                /* JS can resize this */
     border-radius: 18px;
   }
 
@@ -283,9 +290,21 @@ html, body {
     background: rgba(0,0,0,0.25);
   }
 
+  /* inner content scrolls */
+  .panel-inner{
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Results list gets its own scroll area */
   .results-scroll{
     max-height: 30vh;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* stack Search/Filter only on very small screens */
+  @media (max-width: 420px){
+    .row-2{ grid-template-columns: 1fr; }
   }
 }
