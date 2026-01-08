@@ -345,6 +345,11 @@ html, body {
 }
 
 /* Override any older "stack at 420px" rule if it exists somewhere */
+/* TEMP: hide City + Country filters */
+#citySearch,
+#countrySelect {
+  display: none !important;
+}
 @media (max-width: 420px){
   .row-2{ grid-template-columns: 1fr 1fr !important; }
 }
