@@ -156,9 +156,36 @@ html, body {
 
 .price-marker:hover { transform: translateY(-1px); }
 
-/* Popup */
+/* Popup content (your custom classes inside popup HTML) */
 .popup-title { font-weight: 900; margin-bottom: 4px; }
 .popup-row { font-size: 12px; color: #374151; margin-top: 2px; }
+
+/* ---- Mapbox Popup: MOBILE SHORTEN (about ~10% less vertical space) ---- */
+.mapboxgl-popup-content{
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  /* shrink padding + enforce a shorter max height */
+  .mapboxgl-popup-content{
+    padding: 10px 10px;        /* was larger by default */
+    max-height: 160px;         /* keeps popup from getting tall */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* slightly tighter typography inside popup */
+  .popup-title{
+    font-size: 13px;
+    margin-bottom: 3px;
+    line-height: 1.15;
+  }
+  .popup-row{
+    font-size: 11px;
+    margin-top: 1px;
+    line-height: 1.15;
+  }
+}
 
 /* Compare */
 .compare-head{
