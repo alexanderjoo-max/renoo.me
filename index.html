@@ -13,14 +13,16 @@
   <div id="map"></div>
 
   <aside id="panel">
-    <!-- Mobile bottom-sheet toggle (CSS shows it only on mobile) -->
-    <button id="panelToggle" class="panel-toggle" type="button">Filters ▲</button>
+    <!-- Drag handle (mobile resizer) -->
+    <div id="panelHandle" aria-label="Drag to resize panel" role="button" tabindex="0">
+      <div class="handle-bar"></div>
+    </div>
 
     <div class="panel-inner">
-
       <div class="label">Procedure</div>
       <select id="procedureSelect" class="control">
-        <option value="ALL">All procedures</option>
+        <!-- IMPORTANT: placeholder has no function -->
+        <option value="" selected disabled>Choose procedure</option>
       </select>
 
       <div class="section">
@@ -43,7 +45,6 @@
         </div>
       </div>
 
-      <!-- Compare (above Results) -->
       <div class="section">
         <div class="compare-head">
           <div class="label" style="margin:0;">Compare (pick 2)</div>
@@ -52,17 +53,16 @@
 
         <div class="compare" id="compareBox">
           <div class="compare-empty" id="compareEmpty">
-            Click two cities in Results to compare.
+            Choose a procedure, then click two cities in Results to compare.
           </div>
           <div class="compare-grid" id="compareGrid"></div>
         </div>
       </div>
 
-      <div class="section">
+      <div class="section results-section">
         <div class="label">Results (sorted by price)</div>
         <div class="results" id="resultsList"></div>
       </div>
-
     </div>
   </aside>
 
