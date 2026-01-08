@@ -324,14 +324,14 @@ function debounce(fn, ms) {
 function populateProcedureDropdown(data) {
   if (!els.procedureSelect) return;
 
-  // Always rebuild with a real placeholder first
   els.procedureSelect.innerHTML = "";
 
+  // Placeholder (no icon)
   const ph = document.createElement("option");
-  ph.value = ""; // empty = "not chosen"
-  ph.textContent = "Choose Procedure"; // no icon
+  ph.value = "";
+  ph.textContent = "Choose Procedure";
   ph.selected = true;
-  ph.disabled = true; // prevents selecting it after choosing something
+  ph.disabled = true;
   els.procedureSelect.appendChild(ph);
 
   const procedures = [...new Set(data.map((d) => d.procedure))]
@@ -344,6 +344,10 @@ function populateProcedureDropdown(data) {
     opt.textContent = procedureLabel(p); // icons for real procedures
     els.procedureSelect.appendChild(opt);
   }
+
+  // ✅ Force placeholder on load (desktop browsers love restoring selects)
+  els.procedureSelect.value = "";
+  els.procedureSelect.selectedIndex = 0;
 }
 
 function populateCountryDropdown(data) {
