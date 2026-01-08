@@ -30,6 +30,7 @@ html, body {
 .panel-inner {
   padding: 14px;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Drag handle (hidden on desktop) */
@@ -55,6 +56,7 @@ html, body {
   background: #fff;
   font-size: 14px;
   outline: none;
+  min-width: 0; /* critical: prevents shrinking inside grid/flex */
 }
 
 .control:focus {
@@ -64,24 +66,23 @@ html, body {
 
 .section { margin-top: 12px; }
 
-/* Force Search + Country to be full width columns */
+/* Two-up row layout (Search + Country) */
 .row-2{
-  display: grid !important;
-  grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
-  gap: 10px !important;
-  width: 100% !important;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  align-items: end;
 }
 
-.row-2 > *{
-  width: 100% !important;
-  min-width: 0 !important;
+/* critical: prevent grid items from forcing weird intrinsic sizing */
+.row-2 > * { 
+  min-width: 0;
+  width: 100%;
 }
 
-.row-2 .control{
-  width: 100% !important;
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-}
+/* if your row-2 children are .section blocks, remove extra top margin */
+.row-2 .section { margin-top: 0; }
 
 /* Results container */
 .results {
@@ -94,9 +95,9 @@ html, body {
 
 /* Scrollable results list */
 .results-scroll{
-  max-height: 280px;          /* desktop default */
+  max-height: 280px;
   overflow: auto;
-  scrollbar-gutter: stable;   /* helps on desktop */
+  scrollbar-gutter: stable;
 }
 
 /* Desktop scrollbar styling */
@@ -162,7 +163,7 @@ html, body {
   font-weight: 700;
   color: #fff;
   white-space: nowrap;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.18); /* reduced shadow */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
   border: 1px solid rgba(255,255,255,0.35);
 }
 
@@ -172,21 +173,19 @@ html, body {
 .popup-title { font-weight: 900; margin-bottom: 4px; }
 .popup-row { font-size: 12px; color: #374151; margin-top: 2px; }
 
-/* ---- Mapbox Popup: MOBILE SHORTEN (about ~10% less vertical space) ---- */
+/* ---- Mapbox Popup: MOBILE SHORTEN ---- */
 .mapboxgl-popup-content{
   border-radius: 12px;
 }
 
 @media (max-width: 768px) {
-  /* shrink padding + enforce a shorter max height */
   .mapboxgl-popup-content{
-    padding: 10px 10px;        /* was larger by default */
-    max-height: 160px;         /* keeps popup from getting tall */
+    padding: 10px 10px;
+    max-height: 160px;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* slightly tighter typography inside popup */
   .popup-title{
     font-size: 13px;
     margin-bottom: 3px;
@@ -263,7 +262,7 @@ html, body {
 
 .compare-diff{
   margin-top: 6px;
-  font-size: 14px;      /* +2px */
+  font-size: 14px;
   font-weight: 800;
   color: #FF0000;
 }
@@ -285,21 +284,21 @@ html, body {
     bottom: 10px;
     width: auto;
     max-height: 85vh;
-    height: 55vh;                /* JS can resize this */
+    height: 55vh;
     border-radius: 18px;
   }
 
   /* show the drag handle on mobile */
   .panel-handle{
     display: block;
-    height: 56px;
+    height: 56px; /* bigger touch target */
     position: relative;
     cursor: ns-resize;
     touch-action: none;
     background: transparent;
   }
 
-   .panel-handle::before{
+  .panel-handle::before{
     content:"";
     position:absolute;
     left: 50%;
@@ -311,25 +310,6 @@ html, body {
     background: rgba(0,0,0,0.25);
   }
 
-  /* Keep Search + Country on ONE line for basically all phones */
-.row-2{
-  display: grid !important;
-  grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
-  gap: 10px !important;
-  width: 100% !important;
-}
-
-.row-2 > *{ min-width: 0 !important; }
-.row-2 .control{ width: 100% !important; min-width: 0 !important; }
-
-/* Only stack on extremely narrow screens */
-@media (max-width: 320px){
-  .row-2{ grid-template-columns: 1fr !important; }
-}
-
-  .row-2 .label{
-  white-space: nowrap;
-}
   /* inner content scrolls */
   .panel-inner{
     overflow: auto;
@@ -342,4 +322,9 @@ html, body {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
+}
+
+/* Stack ONLY on extremely small screens */
+@media (max-width: 360px){
+  .row-2{ grid-template-columns: 1fr; }
 }
