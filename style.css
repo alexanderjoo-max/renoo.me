@@ -66,13 +66,16 @@ html, body {
 
 /* Two-up row layout (Search + Country) */
 .row-2{
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  display: flex;
   gap: 10px;
-  align-items: stretch;
+  width: 100%;
 }
 
-/* Ensure inputs/selects fully fill their grid column */
+.row-2 > *{
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 .row-2 .control{
   width: 100%;
   min-width: 0;
