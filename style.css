@@ -327,6 +327,9 @@ html, body {
   .row-2{ grid-template-columns: 1fr !important; }
 }
 
+  .row-2 .label{
+  white-space: nowrap;
+}
   /* inner content scrolls */
   .panel-inner{
     overflow: auto;
