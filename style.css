@@ -23,16 +23,15 @@ html, body {
 }
 
 /* Top-center logo overlay */
-#logo {
+#logo{
   position: fixed;
   top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;            /* above map + panel */
-  pointer-events: none;  /* doesn't block map drag */
+  z-index: 9999;
+  pointer-events: none;
 }
-
-#logo svg {
+#logo img{
   height: 48px;
   width: auto;
   display: block;
