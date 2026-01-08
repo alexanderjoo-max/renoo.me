@@ -324,22 +324,24 @@ function debounce(fn, ms) {
 function populateProcedureDropdown(data) {
   if (!els.procedureSelect) return;
 
+  // Always rebuild with a real placeholder first
   els.procedureSelect.innerHTML = "";
 
-  // Placeholder: NO ICON + no pins until chosen
-  const placeholder = document.createElement("option");
-  placeholder.value = "";
-  placeholder.textContent = "Choose Procedure";
-  els.procedureSelect.appendChild(placeholder);
+  const ph = document.createElement("option");
+  ph.value = ""; // empty = "not chosen"
+  ph.textContent = "Choose Procedure"; // no icon
+  ph.selected = true;
+  ph.disabled = true; // prevents selecting it after choosing something
+  els.procedureSelect.appendChild(ph);
 
-  const procedures = [...new Set(data.map((d) => d.procedure))].sort((a, b) =>
-    a.localeCompare(b)
-  );
+  const procedures = [...new Set(data.map((d) => d.procedure))]
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
 
   for (const p of procedures) {
     const opt = document.createElement("option");
     opt.value = p;
-    opt.textContent = procedureLabel(p); // icon included
+    opt.textContent = procedureLabel(p); // icons for real procedures
     els.procedureSelect.appendChild(opt);
   }
 }
