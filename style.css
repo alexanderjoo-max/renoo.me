@@ -64,21 +64,23 @@ html, body {
 
 .section { margin-top: 12px; }
 
-/* Two-up row layout (Search + Country) */
+/* Force Search + Country to be full width columns */
 .row-2{
-  display: flex;
-  gap: 10px;
-  width: 100%;
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+  gap: 10px !important;
+  width: 100% !important;
 }
 
 .row-2 > *{
-  flex: 1 1 0;
-  min-width: 0;
+  width: 100% !important;
+  min-width: 0 !important;
 }
 
 .row-2 .control{
-  width: 100%;
-  min-width: 0;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
 /* Results container */
