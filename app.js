@@ -29,7 +29,51 @@ const els = {
   compareEmpty: document.getElementById("compareEmpty"),
   compareGrid: document.getElementById("compareGrid")
 };
+// --- Mobile: drag to resize bottom sheet panel ---
+(() => {
+  const panel = document.getElementById("panel");
+  const handle = document.getElementById("panelHandle");
+  if (!panel || !handle) return;
 
+  let startY = 0;
+  let startH = 0;
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+  const onDown = (e) => {
+    const pt = e.touches ? e.touches[0] : e;
+    startY = pt.clientY;
+    startH = panel.getBoundingClientRect().height;
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+    document.addEventListener("touchmove", onMove, { passive: false });
+    document.addEventListener("touchend", onUp);
+  };
+
+  const onMove = (e) => {
+    if (e.cancelable) e.preventDefault();
+    const pt = e.touches ? e.touches[0] : e;
+    const dy = startY - pt.clientY; // drag up => increase height
+    const vh = window.innerHeight;
+
+    const minH = Math.round(vh * 0.22); // ~22% of screen
+    const maxH = Math.round(vh * 0.88); // ~88% of screen
+    const next = clamp(startH + dy, minH, maxH);
+
+    panel.style.height = `${next}px`;
+  };
+
+  const onUp = () => {
+    document.removeEventListener("mousemove", onMove);
+    document.removeEventListener("mouseup", onUp);
+    document.removeEventListener("touchmove", onMove);
+    document.removeEventListener("touchend", onUp);
+  };
+
+  handle.addEventListener("mousedown", onDown);
+  handle.addEventListener("touchstart", onDown, { passive: true });
+})();
 /* =========================
    MOBILE RESIZE (drag handle)
 ========================= */
