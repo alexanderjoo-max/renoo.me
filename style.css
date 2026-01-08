@@ -311,10 +311,21 @@ html, body {
     background: rgba(0,0,0,0.18);
   }
 
-  /* stack Search/Filter on very small screens */
-  @media (max-width: 420px){
-    .row-2{ grid-template-columns: 1fr; }
-  }
+  /* Keep Search + Country on ONE line for basically all phones */
+.row-2{
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+.row-2 > *{ min-width: 0 !important; }
+.row-2 .control{ width: 100% !important; min-width: 0 !important; }
+
+/* Only stack on extremely narrow screens */
+@media (max-width: 320px){
+  .row-2{ grid-template-columns: 1fr !important; }
+}
 
   /* inner content scrolls */
   .panel-inner{
