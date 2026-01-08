@@ -28,6 +28,7 @@ const els = {
 
 /* =========================
    MOBILE RESIZE (drag handle)
+   (single implementation; iOS-friendly)
 ========================= */
 (function initPanelResizer() {
   const panel = els.panel;
@@ -44,22 +45,28 @@ const els = {
     dragging = true;
     startY = e.clientY;
     startH = panel.getBoundingClientRect().height;
+
     handle.setPointerCapture?.(e.pointerId);
 
+    // prevent page scroll while dragging
     document.documentElement.style.overscrollBehavior = "none";
     document.body.style.overflow = "hidden";
+
     e.preventDefault();
   };
 
   const onMove = (e) => {
     if (!dragging) return;
 
-    const dy = startY - e.clientY;
+    const dy = startY - e.clientY; // drag up => increase height
     const vh = window.innerHeight;
-    const minH = Math.round(vh * 0.22);
-    const maxH = Math.round(vh * 0.9);
 
-    panel.style.height = clamp(startH + dy, minH, maxH) + "px";
+    const minH = Math.round(vh * 0.22);
+    const maxH = Math.round(vh * 0.90);
+
+    const next = clamp(startH + dy, minH, maxH);
+    panel.style.height = `${next}px`;
+
     e.preventDefault();
   };
 
@@ -80,6 +87,7 @@ const els = {
 const COUNTRY_TO_ISO2 = {
   Australia: "AU",
   Colombia: "CO",
+  "Czech Rep.": "CZ",
   "Czech Republic": "CZ",
   Egypt: "EG",
   France: "FR",
@@ -99,53 +107,80 @@ const COUNTRY_TO_ISO2 = {
   Vietnam: "VN"
 };
 
-function iso2ToFlagEmoji(code) {
-  if (!code) return "";
+function iso2ToFlagEmoji(iso2) {
+  if (!iso2 || typeof iso2 !== "string") return "";
+  const code = iso2.trim().toUpperCase();
+  if (!/^[A-Z]{2}$/.test(code)) return "";
   const A = 0x1f1e6;
-  return String.fromCodePoint(
-    A + code.charCodeAt(0) - 65,
-    A + code.charCodeAt(1) - 65
-  );
+  return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65);
 }
 
-function flagFromCountry(country) {
-  return iso2ToFlagEmoji(COUNTRY_TO_ISO2[country]);
+function flagFromCountry(countryName) {
+  const name = (countryName ?? "").toString().trim();
+  return iso2ToFlagEmoji(COUNTRY_TO_ISO2[name]);
 }
 
 /* =========================
-   PROCEDURES
+   PROCEDURE DISPLAY HELPERS
 ========================= */
 function stripParens(s) {
-  return s.replace(/\s*\([^)]*\)/g, "").trim();
+  return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, "").trim();
 }
 
-function procedureIcon(name) {
-  const k = name.toLowerCase();
-  if (k.includes("breast")) return "🍒";
-  if (k.includes("colonoscopy")) return "🧪";
-  if (k.includes("rhinoplasty")) return "👃";
-  if (k.includes("hair")) return "💇";
-  if (k.includes("implant")) return "🦷";
-  if (k.includes("lasik")) return "👁️";
+function procedureIcon(cleanName) {
+  const key = cleanName.toLowerCase();
+  if (key.includes("breast augmentation")) return "🍒";
+  if (key.includes("colonoscopy")) return "🧪";
+  if (key.includes("rhinoplasty")) return "👃";
+  if (key.includes("hair transplant")) return "💇";
+  if (key.includes("dental implant")) return "🦷";
+  if (key.includes("lasik")) return "👁️";
   return "✨";
 }
 
-function procedureLabel(name) {
-  return `${procedureIcon(name)} ${name}`;
+function procedureLabel(procedureRawOrClean) {
+  const clean = stripParens(procedureRawOrClean);
+  return `${procedureIcon(clean)} ${clean}`;
 }
 
 /* =========================
-   PRICE HELPERS
+   PRICE PARSING + GRADIENT
 ========================= */
 function toNumber(v) {
-  const n = Number(String(v).replace(/,/g, ""));
+  if (v === null || v === undefined) return null;
+  if (typeof v === "number") return Number.isFinite(v) ? v : null;
+  const s = String(v).replace(/,/g, "").trim();
+  if (s === "") return null;
+  const n = Number(s);
   return Number.isFinite(n) ? n : null;
 }
 
-function priceToColor(p, min, max) {
-  if (!Number.isFinite(p) || min === max) return "#2563eb";
-  const t = (p - min) / (max - min);
-  return `hsl(${120 - t * 120}, 70%, 50%)`;
+function lerp(a, b, t) { return a + (b - a) * t; }
+function hex(n) { return Math.round(n).toString(16).padStart(2, "0"); }
+function rgbToHex(r, g, b) { return `#${hex(r)}${hex(g)}${hex(b)}`; }
+function lerpColor(c1, c2, t) {
+  return rgbToHex(
+    lerp(c1[0], c2[0], t),
+    lerp(c1[1], c2[1], t),
+    lerp(c1[2], c2[2], t)
+  );
+}
+
+// Green (cheap) -> Yellow -> Orange -> Red (expensive)
+function priceToColor(price, min, max) {
+  if (!Number.isFinite(price) || !Number.isFinite(min) || !Number.isFinite(max) || min === max) {
+    return "#2563eb";
+  }
+  const t = Math.min(1, Math.max(0, (price - min) / (max - min)));
+
+  const GREEN = [34, 197, 94];
+  const YELLOW = [250, 204, 21];
+  const ORANGE = [249, 115, 22];
+  const RED = [239, 68, 68];
+
+  if (t < 0.33) return lerpColor(GREEN, YELLOW, t / 0.33);
+  if (t < 0.66) return lerpColor(YELLOW, ORANGE, (t - 0.33) / 0.33);
+  return lerpColor(ORANGE, RED, (t - 0.66) / 0.34);
 }
 
 /* =========================
@@ -159,84 +194,134 @@ let compareSelection = [];
    LOAD DATA
 ========================= */
 fetch("data.json")
-  .then((r) => r.json())
+  .then((res) => res.json())
   .then((raw) => {
-    ALL = raw.map((d, i) => ({
-      _id: `${d.procedure}_${i}`,
-      procedure: stripParens(d.procedure),
-      city: d.city,
-      country: d.country,
-      lat: toNumber(d.lat),
-      lng: toNumber(d.lng),
-      price_usd: toNumber(d.price_usd)
-    }))
-    .filter(d => d.lat && d.lng && d.procedure);
+    ALL = (raw || [])
+      .map((d, i) => {
+        const lat = toNumber(d.lat);
+        const lng = toNumber(d.lng);
 
-    populateProcedureDropdown();
+        const price =
+          toNumber(d.price_usd) ??
+          toNumber(d.typical_price_usd) ??
+          toNumber(d.price_mid_usd) ??
+          toNumber(d.typical_price) ??
+          null;
+
+        const procedureRaw = (d.procedure ?? "").toString();
+        const procedureClean = stripParens(procedureRaw);
+
+        return {
+          _id: d.id ?? `${procedureClean}__${d.city ?? ""}__${d.country ?? ""}__${i}`,
+          procedure: procedureClean,
+          city: (d.city ?? "").toString(),
+          country: (d.country ?? "").toString(),
+          lat,
+          lng,
+          price_usd: price
+        };
+      })
+      .filter((d) => Number.isFinite(d.lat) && Number.isFinite(d.lng) && d.city && d.country && d.procedure);
+
+    populateProcedureDropdown(ALL);
     wireUI();
 
+    // show nothing until a procedure is chosen
     clearMarkers();
     renderResults([]);
     renderCompareBox();
-  });
+  })
+  .catch((err) => console.error("Failed to load data.json", err));
 
 /* =========================
    UI WIRING
 ========================= */
 function wireUI() {
-  els.procedureSelect.addEventListener("change", () => {
+  els.procedureSelect?.addEventListener("change", () => {
     compareSelection = [];
-    applyFilters();
+    applyFiltersAndRender();
   });
 
-  els.compareClear.addEventListener("click", () => {
+  els.compareClear?.addEventListener("click", () => {
     compareSelection = [];
     renderResults(currentFiltered);
     renderCompareBox();
+  });
+
+  // If the browser restores form state (bfcache), force placeholder again
+  window.addEventListener("pageshow", () => {
+    if (els.procedureSelect) {
+      els.procedureSelect.value = "";
+      els.procedureSelect.selectedIndex = 0;
+      compareSelection = [];
+      applyFiltersAndRender(); // clears pins/results
+    }
   });
 }
 
 /* =========================
    DROPDOWN
 ========================= */
-function populateProcedureDropdown() {
+function populateProcedureDropdown(data) {
+  if (!els.procedureSelect) return;
+
   els.procedureSelect.innerHTML = "";
 
+  // Placeholder (NO icon)
   const ph = document.createElement("option");
   ph.value = "";
   ph.textContent = "Choose Procedure";
-  ph.disabled = true;
   ph.selected = true;
   els.procedureSelect.appendChild(ph);
 
-  [...new Set(ALL.map(d => d.procedure))]
-    .sort()
-    .forEach(p => {
-      const o = document.createElement("option");
-      o.value = p;
-      o.textContent = procedureLabel(p);
-      els.procedureSelect.appendChild(o);
-    });
+  const procedures = [...new Set(data.map((d) => d.procedure))]
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+
+  for (const p of procedures) {
+    const opt = document.createElement("option");
+    opt.value = p;
+    opt.textContent = procedureLabel(p); // icons for real procedures
+    els.procedureSelect.appendChild(opt);
+  }
+
+  // Force placeholder on load (desktop browsers sometimes restore last selection)
+  els.procedureSelect.value = "";
+  els.procedureSelect.selectedIndex = 0;
 }
 
 /* =========================
-   FILTER + RENDER
+   FILTERING + RENDER
 ========================= */
-function applyFilters() {
-  const proc = els.procedureSelect.value;
-  if (!proc) {
+function applyFiltersAndRender() {
+  const procVal = els.procedureSelect?.value ?? "";
+
+  if (!procVal) {
     clearMarkers();
+    currentFiltered = [];
     renderResults([]);
     renderCompareBox();
     return;
   }
 
-  currentFiltered = ALL
-    .filter(d => d.procedure === proc)
-    .sort((a, b) => a.price_usd - b.price_usd);
+  let filtered = ALL.filter((d) => d.procedure === procVal);
 
-  renderMarkers(currentFiltered);
-  renderResults(currentFiltered);
+  // cheapest -> most expensive (nulls last)
+  filtered.sort((a, b) => {
+    const ap = a.price_usd;
+    const bp = b.price_usd;
+    const aN = Number.isFinite(ap);
+    const bN = Number.isFinite(bp);
+    if (aN && bN) return ap - bp;
+    if (aN) return -1;
+    if (bN) return 1;
+    return a.city.localeCompare(b.city);
+  });
+
+  currentFiltered = filtered;
+
+  renderMarkers(filtered);
+  renderResults(filtered);
   renderCompareBox();
 }
 
@@ -244,113 +329,185 @@ function applyFilters() {
    MARKERS
 ========================= */
 function clearMarkers() {
-  markers.forEach(m => m.remove());
+  markers.forEach((m) => m.remove());
   markers = [];
 }
 
 function renderMarkers(data) {
   clearMarkers();
 
-  const prices = data.map(d => d.price_usd);
-  const min = Math.min(...prices);
-  const max = Math.max(...prices);
+  const prices = data.map((d) => d.price_usd).filter(Number.isFinite);
+  const min = prices.length ? Math.min(...prices) : NaN;
+  const max = prices.length ? Math.max(...prices) : NaN;
 
-  data.forEach(d => {
+  for (const d of data) {
     const el = document.createElement("div");
     el.className = "price-marker";
-    el.textContent = `$${d.price_usd.toLocaleString()}`;
+
+    const flag = flagFromCountry(d.country);
+    const label = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
+
+    el.textContent = `${flag ? flag + " " : ""}${label}`;
     el.style.background = priceToColor(d.price_usd, min, max);
 
-    const popup = new mapboxgl.Popup({ offset: 22 }).setHTML(`
-      <div class="popup-title">${d.city}</div>
-      <div class="popup-row">${d.country}</div>
-      <div class="popup-row">${procedureLabel(d.procedure)}</div>
-      <div class="popup-row"><strong>$${d.price_usd.toLocaleString()}</strong></div>
-    `);
+    const popupHTML = `
+      <div>
+        <div class="popup-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
+        <div class="popup-row">${escapeHtml(d.country)}</div>
+        <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
+        <div class="popup-row"><strong>Typical price:</strong> ${
+          Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"
+        }</div>
+      </div>
+    `;
 
     const marker = new mapboxgl.Marker(el)
       .setLngLat([d.lng, d.lat])
-      .setPopup(popup)
+      .setPopup(new mapboxgl.Popup({ offset: 22 }).setHTML(popupHTML))
       .addTo(map);
 
+    el.addEventListener("click", () => {
+      map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
+      marker.togglePopup();
+    });
+
     markers.push(marker);
-  });
+  }
 }
 
 /* =========================
-   RESULTS
+   RESULTS LIST
 ========================= */
 function renderResults(data) {
-  els.resultsList.innerHTML = "";
+  if (!els.resultsList) return;
 
-  if (!els.procedureSelect.value) {
+  if (!els.procedureSelect?.value) {
     els.resultsList.innerHTML = `
       <div class="result-item">
-        <div class="result-city">Choose a procedure</div>
+        <div class="result-left">
+          <div class="result-city">Choose a procedure</div>
+          <div class="result-meta">Nothing will show until you pick one</div>
+        </div>
+        <div class="result-price"></div>
       </div>`;
     return;
   }
 
-  data.forEach(d => {
-    const row = document.createElement("div");
-    row.className = "result-item";
-    row.innerHTML = `
-      <div class="result-left">
-        <div class="result-city">${d.city}</div>
-        <div class="result-meta">${d.country}</div>
-      </div>
-      <div class="result-price">$${d.price_usd.toLocaleString()}</div>
-    `;
+  els.resultsList.innerHTML = "";
 
-    row.onclick = () => {
-      toggleCompare(d._id);
-      renderResults(currentFiltered);
-      renderCompareBox();
-    };
-
-    els.resultsList.appendChild(row);
-  });
-}
-
-/* =========================
-   COMPARE
-========================= */
-function toggleCompare(id) {
-  if (compareSelection.includes(id)) {
-    compareSelection = compareSelection.filter(x => x !== id);
-  } else {
-    if (compareSelection.length >= 2) compareSelection.shift();
-    compareSelection.push(id);
-  }
-}
-
-function renderCompareBox() {
-  els.compareGrid.innerHTML = "";
-
-  if (compareSelection.length < 2) {
-    els.compareEmpty.style.display = "block";
+  if (!data.length) {
+    els.resultsList.innerHTML = `
+      <div class="result-item">
+        <div class="result-left">
+          <div class="result-city">No results</div>
+          <div class="result-meta">Try another procedure</div>
+        </div>
+        <div class="result-price"></div>
+      </div>`;
     return;
   }
 
-  els.compareEmpty.style.display = "none";
+  for (const d of data) {
+    const flag = flagFromCountry(d.country);
+    const price = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
 
-  const picks = compareSelection.map(id => ALL.find(d => d._id === id));
+    const item = document.createElement("div");
+    item.className = "result-item";
+    if (compareSelection.includes(d._id)) item.classList.add("selected");
 
-  picks.forEach(d => {
-    const c = document.createElement("div");
-    c.className = "compare-card";
-    c.innerHTML = `
-      <div class="compare-title">${d.city}</div>
-      <div class="compare-price">$${d.price_usd.toLocaleString()}</div>
+    item.innerHTML = `
+      <div class="result-left">
+        <div class="result-city">${escapeHtml(d.city)}</div>
+        <div class="result-meta">${flag ? flag + " " : ""}${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
+      </div>
+      <div class="result-price">${escapeHtml(price)}</div>
     `;
-    els.compareGrid.appendChild(c);
-  });
 
-  const diff = Math.abs(picks[0].price_usd - picks[1].price_usd);
-  const cheaper = picks[0].price_usd < picks[1].price_usd ? picks[0] : picks[1];
+    item.addEventListener("click", () => {
+      toggleCompare(d._id);
+      map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
+      renderResults(currentFiltered);
+      renderCompareBox();
+    });
 
-  const d = document.createElement("div");
-  d.className = "compare-diff";
-  d.textContent = `${cheaper.city} is cheaper by $${diff.toLocaleString()}`;
-  els.compareGrid.appendChild(d);
+    els.resultsList.appendChild(item);
+  }
+}
+
+/* =========================
+   COMPARE (pick 2)
+========================= */
+function toggleCompare(id) {
+  const idx = compareSelection.indexOf(id);
+  if (idx >= 0) {
+    compareSelection.splice(idx, 1);
+    return;
+  }
+  if (compareSelection.length >= 2) compareSelection.shift();
+  compareSelection.push(id);
+}
+
+function renderCompareBox() {
+  if (!els.compareGrid || !els.compareEmpty) return;
+
+  const picks = compareSelection.map((id) => ALL.find((d) => d._id === id)).filter(Boolean);
+  els.compareGrid.innerHTML = "";
+
+  if (!els.procedureSelect?.value) {
+    els.compareEmpty.style.display = "block";
+    els.compareEmpty.textContent = "Choose a procedure to start.";
+    return;
+  }
+
+  if (picks.length < 2) {
+    els.compareEmpty.style.display = "block";
+    els.compareEmpty.textContent = "Click two cities in Results to compare.";
+  } else {
+    els.compareEmpty.style.display = "none";
+  }
+
+  for (const d of picks) {
+    const flag = flagFromCountry(d.country);
+    const price = Number.isFinite(d.price_usd) ? d.price_usd : null;
+
+    const card = document.createElement("div");
+    card.className = "compare-card";
+    card.innerHTML = `
+      <div class="compare-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
+      <div class="compare-line">${escapeHtml(d.country)}</div>
+      <div class="compare-line">${escapeHtml(procedureLabel(d.procedure))}</div>
+      <div class="compare-price">${price !== null ? `$${price.toLocaleString()}` : "N/A"}</div>
+    `;
+    els.compareGrid.appendChild(card);
+  }
+
+  if (picks.length === 2) {
+    const a = picks[0].price_usd;
+    const b = picks[1].price_usd;
+
+    const diff = document.createElement("div");
+    diff.className = "compare-diff";
+
+    if (Number.isFinite(a) && Number.isFinite(b)) {
+      const delta = Math.abs(a - b);
+      const cheaper = a < b ? picks[0].city : picks[1].city;
+      diff.textContent = `${cheaper} is cheaper by $${delta.toLocaleString()}`;
+    } else {
+      diff.textContent = "Price missing for one of the selections.";
+    }
+
+    els.compareGrid.appendChild(diff);
+  }
+}
+
+/* =========================
+   UTILS
+========================= */
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
