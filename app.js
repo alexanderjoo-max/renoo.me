@@ -348,6 +348,9 @@ function populateProcedureDropdown(data) {
   // ✅ Force placeholder on load (desktop browsers love restoring selects)
   els.procedureSelect.value = "";
   els.procedureSelect.selectedIndex = 0;
+  els.procedureSelect.value = "";
+els.procedureSelect.selectedIndex = 0;
+applyFiltersAndRender(); // will show nothing until user picks
 }
 
 function populateCountryDropdown(data) {
