@@ -43,12 +43,7 @@
     "@type": "WebSite",
     "name": "Renoo.me",
     "url": "https://renoo.me/",
-    "description": "Compare medical procedure prices worldwide using an interactive map.",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://renoo.me/?procedure={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    "description": "Compare medical procedure prices worldwide using an interactive map."
   }
   </script>
 
@@ -58,37 +53,30 @@
 </head>
 
 <body>
-  <!-- SEO H1 (hidden visually, readable by search engines) -->
+  <!-- SEO H1 (hidden but crawlable) -->
   <h1 class="sr-only">Compare Medical Procedure Prices Worldwide</h1>
 
-  <!-- Top-center logo overlay -->
+  <!-- LOGO OVER MAP -->
   <div id="logo" aria-label="Renoo.me logo">
-    <!-- IMPORTANT: paste your FULL SVG here (no snip), exactly as provided -->
-    <?xml version="1.0" encoding="UTF-8"?>
-    <div id="logo" aria-label="Renoo.me logo">
-  <img src="/logo.svg" alt="Renoo.me" />
-</div>
+    <img src="/logo.svg" alt="Renoo.me" />
   </div>
 
+  <!-- MAP -->
   <div id="map"></div>
 
+  <!-- FILTER PANEL -->
   <aside id="panel">
-    <!-- Mobile drag handle -->
     <div class="panel-handle" id="panelHandle" aria-label="Resize panel"></div>
 
     <div class="panel-inner">
-
-      <!-- Procedure dropdown -->
       <select id="procedureSelect" class="control">
         <option value="" selected>Choose Procedure</option>
       </select>
 
-      <!-- Search + Country -->
       <div class="section row-2">
         <div class="section">
           <input id="citySearch" class="control" placeholder="Search city" />
         </div>
-
         <div class="section">
           <select id="countrySelect" class="control">
             <option value="ALL" selected>Filter country</option>
@@ -96,7 +84,6 @@
         </div>
       </div>
 
-      <!-- Compare -->
       <div class="section">
         <div class="compare-head">
           <div class="label" style="margin:0;">Compare results (Choose 2 below)</div>
@@ -111,14 +98,12 @@
         </div>
       </div>
 
-      <!-- Results -->
       <div class="section">
         <div class="label">Results (sorted by price)</div>
         <div class="results">
           <div class="results-scroll" id="resultsList"></div>
         </div>
       </div>
-
     </div>
   </aside>
 
