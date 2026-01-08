@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Medical Pricing Map MVP</title>
+
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <aside id="panel">
+    <div class="panel-inner">
+
+      <div class="label">Procedure</div>
+      <select id="procedureSelect" class="control">
+        <option value="ALL">All procedures</option>
+      </select>
+
+      <div class="section">
+        <div class="label">1) Search city</div>
+        <input id="citySearch" class="control" placeholder="e.g. Tokyo" />
+      </div>
+
+      <div class="section">
+        <div class="label">2) Filter by country</div>
+        <select id="countrySelect" class="control">
+          <option value="ALL">All countries</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <div class="label">3) Price (USD)</div>
+        <div class="row">
+          <input id="minPrice" class="control" placeholder="Min" inputmode="numeric" />
+          <input id="maxPrice" class="control" placeholder="Max" inputmode="numeric" />
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Results (sorted by price)</div>
+        <div class="results" id="resultsList"></div>
+      </div>
+
+      <div class="section">
+        <div class="compare-head">
+          <div class="label" style="margin:0;">Compare (pick 2)</div>
+          <button id="compareClear" class="compare-clear" type="button">Clear</button>
+        </div>
+
+        <div class="compare" id="compareBox">
+          <div class="compare-empty" id="compareEmpty">
+            Click two cities in Results to compare.
+          </div>
+          <div class="compare-grid" id="compareGrid"></div>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
