@@ -69,37 +69,47 @@
     <div class="panel-handle" id="panelHandle" aria-label="Resize panel"></div>
 
     <div class="panel-inner">
-      <select id="procedureSelect" class="control">
-        <option value="" selected>Choose Procedure</option>
-      </select>
+      <div class="welcome-message">
+        <h2>Find the best prices for medical procedures worldwide</h2>
+        <p>Compare costs across cities and countries to make informed healthcare decisions.</p>
+      </div>
+
+      <div class="section">
+        <label for="procedureSelect" class="label">Select a procedure</label>
+        <select id="procedureSelect" class="control">
+          <option value="" selected>Choose a procedure to begin</option>
+        </select>
+      </div>
 
       <div class="section row-2">
         <div class="section">
-          <input id="citySearch" class="control" placeholder="Search city" />
+          <label for="citySearch" class="label">City</label>
+          <input id="citySearch" class="control" placeholder="Search by city name" />
         </div>
         <div class="section">
+          <label for="countrySelect" class="label">Country</label>
           <select id="countrySelect" class="control">
-            <option value="ALL" selected>Filter country</option>
+            <option value="ALL" selected>All countries</option>
           </select>
         </div>
       </div>
 
       <div class="section">
         <div class="compare-head">
-          <div class="label" style="margin:0;">Compare results (Choose 2 below)</div>
+          <div class="label" style="margin:0;">Compare destinations</div>
           <button id="compareClear" class="compare-clear" type="button">Clear</button>
         </div>
 
         <div class="compare" id="compareBox">
           <div class="compare-empty" id="compareEmpty">
-            Click two cities in Results to compare.
+            Select two cities from the results below to compare prices.
           </div>
           <div class="compare-grid" id="compareGrid"></div>
         </div>
       </div>
 
       <div class="section">
-        <div class="label">Results (sorted by price)</div>
+        <div class="label">Results</div>
         <div class="results">
           <div class="results-scroll" id="resultsList"></div>
         </div>

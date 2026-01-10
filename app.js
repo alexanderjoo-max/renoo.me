@@ -426,7 +426,7 @@ function renderResults(data) {
 
   if (!els.procedureSelect?.value) {
     els.resultsList.innerHTML =
-      `<div class="result-item"><div class="result-left"><div class="result-city">Choose a procedure</div><div class="result-meta">Nothing will show until you pick one</div></div><div class="result-price"></div></div>`;
+      `<div class="result-item"><div class="result-left"><div class="result-city">Select a procedure above</div><div class="result-meta">Choose a procedure to see prices and locations</div></div><div class="result-price"></div></div>`;
     return;
   }
 
@@ -489,13 +489,13 @@ function renderCompareBox() {
 
   if (!els.procedureSelect?.value) {
     els.compareEmpty.style.display = "block";
-    els.compareEmpty.textContent = "Choose a procedure to start.";
+    els.compareEmpty.textContent = "Select a procedure above to begin comparing.";
     return;
   }
 
   if (picks.length < 2) {
     els.compareEmpty.style.display = "block";
-    els.compareEmpty.textContent = "Click two cities in Results to compare.";
+    els.compareEmpty.textContent = "Select two cities from the results below to compare prices.";
   } else {
     els.compareEmpty.style.display = "none";
   }
