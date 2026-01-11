@@ -312,7 +312,7 @@ function populateCountryDropdown(data) {
 
   const all = document.createElement("option");
   all.value = "ALL";
-  all.textContent = "All countries";
+  all.textContent = "Filter country";
   els.countrySelect.appendChild(all);
 
   const countries = [...new Set(data.map((d) => d.country))]
@@ -342,13 +342,7 @@ function applyFiltersAndRender() {
     return;
   }
 
-  const countryVal = els.countrySelect?.value ?? "ALL";
-  const q = (els.citySearch?.value ?? "").trim().toLowerCase();
-
   let filtered = ALL.filter((d) => d.procedure === procVal);
-
-  if (countryVal !== "ALL") filtered = filtered.filter((d) => d.country === countryVal);
-  if (q) filtered = filtered.filter((d) => d.city.toLowerCase().includes(q));
 
   // Apply sorting based on sort select
   const sortMode = els.sortSelect?.value ?? "price";

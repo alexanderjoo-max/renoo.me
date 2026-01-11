@@ -69,24 +69,19 @@
     <div class="panel-handle" id="panelHandle" aria-label="Resize panel"></div>
 
     <div class="panel-inner">
-      <select id="procedureSelect" class="control">
-        <option value="" selected>Choose Procedure</option>
-      </select>
+      <div class="intro-text">
+        <strong>Compare medical procedure prices worldwide.</strong> Select a procedure below to explore cities and costs on the map.
+      </div>
 
-      <div class="section row-2">
-        <div class="section">
-          <input id="citySearch" class="control" placeholder="Search city" />
-        </div>
-        <div class="section">
-          <select id="countrySelect" class="control">
-            <option value="ALL" selected>Filter country</option>
-          </select>
-        </div>
+      <div class="section">
+        <select id="procedureSelect" class="control">
+          <option value="" selected>Choose Procedure</option>
+        </select>
       </div>
 
       <div class="section">
         <div class="compare-head">
-          <div class="label" style="margin:0;">Compare results (Choose 2 below)</div>
+          <div class="label">Compare results (Choose 2 below)</div>
           <button id="compareClear" class="compare-clear" type="button">Clear</button>
         </div>
 
@@ -100,7 +95,7 @@
 
       <div class="section">
         <div class="results-head">
-          <div class="label" style="margin:0;">Results</div>
+          <div class="label">Results</div>
           <select id="sortSelect" class="control sort-control">
             <option value="price" selected>Sort by price</option>
             <option value="alphabetical">Sort alphabetically</option>

@@ -56,7 +56,7 @@ html, body {
 }
 
 .panel-inner {
-  padding: 14px;
+  padding: 16px;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -68,36 +68,63 @@ html, body {
   user-select: none;
 }
 
+.intro-text {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.intro-text strong {
+  color: #111827;
+  font-weight: 700;
+}
+
 .label {
   font-weight: 700;
-  font-size: 13px;
-  color: #1f2937;
-  margin: 10px 0 6px;
+  font-size: 12px;
+  color: #111827;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .control {
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
   border: 1px solid rgba(0,0,0,0.12);
   background: #fff;
   font-size: 14px;
   outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .control:focus {
   border-color: rgba(59,130,246,0.6);
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
 }
 
-.section { margin-top: 12px; }
+.control:hover:not(:focus) {
+  border-color: rgba(0,0,0,0.18);
+}
+
+.section { 
+  margin-top: 16px; 
+}
+
+.section:first-of-type {
+  margin-top: 0;
+}
 
 /* Two-up row layout (Search + Country) */
 .row-2{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 /* Results header with sort */
@@ -106,23 +133,23 @@ html, body {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .sort-control{
   width: auto;
   min-width: 140px;
   font-size: 12px;
-  padding: 6px 10px;
+  padding: 6px 12px;
 }
 
 /* Results container */
 .results {
-  margin-top: 8px;
   border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 12px;
+  border-radius: 10px;
   background: #fff;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 /* Scrollable results list */
@@ -142,21 +169,31 @@ html, body {
 .results-scroll::-webkit-scrollbar-track { background: transparent; }
 
 .result-item {
-  padding: 10px 12px;
+  padding: 10px 14px;
   border-top: 1px solid rgba(0,0,0,0.06);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
+  transition: background-color 0.15s;
+}
+
+.result-item:hover {
+  background-color: #f9fafb;
 }
 
 .result-item:first-child { border-top: none; }
 
 .result-item.selected {
-  background: rgba(59,130,246,0.10);
-  outline: 2px solid rgba(59,130,246,0.25);
+  background: rgba(59,130,246,0.08);
+  outline: 2px solid rgba(59,130,246,0.3);
   outline-offset: -2px;
 }
+
+.result-item.selected:hover {
+  background: rgba(59,130,246,0.12);
+}
+
 
 .result-left { min-width: 0; }
 
@@ -249,68 +286,90 @@ html, body {
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .compare-clear{
   border: 1px solid rgba(0,0,0,0.12);
   background: #fff;
-  padding: 6px 10px;
-  border-radius: 10px;
+  padding: 6px 12px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
+  transition: all 0.2s;
+  color: #4b5563;
+}
+
+.compare-clear:hover {
+  background: #f9fafb;
+  border-color: rgba(0,0,0,0.18);
+  color: #111827;
 }
 
 .compare{
-  margin-top: 8px;
   border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 12px;
-  background: #fff;
+  border-radius: 10px;
+  background: #f9fafb;
   overflow: hidden;
-  padding: 10px;
+  padding: 12px;
+  min-height: 60px;
 }
 
-.compare-empty{ font-size: 12px; color: #4b5563; }
+.compare-empty{ 
+  font-size: 12px; 
+  color: #6b7280; 
+  text-align: center;
+  padding: 8px 0;
+  font-style: italic;
+}
 
 .compare-grid{
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .compare-card{
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 12px;
-  padding: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 12px;
   background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .compare-title{
   font-weight: 900;
   font-size: 13px;
   color: #111827;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .compare-line{
   font-size: 12px;
   color: #374151;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .compare-price{
-  margin-top: 6px;
+  margin-top: 4px;
   font-weight: 900;
   font-size: 13px;
   color: #111827;
 }
 
 .compare-diff{
-  margin-top: 6px;
-  font-size: 14px;      /* +2px */
-  font-weight: 800;
-  color: #FF0000;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: #ef4444;
+  padding: 8px 12px;
+  border-radius: 20px;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* -------- Mobile bottom sheet -------- */
