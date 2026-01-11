@@ -256,6 +256,7 @@ function wireUI() {
   els.compareClear?.addEventListener("click", () => {
     compareSelection = [];
     renderResults(currentFiltered);
+    renderMarkers(currentFiltered);
     renderCompareBox(currentFiltered);
   });
 
@@ -396,8 +397,20 @@ function renderMarkers(data) {
     // flags beside price in bubbles
     el.textContent = `${flag ? flag + " " : ""}${label}`;
 
+    // Check if this marker is in compare selection
+    const isSelected = compareSelection.includes(d._id);
+    
     // price-based color
     el.style.background = priceToColor(d.price_usd, min, max);
+    
+    // Highlight selected markers with a border
+    if (isSelected) {
+      el.style.border = "3px solid #ef4444";
+      el.style.boxShadow = "0 0 0 3px rgba(239, 68, 68, 0.3), 0 4px 10px rgba(0,0,0,0.18)";
+    } else {
+      el.style.border = "1px solid rgba(255,255,255,0.35)";
+      el.style.boxShadow = "0 4px 10px rgba(0,0,0,0.18)";
+    }
 
     const popupHTML = `
       <div>
@@ -472,7 +485,6 @@ function renderResults(data) {
 
     item.addEventListener("click", () => {
       toggleCompare(d._id);
-      map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
       renderResults(currentFiltered);
       renderCompareBox(currentFiltered);
     });
@@ -512,6 +524,8 @@ function renderCompareBox() {
   if (picks.length < 2) {
     els.compareEmpty.style.display = "block";
     els.compareEmpty.textContent = "Click two cities in Results to compare.";
+    // Re-render markers to update highlighting
+    renderMarkers(currentFiltered);
   } else {
     els.compareEmpty.style.display = "none";
   }
@@ -547,7 +561,32 @@ function renderCompareBox() {
     }
 
     els.compareGrid.appendChild(diff);
+    
+    // Fit map to show both selected cities
+    fitMapToCompare(picks[0], picks[1]);
+  } else {
+    // Re-render markers to update highlighting
+    renderMarkers(currentFiltered);
   }
+}
+
+function fitMapToCompare(city1, city2) {
+  if (!city1 || !city2) return;
+  
+  // Re-render markers first to show highlighting
+  renderMarkers(currentFiltered);
+  
+  // Create bounds to include both cities
+  const bounds = new mapboxgl.LngLatBounds();
+  bounds.extend([city1.lng, city1.lat]);
+  bounds.extend([city2.lng, city2.lat]);
+  
+  // Fit map to show both cities with padding
+  map.fitBounds(bounds, {
+    padding: { top: 80, bottom: 80, left: 80, right: 80 },
+    duration: 1000,
+    maxZoom: 10 // Prevent zooming in too close
+  });
 }
 
 /* =========================
