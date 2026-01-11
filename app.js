@@ -22,6 +22,7 @@ const els = {
   procedureSelect: document.getElementById("procedureSelect"),
   citySearch: document.getElementById("citySearch"),
   countrySelect: document.getElementById("countrySelect"),
+  sortSelect: document.getElementById("sortSelect"),
   resultsList: document.getElementById("resultsList"),
   compareClear: document.getElementById("compareClear"),
   compareEmpty: document.getElementById("compareEmpty"),
@@ -250,6 +251,7 @@ function wireUI() {
 
   els.countrySelect?.addEventListener("change", applyFiltersAndRender);
   els.citySearch?.addEventListener("input", debounce(applyFiltersAndRender, 120));
+  els.sortSelect?.addEventListener("change", applyFiltersAndRender);
 
   els.compareClear?.addEventListener("click", () => {
     compareSelection = [];
@@ -348,17 +350,25 @@ function applyFiltersAndRender() {
   if (countryVal !== "ALL") filtered = filtered.filter((d) => d.country === countryVal);
   if (q) filtered = filtered.filter((d) => d.city.toLowerCase().includes(q));
 
-  // cheapest -> most expensive (nulls last)
-  filtered.sort((a, b) => {
-    const ap = a.price_usd;
-    const bp = b.price_usd;
-    const aN = Number.isFinite(ap);
-    const bN = Number.isFinite(bp);
-    if (aN && bN) return ap - bp;
-    if (aN) return -1;
-    if (bN) return 1;
-    return a.city.localeCompare(b.city);
-  });
+  // Apply sorting based on sort select
+  const sortMode = els.sortSelect?.value ?? "price";
+  
+  if (sortMode === "alphabetical") {
+    // Sort alphabetically by city name
+    filtered.sort((a, b) => a.city.localeCompare(b.city));
+  } else {
+    // Sort by price: cheapest -> most expensive (nulls last)
+    filtered.sort((a, b) => {
+      const ap = a.price_usd;
+      const bp = b.price_usd;
+      const aN = Number.isFinite(ap);
+      const bN = Number.isFinite(bp);
+      if (aN && bN) return ap - bp;
+      if (aN) return -1;
+      if (bN) return 1;
+      return a.city.localeCompare(b.city);
+    });
+  }
 
   currentFiltered = filtered;
 
@@ -426,7 +436,7 @@ function renderResults(data) {
 
   if (!els.procedureSelect?.value) {
     els.resultsList.innerHTML =
-      `<div class="result-item"><div class="result-left"><div class="result-city">Select a procedure above</div><div class="result-meta">Choose a procedure to see prices and locations</div></div><div class="result-price"></div></div>`;
+      `<div class="result-item"><div class="result-left"><div class="result-city">Choose a procedure</div><div class="result-meta">Nothing will show until you pick one</div></div><div class="result-price"></div></div>`;
     return;
   }
 
@@ -438,9 +448,21 @@ function renderResults(data) {
     return;
   }
 
+  // Find the cheapest result (only if sorting by price)
+  const sortMode = els.sortSelect?.value ?? "price";
+  let cheapestId = null;
+  if (sortMode === "price" && data.length > 0) {
+    const prices = data.map((d) => ({ id: d._id, price: d.price_usd })).filter((d) => Number.isFinite(d.price));
+    if (prices.length > 0) {
+      const cheapest = prices.reduce((min, curr) => (curr.price < min.price ? curr : min));
+      cheapestId = cheapest.id;
+    }
+  }
+
   for (const d of data) {
     const flag = flagFromCountry(d.country);
     const price = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
+    const isCheapest = d._id === cheapestId;
 
     const item = document.createElement("div");
     item.className = "result-item";
@@ -448,7 +470,7 @@ function renderResults(data) {
 
     item.innerHTML = `
       <div class="result-left">
-        <div class="result-city">${escapeHtml(d.city)}</div>
+        <div class="result-city">${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
         <div class="result-meta">${flag ? flag + " " : ""}${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
@@ -489,13 +511,13 @@ function renderCompareBox() {
 
   if (!els.procedureSelect?.value) {
     els.compareEmpty.style.display = "block";
-    els.compareEmpty.textContent = "Select a procedure above to begin comparing.";
+    els.compareEmpty.textContent = "Choose a procedure to start.";
     return;
   }
 
   if (picks.length < 2) {
     els.compareEmpty.style.display = "block";
-    els.compareEmpty.textContent = "Select two cities from the results below to compare prices.";
+    els.compareEmpty.textContent = "Click two cities in Results to compare.";
   } else {
     els.compareEmpty.style.display = "none";
   }
