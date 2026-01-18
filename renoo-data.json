@@ -1,0 +1,2813 @@
+{
+  "procedures": [
+    {
+      "id": "colonoscopy",
+      "name": "Colonoscopy",
+      "category": "Diagnostics",
+      "cities": [
+        {
+          "city": "Bangkok",
+          "country": "Thailand",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 250,
+            "high": 500,
+            "typical": 350,
+            "currency": "USD",
+            "localCurrency": "THB"
+          },
+          "details": {
+            "included": "Procedure + facility fee",
+            "excluded": "Sedation choice, pathology",
+            "confidence": "Medium",
+            "sourceType": "Local clinics + aggregator estimate",
+            "notes": "Prices vary by hospital tier"
+          },
+          "coordinates": {
+            "lat": 13.7563,
+            "lng": 100.5018
+          }
+        },
+        {
+          "city": "Seoul",
+          "country": "South Korea",
+          "region": "East Asia",
+          "pricing": {
+            "low": 300,
+            "high": 700,
+            "typical": 450,
+            "currency": "USD",
+            "localCurrency": "KRW"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation, biopsies",
+            "confidence": "Medium",
+            "sourceType": "Clinic websites",
+            "notes": "Public hospitals cheaper"
+          },
+          "coordinates": {
+            "lat": 37.5665,
+            "lng": 126.978
+          }
+        },
+        {
+          "city": "Istanbul",
+          "country": "Turkey",
+          "region": "Middle East / Europe",
+          "pricing": {
+            "low": 200,
+            "high": 450,
+            "typical": 300,
+            "currency": "USD",
+            "localCurrency": "TRY"
+          },
+          "details": {
+            "included": "Procedure + screening",
+            "excluded": "Anesthesia, path",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Strong medical tourism pricing"
+          },
+          "coordinates": {
+            "lat": 41.0082,
+            "lng": 28.9784
+          }
+        },
+        {
+          "city": "Ho Chi Minh City",
+          "country": "Vietnam",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 150,
+            "high": 400,
+            "typical": 275,
+            "currency": "USD",
+            "localCurrency": "VND"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation, pathology",
+            "confidence": "Low",
+            "sourceType": "Local clinics",
+            "notes": "Wide variance by provider"
+          },
+          "coordinates": {
+            "lat": 10.8231,
+            "lng": 106.6297
+          }
+        },
+        {
+          "city": "Kuala Lumpur",
+          "country": "Malaysia",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 220,
+            "high": 480,
+            "typical": 330,
+            "currency": "USD",
+            "localCurrency": "MYR"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation, pathology",
+            "confidence": "Medium",
+            "sourceType": "Clinic sites",
+            "notes": "Mid-range pricing"
+          },
+          "coordinates": {
+            "lat": 3.139,
+            "lng": 101.6869
+          }
+        },
+        {
+          "city": "Delhi",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 180,
+            "high": 380,
+            "typical": 280,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation, pathology",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Lower costs typical"
+          },
+          "coordinates": {
+            "lat": 28.7041,
+            "lng": 77.1025
+          }
+        },
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 190,
+            "high": 400,
+            "typical": 300,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation, pathology",
+            "confidence": "Medium",
+            "sourceType": "Local clinic info",
+            "notes": "Private vs public diff"
+          },
+          "coordinates": {
+            "lat": 19.076,
+            "lng": 72.8777
+          }
+        },
+        {
+          "city": "Mexico City",
+          "country": "Mexico",
+          "region": "Latin America",
+          "pricing": {
+            "low": 200,
+            "high": 450,
+            "typical": 325,
+            "currency": "USD",
+            "localCurrency": "MXN"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "Medium",
+            "sourceType": "Clinic websites",
+            "notes": "Tourism offerings exist"
+          },
+          "coordinates": {
+            "lat": 19.4326,
+            "lng": -99.1332
+          }
+        },
+        {
+          "city": "Medellín",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 180,
+            "high": 420,
+            "typical": 300,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "Low",
+            "sourceType": "Aggregators",
+            "notes": "Prices in USD varied"
+          },
+          "coordinates": {
+            "lat": 6.2442,
+            "lng": -75.5812
+          }
+        },
+        {
+          "city": "Bogotá",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 180,
+            "high": 430,
+            "typical": 305,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation, biopsy",
+            "confidence": "Low",
+            "sourceType": "Local sources",
+            "notes": "Lower end in region"
+          },
+          "coordinates": {
+            "lat": 4.711,
+            "lng": -74.0721
+          }
+        },
+        {
+          "city": "Prague",
+          "country": "Czech Republic",
+          "region": "Europe",
+          "pricing": {
+            "low": 280,
+            "high": 550,
+            "typical": 395,
+            "currency": "USD",
+            "localCurrency": "CZK"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "Medium",
+            "sourceType": "Clinic sites",
+            "notes": "EU pricing context"
+          },
+          "coordinates": {
+            "lat": 50.0755,
+            "lng": 14.4378
+          }
+        },
+        {
+          "city": "Budapest",
+          "country": "Hungary",
+          "region": "Europe",
+          "pricing": {
+            "low": 260,
+            "high": 520,
+            "typical": 380,
+            "currency": "USD",
+            "localCurrency": "HUF"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Central Europe avg"
+          },
+          "coordinates": {
+            "lat": 47.4979,
+            "lng": 19.0402
+          }
+        },
+        {
+          "city": "Warsaw",
+          "country": "Poland",
+          "region": "Europe",
+          "pricing": {
+            "low": 280,
+            "high": 560,
+            "typical": 400,
+            "currency": "USD",
+            "localCurrency": "PLN"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "Medium",
+            "sourceType": "Clinic websites",
+            "notes": "Market variance"
+          },
+          "coordinates": {
+            "lat": 52.2297,
+            "lng": 21.0122
+          }
+        },
+        {
+          "city": "Dubai",
+          "country": "UAE",
+          "region": "Middle East",
+          "pricing": {
+            "low": 350,
+            "high": 700,
+            "typical": 500,
+            "currency": "USD",
+            "localCurrency": "AED"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation, pathology",
+            "confidence": "Medium",
+            "sourceType": "Clinic data",
+            "notes": "Premium pricing"
+          },
+          "coordinates": {
+            "lat": 25.2048,
+            "lng": 55.2708
+          }
+        },
+        {
+          "city": "Tokyo",
+          "country": "Japan",
+          "region": "East Asia",
+          "pricing": {
+            "low": 300,
+            "high": 650,
+            "typical": 430,
+            "currency": "USD",
+            "localCurrency": "JPY"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "Low",
+            "sourceType": "Local sites",
+            "notes": "Japan high healthcare costs"
+          },
+          "coordinates": {
+            "lat": 35.6895,
+            "lng": 139.6917
+          }
+        },
+        {
+          "city": "Barcelona",
+          "country": "Spain",
+          "region": "Europe",
+          "pricing": {
+            "low": 300,
+            "high": 600,
+            "typical": 420,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "EU average"
+          },
+          "coordinates": {
+            "lat": 41.3851,
+            "lng": 2.1734
+          }
+        },
+        {
+          "city": "London",
+          "country": "UK",
+          "region": "Europe",
+          "pricing": {
+            "low": 400,
+            "high": 800,
+            "typical": 550,
+            "currency": "USD",
+            "localCurrency": "GBP"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "High",
+            "sourceType": "Clinic websites",
+            "notes": "Public vs private diff"
+          },
+          "coordinates": {
+            "lat": 51.5074,
+            "lng": -0.1278
+          }
+        },
+        {
+          "city": "Paris",
+          "country": "France",
+          "region": "Europe",
+          "pricing": {
+            "low": 380,
+            "high": 750,
+            "typical": 520,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Sedation",
+            "confidence": "High",
+            "sourceType": "Aggregators",
+            "notes": "Premium EU"
+          },
+          "coordinates": {
+            "lat": 48.8566,
+            "lng": 2.3522
+          }
+        },
+        {
+          "city": "Los Angeles",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 800,
+            "high": 1500,
+            "typical": 1100,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Anesthesia, pathology",
+            "confidence": "High",
+            "sourceType": "US clinic CR",
+            "notes": "Country high costs"
+          },
+          "coordinates": {
+            "lat": 34.0522,
+            "lng": -118.2437
+          }
+        },
+        {
+          "city": "New York City",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 850,
+            "high": 1600,
+            "typical": 1150,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Procedure + facility",
+            "excluded": "Anesthesia, pathology",
+            "confidence": "High",
+            "sourceType": "Aggregators",
+            "notes": "Highest US range"
+          },
+          "coordinates": {
+            "lat": 40.7128,
+            "lng": -74.006
+          }
+        }
+      ]
+    },
+    {
+      "id": "rhinoplasty",
+      "name": "Rhinoplasty",
+      "category": "Cosmetic",
+      "cities": [
+        {
+          "city": "Bangkok",
+          "country": "Thailand",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 2500,
+            "high": 6000,
+            "typical": 4000,
+            "currency": "USD",
+            "localCurrency": "THB"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia, hospital",
+            "excluded": "Flights, revisions",
+            "confidence": "High",
+            "sourceType": "Clinic sites + aggregators",
+            "notes": "Huge med-tourism hub"
+          },
+          "coordinates": {
+            "lat": 13.7563,
+            "lng": 100.5018
+          }
+        },
+        {
+          "city": "Seoul",
+          "country": "South Korea",
+          "region": "East Asia",
+          "pricing": {
+            "low": 3500,
+            "high": 9000,
+            "typical": 6000,
+            "currency": "USD",
+            "localCurrency": "KRW"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia, clinic",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinic sites",
+            "notes": "Korea = global leader"
+          },
+          "coordinates": {
+            "lat": 37.5665,
+            "lng": 126.978
+          }
+        },
+        {
+          "city": "Istanbul",
+          "country": "Turkey",
+          "region": "Europe / ME",
+          "pricing": {
+            "low": 2000,
+            "high": 5000,
+            "typical": 3500,
+            "currency": "USD",
+            "localCurrency": "TRY"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia, hospital",
+            "excluded": "Flights",
+            "confidence": "High",
+            "sourceType": "Aggregators",
+            "notes": "Very competitive"
+          },
+          "coordinates": {
+            "lat": 41.0082,
+            "lng": 28.9784
+          }
+        },
+        {
+          "city": "Ho Chi Minh City",
+          "country": "Vietnam",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 1800,
+            "high": 4500,
+            "typical": 3000,
+            "currency": "USD",
+            "localCurrency": "VND"
+          },
+          "details": {
+            "included": "Surgeon, hospital",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Local clinics",
+            "notes": "Lower consistency"
+          },
+          "coordinates": {
+            "lat": 10.8231,
+            "lng": 106.6297
+          }
+        },
+        {
+          "city": "Kuala Lumpur",
+          "country": "Malaysia",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 2500,
+            "high": 5500,
+            "typical": 3800,
+            "currency": "USD",
+            "localCurrency": "MYR"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinic sites",
+            "notes": "Solid mid-range"
+          },
+          "coordinates": {
+            "lat": 3.139,
+            "lng": 101.6869
+          }
+        },
+        {
+          "city": "Delhi",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 2000,
+            "high": 4500,
+            "typical": 3200,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Surgeon, hospital",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Surgeon quality varies"
+          },
+          "coordinates": {
+            "lat": 28.7041,
+            "lng": 77.1025
+          }
+        },
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 2200,
+            "high": 4800,
+            "typical": 3400,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Surgeon, hospital",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Private clinics pricier"
+          },
+          "coordinates": {
+            "lat": 19.076,
+            "lng": 72.8777
+          }
+        },
+        {
+          "city": "Mexico City",
+          "country": "Mexico",
+          "region": "Latin America",
+          "pricing": {
+            "low": 2800,
+            "high": 6500,
+            "typical": 4500,
+            "currency": "USD",
+            "localCurrency": "MXN"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Popular with US patients"
+          },
+          "coordinates": {
+            "lat": 19.4326,
+            "lng": -99.1332
+          }
+        },
+        {
+          "city": "Medellín",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 2500,
+            "high": 6000,
+            "typical": 4200,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Surgeon, hospital",
+            "excluded": "Flights",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Cosmetic tourism hub"
+          },
+          "coordinates": {
+            "lat": 6.2442,
+            "lng": -75.5812
+          }
+        },
+        {
+          "city": "Bogotá",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 2600,
+            "high": 6200,
+            "typical": 4400,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Surgeon, hospital",
+            "excluded": "Flights",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Similar to Medellín"
+          },
+          "coordinates": {
+            "lat": 4.711,
+            "lng": -74.0721
+          }
+        },
+        {
+          "city": "Prague",
+          "country": "Czech Rep.",
+          "region": "Europe",
+          "pricing": {
+            "low": 3500,
+            "high": 8000,
+            "typical": 5500,
+            "currency": "USD",
+            "localCurrency": "CZK"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinic sites",
+            "notes": "EU safety premium"
+          },
+          "coordinates": {
+            "lat": 50.0755,
+            "lng": 14.4378
+          }
+        },
+        {
+          "city": "Budapest",
+          "country": "Hungary",
+          "region": "Europe",
+          "pricing": {
+            "low": 3000,
+            "high": 7000,
+            "typical": 4800,
+            "currency": "USD",
+            "localCurrency": "HUF"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Value EU option"
+          },
+          "coordinates": {
+            "lat": 47.4979,
+            "lng": 19.0402
+          }
+        },
+        {
+          "city": "Warsaw",
+          "country": "Poland",
+          "region": "Europe",
+          "pricing": {
+            "low": 3200,
+            "high": 7500,
+            "typical": 5200,
+            "currency": "USD",
+            "localCurrency": "PLN"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Growing market"
+          },
+          "coordinates": {
+            "lat": 52.2297,
+            "lng": 21.0122
+          }
+        },
+        {
+          "city": "Dubai",
+          "country": "UAE",
+          "region": "Middle East",
+          "pricing": {
+            "low": 6000,
+            "high": 12000,
+            "typical": 8500,
+            "currency": "USD",
+            "localCurrency": "AED"
+          },
+          "details": {
+            "included": "Surgeon, premium clinic",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinic sites",
+            "notes": "Luxury pricing"
+          },
+          "coordinates": {
+            "lat": 25.2048,
+            "lng": 55.2708
+          }
+        },
+        {
+          "city": "Tokyo",
+          "country": "Japan",
+          "region": "East Asia",
+          "pricing": {
+            "low": 5000,
+            "high": 10000,
+            "typical": 7200,
+            "currency": "USD",
+            "localCurrency": "JPY"
+          },
+          "details": {
+            "included": "Surgeon, clinic",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Conservative approach"
+          },
+          "coordinates": {
+            "lat": 35.6895,
+            "lng": 139.6917
+          }
+        },
+        {
+          "city": "Barcelona",
+          "country": "Spain",
+          "region": "Europe",
+          "pricing": {
+            "low": 4000,
+            "high": 8500,
+            "typical": 6200,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Surgeon, anesthesia",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU standard"
+          },
+          "coordinates": {
+            "lat": 41.3851,
+            "lng": 2.1734
+          }
+        },
+        {
+          "city": "London",
+          "country": "UK",
+          "region": "Europe",
+          "pricing": {
+            "low": 6000,
+            "high": 12000,
+            "typical": 9000,
+            "currency": "USD",
+            "localCurrency": "GBP"
+          },
+          "details": {
+            "included": "Surgeon, private clinic",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Very high costs"
+          },
+          "coordinates": {
+            "lat": 51.5074,
+            "lng": -0.1278
+          }
+        },
+        {
+          "city": "Paris",
+          "country": "France",
+          "region": "Europe",
+          "pricing": {
+            "low": 5500,
+            "high": 11000,
+            "typical": 8200,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Surgeon, clinic",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Premium EU"
+          },
+          "coordinates": {
+            "lat": 48.8566,
+            "lng": 2.3522
+          }
+        },
+        {
+          "city": "Los Angeles",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 8000,
+            "high": 16000,
+            "typical": 12000,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Surgeon, facility",
+            "excluded": "Anesthesia",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Celebrity market"
+          },
+          "coordinates": {
+            "lat": 34.0522,
+            "lng": -118.2437
+          }
+        },
+        {
+          "city": "New York City",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 8500,
+            "high": 17000,
+            "typical": 13000,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Surgeon, facility",
+            "excluded": "Anesthesia",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Highest US"
+          },
+          "coordinates": {
+            "lat": 40.7128,
+            "lng": -74.006
+          }
+        }
+      ]
+    },
+    {
+      "id": "hair-transplant-3000-grafts",
+      "name": "Hair Transplant (3000 grafts)",
+      "category": "Cosmetic",
+      "cities": [
+        {
+          "city": "Bangkok",
+          "country": "Thailand",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 2500,
+            "high": 4500,
+            "typical": 3500,
+            "currency": "USD",
+            "localCurrency": "THB"
+          },
+          "details": {
+            "included": "Surgeon, grafts, facility, meds",
+            "excluded": "Flights, PRP",
+            "confidence": "High",
+            "sourceType": "Clinic sites + aggregators",
+            "notes": "Strong competition"
+          },
+          "coordinates": {
+            "lat": 13.7563,
+            "lng": 100.5018
+          }
+        },
+        {
+          "city": "Seoul",
+          "country": "South Korea",
+          "region": "East Asia",
+          "pricing": {
+            "low": 4000,
+            "high": 8000,
+            "typical": 6000,
+            "currency": "USD",
+            "localCurrency": "KRW"
+          },
+          "details": {
+            "included": "Surgeon, grafts, clinic",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Premium cosmetic market"
+          },
+          "coordinates": {
+            "lat": 37.5665,
+            "lng": 126.978
+          }
+        },
+        {
+          "city": "Istanbul",
+          "country": "Turkey",
+          "region": "Europe / ME",
+          "pricing": {
+            "low": 1800,
+            "high": 3500,
+            "typical": 2600,
+            "currency": "USD",
+            "localCurrency": "TRY"
+          },
+          "details": {
+            "included": "Surgeon, grafts, hotel",
+            "excluded": "Flights",
+            "confidence": "High",
+            "sourceType": "Aggregators",
+            "notes": "Global leader"
+          },
+          "coordinates": {
+            "lat": 41.0082,
+            "lng": 28.9784
+          }
+        },
+        {
+          "city": "Ho Chi Minh City",
+          "country": "Vietnam",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 1500,
+            "high": 3200,
+            "typical": 2300,
+            "currency": "USD",
+            "localCurrency": "VND"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Local clinics",
+            "notes": "Growing market"
+          },
+          "coordinates": {
+            "lat": 10.8231,
+            "lng": 106.6297
+          }
+        },
+        {
+          "city": "Kuala Lumpur",
+          "country": "Malaysia",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 2800,
+            "high": 4800,
+            "typical": 3800,
+            "currency": "USD",
+            "localCurrency": "MYR"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Mid-range pricing"
+          },
+          "coordinates": {
+            "lat": 3.139,
+            "lng": 101.6869
+          }
+        },
+        {
+          "city": "Delhi",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 1500,
+            "high": 3000,
+            "typical": 2200,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Very cost effective"
+          },
+          "coordinates": {
+            "lat": 28.7041,
+            "lng": 77.1025
+          }
+        },
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 1600,
+            "high": 3200,
+            "typical": 2400,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Similar to Delhi"
+          },
+          "coordinates": {
+            "lat": 19.076,
+            "lng": 72.8777
+          }
+        },
+        {
+          "city": "Mexico City",
+          "country": "Mexico",
+          "region": "Latin America",
+          "pricing": {
+            "low": 3000,
+            "high": 5500,
+            "typical": 4200,
+            "currency": "USD",
+            "localCurrency": "MXN"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "US overflow market"
+          },
+          "coordinates": {
+            "lat": 19.4326,
+            "lng": -99.1332
+          }
+        },
+        {
+          "city": "Medellín",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 2500,
+            "high": 4800,
+            "typical": 3600,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Cosmetic hub"
+          },
+          "coordinates": {
+            "lat": 6.2442,
+            "lng": -75.5812
+          }
+        },
+        {
+          "city": "Bogotá",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 2600,
+            "high": 5000,
+            "typical": 3800,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Similar to Medellín"
+          },
+          "coordinates": {
+            "lat": 4.711,
+            "lng": -74.0721
+          }
+        },
+        {
+          "city": "Prague",
+          "country": "Czech Rep.",
+          "region": "Europe",
+          "pricing": {
+            "low": 4200,
+            "high": 8000,
+            "typical": 6000,
+            "currency": "USD",
+            "localCurrency": "CZK"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU pricing"
+          },
+          "coordinates": {
+            "lat": 50.0755,
+            "lng": 14.4378
+          }
+        },
+        {
+          "city": "Budapest",
+          "country": "Hungary",
+          "region": "Europe",
+          "pricing": {
+            "low": 3500,
+            "high": 6500,
+            "typical": 5000,
+            "currency": "USD",
+            "localCurrency": "HUF"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Value EU"
+          },
+          "coordinates": {
+            "lat": 47.4979,
+            "lng": 19.0402
+          }
+        },
+        {
+          "city": "Warsaw",
+          "country": "Poland",
+          "region": "Europe",
+          "pricing": {
+            "low": 3800,
+            "high": 7200,
+            "typical": 5400,
+            "currency": "USD",
+            "localCurrency": "PLN"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Expanding market"
+          },
+          "coordinates": {
+            "lat": 52.2297,
+            "lng": 21.0122
+          }
+        },
+        {
+          "city": "Dubai",
+          "country": "UAE",
+          "region": "Middle East",
+          "pricing": {
+            "low": 6000,
+            "high": 10000,
+            "typical": 8000,
+            "currency": "USD",
+            "localCurrency": "AED"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Luxury clinics"
+          },
+          "coordinates": {
+            "lat": 25.2048,
+            "lng": 55.2708
+          }
+        },
+        {
+          "city": "Tokyo",
+          "country": "Japan",
+          "region": "East Asia",
+          "pricing": {
+            "low": 5000,
+            "high": 9000,
+            "typical": 7000,
+            "currency": "USD",
+            "localCurrency": "JPY"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Conservative density"
+          },
+          "coordinates": {
+            "lat": 35.6895,
+            "lng": 139.6917
+          }
+        },
+        {
+          "city": "Barcelona",
+          "country": "Spain",
+          "region": "Europe",
+          "pricing": {
+            "low": 4500,
+            "high": 8000,
+            "typical": 6200,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU standard"
+          },
+          "coordinates": {
+            "lat": 41.3851,
+            "lng": 2.1734
+          }
+        },
+        {
+          "city": "London",
+          "country": "UK",
+          "region": "Europe",
+          "pricing": {
+            "low": 5500,
+            "high": 10000,
+            "typical": 7800,
+            "currency": "USD",
+            "localCurrency": "GBP"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Very high costs"
+          },
+          "coordinates": {
+            "lat": 51.5074,
+            "lng": -0.1278
+          }
+        },
+        {
+          "city": "Paris",
+          "country": "France",
+          "region": "Europe",
+          "pricing": {
+            "low": 5200,
+            "high": 9500,
+            "typical": 7300,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Premium EU"
+          },
+          "coordinates": {
+            "lat": 48.8566,
+            "lng": 2.3522
+          }
+        },
+        {
+          "city": "Los Angeles",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 7000,
+            "high": 14000,
+            "typical": 10500,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Celebrity market"
+          },
+          "coordinates": {
+            "lat": 34.0522,
+            "lng": -118.2437
+          }
+        },
+        {
+          "city": "New York City",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 7500,
+            "high": 15000,
+            "typical": 11500,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Surgeon, grafts",
+            "excluded": "PRP",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Highest US"
+          },
+          "coordinates": {
+            "lat": 40.7128,
+            "lng": -74.006
+          }
+        }
+      ]
+    },
+    {
+      "id": "dental-implant",
+      "name": "Dental Implant",
+      "category": "Dental",
+      "cities": [
+        {
+          "city": "Bangkok",
+          "country": "Thailand",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 1200,
+            "high": 2500,
+            "typical": 1800,
+            "currency": "USD",
+            "localCurrency": "THB"
+          },
+          "details": {
+            "included": "Implant, abutment, crown",
+            "excluded": "Bone graft",
+            "confidence": "High",
+            "sourceType": "Clinic sites",
+            "notes": "Major dental hub"
+          },
+          "coordinates": {
+            "lat": 13.7563,
+            "lng": 100.5018
+          }
+        },
+        {
+          "city": "Seoul",
+          "country": "South Korea",
+          "region": "East Asia",
+          "pricing": {
+            "low": 1800,
+            "high": 3500,
+            "typical": 2500,
+            "currency": "USD",
+            "localCurrency": "KRW"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Premium materials"
+          },
+          "coordinates": {
+            "lat": 37.5665,
+            "lng": 126.978
+          }
+        },
+        {
+          "city": "Istanbul",
+          "country": "Turkey",
+          "region": "Europe / ME",
+          "pricing": {
+            "low": 900,
+            "high": 2000,
+            "typical": 1400,
+            "currency": "USD",
+            "localCurrency": "TRY"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "High",
+            "sourceType": "Aggregators",
+            "notes": "Very competitive"
+          },
+          "coordinates": {
+            "lat": 41.0082,
+            "lng": 28.9784
+          }
+        },
+        {
+          "city": "Ho Chi Minh City",
+          "country": "Vietnam",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 700,
+            "high": 1600,
+            "typical": 1100,
+            "currency": "USD",
+            "localCurrency": "VND"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Local clinics",
+            "notes": "Large variance"
+          },
+          "coordinates": {
+            "lat": 10.8231,
+            "lng": 106.6297
+          }
+        },
+        {
+          "city": "Kuala Lumpur",
+          "country": "Malaysia",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 1000,
+            "high": 2200,
+            "typical": 1500,
+            "currency": "USD",
+            "localCurrency": "MYR"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Solid mid-range"
+          },
+          "coordinates": {
+            "lat": 3.139,
+            "lng": 101.6869
+          }
+        },
+        {
+          "city": "Delhi",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 700,
+            "high": 1500,
+            "typical": 1000,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Cost leader"
+          },
+          "coordinates": {
+            "lat": 28.7041,
+            "lng": 77.1025
+          }
+        },
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 750,
+            "high": 1600,
+            "typical": 1100,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Similar to Delhi"
+          },
+          "coordinates": {
+            "lat": 19.076,
+            "lng": 72.8777
+          }
+        },
+        {
+          "city": "Mexico City",
+          "country": "Mexico",
+          "region": "Latin America",
+          "pricing": {
+            "low": 900,
+            "high": 2200,
+            "typical": 1500,
+            "currency": "USD",
+            "localCurrency": "MXN"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "US overflow"
+          },
+          "coordinates": {
+            "lat": 19.4326,
+            "lng": -99.1332
+          }
+        },
+        {
+          "city": "Medellín",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 850,
+            "high": 2100,
+            "typical": 1450,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Popular dental city"
+          },
+          "coordinates": {
+            "lat": 6.2442,
+            "lng": -75.5812
+          }
+        },
+        {
+          "city": "Bogotá",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 900,
+            "high": 2200,
+            "typical": 1500,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Similar pricing"
+          },
+          "coordinates": {
+            "lat": 4.711,
+            "lng": -74.0721
+          }
+        },
+        {
+          "city": "Prague",
+          "country": "Czech Rep.",
+          "region": "Europe",
+          "pricing": {
+            "low": 1400,
+            "high": 2800,
+            "typical": 2000,
+            "currency": "USD",
+            "localCurrency": "CZK"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU pricing"
+          },
+          "coordinates": {
+            "lat": 50.0755,
+            "lng": 14.4378
+          }
+        },
+        {
+          "city": "Budapest",
+          "country": "Hungary",
+          "region": "Europe",
+          "pricing": {
+            "low": 1200,
+            "high": 2500,
+            "typical": 1800,
+            "currency": "USD",
+            "localCurrency": "HUF"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Value EU"
+          },
+          "coordinates": {
+            "lat": 47.4979,
+            "lng": 19.0402
+          }
+        },
+        {
+          "city": "Warsaw",
+          "country": "Poland",
+          "region": "Europe",
+          "pricing": {
+            "low": 1300,
+            "high": 2700,
+            "typical": 1900,
+            "currency": "USD",
+            "localCurrency": "PLN"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Growing market"
+          },
+          "coordinates": {
+            "lat": 52.2297,
+            "lng": 21.0122
+          }
+        },
+        {
+          "city": "Dubai",
+          "country": "UAE",
+          "region": "Middle East",
+          "pricing": {
+            "low": 2500,
+            "high": 4500,
+            "typical": 3400,
+            "currency": "USD",
+            "localCurrency": "AED"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Premium clinics"
+          },
+          "coordinates": {
+            "lat": 25.2048,
+            "lng": 55.2708
+          }
+        },
+        {
+          "city": "Tokyo",
+          "country": "Japan",
+          "region": "East Asia",
+          "pricing": {
+            "low": 2200,
+            "high": 4000,
+            "typical": 3000,
+            "currency": "USD",
+            "localCurrency": "JPY"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "High quality"
+          },
+          "coordinates": {
+            "lat": 35.6895,
+            "lng": 139.6917
+          }
+        },
+        {
+          "city": "Barcelona",
+          "country": "Spain",
+          "region": "Europe",
+          "pricing": {
+            "low": 1600,
+            "high": 3200,
+            "typical": 2300,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU average"
+          },
+          "coordinates": {
+            "lat": 41.3851,
+            "lng": 2.1734
+          }
+        },
+        {
+          "city": "London",
+          "country": "UK",
+          "region": "Europe",
+          "pricing": {
+            "low": 2800,
+            "high": 5000,
+            "typical": 3800,
+            "currency": "USD",
+            "localCurrency": "GBP"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Very high cost"
+          },
+          "coordinates": {
+            "lat": 51.5074,
+            "lng": -0.1278
+          }
+        },
+        {
+          "city": "Paris",
+          "country": "France",
+          "region": "Europe",
+          "pricing": {
+            "low": 2600,
+            "high": 4800,
+            "typical": 3600,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Premium EU"
+          },
+          "coordinates": {
+            "lat": 48.8566,
+            "lng": 2.3522
+          }
+        },
+        {
+          "city": "Los Angeles",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 3500,
+            "high": 6500,
+            "typical": 5000,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Expensive"
+          },
+          "coordinates": {
+            "lat": 34.0522,
+            "lng": -118.2437
+          }
+        },
+        {
+          "city": "New York City",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 3800,
+            "high": 7000,
+            "typical": 5400,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Implant, crown",
+            "excluded": "Bone graft",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Highest US"
+          },
+          "coordinates": {
+            "lat": 40.7128,
+            "lng": -74.006
+          }
+        }
+      ]
+    },
+    {
+      "id": "breast-augmentation",
+      "name": "Breast Augmentation",
+      "category": "Cosmetic",
+      "cities": [
+        {
+          "city": "Bangkok",
+          "country": "Thailand",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 3500,
+            "high": 7000,
+            "typical": 5200,
+            "currency": "USD",
+            "localCurrency": "THB"
+          },
+          "details": {
+            "included": "Surgeon, implants, anesthesia",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinic sites",
+            "notes": "Very popular"
+          },
+          "coordinates": {
+            "lat": 13.7563,
+            "lng": 100.5018
+          }
+        },
+        {
+          "city": "Seoul",
+          "country": "South Korea",
+          "region": "East Asia",
+          "pricing": {
+            "low": 4500,
+            "high": 9000,
+            "typical": 6800,
+            "currency": "USD",
+            "localCurrency": "KRW"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "High-tech focus"
+          },
+          "coordinates": {
+            "lat": 37.5665,
+            "lng": 126.978
+          }
+        },
+        {
+          "city": "Istanbul",
+          "country": "Turkey",
+          "region": "Europe / ME",
+          "pricing": {
+            "low": 3000,
+            "high": 6000,
+            "typical": 4300,
+            "currency": "USD",
+            "localCurrency": "TRY"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Aggregators",
+            "notes": "Strong value"
+          },
+          "coordinates": {
+            "lat": 41.0082,
+            "lng": 28.9784
+          }
+        },
+        {
+          "city": "Ho Chi Minh City",
+          "country": "Vietnam",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 2800,
+            "high": 5500,
+            "typical": 4000,
+            "currency": "USD",
+            "localCurrency": "VND"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Variable quality"
+          },
+          "coordinates": {
+            "lat": 10.8231,
+            "lng": 106.6297
+          }
+        },
+        {
+          "city": "Kuala Lumpur",
+          "country": "Malaysia",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 3500,
+            "high": 6500,
+            "typical": 4800,
+            "currency": "USD",
+            "localCurrency": "MYR"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Mid-range"
+          },
+          "coordinates": {
+            "lat": 3.139,
+            "lng": 101.6869
+          }
+        },
+        {
+          "city": "Delhi",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 3000,
+            "high": 5500,
+            "typical": 4200,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Surgeon variance"
+          },
+          "coordinates": {
+            "lat": 28.7041,
+            "lng": 77.1025
+          }
+        },
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 3200,
+            "high": 5800,
+            "typical": 4500,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Similar to Delhi"
+          },
+          "coordinates": {
+            "lat": 19.076,
+            "lng": 72.8777
+          }
+        },
+        {
+          "city": "Mexico City",
+          "country": "Mexico",
+          "region": "Latin America",
+          "pricing": {
+            "low": 3800,
+            "high": 7200,
+            "typical": 5500,
+            "currency": "USD",
+            "localCurrency": "MXN"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Popular with US"
+          },
+          "coordinates": {
+            "lat": 19.4326,
+            "lng": -99.1332
+          }
+        },
+        {
+          "city": "Medellín",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 3500,
+            "high": 7000,
+            "typical": 5200,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Cosmetic hub"
+          },
+          "coordinates": {
+            "lat": 6.2442,
+            "lng": -75.5812
+          }
+        },
+        {
+          "city": "Bogotá",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 3600,
+            "high": 7200,
+            "typical": 5400,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Comparable to Medellín"
+          },
+          "coordinates": {
+            "lat": 4.711,
+            "lng": -74.0721
+          }
+        },
+        {
+          "city": "Prague",
+          "country": "Czech Rep.",
+          "region": "Europe",
+          "pricing": {
+            "low": 4500,
+            "high": 8500,
+            "typical": 6300,
+            "currency": "USD",
+            "localCurrency": "CZK"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU standard"
+          },
+          "coordinates": {
+            "lat": 50.0755,
+            "lng": 14.4378
+          }
+        },
+        {
+          "city": "Budapest",
+          "country": "Hungary",
+          "region": "Europe",
+          "pricing": {
+            "low": 4200,
+            "high": 8000,
+            "typical": 6000,
+            "currency": "USD",
+            "localCurrency": "HUF"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Value EU"
+          },
+          "coordinates": {
+            "lat": 47.4979,
+            "lng": 19.0402
+          }
+        },
+        {
+          "city": "Warsaw",
+          "country": "Poland",
+          "region": "Europe",
+          "pricing": {
+            "low": 4400,
+            "high": 8200,
+            "typical": 6100,
+            "currency": "USD",
+            "localCurrency": "PLN"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Growing market"
+          },
+          "coordinates": {
+            "lat": 52.2297,
+            "lng": 21.0122
+          }
+        },
+        {
+          "city": "Dubai",
+          "country": "UAE",
+          "region": "Middle East",
+          "pricing": {
+            "low": 7000,
+            "high": 12000,
+            "typical": 9500,
+            "currency": "USD",
+            "localCurrency": "AED"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Luxury clinics"
+          },
+          "coordinates": {
+            "lat": 25.2048,
+            "lng": 55.2708
+          }
+        },
+        {
+          "city": "Tokyo",
+          "country": "Japan",
+          "region": "East Asia",
+          "pricing": {
+            "low": 6000,
+            "high": 11000,
+            "typical": 8200,
+            "currency": "USD",
+            "localCurrency": "JPY"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Conservative aesthetic"
+          },
+          "coordinates": {
+            "lat": 35.6895,
+            "lng": 139.6917
+          }
+        },
+        {
+          "city": "Barcelona",
+          "country": "Spain",
+          "region": "Europe",
+          "pricing": {
+            "low": 4800,
+            "high": 9000,
+            "typical": 6700,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU average"
+          },
+          "coordinates": {
+            "lat": 41.3851,
+            "lng": 2.1734
+          }
+        },
+        {
+          "city": "London",
+          "country": "UK",
+          "region": "Europe",
+          "pricing": {
+            "low": 6500,
+            "high": 12000,
+            "typical": 9200,
+            "currency": "USD",
+            "localCurrency": "GBP"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Very high cost"
+          },
+          "coordinates": {
+            "lat": 51.5074,
+            "lng": -0.1278
+          }
+        },
+        {
+          "city": "Paris",
+          "country": "France",
+          "region": "Europe",
+          "pricing": {
+            "low": 6200,
+            "high": 11500,
+            "typical": 8800,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Premium EU"
+          },
+          "coordinates": {
+            "lat": 48.8566,
+            "lng": 2.3522
+          }
+        },
+        {
+          "city": "Los Angeles",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 9000,
+            "high": 16000,
+            "typical": 12500,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Celebrity market"
+          },
+          "coordinates": {
+            "lat": 34.0522,
+            "lng": -118.2437
+          }
+        },
+        {
+          "city": "New York City",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 9500,
+            "high": 17000,
+            "typical": 13000,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Surgeon, implants",
+            "excluded": "Revisions",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Highest US"
+          },
+          "coordinates": {
+            "lat": 40.7128,
+            "lng": -74.006
+          }
+        }
+      ]
+    },
+    {
+      "id": "lasik",
+      "name": "LASIK",
+      "category": "Vision",
+      "cities": [
+        {
+          "city": "Bangkok",
+          "country": "Thailand",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 900,
+            "high": 1800,
+            "typical": 1300,
+            "currency": "USD",
+            "localCurrency": "THB"
+          },
+          "details": {
+            "included": "Pre-op exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "High",
+            "sourceType": "Clinic sites",
+            "notes": "Very competitive"
+          },
+          "coordinates": {
+            "lat": 13.7563,
+            "lng": 100.5018
+          }
+        },
+        {
+          "city": "Seoul",
+          "country": "South Korea",
+          "region": "East Asia",
+          "pricing": {
+            "low": 1200,
+            "high": 2500,
+            "typical": 1800,
+            "currency": "USD",
+            "localCurrency": "KRW"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Advanced tech"
+          },
+          "coordinates": {
+            "lat": 37.5665,
+            "lng": 126.978
+          }
+        },
+        {
+          "city": "Istanbul",
+          "country": "Turkey",
+          "region": "Europe / ME",
+          "pricing": {
+            "low": 800,
+            "high": 1600,
+            "typical": 1200,
+            "currency": "USD",
+            "localCurrency": "TRY"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "High",
+            "sourceType": "Aggregators",
+            "notes": "Strong value"
+          },
+          "coordinates": {
+            "lat": 41.0082,
+            "lng": 28.9784
+          }
+        },
+        {
+          "city": "Ho Chi Minh City",
+          "country": "Vietnam",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 700,
+            "high": 1500,
+            "typical": 1100,
+            "currency": "USD",
+            "localCurrency": "VND"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Large variance"
+          },
+          "coordinates": {
+            "lat": 10.8231,
+            "lng": 106.6297
+          }
+        },
+        {
+          "city": "Kuala Lumpur",
+          "country": "Malaysia",
+          "region": "Southeast Asia",
+          "pricing": {
+            "low": 900,
+            "high": 1900,
+            "typical": 1400,
+            "currency": "USD",
+            "localCurrency": "MYR"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Mid-range"
+          },
+          "coordinates": {
+            "lat": 3.139,
+            "lng": 101.6869
+          }
+        },
+        {
+          "city": "Delhi",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 700,
+            "high": 1400,
+            "typical": 1000,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Cost leader"
+          },
+          "coordinates": {
+            "lat": 28.7041,
+            "lng": 77.1025
+          }
+        },
+        {
+          "city": "Mumbai",
+          "country": "India",
+          "region": "South Asia",
+          "pricing": {
+            "low": 750,
+            "high": 1500,
+            "typical": 1100,
+            "currency": "USD",
+            "localCurrency": "INR"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Similar to Delhi"
+          },
+          "coordinates": {
+            "lat": 19.076,
+            "lng": 72.8777
+          }
+        },
+        {
+          "city": "Mexico City",
+          "country": "Mexico",
+          "region": "Latin America",
+          "pricing": {
+            "low": 900,
+            "high": 1800,
+            "typical": 1350,
+            "currency": "USD",
+            "localCurrency": "MXN"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "US overflow"
+          },
+          "coordinates": {
+            "lat": 19.4326,
+            "lng": -99.1332
+          }
+        },
+        {
+          "city": "Medellín",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 850,
+            "high": 1700,
+            "typical": 1250,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Vision tourism"
+          },
+          "coordinates": {
+            "lat": 6.2442,
+            "lng": -75.5812
+          }
+        },
+        {
+          "city": "Bogotá",
+          "country": "Colombia",
+          "region": "Latin America",
+          "pricing": {
+            "low": 900,
+            "high": 1750,
+            "typical": 1300,
+            "currency": "USD",
+            "localCurrency": "COP"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Similar to Medellín"
+          },
+          "coordinates": {
+            "lat": 4.711,
+            "lng": -74.0721
+          }
+        },
+        {
+          "city": "Prague",
+          "country": "Czech Rep.",
+          "region": "Europe",
+          "pricing": {
+            "low": 1100,
+            "high": 2200,
+            "typical": 1600,
+            "currency": "USD",
+            "localCurrency": "CZK"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU pricing"
+          },
+          "coordinates": {
+            "lat": 50.0755,
+            "lng": 14.4378
+          }
+        },
+        {
+          "city": "Budapest",
+          "country": "Hungary",
+          "region": "Europe",
+          "pricing": {
+            "low": 1000,
+            "high": 2100,
+            "typical": 1500,
+            "currency": "USD",
+            "localCurrency": "HUF"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Aggregators",
+            "notes": "Value EU"
+          },
+          "coordinates": {
+            "lat": 47.4979,
+            "lng": 19.0402
+          }
+        },
+        {
+          "city": "Warsaw",
+          "country": "Poland",
+          "region": "Europe",
+          "pricing": {
+            "low": 1100,
+            "high": 2300,
+            "typical": 1650,
+            "currency": "USD",
+            "localCurrency": "PLN"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Growing market"
+          },
+          "coordinates": {
+            "lat": 52.2297,
+            "lng": 21.0122
+          }
+        },
+        {
+          "city": "Dubai",
+          "country": "UAE",
+          "region": "Middle East",
+          "pricing": {
+            "low": 2000,
+            "high": 3500,
+            "typical": 2600,
+            "currency": "USD",
+            "localCurrency": "AED"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Premium clinics"
+          },
+          "coordinates": {
+            "lat": 25.2048,
+            "lng": 55.2708
+          }
+        },
+        {
+          "city": "Tokyo",
+          "country": "Japan",
+          "region": "East Asia",
+          "pricing": {
+            "low": 1800,
+            "high": 3200,
+            "typical": 2400,
+            "currency": "USD",
+            "localCurrency": "JPY"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "Conservative criteria"
+          },
+          "coordinates": {
+            "lat": 35.6895,
+            "lng": 139.6917
+          }
+        },
+        {
+          "city": "Barcelona",
+          "country": "Spain",
+          "region": "Europe",
+          "pricing": {
+            "low": 1200,
+            "high": 2400,
+            "typical": 1750,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "Medium",
+            "sourceType": "Clinics",
+            "notes": "EU average"
+          },
+          "coordinates": {
+            "lat": 41.3851,
+            "lng": 2.1734
+          }
+        },
+        {
+          "city": "London",
+          "country": "UK",
+          "region": "Europe",
+          "pricing": {
+            "low": 2000,
+            "high": 4000,
+            "typical": 3000,
+            "currency": "USD",
+            "localCurrency": "GBP"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Very expensive"
+          },
+          "coordinates": {
+            "lat": 51.5074,
+            "lng": -0.1278
+          }
+        },
+        {
+          "city": "Paris",
+          "country": "France",
+          "region": "Europe",
+          "pricing": {
+            "low": 1900,
+            "high": 3800,
+            "typical": 2850,
+            "currency": "USD",
+            "localCurrency": "EUR"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "High",
+            "sourceType": "Clinics",
+            "notes": "Premium EU"
+          },
+          "coordinates": {
+            "lat": 48.8566,
+            "lng": 2.3522
+          }
+        },
+        {
+          "city": "Los Angeles",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 3000,
+            "high": 5000,
+            "typical": 4000,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Expensive"
+          },
+          "coordinates": {
+            "lat": 34.0522,
+            "lng": -118.2437
+          }
+        },
+        {
+          "city": "New York City",
+          "country": "USA",
+          "region": "North America",
+          "pricing": {
+            "low": 3200,
+            "high": 5500,
+            "typical": 4300,
+            "currency": "USD",
+            "localCurrency": "USD"
+          },
+          "details": {
+            "included": "Exam, surgery",
+            "excluded": "Enhancements",
+            "confidence": "High",
+            "sourceType": "US clinics",
+            "notes": "Highest US"
+          },
+          "coordinates": {
+            "lat": 40.7128,
+            "lng": -74.006
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2026-01-18",
+    "source": "Google Sheets Export",
+    "scope": "MVP v1 scope: 5 procedures × 20 cities",
+    "disclaimer": "Prices are indicative ranges for comparison only"
+  }
+}
