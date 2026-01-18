@@ -88,20 +88,48 @@ const els = {
    FLAGS
 ========================= */
 const COUNTRY_TO_ISO2 = {
+  Argentina: "AR",
   Australia: "AU",
+  Austria: "AT",
+  Belgium: "BE",
+  Brazil: "BR",
+  Bulgaria: "BG",
+  Canada: "CA",
+  China: "CN",
   Colombia: "CO",
+  Croatia: "HR",
   "Czech Rep.": "CZ",
   "Czech Republic": "CZ",
+  Denmark: "DK",
   Egypt: "EG",
+  Estonia: "EE",
+  Finland: "FI",
   France: "FR",
+  Germany: "DE",
+  Greece: "GR",
   Hungary: "HU",
   India: "IN",
+  Ireland: "IE",
+  Italy: "IT",
   Japan: "JP",
+  Kazakhstan: "KZ",
+  Latvia: "LV",
+  Lithuania: "LT",
+  Luxembourg: "LU",
   Malaysia: "MY",
   Mexico: "MX",
+  Netherlands: "NL",
   Poland: "PL",
+  Portugal: "PT",
+  Romania: "RO",
+  Russia: "RU",
+  Slovakia: "SK",
+  Slovenia: "SI",
   "South Korea": "KR",
   Spain: "ES",
+  Sweden: "SE",
+  Switzerland: "CH",
+  Taiwan: "TW",
   Thailand: "TH",
   Turkey: "TR",
   UAE: "AE",
@@ -135,12 +163,35 @@ function stripParens(s) {
 
 function procedureIcon(cleanName) {
   const key = cleanName.toLowerCase();
+
+  // Cosmetic procedures
   if (key.includes("breast augmentation")) return "🍒";
-  if (key.includes("colonoscopy")) return "🧪";
   if (key.includes("rhinoplasty")) return "👃";
   if (key.includes("hair transplant")) return "💇";
-  if (key.includes("dental implant")) return "🦷";
+  if (key.includes("liposuction")) return "💪";
+  if (key.includes("tummy tuck")) return "🤰";
+  if (key.includes("brazilian butt lift")) return "🍑";
+  if (key.includes("facelift")) return "🧖";
+
+  // Diagnostic & Vision
+  if (key.includes("colonoscopy")) return "🔬";
   if (key.includes("lasik")) return "👁️";
+
+  // Dental
+  if (key.includes("dental implant")) return "🦷";
+  if (key.includes("dental veneers")) return "😁";
+
+  // Orthopedic
+  if (key.includes("knee replacement")) return "🦵";
+  if (key.includes("hip replacement")) return "🦴";
+
+  // Weight Loss
+  if (key.includes("bariatric surgery")) return "⚖️";
+  if (key.includes("gastric bypass")) return "🏥";
+
+  // Fertility
+  if (key.includes("ivf")) return "👶";
+
   return "✨";
 }
 
@@ -233,10 +284,11 @@ fetch("data.json")
     populateCountryDropdown(ALL);
     wireUI();
 
-    // IMPORTANT: show nothing until a procedure is chosen
-    clearMarkers();
-    renderResults([]);
-    renderCompareBox([]);
+    // Set "Dental Implant" as default and load pins on map
+    if (els.procedureSelect) {
+      els.procedureSelect.value = "Dental Implant";
+      applyFiltersAndRender();
+    }
   })
   .catch((err) => console.error("Failed to load data.json", err));
 
@@ -429,6 +481,11 @@ function renderMarkers(data) {
     el.addEventListener("click", () => {
       map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
       marker.togglePopup();
+      // Also add to compare selection
+      toggleCompare(d._id);
+      renderMarkers(currentFiltered);
+      renderResults(currentFiltered);
+      renderCompareBox(currentFiltered);
     });
 
     markers.push(marker);
@@ -477,8 +534,8 @@ function renderResults(data) {
 
     item.innerHTML = `
       <div class="result-left">
-        <div class="result-city">${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
-        <div class="result-meta">${flag ? flag + " " : ""}${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
+        <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
+        <div class="result-meta">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
     `;
@@ -537,9 +594,10 @@ function renderCompareBox() {
     const card = document.createElement("div");
     card.className = "compare-card";
     card.innerHTML = `
-      <div class="compare-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
-      <div class="compare-line">${escapeHtml(d.country)}</div>
-      <div class="compare-line">${escapeHtml(procedureLabel(d.procedure))}</div>
+      <div class="compare-card-left">
+        <div class="compare-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
+        <div class="compare-line">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
+      </div>
       <div class="compare-price">${price !== null ? `$${price.toLocaleString()}` : "N/A"}</div>
     `;
     els.compareGrid.appendChild(card);
