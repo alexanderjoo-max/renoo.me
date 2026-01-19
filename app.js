@@ -26,7 +26,12 @@ const els = {
   resultsList: document.getElementById("resultsList"),
   compareClear: document.getElementById("compareClear"),
   compareEmpty: document.getElementById("compareEmpty"),
-  compareGrid: document.getElementById("compareGrid")
+  compareGrid: document.getElementById("compareGrid"),
+  floatingCompareBar: document.getElementById("floatingCompareBar"),
+  floatingCompareCount: document.getElementById("floatingCompareCount"),
+  floatingComparePreview: document.getElementById("floatingComparePreview"),
+  floatingCompareClear: document.getElementById("floatingCompareClear"),
+  floatingCompareButton: document.getElementById("floatingCompareButton")
 };
 
 /* =========================
@@ -619,13 +624,16 @@ function renderCompareBox() {
     }
 
     els.compareGrid.appendChild(diff);
-    
+
     // Fit map to show both selected cities
     fitMapToCompare(picks[0], picks[1]);
   } else {
     // Re-render markers to update highlighting
     renderMarkers(currentFiltered);
   }
+
+  // Update floating compare bar
+  updateFloatingCompareBar();
 }
 
 function fitMapToCompare(city1, city2) {
@@ -644,6 +652,74 @@ function fitMapToCompare(city1, city2) {
     padding: { top: 80, bottom: 80, left: 80, right: 80 },
     duration: 1000,
     maxZoom: 10 // Prevent zooming in too close
+  });
+}
+
+/* =========================
+   FLOATING COMPARE BAR
+========================= */
+function updateFloatingCompareBar() {
+  if (!els.floatingCompareBar) return;
+
+  const picks = compareSelection
+    .map((id) => ALL.find((d) => d._id === id))
+    .filter(Boolean);
+
+  const count = picks.length;
+
+  // Update count
+  if (els.floatingCompareCount) {
+    els.floatingCompareCount.textContent = count;
+  }
+
+  // Update preview
+  if (els.floatingComparePreview) {
+    els.floatingComparePreview.innerHTML = "";
+
+    picks.forEach((d) => {
+      const flag = flagFromCountry(d.country);
+      const price = Number.isFinite(d.price_usd) ? d.price_usd : null;
+
+      const item = document.createElement("div");
+      item.className = "floating-compare-preview-item";
+      item.innerHTML = `
+        <span class="floating-compare-preview-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}</span>
+        <span class="floating-compare-preview-price">${price !== null ? `$${price.toLocaleString()}` : "N/A"}</span>
+      `;
+      els.floatingComparePreview.appendChild(item);
+    });
+  }
+
+  // Enable/disable button
+  if (els.floatingCompareButton) {
+    els.floatingCompareButton.disabled = count < 2;
+  }
+
+  // Show/hide bar with animation
+  if (count > 0) {
+    els.floatingCompareBar.classList.add("visible");
+  } else {
+    els.floatingCompareBar.classList.remove("visible");
+  }
+}
+
+// Clear button handler
+if (els.floatingCompareClear) {
+  els.floatingCompareClear.addEventListener("click", () => {
+    compareSelection.length = 0;
+    renderResults(currentFiltered);
+    renderCompareBox();
+    renderMarkers(currentFiltered);
+  });
+}
+
+// Compare button handler - scroll to compare section
+if (els.floatingCompareButton) {
+  els.floatingCompareButton.addEventListener("click", () => {
+    const compareSection = document.getElementById("compareBox");
+    if (compareSection) {
+      compareSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   });
 }
 
