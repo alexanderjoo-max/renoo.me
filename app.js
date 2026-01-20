@@ -174,6 +174,7 @@ function procedureIcon(cleanName) {
   if (key.includes("tummy tuck")) return "🤰";
   if (key.includes("brazilian butt lift")) return "🍑";
   if (key.includes("facelift")) return "🧖";
+  if (key.includes("botox")) return "💉";
 
   // Diagnostic & Vision
   if (key.includes("colonoscopy")) return "🔬";
