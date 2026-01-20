@@ -467,34 +467,46 @@ function renderMarkers(data) {
       el.style.boxShadow = "0 4px 10px rgba(0,0,0,0.18)";
     }
 
+    // Check if city has clinic data
+    const procedureName = procedureLabel(d.procedure);
+    const hasClinicData = clinicData.some(clinic =>
+      clinic.City?.toLowerCase() === d.city.toLowerCase() &&
+      clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
+    );
+
     const popupHTML = `
       <div>
         <div class="popup-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
         <div class="popup-row">${escapeHtml(d.country)}</div>
         <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
         <div class="popup-row"><strong>Typical price:</strong> ${Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"}</div>
+        ${hasClinicData ? `<div class="popup-view-clinics" data-city-id="${d._id}">[ View clinics → ]</div>` : ''}
       </div>
     `;
 
+    const popup = new mapboxgl.Popup({ offset: 22 }).setHTML(popupHTML);
+
     const marker = new mapboxgl.Marker(el)
       .setLngLat([d.lng, d.lat])
-      .setPopup(new mapboxgl.Popup({ offset: 22 }).setHTML(popupHTML))
+      .setPopup(popup)
       .addTo(map);
+
+    // Add click handler for "View clinics" button in popup
+    if (hasClinicData) {
+      popup.on('open', () => {
+        const viewClinicsBtn = document.querySelector(`[data-city-id="${d._id}"]`);
+        if (viewClinicsBtn) {
+          viewClinicsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openClinicModal(d);
+          });
+        }
+      });
+    }
 
     el.addEventListener("click", () => {
       map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
       marker.togglePopup();
-
-      // Check if city has clinic data before opening modal
-      const procedureName = procedureLabel(d.procedure);
-      const hasClinicData = clinicData.some(clinic =>
-        clinic.City?.toLowerCase() === d.city.toLowerCase() &&
-        clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
-      );
-
-      if (hasClinicData) {
-        openClinicModal(d);
-      }
     });
 
     markers.push(marker);
