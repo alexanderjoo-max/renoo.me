@@ -484,11 +484,8 @@ function renderMarkers(data) {
     el.addEventListener("click", () => {
       map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
       marker.togglePopup();
-      // Also add to compare selection
-      toggleCompare(d._id);
-      renderMarkers(currentFiltered);
-      renderResults(currentFiltered);
-      renderCompareBox(currentFiltered);
+      // Open clinic modal
+      openClinicModal(d);
     });
 
     markers.push(marker);
@@ -539,14 +536,13 @@ function renderResults(data) {
       <div class="result-left">
         <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
         <div class="result-meta">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
+        <div class="result-view-clinics">[ View clinics → ]</div>
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
     `;
 
     item.addEventListener("click", () => {
-      toggleCompare(d._id);
-      renderResults(currentFiltered);
-      renderCompareBox(currentFiltered);
+      openClinicModal(d);
     });
 
     els.resultsList.appendChild(item);
@@ -686,3 +682,147 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
+/* =========================
+   CLINIC MODAL
+========================= */
+let clinicData = [];
+
+// Load clinic CSV file
+async function loadClinicData() {
+  try {
+    const response = await fetch('clinics_complete.csv');
+    const text = await response.text();
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',');
+
+    clinicData = lines.slice(1).map(line => {
+      // Handle CSV with quoted fields
+      const values = [];
+      let current = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          values.push(current.trim());
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      values.push(current.trim());
+
+      const obj = {};
+      headers.forEach((h, i) => {
+        obj[h] = values[i] || '';
+      });
+      return obj;
+    });
+  } catch (e) {
+    console.error('Failed to load clinics_complete.csv:', e);
+  }
+}
+
+// Initialize modal elements
+const clinicModal = document.getElementById('clinicModal');
+const clinicModalBack = document.getElementById('clinicModalBack');
+const clinicModalClose = document.getElementById('clinicModalClose');
+const clinicModalTitle = document.getElementById('clinicModalTitle');
+const clinicModalBody = document.getElementById('clinicModalBody');
+
+// Close modal handlers
+function closeClinicModal() {
+  clinicModal.classList.remove('visible');
+}
+
+clinicModalClose?.addEventListener('click', closeClinicModal);
+clinicModalBack?.addEventListener('click', closeClinicModal);
+clinicModal?.querySelector('.clinic-modal-overlay')?.addEventListener('click', closeClinicModal);
+
+// Open clinic modal with city data
+function openClinicModal(cityData) {
+  const procedure = els.procedureSelect?.value;
+  if (!procedure || !clinicData.length) return;
+
+  const cityName = cityData.city;
+  const country = cityData.country;
+  const procedureName = procedureLabel(procedure);
+
+  // Filter clinics for this city and procedure
+  const clinics = clinicData.filter(clinic =>
+    clinic.City?.toLowerCase() === cityName.toLowerCase() &&
+    clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
+  );
+
+  if (clinics.length === 0) {
+    return; // Don't open modal if no clinics
+  }
+
+  // Set modal title
+  const flag = flagFromCountry(country) || '';
+  clinicModalTitle.textContent = `${flag} ${cityName} · ${procedureName}`;
+
+  // Render clinics
+  clinicModalBody.innerHTML = clinics.map((clinic, idx) => {
+    const priceLow = parseFloat(clinic.Price_USD_Low);
+    const priceHigh = parseFloat(clinic.Price_USD_High);
+    const stars = '★★★★☆'; // 4 stars default
+    const reviews = Math.floor(Math.random() * 500 + 50); // Random reviews for demo
+
+    return `
+      <div class="clinic-card">
+        <div class="clinic-name">${escapeHtml(clinic.Clinic_Name)}</div>
+        <div class="clinic-price">$${priceLow.toLocaleString()} – $${priceHigh.toLocaleString()}</div>
+        <div class="clinic-rating">
+          <div class="clinic-stars">${stars}</div>
+          <div class="clinic-reviews">(${reviews})</div>
+        </div>
+        <div class="clinic-details-btn" onclick="toggleClinicDetails(${idx})">
+          [ Details → ]
+        </div>
+        <div class="clinic-details-content" id="clinicDetails${idx}">
+          <div class="clinic-info-row">
+            <span class="clinic-info-label">Address:</span>
+            ${escapeHtml(clinic.Address || 'Not available')}
+          </div>
+          <div class="clinic-info-row">
+            <span class="clinic-info-label">Phone:</span>
+            ${escapeHtml(clinic.Phone || 'Not available')}
+          </div>
+          <div class="clinic-info-row">
+            <span class="clinic-info-label">Email:</span>
+            ${escapeHtml(clinic.Email || 'Not available')}
+          </div>
+          ${clinic.Website ? `
+          <div class="clinic-info-row">
+            <span class="clinic-info-label">Website:</span>
+            ${escapeHtml(clinic.Website)}
+          </div>
+          ` : ''}
+          ${clinic.Certifications ? `
+          <div class="clinic-info-row">
+            <span class="clinic-info-label">Certifications:</span>
+            ${escapeHtml(clinic.Certifications)}
+          </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  clinicModal.classList.add('visible');
+}
+
+// Toggle clinic details
+window.toggleClinicDetails = function(idx) {
+  const details = document.getElementById(`clinicDetails${idx}`);
+  if (details) {
+    details.classList.toggle('visible');
+  }
+};
+
+// Load clinic data on init
+loadClinicData();

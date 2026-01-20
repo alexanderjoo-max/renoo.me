@@ -746,3 +746,208 @@ html, body {
     font-size: 12px;
   }
 }
+
+/* -------- Clinic Modal -------- */
+.clinic-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.clinic-modal.visible {
+  display: flex;
+}
+
+.clinic-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.clinic-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  background: #2f2f2f;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.clinic-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.clinic-modal-back,
+.clinic-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.clinic-modal-back:hover,
+.clinic-modal-close:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.clinic-modal-back {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.clinic-modal-close {
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.clinic-modal-title {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.clinic-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.clinic-card {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  transition: background 0.2s ease;
+}
+
+.clinic-card:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.clinic-card:last-child {
+  border-bottom: none;
+}
+
+.clinic-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.clinic-price {
+  font-size: 15px;
+  font-weight: 500;
+  color: #22c55e;
+  margin-bottom: 6px;
+}
+
+.clinic-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.clinic-stars {
+  color: #fbbf24;
+  font-size: 14px;
+}
+
+.clinic-reviews {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+}
+
+.clinic-details-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #3b82f6;
+  cursor: pointer;
+  margin-top: 4px;
+  padding: 4px 0;
+}
+
+.clinic-details-btn:hover {
+  color: #60a5fa;
+}
+
+.clinic-details-content {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: none;
+}
+
+.clinic-details-content.visible {
+  display: block;
+}
+
+.clinic-info-row {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.clinic-info-label {
+  color: rgba(255,255,255,0.5);
+  margin-right: 4px;
+}
+
+@media (max-width: 768px) {
+  .clinic-modal-content {
+    width: 95%;
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+
+  .clinic-modal-header {
+    padding: 16px 20px;
+  }
+
+  .clinic-modal-title {
+    font-size: 16px;
+  }
+
+  .clinic-card {
+    padding: 16px 20px;
+  }
+}
+
+.result-view-clinics {
+  font-size: 13px;
+  color: #3b82f6;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.result-view-clinics:hover {
+  color: #60a5fa;
+}
