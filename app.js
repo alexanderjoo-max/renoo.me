@@ -484,8 +484,17 @@ function renderMarkers(data) {
     el.addEventListener("click", () => {
       map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
       marker.togglePopup();
-      // Open clinic modal
-      openClinicModal(d);
+
+      // Check if city has clinic data before opening modal
+      const procedureName = procedureLabel(d.procedure);
+      const hasClinicData = clinicData.some(clinic =>
+        clinic.City?.toLowerCase() === d.city.toLowerCase() &&
+        clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
+      );
+
+      if (hasClinicData) {
+        openClinicModal(d);
+      }
     });
 
     markers.push(marker);
@@ -528,6 +537,13 @@ function renderResults(data) {
     const price = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
     const isCheapest = d._id === cheapestId;
 
+    // Check if this city has clinic data
+    const procedureName = procedureLabel(els.procedureSelect?.value);
+    const hasClinicData = clinicData.some(clinic =>
+      clinic.City?.toLowerCase() === d.city.toLowerCase() &&
+      clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
+    );
+
     const item = document.createElement("div");
     item.className = "result-item";
     if (compareSelection.includes(d._id)) item.classList.add("selected");
@@ -536,14 +552,16 @@ function renderResults(data) {
       <div class="result-left">
         <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
         <div class="result-meta">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
-        <div class="result-view-clinics">[ View clinics → ]</div>
+        ${hasClinicData ? '<div class="result-view-clinics">[ View clinics → ]</div>' : ''}
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
     `;
 
-    item.addEventListener("click", () => {
-      openClinicModal(d);
-    });
+    if (hasClinicData) {
+      item.addEventListener("click", () => {
+        openClinicModal(d);
+      });
+    }
 
     els.resultsList.appendChild(item);
   }
@@ -744,12 +762,8 @@ clinicModal?.querySelector('.clinic-modal-overlay')?.addEventListener('click', c
 
 // Open clinic modal with city data
 function openClinicModal(cityData) {
-  console.log('openClinicModal called', cityData, 'clinicData length:', clinicData.length);
   const procedure = els.procedureSelect?.value;
-  if (!procedure || !clinicData.length) {
-    console.log('Early return - procedure:', procedure, 'clinicData.length:', clinicData.length);
-    return;
-  }
+  if (!procedure || !clinicData.length) return;
 
   const cityName = cityData.city;
   const country = cityData.country;
@@ -761,10 +775,7 @@ function openClinicModal(cityData) {
     clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
   );
 
-  console.log('Filtered clinics:', clinics.length, 'for city:', cityName, 'procedure:', procedureName);
-
   if (clinics.length === 0) {
-    console.log('No clinics found for this city/procedure');
     return; // Don't open modal if no clinics
   }
 
