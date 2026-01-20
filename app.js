@@ -469,7 +469,7 @@ function renderMarkers(data) {
 
     // Check if city has clinic data
     const procedureName = procedureLabel(d.procedure);
-    const hasClinicData = clinicData.some(clinic =>
+    const hasClinicData = clinicData && clinicData.length > 0 && clinicData.some(clinic =>
       clinic.City?.toLowerCase() === d.city.toLowerCase() &&
       clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
     );
@@ -551,7 +551,7 @@ function renderResults(data) {
 
     // Check if this city has clinic data
     const procedureName = procedureLabel(els.procedureSelect?.value);
-    const hasClinicData = clinicData.some(clinic =>
+    const hasClinicData = clinicData && clinicData.length > 0 && clinicData.some(clinic =>
       clinic.City?.toLowerCase() === d.city.toLowerCase() &&
       clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
     );
@@ -854,5 +854,11 @@ window.toggleClinicDetails = function(idx) {
   }
 };
 
-// Load clinic data on init
-loadClinicData();
+// Load clinic data on init and re-render when loaded
+loadClinicData().then(() => {
+  // Re-render markers and results to show "View clinics" buttons
+  if (currentFiltered && currentFiltered.length > 0) {
+    renderMarkers(currentFiltered);
+    renderResults(currentFiltered);
+  }
+});
