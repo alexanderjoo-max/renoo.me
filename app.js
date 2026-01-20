@@ -297,9 +297,9 @@ fetch("data.json")
     populateCountryDropdown(ALL);
     wireUI();
 
-    // Set "Dental Implant" as default and load pins on map
+    // Set "Botox" as default and load pins on map
     if (els.procedureSelect) {
-      els.procedureSelect.value = "Dental Implant";
+      els.procedureSelect.value = "Botox";
       applyFiltersAndRender();
     }
   })
