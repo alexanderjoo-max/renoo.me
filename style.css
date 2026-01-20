@@ -39,8 +39,8 @@ html, body {
 .header-content {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 14px 20px;
+  gap: 12px;
+  padding: 10px 16px;
 }
 
 .header-logo {
@@ -54,7 +54,7 @@ html, body {
 }
 
 .header-search {
-  flex: 1;
+  flex: 1.5;
 }
 
 .procedure-select {
@@ -1299,7 +1299,7 @@ html, body {
 .compare-toggle-label {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
   user-select: none;
 }
@@ -1310,18 +1310,18 @@ html, body {
 
 .compare-toggle-slider {
   position: relative;
-  width: 44px;
-  height: 24px;
+  width: 36px;
+  height: 20px;
   background: rgba(255,255,255,0.2);
-  border-radius: 12px;
+  border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 .compare-toggle-slider::before {
   content: '';
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: #fff;
   top: 3px;
@@ -1334,11 +1334,11 @@ html, body {
 }
 
 .compare-toggle-input:checked + .compare-toggle-slider::before {
-  transform: translateX(20px);
+  transform: translateX(16px);
 }
 
 .compare-toggle-text {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   color: rgba(255,255,255,0.9);
   white-space: nowrap;
