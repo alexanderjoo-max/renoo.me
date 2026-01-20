@@ -468,7 +468,7 @@ function renderMarkers(data) {
     }
 
     // Check if city has clinic data
-    const procedureName = procedureLabel(d.procedure);
+    const procedureName = stripParens(d.procedure);
     const hasClinicData = clinicData && clinicData.length > 0 && clinicData.some(clinic =>
       clinic.City?.toLowerCase() === d.city.toLowerCase() &&
       clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
@@ -550,7 +550,7 @@ function renderResults(data) {
     const isCheapest = d._id === cheapestId;
 
     // Check if this city has clinic data
-    const procedureName = procedureLabel(els.procedureSelect?.value);
+    const procedureName = stripParens(els.procedureSelect?.value);
     const hasClinicData = clinicData && clinicData.length > 0 && clinicData.some(clinic =>
       clinic.City?.toLowerCase() === d.city.toLowerCase() &&
       clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
