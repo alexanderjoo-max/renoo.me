@@ -467,20 +467,13 @@ function renderMarkers(data) {
       el.style.boxShadow = "0 4px 10px rgba(0,0,0,0.18)";
     }
 
-    // Check if city has clinic data
-    const procedureName = stripParens(d.procedure);
-    const hasClinicData = clinicData && clinicData.length > 0 && clinicData.some(clinic =>
-      clinic.City?.toLowerCase() === d.city.toLowerCase() &&
-      clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
-    );
-
     const popupHTML = `
       <div>
         <div class="popup-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
         <div class="popup-row">${escapeHtml(d.country)}</div>
         <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
         <div class="popup-row"><strong>Typical price:</strong> ${Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"}</div>
-        ${hasClinicData ? `<div class="popup-view-clinics" data-city-id="${d._id}">[ View clinics → ]</div>` : ''}
+        <div class="popup-view-clinics" data-city-id="${d._id}">[ View clinics → ]</div>
       </div>
     `;
 
@@ -492,18 +485,16 @@ function renderMarkers(data) {
       .addTo(map);
 
     // Add click handler for "View clinics" button in popup
-    if (hasClinicData) {
-      popup.on('open', () => {
-        const viewClinicsBtn = document.querySelector(`[data-city-id="${d._id}"]`);
-        if (viewClinicsBtn) {
-          viewClinicsBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
-            window.location.href = url;
-          });
-        }
-      });
-    }
+    popup.on('open', () => {
+      const viewClinicsBtn = document.querySelector(`[data-city-id="${d._id}"]`);
+      if (viewClinicsBtn) {
+        viewClinicsBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
+          window.location.href = url;
+        });
+      }
+    });
 
     el.addEventListener("click", () => {
       map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
@@ -550,13 +541,6 @@ function renderResults(data) {
     const price = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
     const isCheapest = d._id === cheapestId;
 
-    // Check if this city has clinic data
-    const procedureName = stripParens(els.procedureSelect?.value);
-    const hasClinicData = clinicData && clinicData.length > 0 && clinicData.some(clinic =>
-      clinic.City?.toLowerCase() === d.city.toLowerCase() &&
-      clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
-    );
-
     const item = document.createElement("div");
     item.className = "result-item";
     if (compareSelection.includes(d._id)) item.classList.add("selected");
@@ -565,17 +549,15 @@ function renderResults(data) {
       <div class="result-left">
         <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
         <div class="result-meta">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
-        ${hasClinicData ? '<div class="result-view-clinics">[ View clinics → ]</div>' : ''}
+        <div class="result-view-clinics">[ View clinics → ]</div>
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
     `;
 
-    if (hasClinicData) {
-      item.addEventListener("click", () => {
-        const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
-        window.location.href = url;
-      });
-    }
+    item.addEventListener("click", () => {
+      const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
+      window.location.href = url;
+    });
 
     els.resultsList.appendChild(item);
   }

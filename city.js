@@ -151,7 +151,15 @@ function renderClinics() {
   const clinicList = document.getElementById('clinicList');
 
   if (clinics.length === 0) {
-    clinicList.innerHTML = '<p style="color: rgba(255,255,255,0.6);">No clinic details available yet for this location.</p>';
+    clinicList.innerHTML = `
+      <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 24px; text-align: center;">
+        <h3 style="font-size: 18px; font-weight: 600; margin: 0 0 12px 0; color: #fff;">We're building our ${cityName} clinic database!</h3>
+        <p style="color: rgba(255,255,255,0.8); margin: 0 0 20px 0; line-height: 1.6;">
+          We're currently adding detailed clinic information for ${cityName}. In the meantime, we can connect you with verified medical tourism providers in this area.
+        </p>
+        <button class="clinic-btn clinic-btn-primary" style="max-width: 300px; margin: 0 auto;">Get Personalized Recommendations</button>
+      </div>
+    `;
     return;
   }
 
