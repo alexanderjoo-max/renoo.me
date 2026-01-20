@@ -498,7 +498,8 @@ function renderMarkers(data) {
         if (viewClinicsBtn) {
           viewClinicsBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            openClinicModal(d);
+            const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
+            window.location.href = url;
           });
         }
       });
@@ -571,7 +572,8 @@ function renderResults(data) {
 
     if (hasClinicData) {
       item.addEventListener("click", () => {
-        openClinicModal(d);
+        const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
+        window.location.href = url;
       });
     }
 

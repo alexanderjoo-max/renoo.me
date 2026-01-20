@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>City - Renoo.me</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="city-page">
+  <!-- Header -->
+  <header class="city-header">
+    <button class="city-back-btn" id="cityBackBtn">← Back</button>
+    <div class="city-header-content">
+      <h1 class="city-title" id="cityTitle"></h1>
+      <div class="city-stats" id="cityStats"></div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="city-main">
+    <!-- City Info Blurb -->
+    <section class="city-info" id="cityInfo"></section>
+
+    <!-- Top Clinics -->
+    <section class="city-section">
+      <h2 class="section-title">Top Clinics</h2>
+      <div class="clinic-list" id="clinicList"></div>
+    </section>
+
+    <!-- Other Procedures -->
+    <section class="city-section">
+      <h2 class="section-title">Other Procedures in <span id="cityNameProcedures"></span></h2>
+      <div class="procedure-cards" id="procedureCards"></div>
+    </section>
+
+    <!-- Compare Cities -->
+    <section class="city-section">
+      <h2 class="section-title">Compare Other Cities</h2>
+      <div class="compare-cities" id="compareCities"></div>
+    </section>
+  </main>
+
+  <!-- Sticky CTA -->
+  <div class="sticky-cta" id="stickyCta">
+    <button class="cta-button">Contact Clinics</button>
+  </div>
+
+  <script src="city.js"></script>
+</body>
+</html>

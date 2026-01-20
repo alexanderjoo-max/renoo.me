@@ -966,3 +966,327 @@ html, body {
   color: #60a5fa;
   background: rgba(59, 130, 246, 0.1);
 }
+
+/* -------- City Page -------- */
+.city-page {
+  background: #1a1a1a;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.city-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #2f2f2f;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 16px 20px;
+}
+
+.city-back-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 12px;
+}
+
+.city-back-btn:hover {
+  color: #60a5fa;
+}
+
+.city-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.city-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+}
+
+.city-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.city-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 100px;
+}
+
+.city-info {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 32px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.6;
+}
+
+.city-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+}
+
+.clinic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.clinic-card-full {
+  background: #2f2f2f;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.clinic-card-full:hover {
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.clinic-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 12px;
+}
+
+.clinic-card-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 4px 0;
+}
+
+.clinic-card-price {
+  font-size: 20px;
+  font-weight: 600;
+  color: #22c55e;
+  white-space: nowrap;
+}
+
+.clinic-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.clinic-card-stars {
+  color: #fbbf24;
+  font-size: 16px;
+}
+
+.clinic-card-reviews {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+}
+
+.clinic-card-details {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.clinic-detail-row {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  gap: 8px;
+}
+
+.clinic-detail-label {
+  color: rgba(255,255,255,0.5);
+  min-width: 80px;
+}
+
+.clinic-card-footer {
+  display: flex;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.clinic-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.clinic-btn-primary {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.clinic-btn-primary:hover {
+  background: #2563eb;
+}
+
+.clinic-btn-secondary {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.clinic-btn-secondary:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.procedure-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.procedure-card {
+  background: #2f2f2f;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: #fff;
+}
+
+.procedure-card:hover {
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.procedure-card-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.procedure-card-name {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.procedure-card-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: #22c55e;
+}
+
+.compare-cities {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+
+.city-compare-card {
+  flex-shrink: 0;
+  width: 200px;
+  background: #2f2f2f;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: #fff;
+}
+
+.city-compare-card:hover {
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.city-compare-flag {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.city-compare-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.city-compare-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: #22c55e;
+}
+
+.city-compare-savings {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 4px;
+}
+
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #2f2f2f;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 16px 20px;
+  z-index: 100;
+}
+
+.cta-button {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  display: block;
+  padding: 16px 32px;
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cta-button:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .city-title {
+    font-size: 24px;
+  }
+
+  .city-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .clinic-card-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .procedure-cards {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
