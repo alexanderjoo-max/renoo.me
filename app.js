@@ -40,6 +40,9 @@ const els = {
   const handle = els.panelHandle;
   if (!panel || !handle) return;
 
+  // Also make swipe hint draggable
+  const swipeHint = document.querySelector('.swipe-hint');
+
   let startY = 0;
   let startH = 0;
   let dragging = false;
@@ -51,7 +54,8 @@ const els = {
     startY = e.clientY;
     startH = panel.getBoundingClientRect().height;
 
-    handle.setPointerCapture?.(e.pointerId);
+    const target = e.currentTarget;
+    target.setPointerCapture?.(e.pointerId);
 
     // prevent iOS overscroll / page pull-to-refresh while dragging
     document.documentElement.style.overscrollBehavior = "none";
@@ -82,6 +86,9 @@ const els = {
   };
 
   handle.addEventListener("pointerdown", onDown);
+  if (swipeHint) {
+    swipeHint.addEventListener("pointerdown", onDown);
+  }
   window.addEventListener("pointermove", onMove, { passive: false });
   window.addEventListener("pointerup", onUp);
 })();
