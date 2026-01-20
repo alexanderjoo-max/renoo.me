@@ -106,10 +106,10 @@ html, body {
   right: 20px;
   width: 380px;
   max-height: calc(100vh - 40px);
-  background: rgba(255,255,255,0.98);
-  border: 1px solid rgba(0,0,0,0.1);
+  background: #2f2f2f;
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
   z-index: 2;
   overflow: hidden;
   backdrop-filter: blur(20px);
@@ -142,14 +142,14 @@ html, body {
 
 .intro-text {
   font-size: 15px;
-  color: #717171;
+  color: rgba(255,255,255,0.7);
   line-height: 1.5;
   margin-bottom: 10px;
   font-weight: 400;
 }
 
 .intro-text strong {
-  color: #222222;
+  color: #ffffff;
   font-weight: 600;
   font-size: 26px;
   display: block;
@@ -160,7 +160,7 @@ html, body {
 .label {
   font-weight: 600;
   font-size: 16px;
-  color: #222222;
+  color: #ffffff;
   margin: 0 0 8px 0;
   text-transform: none;
   letter-spacing: normal;
@@ -171,8 +171,9 @@ html, body {
   box-sizing: border-box;
   padding: 12px 16px;
   border-radius: 12px;
-  border: 2px solid rgba(0,0,0,0.08);
-  background: #fff;
+  border: 2px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
   font-size: 15px;
   outline: none;
   transition: all 0.2s ease;
@@ -180,20 +181,25 @@ html, body {
 }
 
 .control:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.05);
   transform: translateY(-1px);
 }
 
 .control:hover:not(:focus) {
-  border-color: rgba(0,0,0,0.15);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.control option {
+  background: #2a2a2a;
+  color: #fff;
 }
 
 .section {
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px solid rgba(0,0,0,0.06);
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .section:first-of-type {
@@ -427,10 +433,10 @@ html, body {
 
 .compare-card{
   border: none;
-  border-top: 1px solid rgba(0,0,0,0.06);
+  border-top: 1px solid rgba(255,255,255,0.1);
   border-radius: 0;
   padding: 12px 14px;
-  background: #fff;
+  background: transparent;
   box-shadow: none;
   display: flex;
   justify-content: space-between;
@@ -450,7 +456,7 @@ html, body {
 .compare-title{
   font-weight: 400;
   font-size: 16px;
-  color: #222222;
+  color: #ffffff;
   margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -459,7 +465,7 @@ html, body {
 
 .compare-line{
   font-size: 14px;
-  color: #717171;
+  color: rgba(255,255,255,0.6);
   margin-top: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -471,7 +477,7 @@ html, body {
   margin-top: 0;
   font-weight: 400;
   font-size: 16px;
-  color: #222222;
+  color: #ffffff;
   white-space: nowrap;
 }
 
@@ -487,7 +493,7 @@ html, body {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  border-top: 1px solid rgba(0,0,0,0.06);
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 /* -------- Floating Compare Bar -------- */
