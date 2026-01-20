@@ -56,50 +56,34 @@
   <!-- SEO H1 (hidden but crawlable) -->
   <h1 class="sr-only">Compare Medical Procedure Prices Worldwide</h1>
 
-  <!-- LOGO OVER MAP -->
-  <div id="logo" aria-label="Renoo.me logo">
-    <img src="/logo.svg" alt="Renoo.me" />
-  </div>
-
   <!-- MAP -->
   <div id="map"></div>
 
-  <!-- FILTER PANEL -->
+  <!-- FIXED HEADER -->
+  <header id="fixedHeader" class="fixed-header">
+    <div class="header-content">
+      <div class="header-logo">
+        <img src="/logo-white.svg" alt="Renoo.me" />
+      </div>
+      <div class="header-search">
+        <select id="procedureSelect" class="procedure-select">
+          <option value="" selected>Choose Procedure</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- FILTER PANEL (Swipeable Bottom Sheet) -->
   <aside id="panel">
     <div class="panel-handle" id="panelHandle" aria-label="Resize panel"></div>
 
     <div class="panel-inner">
-      <div class="panel-logo">
-        <img src="/logo.svg" alt="Renoo.me" />
-      </div>
-
-      <div class="intro-text">
-        <strong>Compare medical procedure prices worldwide.</strong> Select a procedure below to explore cities and costs on the map.
-      </div>
-
-      <div class="section">
-        <select id="procedureSelect" class="control">
-          <option value="" selected>Choose Procedure</option>
-        </select>
-      </div>
-
-      <div class="section">
-        <div class="compare-head">
-          <div class="label">Compare results (Choose 2 below)</div>
-          <button id="compareClear" class="compare-clear" type="button">Clear</button>
-        </div>
-
-        <div class="compare" id="compareBox">
-          <div class="compare-empty" id="compareEmpty">
-            Click two cities in Results to compare.
-          </div>
-          <div class="compare-grid" id="compareGrid"></div>
-        </div>
+      <div class="swipe-hint">
+        Swipe up <span class="highlight">for results</span>
       </div>
 
       <div class="section">
         <div class="results-head">
-          <div class="label">Results</div>
           <select id="sortSelect" class="control sort-control">
             <option value="price" selected>Sort by price</option>
             <option value="alphabetical">Sort alphabetically</option>
@@ -115,18 +99,14 @@
   <!-- Floating Compare Bar -->
   <div id="floatingCompareBar" class="floating-compare-bar">
     <div class="floating-compare-content">
-      <div class="floating-compare-left">
-        <div class="floating-compare-count">
+      <div class="floating-compare-top">
+        <div class="floating-compare-header">
           <span id="floatingCompareCount">0</span> selected
         </div>
         <div id="floatingComparePreview" class="floating-compare-preview"></div>
-      </div>
-      <div class="floating-compare-right">
         <button id="floatingCompareClear" class="floating-compare-clear" type="button">Clear</button>
-        <button id="floatingCompareButton" class="floating-compare-button" type="button" disabled>
-          View Detailed Comparison
-        </button>
       </div>
+      <div id="floatingCompareDiff" class="floating-compare-diff-pill"></div>
     </div>
   </div>
 

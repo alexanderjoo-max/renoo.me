@@ -24,14 +24,11 @@ const els = {
   countrySelect: document.getElementById("countrySelect"),
   sortSelect: document.getElementById("sortSelect"),
   resultsList: document.getElementById("resultsList"),
-  compareClear: document.getElementById("compareClear"),
-  compareEmpty: document.getElementById("compareEmpty"),
-  compareGrid: document.getElementById("compareGrid"),
   floatingCompareBar: document.getElementById("floatingCompareBar"),
   floatingCompareCount: document.getElementById("floatingCompareCount"),
   floatingComparePreview: document.getElementById("floatingComparePreview"),
   floatingCompareClear: document.getElementById("floatingCompareClear"),
-  floatingCompareButton: document.getElementById("floatingCompareButton")
+  floatingCompareDiff: document.getElementById("floatingCompareDiff")
 };
 
 /* =========================
@@ -310,13 +307,6 @@ function wireUI() {
   els.citySearch?.addEventListener("input", debounce(applyFiltersAndRender, 120));
   els.sortSelect?.addEventListener("change", applyFiltersAndRender);
 
-  els.compareClear?.addEventListener("click", () => {
-    compareSelection = [];
-    renderResults(currentFiltered);
-    renderMarkers(currentFiltered);
-    renderCompareBox(currentFiltered);
-  });
-
   // desktop sometimes restores selects from bfcache; force placeholder + clear pins/results
   window.addEventListener("pageshow", () => {
     if (!els.procedureSelect) return;
@@ -569,62 +559,11 @@ function toggleCompare(id) {
 }
 
 function renderCompareBox() {
-  if (!els.compareGrid || !els.compareEmpty) return;
-
   const picks = compareSelection
     .map((id) => ALL.find((d) => d._id === id))
     .filter(Boolean);
 
-  els.compareGrid.innerHTML = "";
-
-  if (!els.procedureSelect?.value) {
-    els.compareEmpty.style.display = "block";
-    els.compareEmpty.textContent = "Choose a procedure to start.";
-    return;
-  }
-
-  if (picks.length < 2) {
-    els.compareEmpty.style.display = "block";
-    els.compareEmpty.textContent = "Click two cities in Results to compare.";
-    // Re-render markers to update highlighting
-    renderMarkers(currentFiltered);
-  } else {
-    els.compareEmpty.style.display = "none";
-  }
-
-  for (const d of picks) {
-    const flag = flagFromCountry(d.country);
-    const price = Number.isFinite(d.price_usd) ? d.price_usd : null;
-
-    const card = document.createElement("div");
-    card.className = "compare-card";
-    card.innerHTML = `
-      <div class="compare-card-left">
-        <div class="compare-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
-        <div class="compare-line">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
-      </div>
-      <div class="compare-price">${price !== null ? `$${price.toLocaleString()}` : "N/A"}</div>
-    `;
-    els.compareGrid.appendChild(card);
-  }
-
   if (picks.length === 2) {
-    const a = picks[0].price_usd;
-    const b = picks[1].price_usd;
-
-    const diff = document.createElement("div");
-    diff.className = "compare-diff";
-
-    if (Number.isFinite(a) && Number.isFinite(b)) {
-      const delta = Math.abs(a - b);
-      const cheaper = a < b ? picks[0].city : picks[1].city;
-      diff.textContent = `${cheaper} is cheaper by $${delta.toLocaleString()}`;
-    } else {
-      diff.textContent = `Price missing for one of the selections.`;
-    }
-
-    els.compareGrid.appendChild(diff);
-
     // Fit map to show both selected cities
     fitMapToCompare(picks[0], picks[1]);
   } else {
@@ -690,9 +629,23 @@ function updateFloatingCompareBar() {
     });
   }
 
-  // Enable/disable button
-  if (els.floatingCompareButton) {
-    els.floatingCompareButton.disabled = count < 2;
+  // Update diff pill
+  if (els.floatingCompareDiff) {
+    if (count === 2) {
+      const a = picks[0].price_usd;
+      const b = picks[1].price_usd;
+
+      if (Number.isFinite(a) && Number.isFinite(b)) {
+        const delta = Math.abs(a - b);
+        const cheaper = a < b ? picks[0].city : picks[1].city;
+        els.floatingCompareDiff.textContent = `${cheaper} is cheaper by $${delta.toLocaleString()}`;
+        els.floatingCompareDiff.classList.add("visible");
+      } else {
+        els.floatingCompareDiff.classList.remove("visible");
+      }
+    } else {
+      els.floatingCompareDiff.classList.remove("visible");
+    }
   }
 
   // Show/hide bar with animation
@@ -713,15 +666,6 @@ if (els.floatingCompareClear) {
   });
 }
 
-// Compare button handler - scroll to compare section
-if (els.floatingCompareButton) {
-  els.floatingCompareButton.addEventListener("click", () => {
-    const compareSection = document.getElementById("compareBox");
-    if (compareSection) {
-      compareSection.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
-}
 
 /* =========================
    UTILS
