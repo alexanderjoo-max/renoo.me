@@ -856,9 +856,6 @@ window.toggleClinicDetails = function(idx) {
 
 // Load clinic data on init and re-render when loaded
 loadClinicData().then(() => {
-  // Re-render markers and results to show "View clinics" buttons
-  if (currentFiltered && currentFiltered.length > 0) {
-    renderMarkers(currentFiltered);
-    renderResults(currentFiltered);
-  }
+  // Re-apply filters to show "View clinics" buttons
+  applyFiltersAndRender();
 });
