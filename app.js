@@ -28,8 +28,11 @@ const els = {
   floatingCompareCount: document.getElementById("floatingCompareCount"),
   floatingComparePreview: document.getElementById("floatingComparePreview"),
   floatingCompareClear: document.getElementById("floatingCompareClear"),
-  floatingCompareDiff: document.getElementById("floatingCompareDiff")
+  floatingCompareDiff: document.getElementById("floatingCompareDiff"),
+  compareModeToggle: document.getElementById("compareModeToggle")
 };
+
+let isCompareMode = false;
 
 /* =========================
    MOBILE RESIZE (drag handle)
@@ -325,6 +328,19 @@ function wireUI() {
     renderResults([]);
     renderCompareBox([]);
   });
+
+  // Compare Mode Toggle
+  els.compareModeToggle?.addEventListener("change", (e) => {
+    isCompareMode = e.target.checked;
+    document.body.classList.toggle("compare-mode", isCompareMode);
+
+    if (!isCompareMode) {
+      // Exiting compare mode - clear selections
+      compareSelection = [];
+      renderResults(currentFiltered);
+      renderCompareBox(currentFiltered);
+    }
+  });
 }
 
 function debounce(fn, ms) {
@@ -473,7 +489,7 @@ function renderMarkers(data) {
         <div class="popup-row">${escapeHtml(d.country)}</div>
         <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
         <div class="popup-row"><strong>Typical price:</strong> ${Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"}</div>
-        <div class="popup-view-clinics" data-city-id="${d._id}">[ View clinics → ]</div>
+        <div class="popup-view-clinics" data-city-id="${d._id}">View clinics →</div>
       </div>
     `;
 
@@ -543,20 +559,31 @@ function renderResults(data) {
 
     const item = document.createElement("div");
     item.className = "result-item";
-    if (compareSelection.includes(d._id)) item.classList.add("selected");
+    if (compareSelection.includes(d._id)) {
+      item.classList.add("selected");
+      item.classList.add("compare-selected");
+    }
 
     item.innerHTML = `
       <div class="result-left">
         <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
         <div class="result-meta">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
-        <div class="result-view-clinics">[ View clinics → ]</div>
+        <div class="result-view-clinics">View clinics →</div>
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
     `;
 
     item.addEventListener("click", () => {
-      const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
-      window.location.href = url;
+      if (isCompareMode) {
+        // Compare mode: toggle selection
+        toggleCompare(d._id);
+        renderResults(currentFiltered);
+        renderCompareBox(currentFiltered);
+      } else {
+        // Browse mode: navigate to city page
+        const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
+        window.location.href = url;
+      }
     });
 
     els.resultsList.appendChild(item);

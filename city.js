@@ -133,6 +133,9 @@ function renderPage() {
   // Render compare cities
   renderCompareCities();
 
+  // Populate compare dropdown
+  populateCompareDropdown();
+
   // Back button
   document.getElementById('cityBackBtn').addEventListener('click', () => {
     window.history.back();
@@ -140,6 +143,34 @@ function renderPage() {
 
   // Set city name for other procedures
   document.getElementById('cityNameProcedures').textContent = cityName;
+}
+
+function populateCompareDropdown() {
+  const select = document.getElementById('compareCitySelect');
+  if (!select) return;
+
+  const sameProcedure = allData.filter(d =>
+    d.procedure?.toLowerCase() === procedure.toLowerCase() &&
+    d.city?.toLowerCase() !== cityName.toLowerCase() &&
+    d.price_usd
+  ).sort((a, b) => a.price_usd - b.price_usd);
+
+  // Populate dropdown
+  sameProcedure.slice(0, 20).forEach(city => {
+    const option = document.createElement('option');
+    const flag = countryFlags[city.country] || '';
+    option.value = JSON.stringify({ city: city.city, country: city.country });
+    option.textContent = `${flag} ${city.city} - $${city.price_usd.toLocaleString()}`;
+    select.appendChild(option);
+  });
+
+  // Handle selection
+  select.addEventListener('change', (e) => {
+    if (e.target.value) {
+      const { city: selectedCity, country: selectedCountry } = JSON.parse(e.target.value);
+      window.location.href = `compare.html?city1=${encodeURIComponent(cityName)}&city2=${encodeURIComponent(selectedCity)}&procedure=${encodeURIComponent(procedure)}&country1=${encodeURIComponent(country)}&country2=${encodeURIComponent(selectedCountry)}`;
+    }
+  });
 }
 
 function renderClinics() {
