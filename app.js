@@ -779,7 +779,7 @@ function openClinicModal(cityData) {
 
   const cityName = cityData.city;
   const country = cityData.country;
-  const procedureName = procedureLabel(procedure);
+  const procedureName = stripParens(procedure);
 
   // Filter clinics for this city and procedure
   const clinics = clinicData.filter(clinic =>
