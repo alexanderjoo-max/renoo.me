@@ -744,8 +744,12 @@ clinicModal?.querySelector('.clinic-modal-overlay')?.addEventListener('click', c
 
 // Open clinic modal with city data
 function openClinicModal(cityData) {
+  console.log('openClinicModal called', cityData, 'clinicData length:', clinicData.length);
   const procedure = els.procedureSelect?.value;
-  if (!procedure || !clinicData.length) return;
+  if (!procedure || !clinicData.length) {
+    console.log('Early return - procedure:', procedure, 'clinicData.length:', clinicData.length);
+    return;
+  }
 
   const cityName = cityData.city;
   const country = cityData.country;
@@ -757,7 +761,10 @@ function openClinicModal(cityData) {
     clinic.Procedure?.toLowerCase().includes(procedureName.toLowerCase())
   );
 
+  console.log('Filtered clinics:', clinics.length, 'for city:', cityName, 'procedure:', procedureName);
+
   if (clinics.length === 0) {
+    console.log('No clinics found for this city/procedure');
     return; // Don't open modal if no clinics
   }
 
