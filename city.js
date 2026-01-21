@@ -4,6 +4,45 @@ const cityName = urlParams.get('city');
 const procedure = urlParams.get('procedure');
 const country = urlParams.get('country');
 
+/* =========================
+   CURRENCY CONVERSION
+========================= */
+const CURRENCY_RATES = {
+  USD: { symbol: '$', rate: 1, name: 'USD' },
+  GBP: { symbol: '£', rate: 0.79, name: 'GBP' },
+  EUR: { symbol: '€', rate: 0.92, name: 'EUR' }
+};
+
+let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
+
+function convertPrice(usdPrice) {
+  if (!Number.isFinite(usdPrice)) return null;
+  return Math.round(usdPrice * CURRENCY_RATES[currentCurrency].rate);
+}
+
+function formatPrice(usdPrice) {
+  const converted = convertPrice(usdPrice);
+  if (converted === null) return 'N/A';
+  const symbol = CURRENCY_RATES[currentCurrency].symbol;
+  return `${symbol}${converted.toLocaleString()}`;
+}
+
+function setCurrency(currency) {
+  if (!CURRENCY_RATES[currency]) return;
+  currentCurrency = currency;
+  localStorage.setItem('preferredCurrency', currency);
+
+  // Update UI
+  document.querySelectorAll('.currency-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.currency === currency);
+  });
+
+  // Refresh the page content
+  if (allData && allData.length > 0) {
+    renderPage();
+  }
+}
+
 // Country flags mapping
 const countryFlags = {
   "Argentina": "🇦🇷", "Australia": "🇦🇺", "Austria": "🇦🇹", "Belgium": "🇧🇪",
@@ -100,7 +139,7 @@ function renderPage() {
 
   // Set stats
   if (cityData && cityData.price_mid_usd) {
-    const avgPrice = `$${cityData.price_mid_usd.toLocaleString()}`;
+    const avgPrice = formatPrice(cityData.price_mid_usd);
     document.getElementById('cityStats').innerHTML = `
       <div class="city-stat">
         <span>Avg Price:</span>
@@ -160,7 +199,7 @@ function populateCompareDropdown() {
     const option = document.createElement('option');
     const flag = countryFlags[city.country] || '';
     option.value = JSON.stringify({ city: city.city, country: city.country });
-    option.textContent = `${flag} ${city.city} - $${city.price_mid_usd.toLocaleString()}`;
+    option.textContent = `${flag} ${city.city} - ${formatPrice(city.price_mid_usd)}`;
     select.appendChild(option);
   });
 
@@ -210,7 +249,7 @@ function renderClinics() {
               <span class="clinic-card-reviews">(${reviews} reviews)</span>
             </div>
           </div>
-          <div class="clinic-card-price">$${priceLow.toLocaleString()} – $${priceHigh.toLocaleString()}</div>
+          <div class="clinic-card-price">${formatPrice(priceLow)} – ${formatPrice(priceHigh)}</div>
         </div>
         <div class="clinic-card-details">
           ${clinic.Address ? `<div class="clinic-detail-row"><span class="clinic-detail-label">Address:</span><span>${clinic.Address}</span></div>` : ''}
@@ -245,7 +284,7 @@ function renderOtherProcedures() {
   procedureCards.innerHTML = uniqueProcedures.slice(0, 6).map(proc => {
     const procData = cityProcedures.find(d => d.procedure === proc);
     const icon = procedureIcons[proc] || '🏥';
-    const price = procData?.price_mid_usd ? `$${procData.price_mid_usd.toLocaleString()}` : 'N/A';
+    const price = procData?.price_mid_usd ? formatPrice(procData.price_mid_usd) : 'N/A';
 
     return `
       <a href="city.html?city=${encodeURIComponent(cityName)}&procedure=${encodeURIComponent(proc)}&country=${encodeURIComponent(country)}" class="procedure-card">
@@ -278,9 +317,12 @@ function renderCompareCities() {
 
   compareCities.innerHTML = sameProcedure.slice(0, 5).map(city => {
     const flag = countryFlags[city.country] || '';
-    const price = `$${city.price_mid_usd.toLocaleString()}`;
-    const savings = currentPrice && city.price_mid_usd < currentPrice
-      ? `Save $${(currentPrice - city.price_mid_usd).toLocaleString()}`
+    const price = formatPrice(city.price_mid_usd);
+    const savingsAmount = currentPrice && city.price_mid_usd < currentPrice
+      ? convertPrice(currentPrice - city.price_mid_usd)
+      : null;
+    const savings = savingsAmount
+      ? `Save ${CURRENCY_RATES[currentCurrency].symbol}${savingsAmount.toLocaleString()}`
       : '';
 
     return `
@@ -293,6 +335,13 @@ function renderCompareCities() {
     `;
   }).join('');
 }
+
+// Initialize currency selector on page load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.currency-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
+  });
+});
 
 // Load data on page load
 loadData();

@@ -2,6 +2,45 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGFuZGVyam9vIiwiYSI6ImNtazN1bXo5bDAwdmIzY291bXpvMGNldGoifQ.LpYK8I3J4Tt0AZY4KGEBNQ";
 
 /* =========================
+   CURRENCY CONVERSION
+========================= */
+const CURRENCY_RATES = {
+  USD: { symbol: '$', rate: 1, name: 'USD' },
+  GBP: { symbol: '£', rate: 0.79, name: 'GBP' },
+  EUR: { symbol: '€', rate: 0.92, name: 'EUR' }
+};
+
+let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
+
+function convertPrice(usdPrice) {
+  if (!Number.isFinite(usdPrice)) return null;
+  return Math.round(usdPrice * CURRENCY_RATES[currentCurrency].rate);
+}
+
+function formatPrice(usdPrice) {
+  const converted = convertPrice(usdPrice);
+  if (converted === null) return 'N/A';
+  const symbol = CURRENCY_RATES[currentCurrency].symbol;
+  return `${symbol}${converted.toLocaleString()}`;
+}
+
+function setCurrency(currency) {
+  if (!CURRENCY_RATES[currency]) return;
+  currentCurrency = currency;
+  localStorage.setItem('preferredCurrency', currency);
+
+  // Update UI
+  document.querySelectorAll('.currency-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.currency === currency);
+  });
+
+  // Refresh all prices
+  if (window.allData) {
+    applyFilters();
+  }
+}
+
+/* =========================
    MAP INIT
 ========================= */
 const map = new mapboxgl.Map({
@@ -463,7 +502,7 @@ function renderMarkers(data) {
     el.className = "price-marker";
 
     const flag = flagFromCountry(d.country);
-    const label = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
+    const label = formatPrice(d.price_usd);
 
     // flags beside price in bubbles
     el.textContent = `${flag ? flag + " " : ""}${label}`;
@@ -488,7 +527,7 @@ function renderMarkers(data) {
         <div class="popup-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
         <div class="popup-row">${escapeHtml(d.country)}</div>
         <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
-        <div class="popup-row"><strong>Typical price:</strong> ${Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A"}</div>
+        <div class="popup-row"><strong>Typical price:</strong> ${formatPrice(d.price_usd)}</div>
         <div class="popup-view-clinics" data-city-id="${d._id}">View clinics →</div>
       </div>
     `;
@@ -554,7 +593,7 @@ function renderResults(data) {
 
   for (const d of data) {
     const flag = flagFromCountry(d.country);
-    const price = Number.isFinite(d.price_usd) ? `$${d.price_usd.toLocaleString()}` : "N/A";
+    const price = formatPrice(d.price_usd);
     const isCheapest = d._id === cheapestId;
 
     const item = document.createElement("div");
@@ -662,13 +701,12 @@ function updateFloatingCompareBar() {
 
     picks.forEach((d) => {
       const flag = flagFromCountry(d.country);
-      const price = Number.isFinite(d.price_usd) ? d.price_usd : null;
 
       const item = document.createElement("div");
       item.className = "floating-compare-preview-item";
       item.innerHTML = `
         <span class="floating-compare-preview-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}</span>
-        <span class="floating-compare-preview-price">${price !== null ? `$${price.toLocaleString()}` : "N/A"}</span>
+        <span class="floating-compare-preview-price">${formatPrice(d.price_usd)}</span>
       `;
       els.floatingComparePreview.appendChild(item);
     });
@@ -681,9 +719,10 @@ function updateFloatingCompareBar() {
       const b = picks[1].price_usd;
 
       if (Number.isFinite(a) && Number.isFinite(b)) {
-        const delta = Math.abs(a - b);
+        const delta = convertPrice(Math.abs(a - b));
         const cheaper = a < b ? picks[0].city : picks[1].city;
-        els.floatingCompareDiff.textContent = `${cheaper} is cheaper by $${delta.toLocaleString()}`;
+        const symbol = CURRENCY_RATES[currentCurrency].symbol;
+        els.floatingCompareDiff.textContent = `${cheaper} is cheaper by ${symbol}${delta.toLocaleString()}`;
         els.floatingCompareDiff.classList.add("visible");
       } else {
         els.floatingCompareDiff.classList.remove("visible");
@@ -816,7 +855,7 @@ function openClinicModal(cityData) {
     return `
       <div class="clinic-card">
         <div class="clinic-name">${escapeHtml(clinic.Clinic_Name)}</div>
-        <div class="clinic-price">$${priceLow.toLocaleString()} – $${priceHigh.toLocaleString()}</div>
+        <div class="clinic-price">${formatPrice(priceLow)} – ${formatPrice(priceHigh)}</div>
         <div class="clinic-rating">
           <div class="clinic-stars">${stars}</div>
           <div class="clinic-reviews">(${reviews})</div>
@@ -864,6 +903,13 @@ window.toggleClinicDetails = function(idx) {
     details.classList.toggle('visible');
   }
 };
+
+// Initialize currency selector on page load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.currency-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
+  });
+});
 
 // Load clinic data on init and re-render when loaded
 loadClinicData().then(() => {
