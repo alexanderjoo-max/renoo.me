@@ -2,6 +2,18 @@ html, body {
   height: 100%;
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 #map {
@@ -379,6 +391,15 @@ html, body {
   margin-bottom: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.menu-label-small {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
 }
 
 .menu-currency {
@@ -1028,6 +1049,11 @@ html, body {
 
   .menu-content {
     max-width: 100%;
+    width: 100vw;
+  }
+
+  .menu-nav {
+    max-height: calc(100vh - 180px);
   }
 
   #panel{
@@ -1095,6 +1121,27 @@ html, body {
   .sort-control {
     min-width: 120px;
     font-size: 11px;
+  }
+
+  /* Result items on mobile */
+  .result-item {
+    padding: 10px 12px;
+  }
+
+  .result-city {
+    font-size: 14px;
+    max-width: 60vw;
+  }
+
+  .result-price {
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .result-badge,
+  .result-savings-badge {
+    font-size: 10px;
+    padding: 3px 6px;
   }
 
   /* Floating compare bar on mobile */
@@ -1796,6 +1843,19 @@ body.compare-mode .result-view-clinics {
 @media (max-width: 768px) {
   .city-compare-cities-section {
     display: none;
+  }
+
+  .compare-city-results {
+    max-height: 300px;
+    padding: 6px;
+  }
+
+  .city-compare-section {
+    padding: 0 16px;
+  }
+
+  .compare-section-title {
+    font-size: 16px;
   }
 }
 
