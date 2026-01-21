@@ -27,28 +27,81 @@
     <div class="menu-content">
       <button class="menu-close" id="menuClose" aria-label="Close menu">&times;</button>
 
+      <div class="menu-header">
+        <h2 class="menu-title">✈️ Travel Toolkit</h2>
+        <p class="menu-subtitle">Plan your medical journey</p>
+      </div>
+
       <nav class="menu-nav">
-        <div class="menu-item menu-currency">
-          <div class="menu-label">Currency</div>
-          <div class="currency-selector-menu">
-            <span class="currency-option-menu active" data-currency="USD" onclick="setCurrency('USD')">USD</span>
-            <span class="currency-option-menu" data-currency="GBP" onclick="setCurrency('GBP')">GBP</span>
-            <span class="currency-option-menu" data-currency="EUR" onclick="setCurrency('EUR')">EUR</span>
-            <span class="currency-option-menu" data-currency="JPY" onclick="setCurrency('JPY')">JPY</span>
-            <span class="currency-option-menu" data-currency="AUD" onclick="setCurrency('AUD')">AUD</span>
-            <span class="currency-option-menu" data-currency="CAD" onclick="setCurrency('CAD')">CAD</span>
+        <!-- Search & Compare Section -->
+        <div class="menu-section">
+          <div class="menu-section-title">🔍 Explore</div>
+
+          <div class="menu-item menu-search-item">
+            <div class="menu-search-box">
+              <input type="text" placeholder="Search destinations..." class="menu-search-input" id="menuSearchInput">
+              <span class="menu-search-icon">🔎</span>
+            </div>
+          </div>
+
+          <a href="/" class="menu-item menu-link menu-link-animated">
+            <span class="menu-link-icon">🗺️</span>
+            <span>Back to Map</span>
+            <span class="menu-arrow">→</span>
+          </a>
+        </div>
+
+        <!-- Travel Costs Section (Coming Soon) -->
+        <div class="menu-section menu-section-highlight">
+          <div class="menu-section-title">✈️ Travel Costs <span class="coming-soon-badge">Coming Soon</span></div>
+
+          <div class="menu-item menu-info-item">
+            <div class="menu-info-icon">🛫</div>
+            <div>
+              <div class="menu-info-title">Flight Prices</div>
+              <div class="menu-info-desc">Compare airfare from your location</div>
+            </div>
+          </div>
+
+          <div class="menu-item menu-info-item">
+            <div class="menu-info-icon">🏨</div>
+            <div>
+              <div class="menu-info-title">Hotel Costs</div>
+              <div class="menu-info-desc">Find accommodation near clinics</div>
+            </div>
+          </div>
+
+          <div class="menu-item menu-info-item">
+            <div class="menu-info-icon">💰</div>
+            <div>
+              <div class="menu-info-title">Total Trip Cost</div>
+              <div class="menu-info-desc">All-in pricing with travel included</div>
+            </div>
           </div>
         </div>
 
-        <a href="/" class="menu-item menu-link">
-          <span>Back to Map</span>
-          <span class="menu-arrow">←</span>
-        </a>
+        <!-- Settings Section -->
+        <div class="menu-section">
+          <div class="menu-section-title">⚙️ Settings</div>
 
-        <a href="about.html" class="menu-item menu-link">
-          <span>About</span>
-          <span class="menu-arrow">→</span>
-        </a>
+          <div class="menu-item menu-currency">
+            <div class="menu-label">Currency Converter</div>
+            <div class="currency-selector-menu">
+              <span class="currency-option-menu active" data-currency="USD" onclick="setCurrency('USD')">USD</span>
+              <span class="currency-option-menu" data-currency="GBP" onclick="setCurrency('GBP')">GBP</span>
+              <span class="currency-option-menu" data-currency="EUR" onclick="setCurrency('EUR')">EUR</span>
+              <span class="currency-option-menu" data-currency="JPY" onclick="setCurrency('JPY')">JPY</span>
+              <span class="currency-option-menu" data-currency="AUD" onclick="setCurrency('AUD')">AUD</span>
+              <span class="currency-option-menu" data-currency="CAD" onclick="setCurrency('CAD')">CAD</span>
+            </div>
+          </div>
+
+          <a href="about.html" class="menu-item menu-link menu-link-animated">
+            <span class="menu-link-icon">ℹ️</span>
+            <span>About</span>
+            <span class="menu-arrow">→</span>
+          </a>
+        </div>
       </nav>
     </div>
   </div>
@@ -66,9 +119,7 @@
     <!-- Compare With Section (Mobile) -->
     <section class="city-compare-section" id="cityCompareSection">
       <h3 class="compare-section-title">Compare with another city:</h3>
-      <select id="compareCitySelect" class="compare-city-select">
-        <option value="">Select a city...</option>
-      </select>
+      <div id="compareCitySelect" class="compare-city-results"></div>
     </section>
 
     <!-- Top Clinics -->

@@ -996,3 +996,35 @@ loadClinicData().then(() => {
   // Re-apply filters to show "View clinics" buttons
   applyFiltersAndRender();
 });
+
+/* =========================
+   MENU SEARCH FUNCTIONALITY
+========================= */
+const menuSearchInput = document.getElementById('menuSearchInput');
+if (menuSearchInput) {
+  menuSearchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    if (searchTerm.length > 0) {
+      // Filter cities that match the search term
+      const matchingCities = ALL.filter(d =>
+        d.city?.toLowerCase().includes(searchTerm) ||
+        d.country?.toLowerCase().includes(searchTerm) ||
+        d.procedure?.toLowerCase().includes(searchTerm)
+      );
+
+      // You could display autocomplete suggestions here
+      console.log('Matching cities:', matchingCities.length);
+    }
+  });
+
+  menuSearchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const searchTerm = e.target.value.toLowerCase();
+      // Close menu and show results
+      if (menuOverlay) {
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+  });
+}

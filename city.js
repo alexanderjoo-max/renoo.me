@@ -195,8 +195,8 @@ function renderPage() {
 }
 
 function populateCompareDropdown() {
-  const select = document.getElementById('compareCitySelect');
-  if (!select) return;
+  const container = document.getElementById('compareCitySelect');
+  if (!container) return;
 
   const sameProcedure = allData.filter(d =>
     d.procedure?.toLowerCase() === procedure.toLowerCase() &&
@@ -204,22 +204,46 @@ function populateCompareDropdown() {
     d.price_mid_usd
   ).sort((a, b) => a.price_mid_usd - b.price_mid_usd);
 
-  // Populate dropdown
-  sameProcedure.slice(0, 20).forEach(city => {
-    const option = document.createElement('option');
-    const flag = countryFlags[city.country] || '';
-    option.value = JSON.stringify({ city: city.city, country: city.country });
-    option.textContent = `${flag} ${city.city} - ${formatPrice(city.price_mid_usd)}`;
-    select.appendChild(option);
-  });
+  // Find current city's price for comparison
+  const currentPrice = allData.find(d =>
+    d.city?.toLowerCase() === cityName.toLowerCase() &&
+    d.procedure?.toLowerCase() === procedure.toLowerCase()
+  )?.price_mid_usd || 0;
 
-  // Handle selection
-  select.addEventListener('change', (e) => {
-    if (e.target.value) {
-      const { city: selectedCity, country: selectedCountry } = JSON.parse(e.target.value);
-      window.location.href = `compare.html?city1=${encodeURIComponent(cityName)}&city2=${encodeURIComponent(selectedCity)}&procedure=${encodeURIComponent(procedure)}&country1=${encodeURIComponent(country)}&country2=${encodeURIComponent(selectedCountry)}`;
-    }
-  });
+  // Find the cheapest city
+  let cheapestId = null;
+  if (sameProcedure.length > 0) {
+    const cheapest = sameProcedure.reduce((min, curr) =>
+      (curr.price_mid_usd < min.price_mid_usd ? curr : min)
+    );
+    cheapestId = cheapest.city + cheapest.country;
+  }
+
+  // Render as a scrollable results list (same UI as front page)
+  container.innerHTML = sameProcedure.map(city => {
+    const flag = countryFlags[city.country] || '';
+    const price = formatPrice(city.price_mid_usd);
+    const isCheapest = (city.city + city.country) === cheapestId;
+
+    // Calculate savings if this city is cheaper
+    const savingsAmount = currentPrice && city.price_mid_usd < currentPrice
+      ? convertPrice(currentPrice - city.price_mid_usd)
+      : null;
+    const savings = savingsAmount
+      ? `Save ${CURRENCY_RATES[currentCurrency].symbol}${savingsAmount.toLocaleString()}`
+      : '';
+
+    return `
+      <div class="result-item" onclick="window.location.href='compare.html?city1=${encodeURIComponent(cityName)}&city2=${encodeURIComponent(city.city)}&procedure=${encodeURIComponent(procedure)}&country1=${encodeURIComponent(country)}&country2=${encodeURIComponent(city.country)}'">
+        <div class="result-left">
+          <div class="result-city">${flag} ${city.city}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}${savings ? `<span class="result-savings-badge">${savings}</span>` : ''}</div>
+          <div class="result-meta">${city.country} • ${procedure}</div>
+          <div class="result-view-clinics">Compare cities →</div>
+        </div>
+        <div class="result-price">${price}</div>
+      </div>
+    `;
+  }).join('');
 }
 
 function renderClinics() {
@@ -388,3 +412,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Load data on page load
 loadData();
+
+/* =========================
+   MENU SEARCH FUNCTIONALITY
+========================= */
+const menuSearchInput = document.getElementById('menuSearchInput');
+if (menuSearchInput) {
+  menuSearchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    if (searchTerm.length > 0) {
+      // Filter cities that match the search term
+      const matchingCities = allData.filter(d =>
+        d.city?.toLowerCase().includes(searchTerm) ||
+        d.country?.toLowerCase().includes(searchTerm) ||
+        d.procedure?.toLowerCase().includes(searchTerm)
+      );
+
+      // You could display results here or provide autocomplete suggestions
+      console.log('Matching cities:', matchingCities.length);
+    }
+  });
+
+  menuSearchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const searchTerm = e.target.value.toLowerCase();
+      // Navigate back to map with search pre-filled (placeholder for now)
+      window.location.href = '/';
+    }
+  });
+}
