@@ -560,9 +560,19 @@ function renderMarkers(data) {
       }
     });
 
-    el.addEventListener("click", () => {
-      map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
-      marker.togglePopup();
+    el.addEventListener("click", (e) => {
+      if (isCompareMode) {
+        // In compare mode, toggle selection instead of opening popup
+        e.stopPropagation();
+        toggleCompare(d._id);
+        renderMarkers(currentFiltered);
+        renderResults(currentFiltered);
+        renderCompareBox(currentFiltered);
+      } else {
+        // Normal mode: fly to location and show popup
+        map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
+        marker.togglePopup();
+      }
     });
 
     markers.push(marker);

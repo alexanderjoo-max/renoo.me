@@ -8,20 +8,55 @@
 </head>
 <body class="city-page">
   <!-- Header -->
-  <header class="city-header">
-    <button class="city-back-btn" id="cityBackBtn">← Back</button>
-    <div class="city-header-content">
-      <h1 class="city-title" id="cityTitle"></h1>
-      <div class="city-stats" id="cityStats"></div>
-    </div>
-    <div class="header-currency">
-      <div class="currency-selector">
-        <span class="currency-option active" data-currency="USD" onclick="setCurrency('USD')">USD</span>
-        <span class="currency-option" data-currency="GBP" onclick="setCurrency('GBP')">GBP</span>
-        <span class="currency-option" data-currency="EUR" onclick="setCurrency('EUR')">EUR</span>
+  <header id="fixedHeader" class="fixed-header">
+    <div class="header-content">
+      <div class="header-logo">
+        <a href="/"><img src="/logo-white.svg" alt="Renoo.me" /></a>
       </div>
+      <div class="city-page-title" id="cityTitle"></div>
+      <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
+
+  <!-- HAMBURGER MENU OVERLAY -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-content">
+      <button class="menu-close" id="menuClose" aria-label="Close menu">&times;</button>
+
+      <nav class="menu-nav">
+        <div class="menu-item menu-currency">
+          <div class="menu-label">Currency</div>
+          <div class="currency-selector-menu">
+            <span class="currency-option-menu active" data-currency="USD" onclick="setCurrency('USD')">USD</span>
+            <span class="currency-option-menu" data-currency="GBP" onclick="setCurrency('GBP')">GBP</span>
+            <span class="currency-option-menu" data-currency="EUR" onclick="setCurrency('EUR')">EUR</span>
+            <span class="currency-option-menu" data-currency="JPY" onclick="setCurrency('JPY')">JPY</span>
+            <span class="currency-option-menu" data-currency="AUD" onclick="setCurrency('AUD')">AUD</span>
+            <span class="currency-option-menu" data-currency="CAD" onclick="setCurrency('CAD')">CAD</span>
+          </div>
+        </div>
+
+        <a href="/" class="menu-item menu-link">
+          <span>Back to Map</span>
+          <span class="menu-arrow">←</span>
+        </a>
+
+        <a href="about.html" class="menu-item menu-link">
+          <span>About</span>
+          <span class="menu-arrow">→</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- City Info Banner -->
+  <div class="city-info-banner">
+    <div class="city-stats" id="cityStats"></div>
+  </div>
 
   <!-- Main Content -->
   <main class="city-main">

@@ -36,9 +36,16 @@ function setCurrency(currency) {
   localStorage.setItem('preferredCurrency', currency);
 
   // Update UI
-  document.querySelectorAll('.currency-option').forEach(opt => {
+  document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currency);
   });
+
+  // Close menu if open
+  const menuOverlay = document.getElementById('menuOverlay');
+  if (menuOverlay) {
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 
   // Refresh the page content
   if (allData && allData.length > 0) {
@@ -339,9 +346,42 @@ function renderCompareCities() {
   }).join('');
 }
 
+/* =========================
+   HAMBURGER MENU
+========================= */
+const hamburgerMenu = document.getElementById('hamburgerMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+const menuClose = document.getElementById('menuClose');
+
+// Open menu
+if (hamburgerMenu) {
+  hamburgerMenu.addEventListener('click', () => {
+    menuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+}
+
+// Close menu
+if (menuClose) {
+  menuClose.addEventListener('click', () => {
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+}
+
+// Close menu when clicking overlay
+if (menuOverlay) {
+  menuOverlay.addEventListener('click', (e) => {
+    if (e.target === menuOverlay) {
+      menuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+}
+
 // Initialize currency selector on page load
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.currency-option').forEach(opt => {
+  document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
   });
 });
