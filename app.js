@@ -41,11 +41,14 @@ function setCurrency(currency) {
   const menuOverlay = document.getElementById('menuOverlay');
   if (menuOverlay) {
     menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
   }
 
-  // Refresh all prices
-  if (window.allData) {
-    applyFilters();
+  // Refresh all prices by re-rendering with current filters
+  if (currentFiltered && currentFiltered.length > 0) {
+    renderMarkers(currentFiltered);
+    renderResults(currentFiltered);
+    renderCompareBox(currentFiltered);
   }
 }
 
