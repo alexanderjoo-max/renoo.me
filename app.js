@@ -7,7 +7,10 @@ mapboxgl.accessToken =
 const CURRENCY_RATES = {
   USD: { symbol: '$', rate: 1, name: 'USD' },
   GBP: { symbol: '£', rate: 0.79, name: 'GBP' },
-  EUR: { symbol: '€', rate: 0.92, name: 'EUR' }
+  EUR: { symbol: '€', rate: 0.92, name: 'EUR' },
+  JPY: { symbol: '¥', rate: 149, name: 'JPY' },
+  AUD: { symbol: 'A$', rate: 1.52, name: 'AUD' },
+  CAD: { symbol: 'C$', rate: 1.39, name: 'CAD' }
 };
 
 let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
@@ -30,9 +33,15 @@ function setCurrency(currency) {
   localStorage.setItem('preferredCurrency', currency);
 
   // Update UI
-  document.querySelectorAll('.currency-option').forEach(opt => {
+  document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currency);
   });
+
+  // Close menu if open
+  const menuOverlay = document.getElementById('menuOverlay');
+  if (menuOverlay) {
+    menuOverlay.classList.remove('active');
+  }
 
   // Refresh all prices
   if (window.allData) {
@@ -904,9 +913,67 @@ window.toggleClinicDetails = function(idx) {
   }
 };
 
+/* =========================
+   HAMBURGER MENU
+========================= */
+const hamburgerMenu = document.getElementById('hamburgerMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+const menuClose = document.getElementById('menuClose');
+const compareModeToggleMenu = document.getElementById('compareModeToggleMenu');
+
+// Open menu
+if (hamburgerMenu) {
+  hamburgerMenu.addEventListener('click', () => {
+    menuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+}
+
+// Close menu
+if (menuClose) {
+  menuClose.addEventListener('click', () => {
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+}
+
+// Close menu when clicking overlay
+if (menuOverlay) {
+  menuOverlay.addEventListener('click', (e) => {
+    if (e.target === menuOverlay) {
+      menuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+}
+
+// Sync compare mode toggle in menu with main compare mode
+if (compareModeToggleMenu) {
+  compareModeToggleMenu.addEventListener('change', (e) => {
+    isCompareMode = e.target.checked;
+
+    // Update compare bar visibility
+    if (isCompareMode) {
+      els.floatingCompareBar.classList.add('active');
+    } else {
+      compareSelection = [];
+      els.floatingCompareBar.classList.remove('active');
+    }
+
+    // Re-render
+    renderResults(currentFiltered);
+    renderMarkers(currentFiltered);
+    renderCompareBox(currentFiltered);
+
+    // Close menu
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+}
+
 // Initialize currency selector on page load
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.currency-option').forEach(opt => {
+  document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
   });
 });

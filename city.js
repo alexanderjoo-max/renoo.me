@@ -10,7 +10,10 @@ const country = urlParams.get('country');
 const CURRENCY_RATES = {
   USD: { symbol: '$', rate: 1, name: 'USD' },
   GBP: { symbol: '£', rate: 0.79, name: 'GBP' },
-  EUR: { symbol: '€', rate: 0.92, name: 'EUR' }
+  EUR: { symbol: '€', rate: 0.92, name: 'EUR' },
+  JPY: { symbol: '¥', rate: 149, name: 'JPY' },
+  AUD: { symbol: 'A$', rate: 1.52, name: 'AUD' },
+  CAD: { symbol: 'C$', rate: 1.39, name: 'CAD' }
 };
 
 let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
