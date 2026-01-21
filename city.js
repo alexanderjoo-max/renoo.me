@@ -99,8 +99,8 @@ function renderPage() {
   );
 
   // Set stats
-  if (cityData && cityData.price_usd) {
-    const avgPrice = `$${cityData.price_usd.toLocaleString()}`;
+  if (cityData && cityData.price_mid_usd) {
+    const avgPrice = `$${cityData.price_mid_usd.toLocaleString()}`;
     document.getElementById('cityStats').innerHTML = `
       <div class="city-stat">
         <span>Avg Price:</span>
@@ -152,15 +152,15 @@ function populateCompareDropdown() {
   const sameProcedure = allData.filter(d =>
     d.procedure?.toLowerCase() === procedure.toLowerCase() &&
     d.city?.toLowerCase() !== cityName.toLowerCase() &&
-    d.price_usd
-  ).sort((a, b) => a.price_usd - b.price_usd);
+    d.price_mid_usd
+  ).sort((a, b) => a.price_mid_usd - b.price_mid_usd);
 
   // Populate dropdown
   sameProcedure.slice(0, 20).forEach(city => {
     const option = document.createElement('option');
     const flag = countryFlags[city.country] || '';
     option.value = JSON.stringify({ city: city.city, country: city.country });
-    option.textContent = `${flag} ${city.city} - $${city.price_usd.toLocaleString()}`;
+    option.textContent = `${flag} ${city.city} - $${city.price_mid_usd.toLocaleString()}`;
     select.appendChild(option);
   });
 
@@ -245,7 +245,7 @@ function renderOtherProcedures() {
   procedureCards.innerHTML = uniqueProcedures.slice(0, 6).map(proc => {
     const procData = cityProcedures.find(d => d.procedure === proc);
     const icon = procedureIcons[proc] || '🏥';
-    const price = procData?.price_usd ? `$${procData.price_usd.toLocaleString()}` : 'N/A';
+    const price = procData?.price_mid_usd ? `$${procData.price_mid_usd.toLocaleString()}` : 'N/A';
 
     return `
       <a href="city.html?city=${encodeURIComponent(cityName)}&procedure=${encodeURIComponent(proc)}&country=${encodeURIComponent(country)}" class="procedure-card">
@@ -261,8 +261,8 @@ function renderCompareCities() {
   const sameProcedure = allData.filter(d =>
     d.procedure?.toLowerCase() === procedure.toLowerCase() &&
     d.city?.toLowerCase() !== cityName.toLowerCase() &&
-    d.price_usd
-  ).sort((a, b) => a.price_usd - b.price_usd);
+    d.price_mid_usd
+  ).sort((a, b) => a.price_mid_usd - b.price_mid_usd);
 
   const compareCities = document.getElementById('compareCities');
 
@@ -274,13 +274,13 @@ function renderCompareCities() {
   const currentPrice = allData.find(d =>
     d.city?.toLowerCase() === cityName.toLowerCase() &&
     d.procedure?.toLowerCase() === procedure.toLowerCase()
-  )?.price_usd || 0;
+  )?.price_mid_usd || 0;
 
   compareCities.innerHTML = sameProcedure.slice(0, 5).map(city => {
     const flag = countryFlags[city.country] || '';
-    const price = `$${city.price_usd.toLocaleString()}`;
-    const savings = currentPrice && city.price_usd < currentPrice
-      ? `Save $${(currentPrice - city.price_usd).toLocaleString()}`
+    const price = `$${city.price_mid_usd.toLocaleString()}`;
+    const savings = currentPrice && city.price_mid_usd < currentPrice
+      ? `Save $${(currentPrice - city.price_mid_usd).toLocaleString()}`
       : '';
 
     return `
