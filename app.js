@@ -1027,30 +1027,13 @@ if (menuDestinationSelect) {
   menuDestinationSelect.addEventListener('change', (e) => {
     const selectedCity = e.target.value;
     if (selectedCity) {
-      // Filter to show only selected city
+      // Get city data to find country
       const cityData = ALL.filter(d => d.city === selectedCity);
 
       if (cityData.length > 0) {
-        // Close menu
-        if (menuOverlay) {
-          menuOverlay.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-
-        // Fly to city on map
-        const firstItem = cityData[0];
-        if (firstItem.lat && firstItem.lng) {
-          map.flyTo({
-            center: [firstItem.lng, firstItem.lat],
-            zoom: 11,
-            essential: true
-          });
-        }
-
-        // Show results for this city
-        renderMarkers(cityData);
-        renderResults(cityData);
-        currentFiltered = cityData;
+        // Navigate to city page with city and country params
+        const country = cityData[0].country;
+        window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}`;
       }
     }
   });
