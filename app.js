@@ -995,35 +995,63 @@ document.addEventListener('DOMContentLoaded', () => {
 loadClinicData().then(() => {
   // Re-apply filters to show "View clinics" buttons
   applyFiltersAndRender();
+  // Populate destination dropdown
+  populateDestinationDropdown();
 });
 
 /* =========================
-   MENU SEARCH FUNCTIONALITY
+   MENU DESTINATION DROPDOWN
 ========================= */
-const menuSearchInput = document.getElementById('menuSearchInput');
-if (menuSearchInput) {
-  menuSearchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    if (searchTerm.length > 0) {
-      // Filter cities that match the search term
-      const matchingCities = ALL.filter(d =>
-        d.city?.toLowerCase().includes(searchTerm) ||
-        d.country?.toLowerCase().includes(searchTerm) ||
-        d.procedure?.toLowerCase().includes(searchTerm)
-      );
+const menuDestinationSelect = document.getElementById('menuDestinationSelect');
 
-      // You could display autocomplete suggestions here
-      console.log('Matching cities:', matchingCities.length);
-    }
+// Populate destination dropdown with unique cities
+function populateDestinationDropdown() {
+  if (!menuDestinationSelect || !ALL || ALL.length === 0) return;
+
+  // Get unique cities sorted alphabetically
+  const uniqueCities = [...new Set(ALL.map(d => d.city))].filter(Boolean).sort();
+
+  // Clear existing options (except first placeholder)
+  menuDestinationSelect.innerHTML = '<option value="" selected>Choose destination...</option>';
+
+  // Add city options
+  uniqueCities.forEach(city => {
+    const option = document.createElement('option');
+    option.value = city;
+    option.textContent = city;
+    menuDestinationSelect.appendChild(option);
   });
+}
 
-  menuSearchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      const searchTerm = e.target.value.toLowerCase();
-      // Close menu and show results
-      if (menuOverlay) {
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+// Handle destination selection
+if (menuDestinationSelect) {
+  menuDestinationSelect.addEventListener('change', (e) => {
+    const selectedCity = e.target.value;
+    if (selectedCity) {
+      // Filter to show only selected city
+      const cityData = ALL.filter(d => d.city === selectedCity);
+
+      if (cityData.length > 0) {
+        // Close menu
+        if (menuOverlay) {
+          menuOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+
+        // Fly to city on map
+        const firstItem = cityData[0];
+        if (firstItem.lat && firstItem.lng) {
+          map.flyTo({
+            center: [firstItem.lng, firstItem.lat],
+            zoom: 11,
+            essential: true
+          });
+        }
+
+        // Show results for this city
+        renderMarkers(cityData);
+        renderResults(cityData);
+        currentFiltered = cityData;
       }
     }
   });
