@@ -124,6 +124,7 @@ async function loadData() {
     });
 
     renderPage();
+    populateDestinationDropdown();
   } catch (e) {
     console.error('Failed to load data:', e);
   }
@@ -414,30 +415,42 @@ document.addEventListener('DOMContentLoaded', () => {
 loadData();
 
 /* =========================
-   MENU SEARCH FUNCTIONALITY
+   MENU DESTINATION DROPDOWN
 ========================= */
-const menuSearchInput = document.getElementById('menuSearchInput');
-if (menuSearchInput) {
-  menuSearchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    if (searchTerm.length > 0) {
-      // Filter cities that match the search term
-      const matchingCities = allData.filter(d =>
-        d.city?.toLowerCase().includes(searchTerm) ||
-        d.country?.toLowerCase().includes(searchTerm) ||
-        d.procedure?.toLowerCase().includes(searchTerm)
-      );
+const menuDestinationSelect = document.getElementById('menuDestinationSelect');
 
-      // You could display results here or provide autocomplete suggestions
-      console.log('Matching cities:', matchingCities.length);
-    }
+// Populate destination dropdown with unique cities
+function populateDestinationDropdown() {
+  if (!menuDestinationSelect || !allData || allData.length === 0) return;
+
+  // Get unique cities sorted alphabetically
+  const uniqueCities = [...new Set(allData.map(d => d.city))].filter(Boolean).sort();
+
+  // Clear existing options (except first placeholder)
+  menuDestinationSelect.innerHTML = '<option value="" selected>Choose destination...</option>';
+
+  // Add city options
+  uniqueCities.forEach(city => {
+    const option = document.createElement('option');
+    option.value = city;
+    option.textContent = city;
+    menuDestinationSelect.appendChild(option);
   });
+}
 
-  menuSearchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      const searchTerm = e.target.value.toLowerCase();
-      // Navigate back to map with search pre-filled (placeholder for now)
-      window.location.href = '/';
+// Handle destination selection
+if (menuDestinationSelect) {
+  menuDestinationSelect.addEventListener('change', (e) => {
+    const selectedCity = e.target.value;
+    if (selectedCity) {
+      // Get city data to find country
+      const cityData = allData.filter(d => d.city === selectedCity);
+
+      if (cityData.length > 0) {
+        // Navigate to city page with city, country, and current procedure
+        const country = cityData[0].country;
+        window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(procedure)}`;
+      }
     }
   });
 }
