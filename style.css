@@ -18,7 +18,10 @@ html {
 
 #map {
   position: fixed;
-  inset: 0;
+  top: 60px;
+  left: 420px;
+  right: 0;
+  bottom: 0;
 }
 
 /* Screen-reader only (your H1 uses this) */
@@ -40,6 +43,7 @@ html {
   top: 0;
   left: 0;
   right: 0;
+  height: 60px;
   background: #2f2f2f;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 2px 20px rgba(0,0,0,0.3);
@@ -487,6 +491,7 @@ html {
 }
 
 .swipe-hint {
+  display: none; /* Hidden on desktop, shown on mobile */
   text-align: center;
   padding: 8px 12px;
   font-size: 12px;
@@ -504,27 +509,84 @@ html {
   font-weight: 700;
 }
 
-/* -------- Desktop panel -------- */
+/* -------- Sidebar Filter Header (Desktop Only) -------- */
+.sidebar-filter-header {
+  padding: 20px 20px 16px 20px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sidebar-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-filter-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.sidebar-filter-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.sidebar-filter-btn {
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.8);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sidebar-filter-btn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+.sidebar-filter-btn.active {
+  background: rgba(59,130,246,0.2);
+  border-color: rgba(59,130,246,0.4);
+  color: #fff;
+}
+
+/* -------- Desktop panel (LEFT SIDEBAR) -------- */
 #panel {
   position: fixed;
-  top: 70px;
-  right: 20px;
-  width: 380px;
-  max-height: calc(100vh - 90px);
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  width: 420px;
   background: #2f2f2f;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  z-index: 2;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+  z-index: 10;
   overflow: hidden;
-  backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
 }
 
 .panel-inner {
-  padding: 24px;
-  overflow: auto;
+  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -602,9 +664,9 @@ html {
 }
 
 .section {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .section:first-of-type {
@@ -626,7 +688,15 @@ html {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.results-count {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  flex: 1;
 }
 
 .sort-control{
@@ -659,9 +729,9 @@ html {
 
 /* Scrollable results list */
 .results-scroll{
-  max-height: 350px;          /* desktop default */
+  max-height: calc(100vh - 280px);  /* Fill remaining space on desktop */
   overflow: auto;
-  scrollbar-gutter: stable;   /* helps on desktop */
+  scrollbar-gutter: stable;
 }
 
 /* Desktop scrollbar styling */
@@ -673,21 +743,24 @@ html {
 .results-scroll::-webkit-scrollbar-track { background: transparent; }
 
 .result-item {
-  padding: 10px 14px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   transition: all 0.2s ease;
+  background: rgba(255,255,255,0.02);
+  margin-bottom: 1px;
 }
 
 .result-item:hover {
-  background-color: rgba(255,255,255,0.05);
+  background-color: rgba(255,255,255,0.06);
+  transform: translateX(2px);
 }
 
-.result-item:first-child { border-top: none; }
+.result-item:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
 
 .result-item.selected {
   background: rgba(59,130,246,0.15);
@@ -700,31 +773,32 @@ html {
 }
 
 
-.result-left { min-width: 0; }
+.result-left {
+  min-width: 0;
+  flex: 1;
+}
 
 .result-city {
-  font-weight: 500;
-  font-size: 15px;
+  font-weight: 600;
+  font-size: 16px;
   color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  line-height: 1.3;
 }
 
 .result-meta {
   font-size: 13px;
-  color: rgba(255,255,255,0.6);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.4;
   font-weight: 400;
 }
 
 .result-price {
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 18px;
   color: #fff;
   white-space: nowrap;
+  text-align: right;
 }
 
 /* Cheapest badge */
@@ -962,7 +1036,7 @@ html {
 .floating-compare-bar {
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 420px; /* Desktop: offset by sidebar width */
   right: 0;
   background: #2f2f2f;
   border-top: 1px solid rgba(255,255,255,0.1);
@@ -1113,6 +1187,15 @@ html {
     max-height: calc(100vh - 180px);
   }
 
+  /* Map covers full screen on mobile */
+  #map {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  /* Sidebar becomes bottom sheet on mobile */
   #panel{
     left: 0;
     right: 0;
@@ -1123,8 +1206,19 @@ html {
     height: 100px;                /* JS can resize this */
     border-radius: 16px 16px 0 0;
     border: none;
+    border-right: none;
     border-top: 1px solid rgba(255,255,255,0.1);
     background: #2f2f2f;
+  }
+
+  /* Hide desktop filter header on mobile */
+  .sidebar-filter-header {
+    display: none;
+  }
+
+  /* Show swipe hint on mobile */
+  .swipe-hint {
+    display: block;
   }
 
   /* show the drag handle on mobile */
@@ -1202,6 +1296,10 @@ html {
   }
 
   /* Floating compare bar on mobile */
+  .floating-compare-bar {
+    left: 0; /* Full width on mobile */
+  }
+
   .floating-compare-content {
     padding: 8px 16px;
     gap: 6px;
