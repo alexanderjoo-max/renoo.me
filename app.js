@@ -346,6 +346,7 @@ fetch("data.json")
 
     populateProcedureDropdown(ALL);
     populateCountryDropdown(ALL);
+    populateDestinationDropdown();
     wireUI();
 
     // Set "Botox" as default and load pins on map
@@ -995,8 +996,6 @@ document.addEventListener('DOMContentLoaded', () => {
 loadClinicData().then(() => {
   // Re-apply filters to show "View clinics" buttons
   applyFiltersAndRender();
-  // Populate destination dropdown
-  populateDestinationDropdown();
 });
 
 /* =========================
