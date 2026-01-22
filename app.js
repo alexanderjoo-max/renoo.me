@@ -1027,13 +1027,16 @@ if (menuDestinationSelect) {
   menuDestinationSelect.addEventListener('change', (e) => {
     const selectedCity = e.target.value;
     if (selectedCity) {
-      // Get city data to find country
+      // Get city data to find country and procedure
       const cityData = ALL.filter(d => d.city === selectedCity);
 
       if (cityData.length > 0) {
-        // Navigate to city page with city and country params
+        // Get currently selected procedure or default to Botox
+        const currentProcedure = els.procedureSelect?.value || 'Botox';
         const country = cityData[0].country;
-        window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}`;
+
+        // Navigate to city page with city, country, and procedure
+        window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(currentProcedure)}`;
       }
     }
   });
