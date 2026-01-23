@@ -421,10 +421,19 @@ const menuDestinationSelect = document.getElementById('menuDestinationSelect');
 
 // Populate destination dropdown with unique cities
 function populateDestinationDropdown() {
-  if (!menuDestinationSelect || !allData || allData.length === 0) return;
+  if (!menuDestinationSelect) {
+    console.log('menuDestinationSelect not found');
+    return;
+  }
+
+  if (!allData || allData.length === 0) {
+    console.log('allData not loaded or empty');
+    return;
+  }
 
   // Get unique cities sorted alphabetically
   const uniqueCities = [...new Set(allData.map(d => d.city))].filter(Boolean).sort();
+  console.log('Populating dropdown with cities:', uniqueCities.length);
 
   // Clear existing options (except first placeholder)
   menuDestinationSelect.innerHTML = '<option value="" selected>Choose destination...</option>';
@@ -436,20 +445,29 @@ function populateDestinationDropdown() {
     option.textContent = city;
     menuDestinationSelect.appendChild(option);
   });
+
+  console.log('Dropdown populated successfully');
 }
 
 // Handle destination selection
 if (menuDestinationSelect) {
   menuDestinationSelect.addEventListener('change', (e) => {
     const selectedCity = e.target.value;
+    console.log('City selected:', selectedCity);
+
     if (selectedCity) {
       // Get city data to find country
       const cityData = allData.filter(d => d.city === selectedCity);
+      console.log('City data found:', cityData.length);
 
       if (cityData.length > 0) {
         // Navigate to city page with city, country, and current procedure
         const country = cityData[0].country;
-        window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(procedure)}`;
+        const targetUrl = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(procedure)}`;
+        console.log('Navigating to:', targetUrl);
+        window.location.href = targetUrl;
+      } else {
+        console.error('No city data found for:', selectedCity);
       }
     }
   });
