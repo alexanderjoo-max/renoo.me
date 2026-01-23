@@ -417,10 +417,12 @@ loadData();
 /* =========================
    MENU DESTINATION DROPDOWN
 ========================= */
-const menuDestinationSelect = document.getElementById('menuDestinationSelect');
+let dropdownInitialized = false;
 
 // Populate destination dropdown with unique cities
 function populateDestinationDropdown() {
+  const menuDestinationSelect = document.getElementById('menuDestinationSelect');
+
   if (!menuDestinationSelect) {
     console.log('menuDestinationSelect not found');
     return;
@@ -447,28 +449,30 @@ function populateDestinationDropdown() {
   });
 
   console.log('Dropdown populated successfully');
-}
 
-// Handle destination selection
-if (menuDestinationSelect) {
-  menuDestinationSelect.addEventListener('change', (e) => {
-    const selectedCity = e.target.value;
-    console.log('City selected:', selectedCity);
+  // Add event listener only once
+  if (!dropdownInitialized) {
+    menuDestinationSelect.addEventListener('change', (e) => {
+      const selectedCity = e.target.value;
+      console.log('City selected:', selectedCity);
 
-    if (selectedCity) {
-      // Get city data to find country
-      const cityData = allData.filter(d => d.city === selectedCity);
-      console.log('City data found:', cityData.length);
+      if (selectedCity) {
+        // Get city data to find country
+        const cityData = allData.filter(d => d.city === selectedCity);
+        console.log('City data found:', cityData.length);
 
-      if (cityData.length > 0) {
-        // Navigate to city page with city, country, and current procedure
-        const country = cityData[0].country;
-        const targetUrl = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(procedure)}`;
-        console.log('Navigating to:', targetUrl);
-        window.location.href = targetUrl;
-      } else {
-        console.error('No city data found for:', selectedCity);
+        if (cityData.length > 0) {
+          // Navigate to city page with city, country, and current procedure
+          const country = cityData[0].country;
+          const targetUrl = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(procedure)}`;
+          console.log('Navigating to:', targetUrl);
+          window.location.href = targetUrl;
+        } else {
+          console.error('No city data found for:', selectedCity);
+        }
       }
-    }
-  });
+    });
+    dropdownInitialized = true;
+    console.log('Dropdown event listener added');
+  }
 }
