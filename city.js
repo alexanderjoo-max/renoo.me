@@ -405,15 +405,16 @@ if (menuOverlay) {
   });
 }
 
-// Initialize currency selector on page load
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize currency selector
   document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
   });
-});
 
-// Load data on page load
-loadData();
+  // Load data
+  loadData();
+});
 
 /* =========================
    MENU DESTINATION DROPDOWN
