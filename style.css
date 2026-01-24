@@ -1718,10 +1718,125 @@ html {
   display: block;
 }
 
+/* Trip Comparison Hero */
+.trip-comparison-hero {
+  margin-bottom: 24px;
+}
+
+.comparison-vs {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: 24px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 16px;
+}
+
+.comparison-home,
+.comparison-trip {
+  text-align: center;
+}
+
+.comparison-city-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.comparison-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.comparison-price-highlight {
+  color: #22c55e;
+}
+
+.comparison-divider {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  padding: 0 12px;
+}
+
+.trip-savings-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(34,197,94,0.05) 100%);
+  border: 2px solid rgba(34,197,94,0.4);
+  border-radius: 12px;
+}
+
+.savings-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.savings-content {
+  flex: 1;
+}
+
+.savings-amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #22c55e;
+  margin-bottom: 4px;
+}
+
+.savings-subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+}
+
+.trip-note-small {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 12px;
+}
+
+@media (max-width: 600px) {
+  .comparison-vs {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .comparison-divider {
+    padding: 8px 0;
+  }
+
+  .comparison-price {
+    font-size: 24px;
+  }
+
+  .savings-amount {
+    font-size: 20px;
+  }
+}
+
 .trip-breakdown {
   display: grid;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 0;
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.trip-breakdown-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .trip-row {
@@ -1729,11 +1844,15 @@ html {
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.trip-row:last-child {
+  border-bottom: none;
 }
 
 .trip-row-label {
-  font-size: 15px;
+  font-size: 14px;
   color: rgba(255,255,255,0.7);
   display: flex;
   align-items: center;
@@ -1741,38 +1860,30 @@ html {
 }
 
 .trip-row-icon {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .trip-row-value {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: #fff;
 }
 
-.trip-total {
-  background: rgba(59,130,246,0.1);
-  border: 1px solid rgba(59,130,246,0.3);
-  border-radius: 12px;
-  padding: 16px;
-  margin-top: 16px;
+.trip-row-total {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 2px solid rgba(255,255,255,0.2);
+  border-bottom: none;
 }
 
-.trip-total-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.trip-total-label {
-  font-size: 16px;
-  font-weight: 600;
+.trip-row-total .trip-row-label {
+  font-weight: 700;
   color: #fff;
+  font-size: 15px;
 }
 
-.trip-total-value {
-  font-size: 20px;
+.trip-row-total .trip-row-value {
+  font-size: 18px;
   font-weight: 700;
   color: #3b82f6;
 }

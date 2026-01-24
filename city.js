@@ -564,7 +564,35 @@ function calculateTripCost() {
 
   // Render results
   resultsDiv.innerHTML = `
+    ${homeProcedureCost ? `
+      <div class="trip-comparison-hero">
+        <div class="comparison-vs">
+          <div class="comparison-home">
+            <div class="comparison-city-label">${procedureName} in ${departureCity}</div>
+            <div class="comparison-price">${formatPrice(homeProcedureCost)}</div>
+          </div>
+          <div class="comparison-divider">VS</div>
+          <div class="comparison-trip">
+            <div class="comparison-city-label">Total Trip to ${arrivalCity}</div>
+            <div class="comparison-price comparison-price-highlight">${formatPrice(totalTripCost)}</div>
+          </div>
+        </div>
+        ${savings && savings > 0 ? `
+          <div class="trip-savings-banner">
+            <div class="savings-icon">💰</div>
+            <div class="savings-content">
+              <div class="savings-amount">Save ${formatPrice(savings)}</div>
+              <div class="savings-subtitle">Even with flight + hotel included</div>
+            </div>
+          </div>
+        ` : `
+          <div class="trip-note-small">Total trip cost: ${formatPrice(totalTripCost)} vs ${formatPrice(homeProcedureCost)} at home</div>
+        `}
+      </div>
+    ` : ''}
+
     <div class="trip-breakdown">
+      <div class="trip-breakdown-title">Trip Cost Breakdown:</div>
       <div class="trip-row">
         <div class="trip-row-label">
           <span class="trip-row-icon">✈️</span>
@@ -588,31 +616,18 @@ function calculateTripCost() {
         </div>
         <div class="trip-row-value">${formatPrice(procedureCost)}</div>
       </div>
+
+      <div class="trip-row trip-row-total">
+        <div class="trip-row-label">Total Trip Cost</div>
+        <div class="trip-row-value trip-total-value">${formatPrice(totalTripCost)}</div>
+      </div>
     </div>
 
-    <div class="trip-total">
-      <div class="trip-total-row">
-        <div class="trip-total-label">Total Trip Cost:</div>
-        <div class="trip-total-value">${formatPrice(totalTripCost)}</div>
-      </div>
-    </div>
-
-    ${savings && savings > 0 ? `
-      <div class="trip-comparison">
-        <div class="trip-comparison-title">💰 vs. Getting ${procedureName} in ${departureCity}:</div>
-        <div class="trip-savings">Save ${formatPrice(savings)}!</div>
-        <div class="trip-note">Even with flight + hotel, you save money by traveling to ${arrivalCity}</div>
-      </div>
-    ` : homeProcedureCost ? `
-      <div class="trip-note">
-        Note: ${procedureName} costs approximately ${formatPrice(homeProcedureCost)} in ${departureCity}.
-        Total trip cost is ${formatPrice(totalTripCost)}.
-      </div>
-    ` : `
+    ${!homeProcedureCost ? `
       <div class="trip-note">
         Estimated costs based on average flight and hotel prices. Actual costs may vary.
       </div>
-    `}
+    ` : ''}
   `;
 
   resultsDiv.classList.add('visible');
