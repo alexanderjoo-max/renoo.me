@@ -418,6 +418,24 @@ html {
   gap: 8px;
 }
 
+.menu-footer-contact {
+  padding: 16px 20px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.menu-contact-link {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.menu-contact-link:hover {
+  color: rgba(255,255,255,0.8);
+  text-decoration: underline;
+}
+
 .currency-option-menu {
   padding: 12px;
   font-size: 14px;
