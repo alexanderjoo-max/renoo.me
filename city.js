@@ -125,6 +125,7 @@ async function loadData() {
 
     renderPage();
     populateDestinationDropdown();
+    populateDepartureCities();
   } catch (e) {
     console.error('Failed to load data:', e);
   }
@@ -475,4 +476,137 @@ function populateDestinationDropdown() {
     dropdownInitialized = true;
     console.log('Dropdown event listener added');
   }
+}
+
+/* =========================
+   TRIP CALCULATOR
+========================= */
+// Average flight costs (USD) - estimates based on distance
+const FLIGHT_COSTS = {
+  'New York': { 'Bangkok': 850, 'Istanbul': 650, 'Mexico City': 350, 'Dubai': 750, 'Seoul': 950, 'Singapore': 900 },
+  'Los Angeles': { 'Bangkok': 750, 'Istanbul': 850, 'Mexico City': 250, 'Dubai': 900, 'Seoul': 750, 'Singapore': 850 },
+  'London': { 'Bangkok': 650, 'Istanbul': 200, 'Mexico City': 700, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
+  'Toronto': { 'Bangkok': 900, 'Istanbul': 700, 'Mexico City': 300, 'Dubai': 800, 'Seoul': 850, 'Singapore': 950 },
+  'Sydney': { 'Bangkok': 450, 'Istanbul': 950, 'Mexico City': 1100, 'Dubai': 850, 'Seoul': 650, 'Singapore': 400 },
+  'Paris': { 'Bangkok': 650, 'Istanbul': 220, 'Mexico City': 750, 'Dubai': 400, 'Seoul': 800, 'Singapore': 700 },
+  'Berlin': { 'Bangkok': 600, 'Istanbul': 180, 'Mexico City': 800, 'Dubai': 400, 'Seoul': 750, 'Singapore': 650 },
+  'Dubai': { 'Bangkok': 350, 'Istanbul': 250, 'Mexico City': 1000, 'Seoul': 600, 'Singapore': 400 }
+};
+
+// Average 7-night hotel costs (USD)
+const HOTEL_COSTS = {
+  'Bangkok': 350,
+  'Istanbul': 400,
+  'Mexico City': 450,
+  'Dubai': 700,
+  'Seoul': 550,
+  'Singapore': 600,
+  'Bodrum': 450,
+  'Tijuana': 300,
+  'Cancun': 500
+};
+
+// Populate departure city dropdown
+function populateDepartureCities() {
+  const departureSelect = document.getElementById('departureCity');
+  if (!departureSelect) return;
+
+  const cities = Object.keys(FLIGHT_COSTS).sort();
+  cities.forEach(city => {
+    const option = document.createElement('option');
+    option.value = city;
+    option.textContent = city;
+    departureSelect.appendChild(option);
+  });
+
+  // Add change event listener
+  departureSelect.addEventListener('change', calculateTripCost);
+}
+
+function calculateTripCost() {
+  const departureCity = document.getElementById('departureCity')?.value;
+  const resultsDiv = document.getElementById('tripCalculatorResults');
+
+  if (!departureCity || !resultsDiv) return;
+
+  // Get current city and procedure from URL
+  const arrivalCity = cityName;
+  const procedureName = procedure;
+
+  // Get flight cost
+  const flightCost = FLIGHT_COSTS[departureCity]?.[arrivalCity] || 800; // Default if not found
+
+  // Get hotel cost
+  const hotelCost = HOTEL_COSTS[arrivalCity] || 400; // Default if not found
+
+  // Get procedure cost (from current page data)
+  const procedureCost = allData.find(d =>
+    d.city?.toLowerCase() === arrivalCity.toLowerCase() &&
+    d.procedure?.toLowerCase() === procedureName.toLowerCase()
+  )?.price_mid_usd || 2000;
+
+  // Get procedure cost in departure city (if available)
+  const homeProcedureCost = allData.find(d =>
+    d.city?.toLowerCase() === departureCity.toLowerCase() &&
+    d.procedure?.toLowerCase() === procedureName.toLowerCase()
+  )?.price_mid_usd;
+
+  // Calculate totals
+  const totalTripCost = flightCost + hotelCost + procedureCost;
+  const savings = homeProcedureCost ? (homeProcedureCost - totalTripCost) : null;
+
+  // Render results
+  resultsDiv.innerHTML = `
+    <div class="trip-breakdown">
+      <div class="trip-row">
+        <div class="trip-row-label">
+          <span class="trip-row-icon">✈️</span>
+          Round-trip flight (${departureCity} → ${arrivalCity})
+        </div>
+        <div class="trip-row-value">${formatPrice(flightCost)}</div>
+      </div>
+
+      <div class="trip-row">
+        <div class="trip-row-label">
+          <span class="trip-row-icon">🏨</span>
+          7-night hotel in ${arrivalCity}
+        </div>
+        <div class="trip-row-value">${formatPrice(hotelCost)}</div>
+      </div>
+
+      <div class="trip-row">
+        <div class="trip-row-label">
+          <span class="trip-row-icon">💉</span>
+          ${procedureName} procedure
+        </div>
+        <div class="trip-row-value">${formatPrice(procedureCost)}</div>
+      </div>
+    </div>
+
+    <div class="trip-total">
+      <div class="trip-total-row">
+        <div class="trip-total-label">Total Trip Cost:</div>
+        <div class="trip-total-value">${formatPrice(totalTripCost)}</div>
+      </div>
+    </div>
+
+    ${savings && savings > 0 ? `
+      <div class="trip-comparison">
+        <div class="trip-comparison-title">💰 vs. Getting ${procedureName} in ${departureCity}:</div>
+        <div class="trip-savings">Save ${formatPrice(savings)}!</div>
+        <div class="trip-note">Even with flight + hotel, you save money by traveling to ${arrivalCity}</div>
+      </div>
+    ` : homeProcedureCost ? `
+      <div class="trip-note">
+        Note: ${procedureName} costs approximately ${formatPrice(homeProcedureCost)} in ${departureCity}.
+        Total trip cost is ${formatPrice(totalTripCost)}.
+      </div>
+    ` : `
+      <div class="trip-note">
+        Estimated costs based on average flight and hotel prices. Actual costs may vary.
+      </div>
+    `}
+  `;
+
+  resultsDiv.classList.add('visible');
 }

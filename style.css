@@ -1652,6 +1652,159 @@ html {
   margin: 0 0 20px 0;
 }
 
+/* Trip Calculator */
+.trip-calculator {
+  background: #2f2f2f;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 24px;
+}
+
+.trip-calculator-input {
+  margin-bottom: 24px;
+}
+
+.trip-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 8px;
+}
+
+.trip-select {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 44px;
+  transition: all 0.2s ease;
+}
+
+.trip-select:hover {
+  background-color: rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.trip-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.trip-select option {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.trip-calculator-results {
+  display: none;
+}
+
+.trip-calculator-results.visible {
+  display: block;
+}
+
+.trip-breakdown {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.trip-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.trip-row-label {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trip-row-icon {
+  font-size: 18px;
+}
+
+.trip-row-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.trip-total {
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.trip-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.trip-total-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.trip-total-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.trip-comparison {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.trip-comparison-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 8px;
+}
+
+.trip-savings {
+  font-size: 18px;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.trip-note {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 16px;
+  font-style: italic;
+}
+
 .clinic-list {
   display: flex;
   flex-direction: column;
