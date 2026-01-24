@@ -187,13 +187,19 @@ function renderPage() {
   // Populate compare dropdown
   populateCompareDropdown();
 
-  // Back button
-  document.getElementById('cityBackBtn').addEventListener('click', () => {
-    window.history.back();
-  });
+  // Back button (if exists)
+  const cityBackBtn = document.getElementById('cityBackBtn');
+  if (cityBackBtn) {
+    cityBackBtn.addEventListener('click', () => {
+      window.history.back();
+    });
+  }
 
   // Set city name for other procedures
-  document.getElementById('cityNameProcedures').textContent = cityName;
+  const cityNameProcedures = document.getElementById('cityNameProcedures');
+  if (cityNameProcedures) {
+    cityNameProcedures.textContent = cityName;
+  }
 }
 
 function populateCompareDropdown() {
