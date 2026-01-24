@@ -541,7 +541,7 @@ function renderMarkers(data) {
         <div class="popup-row">${escapeHtml(d.country)}</div>
         <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
         <div class="popup-row"><strong>Typical price:</strong> ${formatPrice(d.price_usd)}</div>
-        <div class="popup-view-clinics" data-city-id="${d._id}">View clinics →</div>
+        <div class="popup-view-clinics" data-city-id="${d._id}">View Details →</div>
       </div>
     `;
 
@@ -552,7 +552,7 @@ function renderMarkers(data) {
       .setPopup(popup)
       .addTo(map);
 
-    // Add click handler for "View clinics" button in popup
+    // Add click handler for "View Details" button in popup
     popup.on('open', () => {
       const viewClinicsBtn = document.querySelector(`[data-city-id="${d._id}"]`);
       if (viewClinicsBtn) {
@@ -630,7 +630,7 @@ function renderResults(data) {
       <div class="result-left">
         <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
         <div class="result-meta">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
-        <div class="result-view-clinics">View clinics →</div>
+        <div class="result-view-clinics">View Details →</div>
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
     `;
@@ -994,7 +994,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Load clinic data on init and re-render when loaded
 loadClinicData().then(() => {
-  // Re-apply filters to show "View clinics" buttons
+  // Re-apply filters to show "View Details" buttons
   applyFiltersAndRender();
 });
 
