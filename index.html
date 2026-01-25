@@ -98,57 +98,14 @@
       </div>
 
       <nav class="menu-nav">
-        <!-- Search Section -->
+        <!-- Currency at top -->
         <div class="menu-section">
-          <div class="menu-section-title">🔍 Browse Prices by City</div>
-
-          <div class="menu-item menu-search-item">
-            <select class="menu-search-select" id="menuDestinationSelect">
-              <option value="" selected>Choose destination...</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Travel Costs Section (Coming Soon) -->
-        <div class="menu-section menu-section-highlight">
-          <div class="menu-section-title">✈️ Travel Costs <span class="coming-soon-badge">Coming Soon</span></div>
-
-          <div class="menu-item menu-info-item">
-            <div class="menu-info-icon">🛫</div>
-            <div>
-              <div class="menu-info-title">Flight Prices</div>
-              <div class="menu-info-desc">Compare airfare from your location</div>
-            </div>
-          </div>
-
-          <div class="menu-item menu-info-item">
-            <div class="menu-info-icon">🏨</div>
-            <div>
-              <div class="menu-info-title">Hotel Costs</div>
-              <div class="menu-info-desc">Find accommodation near clinics</div>
-            </div>
-          </div>
-
-          <div class="menu-item menu-info-item">
-            <div class="menu-info-icon">💰</div>
-            <div>
-              <div class="menu-info-title">Total Trip Cost</div>
-              <div class="menu-info-desc">All-in pricing with travel included</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Settings Section -->
-        <div class="menu-section">
-          <div class="menu-section-title">⚙️ Settings</div>
-
           <div class="menu-item menu-currency">
-            <div class="menu-label-small">Currency</div>
             <select class="currency-dropdown" id="currencyDropdown" onchange="setCurrency(this.value)">
-              <option value="USD">🇺🇸 USD</option>
-              <option value="GBP">🇬🇧 GBP</option>
-              <option value="EUR">🇪🇺 EUR</option>
-              <option value="JPY">🇯🇵 JPY</option>
+              <option value="USD">💵 USD</option>
+              <option value="GBP">💷 GBP</option>
+              <option value="EUR">💶 EUR</option>
+              <option value="JPY">💴 JPY</option>
               <option value="AUD">🇦🇺 AUD</option>
               <option value="CAD">🇨🇦 CAD</option>
               <option value="CHF">🇨🇭 CHF</option>
@@ -163,6 +120,28 @@
               <option value="ZAR">🇿🇦 ZAR</option>
             </select>
           </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="menu-section">
+          <div class="menu-section-title">🔍 Browse Prices by City</div>
+
+          <div class="menu-item menu-search-item">
+            <select class="menu-search-select" id="menuDestinationSelect">
+              <option value="" selected>Choose destination...</option>
+            </select>
+          </div>
+
+          <a href="compare.html" class="menu-item menu-link menu-link-animated">
+            <span class="menu-link-icon">⚖️</span>
+            <span>Compare Cities</span>
+            <span class="menu-arrow">→</span>
+          </a>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="menu-section">
+          <div class="menu-section-title">⚙️ Settings</div>
 
           <a href="about.html" class="menu-item menu-link menu-link-animated">
             <span class="menu-link-icon">ℹ️</span>

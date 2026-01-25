@@ -591,13 +591,11 @@ function populateHeaderDropdowns() {
   const uniqueCities = [...new Set(allData.map(d => d.city))].filter(Boolean).sort();
   const uniqueProcedures = [...new Set(allData.map(d => d.procedure))].filter(Boolean).sort();
 
-  // Populate header city selects
-  const headerCitySelect = document.getElementById('headerCitySelect');
+  // Populate city page header dropdowns only (not top header)
   const cityHeaderCitySelect = document.getElementById('cityHeaderCitySelect');
+  const cityHeaderProcedureSelect = document.getElementById('cityHeaderProcedureSelect');
 
-  [headerCitySelect, cityHeaderCitySelect].forEach(select => {
-    if (!select) return;
-
+  if (cityHeaderCitySelect) {
     uniqueCities.forEach(city => {
       const option = document.createElement('option');
       const cityCountry = allData.find(d => d.city === city)?.country;
@@ -605,37 +603,31 @@ function populateHeaderDropdowns() {
       option.value = city;
       option.textContent = `${flag} ${city}`;
       if (city === cityName) option.selected = true;
-      select.appendChild(option);
+      cityHeaderCitySelect.appendChild(option);
     });
 
-    select.addEventListener('change', (e) => {
+    cityHeaderCitySelect.addEventListener('change', (e) => {
       const selectedCity = e.target.value;
       const cityCountry = allData.find(d => d.city === selectedCity)?.country;
       window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(cityCountry)}&procedure=${encodeURIComponent(procedure)}`;
     });
-  });
+  }
 
-  // Populate header procedure selects
-  const headerProcedureSelect = document.getElementById('headerProcedureSelect');
-  const cityHeaderProcedureSelect = document.getElementById('cityHeaderProcedureSelect');
-
-  [headerProcedureSelect, cityHeaderProcedureSelect].forEach(select => {
-    if (!select) return;
-
+  if (cityHeaderProcedureSelect) {
     uniqueProcedures.forEach(proc => {
       const option = document.createElement('option');
       const icon = procedureIcons[proc] || '';
       option.value = proc;
       option.textContent = `${icon} ${proc}`;
       if (proc === procedure) option.selected = true;
-      select.appendChild(option);
+      cityHeaderProcedureSelect.appendChild(option);
     });
 
-    select.addEventListener('change', (e) => {
+    cityHeaderProcedureSelect.addEventListener('change', (e) => {
       const selectedProcedure = e.target.value;
       window.location.href = `city.html?city=${encodeURIComponent(cityName)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(selectedProcedure)}`;
     });
-  });
+  }
 }
 
 /* =========================
