@@ -643,10 +643,10 @@ function populateHeaderDropdowns() {
 ========================= */
 // Average flight costs (USD) - estimates based on distance
 const FLIGHT_COSTS = {
-  'New York': { 'Bangkok': 850, 'Istanbul': 650, 'Mexico City': 350, 'Dubai': 750, 'Seoul': 950, 'Singapore': 900 },
-  'Los Angeles': { 'Bangkok': 750, 'Istanbul': 850, 'Mexico City': 250, 'Dubai': 900, 'Seoul': 750, 'Singapore': 850 },
-  'London': { 'Bangkok': 650, 'Istanbul': 200, 'Mexico City': 700, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
-  'Toronto': { 'Bangkok': 900, 'Istanbul': 700, 'Mexico City': 300, 'Dubai': 800, 'Seoul': 850, 'Singapore': 950 },
+  'New York City': { 'Bangkok': 850, 'Istanbul': 650, 'Mexico City': 350, 'Dubai': 750, 'Seoul': 950, 'Singapore': 900, 'Jacksonville': 200, 'Austin': 250, 'Chicago': 200, 'Dallas': 250, 'Houston': 250, 'Los Angeles': 350, 'Phoenix': 300, 'San Antonio': 250, 'San Diego': 350 },
+  'Los Angeles': { 'Bangkok': 750, 'Istanbul': 850, 'Mexico City': 250, 'Dubai': 900, 'Seoul': 750, 'Singapore': 850, 'Jacksonville': 350, 'Austin': 250, 'Chicago': 300, 'Dallas': 200, 'Houston': 200, 'New York City': 350, 'Phoenix': 100, 'San Antonio': 200, 'San Diego': 50 },
+  'London': { 'Bangkok': 650, 'Istanbul': 200, 'Mexico City': 700, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700, 'Jacksonville': 750, 'Austin': 800, 'Chicago': 700, 'New York City': 600 },
+  'Toronto': { 'Bangkok': 900, 'Istanbul': 700, 'Mexico City': 300, 'Dubai': 800, 'Seoul': 850, 'Singapore': 950, 'Jacksonville': 250, 'Austin': 300, 'Chicago': 150, 'Dallas': 300, 'Houston': 300, 'New York City': 100, 'Los Angeles': 400 },
   'Sydney': { 'Bangkok': 450, 'Istanbul': 950, 'Mexico City': 1100, 'Dubai': 850, 'Seoul': 650, 'Singapore': 400 },
   'Paris': { 'Bangkok': 650, 'Istanbul': 220, 'Mexico City': 750, 'Dubai': 400, 'Seoul': 800, 'Singapore': 700 },
   'Berlin': { 'Bangkok': 600, 'Istanbul': 180, 'Mexico City': 800, 'Dubai': 400, 'Seoul': 750, 'Singapore': 650 },
@@ -686,7 +686,18 @@ const HOTEL_COSTS = {
   'Singapore': 600,
   'Bodrum': 450,
   'Tijuana': 300,
-  'Cancun': 500
+  'Cancun': 500,
+  'Jacksonville': 550,
+  'Austin': 600,
+  'Chicago': 650,
+  'Dallas': 550,
+  'Houston': 550,
+  'New York City': 900,
+  'Los Angeles': 700,
+  'Phoenix': 500,
+  'San Antonio': 500,
+  'San Diego': 650,
+  'Philadelphia': 600
 };
 
 // Populate departure city dropdown
