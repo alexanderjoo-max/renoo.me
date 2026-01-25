@@ -206,6 +206,12 @@ function renderPage() {
   // Populate compare dropdown
   populateCompareDropdown();
 
+  // Update trip calculator if a city is selected
+  const departureCity = document.getElementById('departureCity');
+  if (departureCity && departureCity.value) {
+    calculateTripCost();
+  }
+
   // Back button (if exists)
   const cityBackBtn = document.getElementById('cityBackBtn');
   if (cityBackBtn) {
