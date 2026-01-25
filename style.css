@@ -2925,12 +2925,12 @@ body.compare-mode .result-view-clinics {
 
 .city-header-city-select,
 .city-header-procedure-select {
-  padding: 8px 32px 8px 0;
+  padding: 6px 24px 6px 0;
   border: none;
-  border-bottom: 3px solid transparent;
+  border-bottom: 2px solid transparent;
   border-radius: 0;
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   background: transparent;
   color: #fff;
   cursor: pointer;
@@ -2938,10 +2938,10 @@ body.compare-mode .result-view-clinics {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'%3E%3Cpath fill='%23fff' d='M1.88 0L8 6.11 14.12 0 16 1.88l-8 8-8-8z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 4px center;
-  padding-right: 28px;
+  background-position: right 2px center;
+  padding-right: 20px;
   transition: all 0.2s ease;
   min-width: auto;
 }
@@ -2980,8 +2980,8 @@ body.compare-mode .result-view-clinics {
 
   .city-header-city-select,
   .city-header-procedure-select {
-    font-size: 24px;
-    padding-right: 24px;
+    font-size: 14px;
+    padding-right: 18px;
     background-position: right 2px center;
   }
 
