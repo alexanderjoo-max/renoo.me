@@ -1757,7 +1757,7 @@ html {
 .city-stats-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 32px;
   flex-wrap: wrap;
 }
@@ -1765,7 +1765,7 @@ html {
 .city-stat-header {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
 }
 
