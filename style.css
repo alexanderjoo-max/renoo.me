@@ -2923,6 +2923,16 @@ body.compare-mode .result-view-clinics {
   flex-wrap: wrap;
 }
 
+@media (max-width: 768px) {
+  .city-procedure-selectors {
+    justify-content: flex-start;
+  }
+
+  .city-info {
+    display: none;
+  }
+}
+
 .city-header-city-select,
 .city-header-procedure-select {
   padding: 6px 24px 6px 0;
