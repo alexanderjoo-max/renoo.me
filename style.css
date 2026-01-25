@@ -1672,7 +1672,7 @@ html {
 }
 
 .city-hero {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .city-hero-image {
@@ -1695,6 +1695,60 @@ html {
   right: 0;
   height: 40%;
   background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+.city-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.city-name {
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px 0;
+  letter-spacing: -1px;
+}
+
+.procedure-name {
+  font-size: 28px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  margin: 0 0 20px 0;
+}
+
+.city-stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.city-stat-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.city-stat-header-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.city-stat-header-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.city-stat-header-rating {
+  font-size: 20px;
+  color: #fbbf24;
 }
 
 .city-info {
@@ -2354,6 +2408,26 @@ html {
   .city-hero-image {
     height: 200px;
     border-radius: 12px;
+  }
+
+  .city-name {
+    font-size: 32px;
+  }
+
+  .procedure-name {
+    font-size: 20px;
+  }
+
+  .city-stats-header {
+    gap: 20px;
+  }
+
+  .city-stat-header-value {
+    font-size: 20px;
+  }
+
+  .city-stat-header-rating {
+    font-size: 18px;
   }
 
   .city-title {

@@ -156,7 +156,7 @@ function renderPage() {
   const flag = countryFlags[country] || '';
   const icon = procedureIcons[procedure] || '';
 
-  // Set title
+  // Set header title (top navigation bar)
   document.getElementById('cityTitle').textContent = `${flag} ${cityName} · ${icon} ${procedure}`;
 
   // Find city data from allData
@@ -165,17 +165,30 @@ function renderPage() {
     d.procedure?.toLowerCase() === procedure.toLowerCase()
   );
 
-  // Set stats
-  if (cityData && cityData.price_mid_usd) {
+  // Set city header (large hero text)
+  const cityNameHeader = document.getElementById('cityNameHeader');
+  const procedureNameHeader = document.getElementById('procedureNameHeader');
+  const cityStatsHeader = document.getElementById('cityStatsHeader');
+
+  if (cityNameHeader) {
+    cityNameHeader.textContent = `${flag} ${cityName}`;
+  }
+
+  if (procedureNameHeader) {
+    procedureNameHeader.textContent = `${icon} ${procedure}`;
+  }
+
+  // Set header stats (average price and rating)
+  if (cityStatsHeader && cityData && cityData.price_mid_usd) {
     const avgPrice = formatPrice(cityData.price_mid_usd);
-    document.getElementById('cityStats').innerHTML = `
-      <div class="city-stat">
-        <span>Avg Price:</span>
-        <strong>${avgPrice}</strong>
+    cityStatsHeader.innerHTML = `
+      <div class="city-stat-header">
+        <div class="city-stat-header-label">Average Price</div>
+        <div class="city-stat-header-value">${avgPrice}</div>
       </div>
-      <div class="city-stat">
-        <span>★★★★☆</span>
-        <span>(4.5 avg rating)</span>
+      <div class="city-stat-header">
+        <div class="city-stat-header-label">Rating</div>
+        <div class="city-stat-header-rating">★★★★☆ 4.5</div>
       </div>
     `;
   }
