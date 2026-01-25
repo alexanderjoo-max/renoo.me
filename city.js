@@ -156,27 +156,17 @@ function renderPage() {
   const flag = countryFlags[country] || '';
   const icon = procedureIcons[procedure] || '';
 
-  // Set header title (top navigation bar)
-  document.getElementById('cityTitle').textContent = `${flag} ${cityName} · ${icon} ${procedure}`;
-
   // Find city data from allData
   const cityData = allData.find(d =>
     d.city?.toLowerCase() === cityName.toLowerCase() &&
     d.procedure?.toLowerCase() === procedure.toLowerCase()
   );
 
+  // Populate header dropdowns
+  populateHeaderDropdowns();
+
   // Set city header (large hero text)
-  const cityNameHeader = document.getElementById('cityNameHeader');
-  const procedureNameHeader = document.getElementById('procedureNameHeader');
   const cityStatsHeader = document.getElementById('cityStatsHeader');
-
-  if (cityNameHeader) {
-    cityNameHeader.textContent = `${flag} ${cityName}`;
-  }
-
-  if (procedureNameHeader) {
-    procedureNameHeader.textContent = `${icon} ${procedure}`;
-  }
 
   // Set header stats (average price and rating)
   if (cityStatsHeader && cityData && cityData.price_mid_usd) {
@@ -591,6 +581,61 @@ function populateDestinationDropdown() {
     dropdownInitialized = true;
     console.log('Dropdown event listener added');
   }
+}
+
+/* =========================
+   HEADER DROPDOWNS
+========================= */
+function populateHeaderDropdowns() {
+  // Get unique cities and procedures
+  const uniqueCities = [...new Set(allData.map(d => d.city))].filter(Boolean).sort();
+  const uniqueProcedures = [...new Set(allData.map(d => d.procedure))].filter(Boolean).sort();
+
+  // Populate header city selects
+  const headerCitySelect = document.getElementById('headerCitySelect');
+  const cityHeaderCitySelect = document.getElementById('cityHeaderCitySelect');
+
+  [headerCitySelect, cityHeaderCitySelect].forEach(select => {
+    if (!select) return;
+
+    uniqueCities.forEach(city => {
+      const option = document.createElement('option');
+      const cityCountry = allData.find(d => d.city === city)?.country;
+      const flag = countryFlags[cityCountry] || '';
+      option.value = city;
+      option.textContent = `${flag} ${city}`;
+      if (city === cityName) option.selected = true;
+      select.appendChild(option);
+    });
+
+    select.addEventListener('change', (e) => {
+      const selectedCity = e.target.value;
+      const cityCountry = allData.find(d => d.city === selectedCity)?.country;
+      window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(cityCountry)}&procedure=${encodeURIComponent(procedure)}`;
+    });
+  });
+
+  // Populate header procedure selects
+  const headerProcedureSelect = document.getElementById('headerProcedureSelect');
+  const cityHeaderProcedureSelect = document.getElementById('cityHeaderProcedureSelect');
+
+  [headerProcedureSelect, cityHeaderProcedureSelect].forEach(select => {
+    if (!select) return;
+
+    uniqueProcedures.forEach(proc => {
+      const option = document.createElement('option');
+      const icon = procedureIcons[proc] || '';
+      option.value = proc;
+      option.textContent = `${icon} ${proc}`;
+      if (proc === procedure) option.selected = true;
+      select.appendChild(option);
+    });
+
+    select.addEventListener('change', (e) => {
+      const selectedProcedure = e.target.value;
+      window.location.href = `city.html?city=${encodeURIComponent(cityName)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(selectedProcedure)}`;
+    });
+  });
 }
 
 /* =========================

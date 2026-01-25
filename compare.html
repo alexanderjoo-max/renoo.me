@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>City - Renoo.me</title>
+  <title>Compare Cities - Renoo.me</title>
 
   <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">
     (function () {
@@ -23,12 +23,7 @@
       <div class="header-logo">
         <a href="/"><img src="/logo-white.svg" alt="Renoo.me" /></a>
       </div>
-      <select class="header-city-select" id="headerCitySelect">
-        <option value="" disabled>Select city...</option>
-      </select>
-      <select class="header-procedure-select" id="headerProcedureSelect">
-        <option value="" disabled>Select procedure...</option>
-      </select>
+      <div class="city-page-title">⚖️ Compare Cities</div>
       <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
         <span></span>
         <span></span>
@@ -76,12 +71,6 @@
         <div class="menu-section">
           <div class="menu-section-title">🔍 Browse Prices by City</div>
 
-          <div class="menu-item menu-search-item">
-            <select class="menu-search-select" id="menuDestinationSelect">
-              <option value="" selected>Choose destination...</option>
-            </select>
-          </div>
-
           <a href="/" class="menu-item menu-link menu-link-animated">
             <span class="menu-link-icon">🗺️</span>
             <span>Back to Map</span>
@@ -115,87 +104,36 @@
 
   <!-- Main Content -->
   <main class="city-main">
-    <!-- City Hero Image -->
-    <section class="city-hero" id="cityHero">
-      <div class="city-hero-image" id="cityHeroImage"></div>
-    </section>
-
-    <!-- City Header -->
     <section class="city-header">
-      <div class="city-procedure-selectors">
-        <select class="city-header-city-select" id="cityHeaderCitySelect">
-          <option value="" disabled>Select city...</option>
-        </select>
-        <select class="city-header-procedure-select" id="cityHeaderProcedureSelect">
-          <option value="" disabled>Select procedure...</option>
-        </select>
-      </div>
-      <div class="city-stats-header" id="cityStatsHeader"></div>
+      <h1 class="city-name">⚖️ Compare Cities</h1>
+      <p class="city-info">Select two cities and view price comparisons for all available procedures</p>
     </section>
 
-    <!-- City Info Blurb -->
-    <section class="city-info" id="cityInfo"></section>
-
-    <!-- Trip Calculator -->
-    <section class="city-section trip-calculator-section">
-      <h2 class="section-title">✈️ Trip Cost Calculator</h2>
-      <div class="trip-calculator">
-        <div class="trip-calculator-input">
-          <label for="departureCity" class="trip-label">Your Home City:</label>
-          <select id="departureCity" class="trip-select">
-            <option value="">Select your city...</option>
+    <!-- City Selection -->
+    <section class="city-section">
+      <div class="compare-page-selectors">
+        <div class="compare-selector-group">
+          <label class="trip-label">City 1:</label>
+          <select class="trip-select" id="city1Select">
+            <option value="">Select first city...</option>
           </select>
         </div>
 
-        <div class="trip-calculator-results" id="tripCalculatorResults">
-          <!-- Results will be populated by JavaScript -->
+        <div class="compare-selector-group">
+          <label class="trip-label">City 2:</label>
+          <select class="trip-select" id="city2Select">
+            <option value="">Select second city...</option>
+          </select>
         </div>
       </div>
     </section>
 
-    <!-- Collapsible Sections -->
-
-    <!-- Top Clinics (Collapsible) -->
-    <section class="city-section collapsible-section">
-      <button class="section-toggle" id="toggleClinics">
-        <span class="section-toggle-title">Top Clinics</span>
-        <span class="section-toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="clinicsContent" style="display: none;">
-        <div class="clinic-list" id="clinicList"></div>
-      </div>
-    </section>
-
-    <!-- Other Procedures (Collapsible) -->
-    <section class="city-section collapsible-section">
-      <button class="section-toggle" id="toggleProcedures">
-        <span class="section-toggle-title">Other Procedures in <span id="cityNameProcedures"></span></span>
-        <span class="section-toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="proceduresContent" style="display: none;">
-        <div class="procedure-cards" id="procedureCards"></div>
-      </div>
-    </section>
-
-    <!-- Compare With Another City (Collapsible) -->
-    <section class="city-section collapsible-section">
-      <button class="section-toggle" id="toggleCompare">
-        <span class="section-toggle-title">Compare with another city</span>
-        <span class="section-toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="compareContent" style="display: none;">
-        <!-- Mobile Compare -->
-        <div class="city-compare-section" id="cityCompareSection">
-          <div id="compareCitySelect" class="compare-city-results"></div>
-        </div>
-        <!-- Desktop Compare -->
-        <div class="city-compare-cities-section">
-          <div class="compare-cities" id="compareCities"></div>
-        </div>
-      </div>
+    <!-- Comparison Results -->
+    <section class="city-section" id="comparisonResults" style="display: none;">
+      <div class="comparison-table" id="comparisonTable"></div>
     </section>
   </main>
 
-  <script src="city.js"></script>
+  <script src="compare.js"></script>
 </body>
 </html>

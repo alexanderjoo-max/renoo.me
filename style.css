@@ -75,6 +75,45 @@ html {
   max-width: 400px;
 }
 
+.header-city-select,
+.header-procedure-select {
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px;
+  transition: all 0.2s ease;
+}
+
+.header-city-select:hover,
+.header-procedure-select:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.header-city-select:focus,
+.header-procedure-select:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.4);
+}
+
+.header-city-select option,
+.header-procedure-select option {
+  background: #2a2a2a;
+  color: #fff;
+}
+
 .procedure-select {
   width: 100%;
   padding: 10px 13px;
@@ -1615,11 +1654,9 @@ html {
 }
 
 .city-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #2f2f2f;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  background: transparent;
+  border-bottom: none;
   padding: 16px 20px;
   display: flex;
   flex-direction: column;
@@ -2741,6 +2778,118 @@ body.compare-mode .result-view-clinics {
   }
 }
 
+/* =========================
+   COMPARE PAGE
+========================= */
+.compare-page-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.compare-selector-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comparison-table {
+  background: #2f2f2f;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+
+.comparison-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+
+.comparison-city-col {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+}
+
+.comparison-city-header {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.2s ease;
+}
+
+.comparison-row:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.comparison-row:last-child {
+  border-bottom: none;
+}
+
+.comparison-procedure-col {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.comparison-price-col {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comparison-cheaper {
+  color: #22c55e;
+  background: rgba(34,197,94,0.1);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+@media (max-width: 768px) {
+  .compare-page-selectors {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .comparison-header,
+  .comparison-row {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+
+  .comparison-city-header {
+    font-size: 14px;
+  }
+
+  .comparison-procedure-col {
+    font-size: 13px;
+  }
+
+  .comparison-price-col {
+    font-size: 14px;
+  }
+}
+
 /* City Page Header */
 .city-page-title {
   font-size: 16px;
@@ -2764,6 +2913,54 @@ body.compare-mode .result-view-clinics {
   gap: 20px;
   font-size: 15px;
   color: rgba(255,255,255,0.7);
+}
+
+.city-procedure-selectors {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.city-header-city-select,
+.city-header-procedure-select {
+  padding: 12px 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 48px;
+  transition: all 0.2s ease;
+  min-width: 200px;
+}
+
+.city-header-city-select:hover,
+.city-header-procedure-select:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.city-header-city-select:focus,
+.city-header-procedure-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.city-header-city-select option,
+.city-header-procedure-select option {
+  background: #2a2a2a;
+  color: #fff;
 }
 
 @media (max-width: 768px) {
