@@ -73,6 +73,11 @@ const countryFlags = {
 };
 
 // Procedure icons mapping
+// Helper function to strip parenthetical info
+function stripParens(s) {
+  return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, "").trim();
+}
+
 const procedureIcons = {
   "Botox": "💉", "Brazilian Butt Lift": "🍑", "Breast Augmentation": "🍒",
   "Colonoscopy": "🔬", "Dental Implant": "🦷", "Dental Veneers": "😁",
@@ -158,7 +163,8 @@ function compareCities() {
     const proc1 = city1Data.find(d => d.procedure === procedure);
     const proc2 = city2Data.find(d => d.procedure === procedure);
 
-    const icon = procedureIcons[procedure] || '🏥';
+    const cleanProcedure = stripParens(procedure);
+    const icon = procedureIcons[cleanProcedure] || '🏥';
     const price1 = proc1?.price_mid_usd ? formatPrice(proc1.price_mid_usd) : 'N/A';
     const price2 = proc2?.price_mid_usd ? formatPrice(proc2.price_mid_usd) : 'N/A';
 

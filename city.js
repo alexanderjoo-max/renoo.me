@@ -86,6 +86,11 @@ const countryFlags = {
   "USA": "🇺🇸", "Vietnam": "🇻🇳"
 };
 
+// Helper function to strip parenthetical info
+function stripParens(s) {
+  return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, "").trim();
+}
+
 // Procedure icons mapping
 const procedureIcons = {
   "Botox": "💉", "Brazilian Butt Lift": "🍑", "Breast Augmentation": "🍒",
@@ -154,7 +159,8 @@ function renderPage() {
   }
 
   const flag = countryFlags[country] || '';
-  const icon = procedureIcons[procedure] || '';
+  const cleanProcedure = stripParens(procedure);
+  const icon = procedureIcons[cleanProcedure] || '';
 
   // Find city data from allData
   const cityData = allData.find(d =>
@@ -384,7 +390,8 @@ function renderOtherProcedures() {
 
   procedureCards.innerHTML = uniqueProcedures.map(proc => {
     const procData = cityProcedures.find(d => d.procedure === proc);
-    const icon = procedureIcons[proc] || '🏥';
+    const cleanProc = stripParens(proc);
+    const icon = procedureIcons[cleanProc] || '🏥';
     const price = procData?.price_mid_usd ? formatPrice(procData.price_mid_usd) : 'N/A';
 
     return `
@@ -616,7 +623,8 @@ function populateHeaderDropdowns() {
   if (cityHeaderProcedureSelect) {
     uniqueProcedures.forEach(proc => {
       const option = document.createElement('option');
-      const icon = procedureIcons[proc] || '';
+      const cleanProc = stripParens(proc);
+      const icon = procedureIcons[cleanProc] || '';
       option.value = proc;
       option.textContent = `${icon} ${proc}`;
       if (proc === procedure) option.selected = true;
