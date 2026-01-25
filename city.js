@@ -642,7 +642,30 @@ const FLIGHT_COSTS = {
   'Sydney': { 'Bangkok': 450, 'Istanbul': 950, 'Mexico City': 1100, 'Dubai': 850, 'Seoul': 650, 'Singapore': 400 },
   'Paris': { 'Bangkok': 650, 'Istanbul': 220, 'Mexico City': 750, 'Dubai': 400, 'Seoul': 800, 'Singapore': 700 },
   'Berlin': { 'Bangkok': 600, 'Istanbul': 180, 'Mexico City': 800, 'Dubai': 400, 'Seoul': 750, 'Singapore': 650 },
-  'Dubai': { 'Bangkok': 350, 'Istanbul': 250, 'Mexico City': 1000, 'Seoul': 600, 'Singapore': 400 }
+  'Dubai': { 'Bangkok': 350, 'Istanbul': 250, 'Mexico City': 1000, 'Seoul': 600, 'Singapore': 400 },
+  'Tokyo': { 'Bangkok': 450, 'Istanbul': 900, 'Mexico City': 950, 'Dubai': 800, 'Seoul': 150, 'Singapore': 500 },
+  'Beijing': { 'Bangkok': 400, 'Istanbul': 850, 'Mexico City': 1000, 'Dubai': 750, 'Seoul': 200, 'Singapore': 450 },
+  'Delhi': { 'Bangkok': 300, 'Istanbul': 500, 'Mexico City': 1100, 'Dubai': 350, 'Seoul': 600, 'Singapore': 400 },
+  'Moscow': { 'Bangkok': 700, 'Istanbul': 300, 'Mexico City': 900, 'Dubai': 400, 'Seoul': 750, 'Singapore': 750 },
+  'Rome': { 'Bangkok': 650, 'Istanbul': 200, 'Mexico City': 800, 'Dubai': 450, 'Seoul': 850, 'Singapore': 700 },
+  'Madrid': { 'Bangkok': 700, 'Istanbul': 250, 'Mexico City': 650, 'Dubai': 500, 'Seoul': 900, 'Singapore': 750 },
+  'Amsterdam': { 'Bangkok': 650, 'Istanbul': 250, 'Mexico City': 750, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
+  'Brussels': { 'Bangkok': 650, 'Istanbul': 250, 'Mexico City': 750, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
+  'Vienna': { 'Bangkok': 600, 'Istanbul': 200, 'Mexico City': 800, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
+  'Stockholm': { 'Bangkok': 650, 'Istanbul': 300, 'Mexico City': 850, 'Dubai': 500, 'Seoul': 800, 'Singapore': 750 },
+  'Copenhagen': { 'Bangkok': 650, 'Istanbul': 300, 'Mexico City': 850, 'Dubai': 500, 'Seoul': 800, 'Singapore': 750 },
+  'Warsaw': { 'Bangkok': 600, 'Istanbul': 250, 'Mexico City': 850, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
+  'Athens': { 'Bangkok': 600, 'Istanbul': 150, 'Mexico City': 850, 'Dubai': 400, 'Seoul': 850, 'Singapore': 700 },
+  'Lisbon': { 'Bangkok': 700, 'Istanbul': 300, 'Mexico City': 700, 'Dubai': 500, 'Seoul': 900, 'Singapore': 750 },
+  'Dublin': { 'Bangkok': 700, 'Istanbul': 300, 'Mexico City': 750, 'Dubai': 500, 'Seoul': 850, 'Singapore': 750 },
+  'Oslo': { 'Bangkok': 700, 'Istanbul': 350, 'Mexico City': 900, 'Dubai': 550, 'Seoul': 850, 'Singapore': 800 },
+  'Helsinki': { 'Bangkok': 700, 'Istanbul': 350, 'Mexico City': 900, 'Dubai': 550, 'Seoul': 800, 'Singapore': 800 },
+  'Prague': { 'Bangkok': 600, 'Istanbul': 250, 'Mexico City': 850, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
+  'Budapest': { 'Bangkok': 600, 'Istanbul': 200, 'Mexico City': 850, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
+  'Zurich': { 'Bangkok': 600, 'Istanbul': 250, 'Mexico City': 850, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
+  'Seoul': { 'Bangkok': 400, 'Istanbul': 850, 'Mexico City': 1000, 'Dubai': 750, 'Singapore': 500 },
+  'Singapore': { 'Bangkok': 150, 'Istanbul': 750, 'Mexico City': 1100, 'Dubai': 600, 'Seoul': 500 },
+  'Bangkok': { 'Istanbul': 700, 'Mexico City': 1100, 'Dubai': 600, 'Seoul': 400, 'Singapore': 150 }
 };
 
 // Average 7-night hotel costs (USD)
