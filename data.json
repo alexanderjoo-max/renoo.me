@@ -146,7 +146,7 @@
   {
     "procedure": "Colonoscopy",
     "category": "Diagnostics",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 180,
@@ -164,7 +164,7 @@
   {
     "procedure": "Colonoscopy",
     "category": "Diagnostics",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 180,
@@ -506,7 +506,7 @@
   {
     "procedure": "Rhinoplasty",
     "category": "Cosmetic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 2500,
@@ -524,7 +524,7 @@
   {
     "procedure": "Rhinoplasty",
     "category": "Cosmetic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 2600,
@@ -535,7 +535,7 @@
     "notes": "Flights",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -866,7 +866,7 @@
   {
     "procedure": "Hair Transplant (3000 grafts)",
     "category": "Cosmetic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 2500,
@@ -884,7 +884,7 @@
   {
     "procedure": "Hair Transplant (3000 grafts)",
     "category": "Cosmetic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 2600,
@@ -895,7 +895,7 @@
     "notes": "PRP",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -1226,7 +1226,7 @@
   {
     "procedure": "Dental Implant",
     "category": "Dental",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 850,
@@ -1244,7 +1244,7 @@
   {
     "procedure": "Dental Implant",
     "category": "Dental",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 900,
@@ -1586,7 +1586,7 @@
   {
     "procedure": "Breast Augmentation",
     "category": "Cosmetic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 3500,
@@ -1604,7 +1604,7 @@
   {
     "procedure": "Breast Augmentation",
     "category": "Cosmetic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 3600,
@@ -1615,7 +1615,7 @@
     "notes": "Revisions",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Comparable to Medellín",
+    "caveats": "Comparable to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -1946,7 +1946,7 @@
   {
     "procedure": "LASIK",
     "category": "Vision",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 850,
@@ -1964,7 +1964,7 @@
   {
     "procedure": "LASIK",
     "category": "Vision",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 900,
@@ -1975,7 +1975,7 @@
     "notes": "Enhancements",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -2306,7 +2306,7 @@
   {
     "procedure": "Liposuction",
     "category": "Cosmetic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 2800,
@@ -2324,7 +2324,7 @@
   {
     "procedure": "Liposuction",
     "category": "Cosmetic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 3000,
@@ -2335,7 +2335,7 @@
     "notes": "Follow-up care",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -2666,7 +2666,7 @@
   {
     "procedure": "Tummy Tuck",
     "category": "Cosmetic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 3200,
@@ -2684,7 +2684,7 @@
   {
     "procedure": "Tummy Tuck",
     "category": "Cosmetic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 3400,
@@ -2695,7 +2695,7 @@
     "notes": "Post-op care",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -3026,7 +3026,7 @@
   {
     "procedure": "Brazilian Butt Lift (BBL)",
     "category": "Cosmetic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 3500,
@@ -3044,7 +3044,7 @@
   {
     "procedure": "Brazilian Butt Lift (BBL)",
     "category": "Cosmetic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 3700,
@@ -3055,7 +3055,7 @@
     "notes": "Post-op care",
     "confidence": "High",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -3386,7 +3386,7 @@
   {
     "procedure": "Facelift",
     "category": "Cosmetic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 4200,
@@ -3404,7 +3404,7 @@
   {
     "procedure": "Facelift",
     "category": "Cosmetic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 4400,
@@ -3415,7 +3415,7 @@
     "notes": "Post-op care",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -3746,7 +3746,7 @@
   {
     "procedure": "IVF (Fertility Treatment)",
     "category": "Fertility",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 3800,
@@ -3764,7 +3764,7 @@
   {
     "procedure": "IVF (Fertility Treatment)",
     "category": "Fertility",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 4000,
@@ -3775,7 +3775,7 @@
     "notes": "Quality facilities",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -4106,7 +4106,7 @@
   {
     "procedure": "Knee Replacement",
     "category": "Orthopedic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 8500,
@@ -4124,7 +4124,7 @@
   {
     "procedure": "Knee Replacement",
     "category": "Orthopedic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 8700,
@@ -4135,7 +4135,7 @@
     "notes": "Rehab program",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -4466,7 +4466,7 @@
   {
     "procedure": "Hip Replacement",
     "category": "Orthopedic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 9000,
@@ -4484,7 +4484,7 @@
   {
     "procedure": "Hip Replacement",
     "category": "Orthopedic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 9200,
@@ -4495,7 +4495,7 @@
     "notes": "Rehab program",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -4826,7 +4826,7 @@
   {
     "procedure": "Gastric Bypass",
     "category": "Weight Loss",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 6000,
@@ -4844,7 +4844,7 @@
   {
     "procedure": "Gastric Bypass",
     "category": "Weight Loss",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 6200,
@@ -4855,7 +4855,7 @@
     "notes": "Post-op care",
     "confidence": "Medium",
     "source": "Clinics",
-    "caveats": "Similar to Medellín",
+    "caveats": "Similar to Medell\u00edn",
     "lat": 4.711,
     "lng": -74.0721
   },
@@ -5186,7 +5186,7 @@
   {
     "procedure": "Dental Veneers (Full Mouth)",
     "category": "Dental",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 4500,
@@ -5204,7 +5204,7 @@
   {
     "procedure": "Dental Veneers (Full Mouth)",
     "category": "Dental",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 4700,
@@ -16616,7 +16616,7 @@
   {
     "procedure": "Botox",
     "category": "Cosmetic",
-    "city": "Medellín",
+    "city": "Medell\u00edn",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 100,
@@ -16634,7 +16634,7 @@
   {
     "procedure": "Botox",
     "category": "Cosmetic",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "region": "Latin America",
     "price_low_usd": 100,
@@ -17854,5 +17854,41 @@
     "caveats": "Premium pricing, strict safety protocols",
     "lat": 1.3521,
     "lng": 103.8198
+  },
+  {
+    "procedure": "Dental Implant",
+    "category": "Dental",
+    "city": "Bodrum",
+    "country": "Turkey",
+    "region": "Europe",
+    "price_low_usd": 600,
+    "price_high_usd": 900,
+    "price_mid_usd": 750,
+    "currency": "USD",
+    "included": "Implant + crown + consultations",
+    "notes": "Luxury resort setting, lifetime guarantee",
+    "confidence": "High",
+    "source": "Comfort Zone Dent verified pricing 2026",
+    "caveats": "Premium location, all-inclusive packages",
+    "lat": 37.0365,
+    "lng": 27.4255
+  },
+  {
+    "procedure": "Dental Veneers (Full Mouth)",
+    "category": "Dental",
+    "city": "Bodrum",
+    "country": "Turkey",
+    "region": "Europe",
+    "price_low_usd": 3500,
+    "price_high_usd": 5500,
+    "price_mid_usd": 4500,
+    "currency": "USD",
+    "included": "E.Max or Zirconium veneers, smile design",
+    "notes": "Hollywood Smile packages, 48-hour express service available",
+    "confidence": "High",
+    "source": "Comfort Zone Dent verified pricing 2026",
+    "caveats": "Resort location, premium materials",
+    "lat": 37.0365,
+    "lng": 27.4255
   }
 ]
