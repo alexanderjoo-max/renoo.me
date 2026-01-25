@@ -2971,6 +2971,9 @@ body.compare-mode .result-view-clinics {
 .city-header-procedure-select option {
   background: #2a2a2a;
   color: #fff;
+  font-size: 16px;
+  font-weight: normal;
+  padding: 8px;
 }
 
 @media (max-width: 768px) {
