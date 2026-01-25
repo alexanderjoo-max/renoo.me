@@ -705,7 +705,14 @@ function populateDepartureCities() {
   const departureSelect = document.getElementById('departureCity');
   if (!departureSelect) return;
 
-  const cities = Object.keys(FLIGHT_COSTS).sort();
+  // Get all unique cities from allData
+  const dataCities = [...new Set(allData.map(d => d.city))];
+
+  // Filter FLIGHT_COSTS to only include cities that exist in our data
+  const cities = Object.keys(FLIGHT_COSTS)
+    .filter(city => dataCities.includes(city))
+    .sort();
+
   cities.forEach(city => {
     const option = document.createElement('option');
     option.value = city;
@@ -733,16 +740,19 @@ function calculateTripCost() {
   // Get hotel cost
   const hotelCost = HOTEL_COSTS[arrivalCity] || 400; // Default if not found
 
+  // Strip parentheses for matching
+  const cleanProcedureName = stripParens(procedureName);
+
   // Get procedure cost (from current page data)
   const procedureCost = allData.find(d =>
     d.city?.toLowerCase() === arrivalCity.toLowerCase() &&
-    d.procedure?.toLowerCase() === procedureName.toLowerCase()
+    stripParens(d.procedure || '').toLowerCase() === cleanProcedureName.toLowerCase()
   )?.price_mid_usd || 2000;
 
   // Get procedure cost in departure city (if available)
   const homeProcedureCost = allData.find(d =>
     d.city?.toLowerCase() === departureCity.toLowerCase() &&
-    d.procedure?.toLowerCase() === procedureName.toLowerCase()
+    stripParens(d.procedure || '').toLowerCase() === cleanProcedureName.toLowerCase()
   )?.price_mid_usd;
 
   // Calculate totals
