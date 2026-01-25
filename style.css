@@ -77,12 +77,13 @@ html {
 
 .header-city-select,
 .header-procedure-select {
-  padding: 8px 12px;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 8px;
+  padding: 4px 20px 4px 0;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
   font-size: 13px;
   font-weight: 500;
-  background: rgba(255,255,255,0.08);
+  background: transparent;
   color: #fff;
   cursor: pointer;
   font-family: inherit;
@@ -91,21 +92,20 @@ html {
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 32px;
+  background-position: right 2px center;
+  padding-right: 20px;
   transition: all 0.2s ease;
 }
 
 .header-city-select:hover,
 .header-procedure-select:hover {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.3);
+  border-bottom-color: rgba(255,255,255,0.5);
 }
 
 .header-city-select:focus,
 .header-procedure-select:focus {
   outline: none;
-  border-color: rgba(255,255,255,0.4);
+  border-bottom-color: #fff;
 }
 
 .header-city-select option,
@@ -2925,36 +2925,36 @@ body.compare-mode .result-view-clinics {
 
 .city-header-city-select,
 .city-header-procedure-select {
-  padding: 12px 20px;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 600;
-  background: rgba(255,255,255,0.08);
+  padding: 8px 32px 8px 0;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  font-size: 32px;
+  font-weight: 700;
+  background: transparent;
   color: #fff;
   cursor: pointer;
   font-family: inherit;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'%3E%3Cpath fill='%23fff' d='M1.88 0L8 6.11 14.12 0 16 1.88l-8 8-8-8z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 48px;
+  background-position: right 4px center;
+  padding-right: 28px;
   transition: all 0.2s ease;
-  min-width: 200px;
+  min-width: auto;
 }
 
 .city-header-city-select:hover,
 .city-header-procedure-select:hover {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.3);
+  border-bottom-color: rgba(255,255,255,0.5);
 }
 
 .city-header-city-select:focus,
 .city-header-procedure-select:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-bottom-color: #fff;
 }
 
 .city-header-city-select option,
@@ -2976,5 +2976,16 @@ body.compare-mode .result-view-clinics {
   .city-info-banner .city-stats {
     gap: 12px;
     font-size: 13px;
+  }
+
+  .city-header-city-select,
+  .city-header-procedure-select {
+    font-size: 24px;
+    padding-right: 24px;
+    background-position: right 2px center;
+  }
+
+  .city-procedure-selectors {
+    gap: 12px;
   }
 }
