@@ -13,7 +13,17 @@ const CURRENCY_RATES = {
   EUR: { symbol: '€', rate: 0.92, name: 'EUR' },
   JPY: { symbol: '¥', rate: 149, name: 'JPY' },
   AUD: { symbol: 'A$', rate: 1.52, name: 'AUD' },
-  CAD: { symbol: 'C$', rate: 1.39, name: 'CAD' }
+  CAD: { symbol: 'C$', rate: 1.39, name: 'CAD' },
+  CHF: { symbol: 'CHF', rate: 0.88, name: 'CHF' },
+  CNY: { symbol: '¥', rate: 7.24, name: 'CNY' },
+  INR: { symbol: '₹', rate: 83.12, name: 'INR' },
+  MXN: { symbol: 'MX$', rate: 17.05, name: 'MXN' },
+  SGD: { symbol: 'S$', rate: 1.34, name: 'SGD' },
+  KRW: { symbol: '₩', rate: 1320, name: 'KRW' },
+  THB: { symbol: '฿', rate: 35.40, name: 'THB' },
+  TRY: { symbol: '₺', rate: 32.50, name: 'TRY' },
+  BRL: { symbol: 'R$', rate: 4.97, name: 'BRL' },
+  ZAR: { symbol: 'R', rate: 18.85, name: 'ZAR' }
 };
 
 let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
@@ -35,7 +45,13 @@ function setCurrency(currency) {
   currentCurrency = currency;
   localStorage.setItem('preferredCurrency', currency);
 
-  // Update UI
+  // Update dropdown
+  const currencyDropdown = document.getElementById('currencyDropdown');
+  if (currencyDropdown) {
+    currencyDropdown.value = currency;
+  }
+
+  // Update UI (legacy support for old currency buttons)
   document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currency);
   });
@@ -175,6 +191,9 @@ function renderPage() {
   const blurb = infoBlurbs[cityName] || `${cityName} is a popular destination for ${procedure} procedures, offering quality care at competitive prices.`;
   document.getElementById('cityInfo').textContent = blurb;
 
+  // Load city hero image
+  loadCityHeroImage();
+
   // Render clinics
   renderClinics();
 
@@ -200,6 +219,37 @@ function renderPage() {
   if (cityNameProcedures) {
     cityNameProcedures.textContent = cityName;
   }
+}
+
+function loadCityHeroImage() {
+  const heroImageEl = document.getElementById('cityHeroImage');
+  if (!heroImageEl || !cityName) return;
+
+  // Map of city-specific high-quality images from Unsplash
+  const cityImages = {
+    'Bangkok': 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1200&h=400&fit=crop',
+    'Istanbul': 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=1200&h=400&fit=crop',
+    'Mexico City': 'https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=1200&h=400&fit=crop',
+    'Bodrum': 'https://images.unsplash.com/photo-1605379399642-870262d3d051?w=1200&h=400&fit=crop',
+    'Dubai': 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&h=400&fit=crop',
+    'Singapore': 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=1200&h=400&fit=crop',
+    'Seoul': 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=1200&h=400&fit=crop',
+    'Tokyo': 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1200&h=400&fit=crop',
+    'Paris': 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=1200&h=400&fit=crop',
+    'London': 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1200&h=400&fit=crop',
+    'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=1200&h=400&fit=crop',
+    'Los Angeles': 'https://images.unsplash.com/photo-1534190239940-9ba8944ea261?w=1200&h=400&fit=crop',
+    'Barcelona': 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200&h=400&fit=crop',
+    'Prague': 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=1200&h=400&fit=crop',
+    'Budapest': 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=1200&h=400&fit=crop',
+    'Vienna': 'https://images.unsplash.com/photo-1516550893923-42d28e5677af?w=1200&h=400&fit=crop',
+    'Ho Chi Minh City': 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1200&h=400&fit=crop'
+  };
+
+  // Use city-specific image or fallback to a generic city image
+  const imageUrl = cityImages[cityName] || 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200&h=400&fit=crop';
+
+  heroImageEl.style.backgroundImage = `url(${imageUrl})`;
 }
 
 function populateCompareDropdown() {
@@ -323,7 +373,7 @@ function renderOtherProcedures() {
     return;
   }
 
-  procedureCards.innerHTML = uniqueProcedures.slice(0, 6).map(proc => {
+  procedureCards.innerHTML = uniqueProcedures.map(proc => {
     const procData = cityProcedures.find(d => d.procedure === proc);
     const icon = procedureIcons[proc] || '🏥';
     const price = procData?.price_mid_usd ? formatPrice(procData.price_mid_usd) : 'N/A';
@@ -413,14 +463,53 @@ if (menuOverlay) {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize currency selector
+  // Initialize currency dropdown
+  const currencyDropdown = document.getElementById('currencyDropdown');
+  if (currencyDropdown) {
+    currencyDropdown.value = currentCurrency;
+  }
+
+  // Initialize currency selector (legacy support)
   document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
   });
 
   // Load data
   loadData();
+
+  // Setup collapsible sections
+  setupCollapsibleSections();
 });
+
+/* =========================
+   COLLAPSIBLE SECTIONS
+========================= */
+function setupCollapsibleSections() {
+  const toggleButtons = [
+    { button: 'toggleClinics', content: 'clinicsContent' },
+    { button: 'toggleProcedures', content: 'proceduresContent' },
+    { button: 'toggleCompare', content: 'compareContent' }
+  ];
+
+  toggleButtons.forEach(({ button, content }) => {
+    const btnEl = document.getElementById(button);
+    const contentEl = document.getElementById(content);
+
+    if (btnEl && contentEl) {
+      btnEl.addEventListener('click', () => {
+        const isActive = btnEl.classList.contains('active');
+
+        if (isActive) {
+          btnEl.classList.remove('active');
+          contentEl.style.display = 'none';
+        } else {
+          btnEl.classList.add('active');
+          contentEl.style.display = 'block';
+        }
+      });
+    }
+  });
+}
 
 /* =========================
    MENU DESTINATION DROPDOWN
@@ -564,33 +653,6 @@ function calculateTripCost() {
 
   // Render results
   resultsDiv.innerHTML = `
-    ${homeProcedureCost ? `
-      <div class="trip-comparison-hero">
-        <div class="comparison-vs">
-          <div class="comparison-home">
-            <div class="comparison-city-label">${procedureName} in ${departureCity}</div>
-            <div class="comparison-price">${formatPrice(homeProcedureCost)}</div>
-          </div>
-          <div class="comparison-divider">VS</div>
-          <div class="comparison-trip">
-            <div class="comparison-city-label">Total Trip to ${arrivalCity}</div>
-            <div class="comparison-price comparison-price-highlight">${formatPrice(totalTripCost)}</div>
-          </div>
-        </div>
-        ${savings && savings > 0 ? `
-          <div class="trip-savings-banner">
-            <div class="savings-icon">💰</div>
-            <div class="savings-content">
-              <div class="savings-amount">Save ${formatPrice(savings)}</div>
-              <div class="savings-subtitle">Even with flight + hotel included</div>
-            </div>
-          </div>
-        ` : `
-          <div class="trip-note-small">Total trip cost: ${formatPrice(totalTripCost)} vs ${formatPrice(homeProcedureCost)} at home</div>
-        `}
-      </div>
-    ` : ''}
-
     <div class="trip-breakdown">
       <div class="trip-breakdown-title">Trip Cost Breakdown:</div>
       <div class="trip-row">
@@ -621,9 +683,32 @@ function calculateTripCost() {
         <div class="trip-row-label">Total Trip Cost</div>
         <div class="trip-row-value trip-total-value">${formatPrice(totalTripCost)}</div>
       </div>
+
+      ${homeProcedureCost ? `
+        <div class="trip-row trip-row-comparison">
+          <div class="trip-row-label">${procedureName} in ${departureCity}</div>
+          <div class="trip-row-value">${formatPrice(homeProcedureCost)}</div>
+        </div>
+      ` : ''}
     </div>
 
-    ${!homeProcedureCost ? `
+    ${homeProcedureCost && savings && savings > 0 ? `
+      <div class="trip-savings-banner">
+        <div class="savings-icon">💰</div>
+        <div class="savings-content">
+          <div class="savings-amount">Save ${formatPrice(savings)}</div>
+          <div class="savings-subtitle">Even with flight + hotel included</div>
+        </div>
+      </div>
+    ` : homeProcedureCost && savings && savings < 0 ? `
+      <div class="trip-cost-more-banner">
+        <div class="cost-more-icon">✈️</div>
+        <div class="cost-more-content">
+          <div class="cost-more-amount">Only ${formatPrice(Math.abs(savings))} more</div>
+          <div class="cost-more-subtitle">For a medical vacation with flight + hotel included</div>
+        </div>
+      </div>
+    ` : !homeProcedureCost ? `
       <div class="trip-note">
         Estimated costs based on average flight and hotel prices. Actual costs may vary.
       </div>

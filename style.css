@@ -410,6 +410,44 @@ html {
 
 .menu-currency {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.currency-dropdown {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="white" d="M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.currency-dropdown:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.currency-dropdown:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: rgba(255,255,255,0.15);
+}
+
+.currency-dropdown option {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 8px;
 }
 
 .currency-selector-menu {
@@ -1633,6 +1671,32 @@ html {
   padding: 24px 20px 100px;
 }
 
+.city-hero {
+  margin-bottom: 32px;
+}
+
+.city-hero-image {
+  width: 100%;
+  height: 300px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.city-hero-image::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
 .city-info {
   background: rgba(255,255,255,0.05);
   border-radius: 12px;
@@ -1644,6 +1708,61 @@ html {
 
 .city-section {
   margin-bottom: 40px;
+}
+
+/* Collapsible Sections */
+.collapsible-section {
+  margin-bottom: 16px;
+}
+
+.section-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.section-toggle:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.section-toggle.active {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background: rgba(255,255,255,0.12);
+}
+
+.section-toggle-title {
+  flex: 1;
+}
+
+.section-toggle-icon {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.section-toggle.active .section-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.section-content {
+  padding: 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-top: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .section-title {
@@ -1767,15 +1886,17 @@ html {
 .trip-savings-banner {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(34,197,94,0.05) 100%);
-  border: 2px solid rgba(34,197,94,0.4);
-  border-radius: 12px;
+  gap: 20px;
+  padding: 28px 32px;
+  background: linear-gradient(135deg, rgba(34,197,94,0.25) 0%, rgba(34,197,94,0.15) 100%);
+  border: 3px solid rgba(34,197,94,0.5);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(34,197,94,0.2);
+  margin-top: 24px;
 }
 
 .savings-icon {
-  font-size: 32px;
+  font-size: 48px;
   flex-shrink: 0;
 }
 
@@ -1784,15 +1905,52 @@ html {
 }
 
 .savings-amount {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: 800;
   color: #22c55e;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
 }
 
 .savings-subtitle {
-  font-size: 14px;
-  color: rgba(255,255,255,0.7);
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.9);
+}
+
+.trip-cost-more-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px 32px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.25) 0%, rgba(59,130,246,0.15) 100%);
+  border: 3px solid rgba(59,130,246,0.5);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(59,130,246,0.2);
+  margin-top: 24px;
+}
+
+.cost-more-icon {
+  font-size: 48px;
+  flex-shrink: 0;
+}
+
+.cost-more-content {
+  flex: 1;
+}
+
+.cost-more-amount {
+  font-size: 32px;
+  font-weight: 800;
+  color: #3b82f6;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.cost-more-subtitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.9);
 }
 
 .trip-note-small {
@@ -1817,7 +1975,29 @@ html {
   }
 
   .savings-amount {
-    font-size: 20px;
+    font-size: 24px;
+  }
+
+  .savings-icon {
+    font-size: 40px;
+  }
+
+  .trip-savings-banner {
+    padding: 20px 24px;
+    gap: 16px;
+  }
+
+  .cost-more-amount {
+    font-size: 24px;
+  }
+
+  .cost-more-icon {
+    font-size: 40px;
+  }
+
+  .trip-cost-more-banner {
+    padding: 20px 24px;
+    gap: 16px;
   }
 }
 
@@ -1886,6 +2066,25 @@ html {
   font-size: 18px;
   font-weight: 700;
   color: #3b82f6;
+}
+
+.trip-row-comparison {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: none;
+}
+
+.trip-row-comparison .trip-row-label {
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+}
+
+.trip-row-comparison .trip-row-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
 }
 
 .trip-comparison {
@@ -2029,19 +2228,23 @@ html {
 
 .procedure-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
 }
 
 .procedure-card {
   background: #2f2f2f;
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid rgba(255,255,255,0.1);
-  padding: 16px;
+  padding: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .procedure-card:hover {
@@ -2050,18 +2253,19 @@ html {
 }
 
 .procedure-card-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.procedure-card-name {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 24px;
   margin-bottom: 4px;
 }
 
+.procedure-card-name {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
 .procedure-card-price {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   color: #22c55e;
 }
@@ -2147,6 +2351,11 @@ html {
 }
 
 @media (max-width: 768px) {
+  .city-hero-image {
+    height: 200px;
+    border-radius: 12px;
+  }
+
   .city-title {
     font-size: 24px;
   }
@@ -2162,7 +2371,8 @@ html {
   }
 
   .procedure-cards {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
   }
 }
 

@@ -10,7 +10,17 @@ const CURRENCY_RATES = {
   EUR: { symbol: '€', rate: 0.92, name: 'EUR' },
   JPY: { symbol: '¥', rate: 149, name: 'JPY' },
   AUD: { symbol: 'A$', rate: 1.52, name: 'AUD' },
-  CAD: { symbol: 'C$', rate: 1.39, name: 'CAD' }
+  CAD: { symbol: 'C$', rate: 1.39, name: 'CAD' },
+  CHF: { symbol: 'CHF', rate: 0.88, name: 'CHF' },
+  CNY: { symbol: '¥', rate: 7.24, name: 'CNY' },
+  INR: { symbol: '₹', rate: 83.12, name: 'INR' },
+  MXN: { symbol: 'MX$', rate: 17.05, name: 'MXN' },
+  SGD: { symbol: 'S$', rate: 1.34, name: 'SGD' },
+  KRW: { symbol: '₩', rate: 1320, name: 'KRW' },
+  THB: { symbol: '฿', rate: 35.40, name: 'THB' },
+  TRY: { symbol: '₺', rate: 32.50, name: 'TRY' },
+  BRL: { symbol: 'R$', rate: 4.97, name: 'BRL' },
+  ZAR: { symbol: 'R', rate: 18.85, name: 'ZAR' }
 };
 
 let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
@@ -32,7 +42,13 @@ function setCurrency(currency) {
   currentCurrency = currency;
   localStorage.setItem('preferredCurrency', currency);
 
-  // Update UI
+  // Update dropdown
+  const currencyDropdown = document.getElementById('currencyDropdown');
+  if (currencyDropdown) {
+    currencyDropdown.value = currency;
+  }
+
+  // Update UI (legacy support for old currency buttons)
   document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currency);
   });
@@ -987,6 +1003,13 @@ if (compareModeToggleMenu) {
 
 // Initialize currency selector on page load
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize currency dropdown
+  const currencyDropdown = document.getElementById('currencyDropdown');
+  if (currencyDropdown) {
+    currencyDropdown.value = currentCurrency;
+  }
+
+  // Initialize currency selector (legacy support)
   document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
   });

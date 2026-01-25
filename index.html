@@ -144,14 +144,24 @@
 
           <div class="menu-item menu-currency">
             <div class="menu-label-small">Currency</div>
-            <div class="currency-selector-menu">
-              <span class="currency-option-menu active" data-currency="USD" onclick="setCurrency('USD')">🇺🇸 USD</span>
-              <span class="currency-option-menu" data-currency="GBP" onclick="setCurrency('GBP')">🇬🇧 GBP</span>
-              <span class="currency-option-menu" data-currency="EUR" onclick="setCurrency('EUR')">🇪🇺 EUR</span>
-              <span class="currency-option-menu" data-currency="JPY" onclick="setCurrency('JPY')">🇯🇵 JPY</span>
-              <span class="currency-option-menu" data-currency="AUD" onclick="setCurrency('AUD')">🇦🇺 AUD</span>
-              <span class="currency-option-menu" data-currency="CAD" onclick="setCurrency('CAD')">🇨🇦 CAD</span>
-            </div>
+            <select class="currency-dropdown" id="currencyDropdown" onchange="setCurrency(this.value)">
+              <option value="USD">🇺🇸 USD</option>
+              <option value="GBP">🇬🇧 GBP</option>
+              <option value="EUR">🇪🇺 EUR</option>
+              <option value="JPY">🇯🇵 JPY</option>
+              <option value="AUD">🇦🇺 AUD</option>
+              <option value="CAD">🇨🇦 CAD</option>
+              <option value="CHF">🇨🇭 CHF</option>
+              <option value="CNY">🇨🇳 CNY</option>
+              <option value="INR">🇮🇳 INR</option>
+              <option value="MXN">🇲🇽 MXN</option>
+              <option value="SGD">🇸🇬 SGD</option>
+              <option value="KRW">🇰🇷 KRW</option>
+              <option value="THB">🇹🇭 THB</option>
+              <option value="TRY">🇹🇷 TRY</option>
+              <option value="BRL">🇧🇷 BRL</option>
+              <option value="ZAR">🇿🇦 ZAR</option>
+            </select>
           </div>
 
           <a href="about.html" class="menu-item menu-link menu-link-animated">
