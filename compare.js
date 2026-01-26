@@ -178,8 +178,8 @@ function compareCities() {
   let html = `
     <div class="comparison-header">
       <div class="comparison-city-col"></div>
-      <div class="comparison-city-col comparison-city-header">${flag1} ${city1}</div>
-      <div class="comparison-city-col comparison-city-header">${flag2} ${city2}</div>
+      <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(city1)}&country=${encodeURIComponent(city1Country)}" class="compare-city-link">${flag1} ${city1}</a></div>
+      <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(city2)}&country=${encodeURIComponent(city2Country)}" class="compare-city-link">${flag2} ${city2}</a></div>
     </div>
   `;
 
@@ -203,11 +203,17 @@ function compareCities() {
       }
     }
 
+    const link1 = proc1 ? `city.html?city=${encodeURIComponent(city1)}&procedure=${encodeURIComponent(procedure)}&country=${encodeURIComponent(city1Country)}` : '';
+    const link2 = proc2 ? `city.html?city=${encodeURIComponent(city2)}&procedure=${encodeURIComponent(procedure)}&country=${encodeURIComponent(city2Country)}` : '';
+
+    const price1Html = link1 ? `<a href="${link1}" class="compare-price-link ${cheaperClass1}">${price1}</a>` : `<span class="${cheaperClass1}">${price1}</span>`;
+    const price2Html = link2 ? `<a href="${link2}" class="compare-price-link ${cheaperClass2}">${price2}</a>` : `<span class="${cheaperClass2}">${price2}</span>`;
+
     html += `
       <div class="comparison-row">
         <div class="comparison-procedure-col">${icon} ${procedure}</div>
-        <div class="comparison-price-col ${cheaperClass1}">${price1}</div>
-        <div class="comparison-price-col ${cheaperClass2}">${price2}</div>
+        <div class="comparison-price-col">${price1Html}</div>
+        <div class="comparison-price-col">${price2Html}</div>
       </div>
     `;
   });
