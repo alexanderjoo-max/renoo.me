@@ -37,6 +37,51 @@ html {
   border:0;
 }
 
+/* -------- Welcome Overlay (first visit) -------- */
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-top: 60px;
+}
+
+.welcome-content {
+  text-align: center;
+  pointer-events: none;
+}
+
+.welcome-logo {
+  height: 64px;
+  width: auto;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.4));
+}
+
+.welcome-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 16px;
+}
+
+.welcome-text {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.welcome-highlight {
+  color: #facc15;
+  font-weight: 600;
+}
+
 /* -------- Fixed Header -------- */
 .fixed-header {
   position: fixed;

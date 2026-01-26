@@ -809,6 +809,21 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
   });
+
+  // Welcome overlay — show only on first visit
+  const overlay = document.getElementById('welcomeOverlay');
+  if (overlay && !localStorage.getItem('welcomeSeen')) {
+    overlay.style.display = 'flex';
+    const dismiss = () => {
+      overlay.style.display = 'none';
+      localStorage.setItem('welcomeSeen', '1');
+    };
+    overlay.addEventListener('click', dismiss);
+    const procSelect = document.getElementById('procedureSelect');
+    if (procSelect) {
+      procSelect.addEventListener('change', dismiss, { once: true });
+    }
+  }
 });
 
 // Load clinic data on init and re-render when loaded
