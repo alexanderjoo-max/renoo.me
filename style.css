@@ -114,14 +114,44 @@ html {
   color: #fff;
 }
 
+@property --glow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes glow-rotate {
+  to { --glow-angle: 360deg; }
+}
+
+.header-search {
+  position: relative;
+  border-radius: 10px;
+  padding: 2px;
+  background: linear-gradient(var(--glow-angle, 0deg), #6366f1, #ec4899, #8b5cf6, #06b6d4, #6366f1);
+  animation: glow-rotate 4s linear infinite;
+}
+
+.header-search::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  background: linear-gradient(var(--glow-angle, 0deg), #6366f1, #ec4899, #8b5cf6, #06b6d4, #6366f1);
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0.5;
+  animation: glow-rotate 4s linear infinite;
+}
+
 .procedure-select {
   width: 100%;
   padding: 10px 13px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: none;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 500;
-  background: rgba(255,255,255,0.08);
+  background: #1a1a2e;
   color: #fff;
   cursor: pointer;
   font-family: inherit;
@@ -136,13 +166,11 @@ html {
 }
 
 .procedure-select:hover {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.3);
+  background: #222244;
 }
 
 .procedure-select:focus {
   outline: none;
-  border-color: rgba(255,255,255,0.4);
 }
 
 .procedure-select option {
