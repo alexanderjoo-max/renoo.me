@@ -60,13 +60,15 @@ const countryFlags = {
   "Argentina": "🇦🇷", "Australia": "🇦🇺", "Austria": "🇦🇹", "Belgium": "🇧🇪",
   "Brazil": "🇧🇷", "Bulgaria": "🇧🇬", "Canada": "🇨🇦", "China": "🇨🇳",
   "Colombia": "🇨🇴", "Costa Rica": "🇨🇷", "Croatia": "🇭🇷", "Cyprus": "🇨🇾",
-  "Czech Rep.": "🇨🇿", "Denmark": "🇩🇰", "Estonia": "🇪🇪", "Finland": "🇫🇮",
-  "France": "🇫🇷", "Germany": "🇩🇪", "Greece": "🇬🇷", "Hungary": "🇭🇺",
-  "India": "🇮🇳", "Ireland": "🇮🇪", "Israel": "🇮🇱", "Italy": "🇮🇹",
-  "Japan": "🇯🇵", "Kazakhstan": "🇰🇿", "Latvia": "🇱🇻", "Lithuania": "🇱🇹",
-  "Luxembourg": "🇱🇺", "Malaysia": "🇲🇾", "Mexico": "🇲🇽", "Netherlands": "🇳🇱",
+  "Czech Rep.": "🇨🇿", "Denmark": "🇩🇰", "Egypt": "🇪🇬", "Estonia": "🇪🇪",
+  "Finland": "🇫🇮", "France": "🇫🇷", "Germany": "🇩🇪", "Greece": "🇬🇷",
+  "Hungary": "🇭🇺", "India": "🇮🇳", "Indonesia": "🇮🇩", "Ireland": "🇮🇪",
+  "Israel": "🇮🇱", "Italy": "🇮🇹", "Japan": "🇯🇵", "Kazakhstan": "🇰🇿",
+  "Latvia": "🇱🇻", "Lithuania": "🇱🇹", "Luxembourg": "🇱🇺", "Malaysia": "🇲🇾",
+  "Mexico": "🇲🇽", "Netherlands": "🇳🇱", "Norway": "🇳🇴", "Philippines": "🇵🇭",
   "Poland": "🇵🇱", "Portugal": "🇵🇹", "Romania": "🇷🇴", "Russia": "🇷🇺",
-  "Singapore": "🇸🇬", "Slovakia": "🇸🇰", "Slovenia": "🇸🇮", "South Korea": "🇰🇷",
+  "Singapore": "🇸🇬", "Slovakia": "🇸🇰", "Slovenia": "🇸🇮",
+  "South Africa": "🇿🇦", "South Korea": "🇰🇷",
   "Spain": "🇪🇸", "Sweden": "🇸🇪", "Switzerland": "🇨🇭", "Taiwan": "🇹🇼",
   "Thailand": "🇹🇭", "Turkey": "🇹🇷", "UAE": "🇦🇪", "UK": "🇬🇧",
   "USA": "🇺🇸", "Vietnam": "🇻🇳"
@@ -96,6 +98,7 @@ async function loadData() {
     allData = await dataRes.json();
 
     populateCitySelectors();
+    populateProcedureSelector();
   } catch (e) {
     console.error('Failed to load data:', e);
   }
@@ -126,9 +129,25 @@ function populateCitySelectors() {
   city2Select.addEventListener('change', compareCities);
 }
 
+function populateProcedureSelector() {
+  const uniqueProcedures = [...new Set(allData.map(d => d.procedure))].filter(Boolean).sort();
+  const procedureSelect = document.getElementById('procedureSelect');
+
+  uniqueProcedures.forEach(procedure => {
+    const icon = procedureIcons[procedure] || '🏥';
+    const option = document.createElement('option');
+    option.value = procedure;
+    option.textContent = `${icon} ${procedure}`;
+    procedureSelect.appendChild(option);
+  });
+
+  procedureSelect.addEventListener('change', compareCities);
+}
+
 function compareCities() {
   const city1 = document.getElementById('city1Select').value;
   const city2 = document.getElementById('city2Select').value;
+  const selectedProcedure = document.getElementById('procedureSelect').value;
 
   if (!city1 || !city2) {
     document.getElementById('comparisonResults').style.display = 'none';
@@ -140,10 +159,15 @@ function compareCities() {
   const city2Data = allData.filter(d => d.city === city2);
 
   // Get unique procedures from both cities
-  const procedures = new Set([
+  let procedures = new Set([
     ...city1Data.map(d => d.procedure),
     ...city2Data.map(d => d.procedure)
   ]);
+
+  // Filter by selected procedure if one is chosen
+  if (selectedProcedure) {
+    procedures = new Set([selectedProcedure]);
+  }
 
   const city1Country = city1Data[0]?.country;
   const city2Country = city2Data[0]?.country;
