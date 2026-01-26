@@ -821,11 +821,11 @@ html {
   font-weight: 700;
   color: #fff;
   margin: 0;
-  flex: 1;
+  flex-shrink: 0;
 }
 
 .sort-control{
-  width: auto;
+  flex: 1;
   min-width: 140px;
   font-size: 12px;
   padding: 6px 12px;
@@ -1159,7 +1159,7 @@ html {
     width: auto;
     max-height: 70vh;
     height: 100px;                /* JS can resize this */
-    border-radius: 16px 16px 0 0;
+    border-radius: 24px 24px 0 0;
     border: none;
     border-right: none;
     border-top: 1px solid rgba(255,255,255,0.1);
@@ -1221,11 +1221,12 @@ html {
 
   /* Results header on mobile */
   .results-head {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 
   .sort-control {
-    min-width: 120px;
+    flex: 1;
+    min-width: 0;
     font-size: 11px;
   }
 
