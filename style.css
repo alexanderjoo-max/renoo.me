@@ -56,17 +56,10 @@ html {
 }
 
 .welcome-logo {
-  height: 64px;
-  width: auto;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.4));
-}
-
-.welcome-title {
-  font-size: 32px;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 16px;
+  width: 260px;
+  height: auto;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 0 24px rgba(236, 72, 153, 0.4));
 }
 
 .welcome-text {
