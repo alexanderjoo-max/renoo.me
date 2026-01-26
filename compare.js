@@ -119,6 +119,27 @@ function populateCitySelectors() {
 
   city1Select.addEventListener('change', compareCities);
   city2Select.addEventListener('change', compareCities);
+
+  // Populate menu destination dropdown
+  const menuDestinationSelect = document.getElementById('menuDestinationSelect');
+  if (menuDestinationSelect) {
+    menuDestinationSelect.innerHTML = '<option value="" selected>Choose destination...</option>';
+    uniqueCities.forEach(city => {
+      const option = document.createElement('option');
+      option.value = city;
+      option.textContent = city;
+      menuDestinationSelect.appendChild(option);
+    });
+    menuDestinationSelect.addEventListener('change', (e) => {
+      const selectedCity = e.target.value;
+      if (selectedCity) {
+        const cityData = allData.find(d => d.city === selectedCity);
+        if (cityData) {
+          window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(cityData.country)}&procedure=Botox`;
+        }
+      }
+    });
+  }
 }
 
 function compareCities() {
@@ -213,6 +234,16 @@ if (menuOverlay) {
       menuOverlay.classList.remove('active');
       document.body.style.overflow = '';
     }
+  });
+}
+
+// Browse Cities expandable toggle
+const menuBrowseCities = document.getElementById('menuBrowseCities');
+const menuCityDropdown = document.getElementById('menuCityDropdown');
+if (menuBrowseCities && menuCityDropdown) {
+  menuBrowseCities.addEventListener('click', () => {
+    menuBrowseCities.classList.toggle('open');
+    menuCityDropdown.classList.toggle('open');
   });
 }
 

@@ -93,60 +93,61 @@
       <button class="menu-close" id="menuClose" aria-label="Close menu">&times;</button>
 
       <div class="menu-header">
-        <h2 class="menu-title">✈️ Travel Toolkit</h2>
-        <p class="menu-subtitle">Plan your medical journey</p>
+        <img src="/logo-white.svg" alt="Renoo.me" class="menu-logo" />
+        <p class="menu-subtitle">Travel + Transform</p>
       </div>
 
       <nav class="menu-nav">
-        <!-- Currency at top -->
-        <div class="menu-section">
-          <div class="menu-item menu-currency">
-            <select class="currency-dropdown" id="currencyDropdown" onchange="setCurrency(this.value)">
-              <option value="USD">💵 USD</option>
-              <option value="GBP">💷 GBP</option>
-              <option value="EUR">💶 EUR</option>
-              <option value="JPY">💴 JPY</option>
-              <option value="AUD">🇦🇺 AUD</option>
-              <option value="CAD">🇨🇦 CAD</option>
-              <option value="CHF">🇨🇭 CHF</option>
-              <option value="CNY">🇨🇳 CNY</option>
-              <option value="INR">🇮🇳 INR</option>
-              <option value="MXN">🇲🇽 MXN</option>
-              <option value="SGD">🇸🇬 SGD</option>
-              <option value="KRW">🇰🇷 KRW</option>
-              <option value="THB">🇹🇭 THB</option>
-              <option value="TRY">🇹🇷 TRY</option>
-              <option value="BRL">🇧🇷 BRL</option>
-              <option value="ZAR">🇿🇦 ZAR</option>
-            </select>
+        <a href="compare.html" class="menu-row">
+          <div class="menu-row-text">
+            <div class="menu-row-title">Compare Prices in Two Cities</div>
+            <div class="menu-row-desc">See cost differences instantly</div>
           </div>
+        </a>
+
+        <div class="menu-row menu-row-expandable" id="menuBrowseCities">
+          <div class="menu-row-text">
+            <div class="menu-row-title">Browse Prices by City</div>
+            <div class="menu-row-desc">Explore procedure costs worldwide</div>
+          </div>
+          <svg class="menu-row-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="menu-city-dropdown" id="menuCityDropdown">
+          <select class="menu-search-select" id="menuDestinationSelect">
+            <option value="" selected>Choose destination...</option>
+          </select>
         </div>
 
-        <!-- Search Section -->
-        <div class="menu-section">
-          <div class="menu-section-title">🔍 Browse Prices by City</div>
-
-          <div class="menu-item menu-search-item">
-            <select class="menu-search-select" id="menuDestinationSelect">
-              <option value="" selected>Choose destination...</option>
-            </select>
+        <a href="about.html" class="menu-row">
+          <div class="menu-row-text">
+            <div class="menu-row-title">About</div>
           </div>
+        </a>
 
-          <a href="compare.html" class="menu-item menu-link menu-link-animated">
-            <span class="menu-link-icon">⚖️</span>
-            <span>Compare Cities</span>
-            <span class="menu-arrow">→</span>
-          </a>
+        <div class="menu-row menu-row-currency">
+          <span class="menu-row-title">Change Currency</span>
+          <select class="currency-badge" id="currencyDropdown" onchange="setCurrency(this.value)">
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+            <option value="EUR">EUR</option>
+            <option value="JPY">JPY</option>
+            <option value="AUD">AUD</option>
+            <option value="CAD">CAD</option>
+            <option value="CHF">CHF</option>
+            <option value="CNY">CNY</option>
+            <option value="INR">INR</option>
+            <option value="MXN">MXN</option>
+            <option value="SGD">SGD</option>
+            <option value="KRW">KRW</option>
+            <option value="THB">THB</option>
+            <option value="TRY">TRY</option>
+            <option value="BRL">BRL</option>
+            <option value="ZAR">ZAR</option>
+          </select>
+        </div>
 
-          <a href="about.html" class="menu-item menu-link menu-link-animated">
-            <span class="menu-link-icon">ℹ️</span>
-            <span>About</span>
-            <span class="menu-arrow">→</span>
-          </a>
-
-          <div class="menu-footer-contact">
-            <a href="mailto:hello@renoo.me" class="menu-contact-link">Contact: hello@renoo.me</a>
-          </div>
+        <div class="menu-footer-contact">
+          <a href="mailto:hello@renoo.me" class="menu-contact-link">Contact: hello@renoo.me</a>
         </div>
       </nav>
     </div>

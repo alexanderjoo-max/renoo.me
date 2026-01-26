@@ -470,6 +470,16 @@ if (menuOverlay) {
   });
 }
 
+// Browse Cities expandable toggle
+const menuBrowseCities = document.getElementById('menuBrowseCities');
+const menuCityDropdown = document.getElementById('menuCityDropdown');
+if (menuBrowseCities && menuCityDropdown) {
+  menuBrowseCities.addEventListener('click', () => {
+    menuBrowseCities.classList.toggle('open');
+    menuCityDropdown.classList.toggle('open');
+  });
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize currency dropdown

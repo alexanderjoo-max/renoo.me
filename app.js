@@ -977,6 +977,16 @@ if (menuOverlay) {
   });
 }
 
+// Browse Cities expandable toggle
+const menuBrowseCities = document.getElementById('menuBrowseCities');
+const menuCityDropdown = document.getElementById('menuCityDropdown');
+if (menuBrowseCities && menuCityDropdown) {
+  menuBrowseCities.addEventListener('click', () => {
+    menuBrowseCities.classList.toggle('open');
+    menuCityDropdown.classList.toggle('open');
+  });
+}
+
 // Sync compare mode toggle in menu with main compare mode
 if (compareModeToggleMenu) {
   compareModeToggleMenu.addEventListener('change', (e) => {
