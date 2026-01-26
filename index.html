@@ -93,19 +93,56 @@
       <button class="menu-close" id="menuClose" aria-label="Close menu">&times;</button>
 
       <div class="menu-header">
-        <h2 class="menu-title">✈️ Travel Toolkit</h2>
-        <p class="menu-subtitle">Plan your medical journey</p>
+        <img src="/logo-white.svg" alt="Renoo.me" class="menu-logo" />
+        <p class="menu-subtitle">Travel + Transform</p>
       </div>
 
       <nav class="menu-nav">
-        <!-- Currency at top -->
         <div class="menu-section">
-          <div class="menu-item menu-currency">
-            <select class="currency-dropdown" id="currencyDropdown" onchange="setCurrency(this.value)">
-              <option value="USD">💵 USD</option>
-              <option value="GBP">💷 GBP</option>
-              <option value="EUR">💶 EUR</option>
-              <option value="JPY">💴 JPY</option>
+          <a href="compare.html" class="menu-item menu-link menu-link-animated">
+            <div class="menu-link-info">
+              <span class="menu-link-icon">⚖️</span>
+              <div>
+                <div class="menu-link-title">Compare Prices in Two Cities</div>
+                <div class="menu-link-desc">See cost differences instantly</div>
+              </div>
+            </div>
+          </a>
+
+          <div class="menu-item menu-browse-toggle" id="menuBrowseToggle">
+            <div class="menu-link-info">
+              <span class="menu-link-icon">🌍</span>
+              <div>
+                <div class="menu-link-title">Browse Prices by City</div>
+                <div class="menu-link-desc">Explore procedure costs worldwide</div>
+              </div>
+            </div>
+            <span class="menu-browse-arrow" id="menuBrowseArrow">▾</span>
+          </div>
+          <div class="menu-browse-dropdown" id="menuBrowseDropdown" style="display:none;">
+            <select class="menu-search-select" id="menuDestinationSelect">
+              <option value="" selected>Choose destination...</option>
+            </select>
+          </div>
+
+          <a href="about.html" class="menu-item menu-link menu-link-animated">
+            <div class="menu-link-info">
+              <span class="menu-link-icon">ℹ️</span>
+              <div>
+                <div class="menu-link-title">About</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="menu-section">
+          <div class="menu-item menu-currency-row">
+            <span class="menu-currency-label">Change Currency</span>
+            <select class="currency-pill" id="currencyDropdown" onchange="setCurrency(this.value)">
+              <option value="USD">🇺🇸 USD</option>
+              <option value="GBP">🇬🇧 GBP</option>
+              <option value="EUR">🇪🇺 EUR</option>
+              <option value="JPY">🇯🇵 JPY</option>
               <option value="AUD">🇦🇺 AUD</option>
               <option value="CAD">🇨🇦 CAD</option>
               <option value="CHF">🇨🇭 CHF</option>
@@ -122,31 +159,8 @@
           </div>
         </div>
 
-        <!-- Search Section -->
-        <div class="menu-section">
-          <div class="menu-section-title">🔍 Browse Prices by City</div>
-
-          <div class="menu-item menu-search-item">
-            <select class="menu-search-select" id="menuDestinationSelect">
-              <option value="" selected>Choose destination...</option>
-            </select>
-          </div>
-
-          <a href="compare.html" class="menu-item menu-link menu-link-animated">
-            <span class="menu-link-icon">⚖️</span>
-            <span>Compare Cities</span>
-            <span class="menu-arrow">→</span>
-          </a>
-
-          <a href="about.html" class="menu-item menu-link menu-link-animated">
-            <span class="menu-link-icon">ℹ️</span>
-            <span>About</span>
-            <span class="menu-arrow">→</span>
-          </a>
-
-          <div class="menu-footer-contact">
-            <a href="mailto:hello@renoo.me" class="menu-contact-link">Contact: hello@renoo.me</a>
-          </div>
+        <div class="menu-footer-contact">
+          <a href="mailto:hello@renoo.me" class="menu-contact-link">Contact: hello@renoo.me</a>
         </div>
       </nav>
     </div>

@@ -797,6 +797,18 @@ if (menuOverlay) {
   });
 }
 
+// Browse by City toggle in menu
+const browseToggle = document.getElementById('menuBrowseToggle');
+const browseDropdown = document.getElementById('menuBrowseDropdown');
+const browseArrow = document.getElementById('menuBrowseArrow');
+if (browseToggle && browseDropdown) {
+  browseToggle.addEventListener('click', () => {
+    const open = browseDropdown.style.display !== 'none';
+    browseDropdown.style.display = open ? 'none' : 'block';
+    browseArrow?.classList.toggle('open', !open);
+  });
+}
+
 // Initialize currency selector on page load
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize currency dropdown
