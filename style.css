@@ -1206,7 +1206,7 @@ html {
 
   /* Results list gets its own scroll area */
   .results-scroll{
-    max-height: 30vh;
+    max-height: none;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -1222,12 +1222,16 @@ html {
   /* Results header on mobile */
   .results-head {
     flex-wrap: nowrap;
+    gap: 8px;
   }
 
   .sort-control {
     flex: 1;
     min-width: 0;
-    font-size: 11px;
+    width: 100%;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
   }
 
   /* Result items on mobile */
