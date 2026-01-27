@@ -1032,6 +1032,23 @@ loadClinicData().then(() => {
 });
 
 /* =========================
+   WELCOME OVERLAY (first visit)
+========================= */
+const overlay = document.getElementById('welcomeOverlay');
+if (overlay && !localStorage.getItem('welcomeSeen')) {
+  overlay.style.display = 'flex';
+  const dismiss = () => {
+    overlay.style.display = 'none';
+    localStorage.setItem('welcomeSeen', '1');
+  };
+  overlay.addEventListener('click', dismiss);
+  const procSelect = document.getElementById('procedureSelect');
+  if (procSelect) {
+    procSelect.addEventListener('change', dismiss, { once: true });
+  }
+}
+
+/* =========================
    MENU DESTINATION DROPDOWN
 ========================= */
 const menuDestinationSelect = document.getElementById('menuDestinationSelect');
