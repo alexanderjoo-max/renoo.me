@@ -99,25 +99,32 @@
 
   <!-- Main Content -->
   <main class="city-main">
-    <!-- City Hero Image -->
-    <section class="city-hero" id="cityHero">
-      <div class="city-hero-image" id="cityHeroImage"></div>
-    </section>
-
     <!-- City Header -->
-    <section class="city-header">
-      <div class="city-procedure-selectors">
-        <select class="city-header-city-select" id="cityHeaderCitySelect">
-          <option value="" disabled>Select city...</option>
-        </select>
-        <select class="city-header-procedure-select" id="cityHeaderProcedureSelect">
-          <option value="" disabled>Select procedure...</option>
-        </select>
+    <section class="city-header-redesign">
+      <div class="city-header-selectors">
+        <div class="city-header-selector-group">
+          <h1 class="city-header-name" id="cityHeaderName"></h1>
+          <div class="city-header-btn-wrap">
+            <button class="city-header-change-btn">Change City</button>
+            <select class="city-header-hidden-select" id="cityHeaderCitySelect">
+              <option value="" disabled>Select city...</option>
+            </select>
+          </div>
+        </div>
+        <div class="city-header-selector-group">
+          <h2 class="city-header-procedure" id="cityHeaderProcedure"></h2>
+          <div class="city-header-btn-wrap">
+            <button class="city-header-change-btn">Change Procedure</button>
+            <select class="city-header-hidden-select" id="cityHeaderProcedureSelect">
+              <option value="" disabled>Select procedure...</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="city-stats-header" id="cityStatsHeader"></div>
     </section>
 
-    <!-- City Info Blurb -->
+    <!-- City Info Blurb (mobile only) -->
     <section class="city-info" id="cityInfo"></section>
 
     <!-- Trip Calculator -->

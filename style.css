@@ -1553,111 +1553,87 @@ html {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.city-header {
-  position: relative;
-  background: transparent;
-  border-bottom: none;
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.city-header .header-currency {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-}
-
-.city-back-btn {
-  background: none;
-  border: none;
-  color: #3b82f6;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 8px 0;
-  margin-bottom: 12px;
-}
-
-.city-back-btn:hover {
-  color: #60a5fa;
-}
-
-.city-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-}
-
-.city-stats {
-  display: flex;
-  gap: 20px;
-  font-size: 15px;
-  color: rgba(255,255,255,0.7);
-}
-
-.city-stat {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
 .city-main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 20px 100px;
 }
 
-.city-hero {
+/* Redesigned city header */
+.city-header-redesign {
   margin-bottom: 24px;
+  padding: 0;
 }
 
-.city-hero-image {
-  width: 100%;
-  height: 300px;
-  border-radius: 16px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+.city-header-selectors {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.city-header-selector-group {
   position: relative;
-  overflow: hidden;
 }
 
-.city-hero-image::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-}
-
-.city-header {
-  margin-bottom: 32px;
-  text-align: center;
-}
-
-.city-name {
-  font-size: 48px;
+.city-header-name {
+  font-size: 42px;
   font-weight: 700;
   color: #fff;
-  margin: 0 0 8px 0;
-  letter-spacing: -1px;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
 }
 
-.procedure-name {
-  font-size: 28px;
+.city-header-procedure {
+  font-size: 42px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.city-header-btn-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.city-header-change-btn {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.8);
+  font-size: 13px;
   font-weight: 500;
-  color: rgba(255,255,255,0.85);
-  margin: 0 0 20px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  pointer-events: none;
+}
+
+.city-header-btn-wrap:hover .city-header-change-btn {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.city-header-hidden-select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .city-stats-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 32px;
   flex-wrap: wrap;
 }
@@ -1665,7 +1641,7 @@ html {
 .city-stat-header {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
 }
 
@@ -1695,6 +1671,13 @@ html {
   margin-bottom: 32px;
   color: rgba(255,255,255,0.8);
   line-height: 1.6;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .city-info {
+    display: block;
+  }
 }
 
 .city-section {
@@ -2342,14 +2325,6 @@ html {
 }
 
 @media (max-width: 768px) {
-  .city-hero-image {
-    height: 200px;
-    border-radius: 12px;
-  }
-
-  .city-name {
-    font-size: 32px;
-  }
 
   .procedure-name {
     font-size: 20px;
@@ -2815,53 +2790,6 @@ body.compare-mode .result-view-clinics {
   color: rgba(255,255,255,0.7);
 }
 
-.city-procedure-selectors {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.city-header-city-select,
-.city-header-procedure-select {
-  padding: 12px 40px 12px 16px;
-  border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: 600;
-  background-color: #4d2446;
-  color: #fff;
-  cursor: pointer;
-  font-family: inherit;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 16 12'%3E%3Cpath fill='%23fff' d='M1.88 0L8 6.11 14.12 0 16 1.88l-8 8-8-8z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  transition: all 0.2s ease;
-  flex: 1 1 0;
-  min-width: 0;
-}
-
-.city-header-city-select:hover,
-.city-header-procedure-select:hover {
-  background-color: #5e2d56;
-}
-
-.city-header-city-select:focus,
-.city-header-procedure-select:focus {
-  outline: none;
-  background-color: #5e2d56;
-}
-
-.city-header-city-select option,
-.city-header-procedure-select option {
-  background: #2a2a2a;
-  color: #fff;
-}
-
 @media (max-width: 768px) {
   .city-page-title {
     font-size: 14px;
@@ -2877,14 +2805,13 @@ body.compare-mode .result-view-clinics {
     font-size: 13px;
   }
 
-  .city-header-city-select,
-  .city-header-procedure-select {
-    font-size: 16px;
-    width: 100%;
+  .city-header-selectors {
+    flex-direction: column;
+    gap: 16px;
   }
 
-  .city-procedure-selectors {
-    gap: 10px;
-    flex-direction: column;
+  .city-header-name,
+  .city-header-procedure {
+    font-size: 32px;
   }
 }

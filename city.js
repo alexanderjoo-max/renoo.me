@@ -165,6 +165,12 @@ function renderPage() {
   // Populate header dropdowns
   populateHeaderDropdowns();
 
+  // Set city and procedure names with emojis
+  const cityHeaderName = document.getElementById('cityHeaderName');
+  const cityHeaderProcedure = document.getElementById('cityHeaderProcedure');
+  if (cityHeaderName) cityHeaderName.textContent = `${flag} ${cityName}`;
+  if (cityHeaderProcedure) cityHeaderProcedure.textContent = `${icon} ${procedure}`;
+
   // Set city header (large hero text)
   const cityStatsHeader = document.getElementById('cityStatsHeader');
 
@@ -173,17 +179,17 @@ function renderPage() {
     const avgPrice = formatPrice(cityData.price_mid_usd);
     cityStatsHeader.innerHTML = `
       <div class="city-stat-header">
-        <div class="city-stat-header-label">Average Price</div>
+        <div class="city-stat-header-label">AVERAGE PRICE</div>
         <div class="city-stat-header-value">${avgPrice}</div>
       </div>
       <div class="city-stat-header">
-        <div class="city-stat-header-label">Rating</div>
+        <div class="city-stat-header-label">RATING</div>
         <div class="city-stat-header-rating">★★★★☆ 4.5</div>
       </div>
     `;
   }
 
-  // City info blurb
+  // City info blurb (mobile only, hidden on desktop via CSS)
   const infoBlurbs = {
     "Bangkok": "Bangkok is a leading destination for medical tourism, known for world-class hospitals, internationally accredited clinics, and English-speaking medical professionals at a fraction of Western prices.",
     "Istanbul": "Istanbul combines ancient heritage with modern medical excellence. The city's hospitals feature cutting-edge technology and highly trained surgeons, making it a top choice for European medical tourists.",
@@ -193,9 +199,6 @@ function renderPage() {
 
   const blurb = infoBlurbs[cityName] || `${cityName} is a popular destination for ${procedure} procedures, offering quality care at competitive prices.`;
   document.getElementById('cityInfo').textContent = blurb;
-
-  // Load city hero image
-  loadCityHeroImage();
 
   // Render clinics
   renderClinics();
@@ -230,36 +233,6 @@ function renderPage() {
   }
 }
 
-function loadCityHeroImage() {
-  const heroImageEl = document.getElementById('cityHeroImage');
-  if (!heroImageEl || !cityName) return;
-
-  // Map of city-specific high-quality images from Unsplash
-  const cityImages = {
-    'Bangkok': 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1200&h=400&fit=crop',
-    'Istanbul': 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=1200&h=400&fit=crop',
-    'Mexico City': 'https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=1200&h=400&fit=crop',
-    'Bodrum': 'https://images.unsplash.com/photo-1605379399642-870262d3d051?w=1200&h=400&fit=crop',
-    'Dubai': 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&h=400&fit=crop',
-    'Singapore': 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=1200&h=400&fit=crop',
-    'Seoul': 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=1200&h=400&fit=crop',
-    'Tokyo': 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1200&h=400&fit=crop',
-    'Paris': 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=1200&h=400&fit=crop',
-    'London': 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1200&h=400&fit=crop',
-    'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=1200&h=400&fit=crop',
-    'Los Angeles': 'https://images.unsplash.com/photo-1534190239940-9ba8944ea261?w=1200&h=400&fit=crop',
-    'Barcelona': 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200&h=400&fit=crop',
-    'Prague': 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=1200&h=400&fit=crop',
-    'Budapest': 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=1200&h=400&fit=crop',
-    'Vienna': 'https://images.unsplash.com/photo-1516550893923-42d28e5677af?w=1200&h=400&fit=crop',
-    'Ho Chi Minh City': 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1200&h=400&fit=crop'
-  };
-
-  // Use city-specific image or fallback to a generic city image
-  const imageUrl = cityImages[cityName] || 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200&h=400&fit=crop';
-
-  heroImageEl.style.backgroundImage = `url(${imageUrl})`;
-}
 
 function populateCompareDropdown() {
   const container = document.getElementById('compareCitySelect');
