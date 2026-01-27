@@ -64,6 +64,7 @@ function setCurrency(currency) {
   if (currentFiltered && currentFiltered.length > 0) {
     renderMarkers(currentFiltered);
     renderResults(currentFiltered);
+    renderCompareBox(currentFiltered);
   }
 }
 
@@ -89,8 +90,16 @@ const els = {
   citySearch: document.getElementById("citySearch"),
   countrySelect: document.getElementById("countrySelect"),
   sortSelect: document.getElementById("sortSelect"),
-  resultsList: document.getElementById("resultsList")
+  resultsList: document.getElementById("resultsList"),
+  floatingCompareBar: document.getElementById("floatingCompareBar"),
+  floatingCompareCount: document.getElementById("floatingCompareCount"),
+  floatingComparePreview: document.getElementById("floatingComparePreview"),
+  floatingCompareClear: document.getElementById("floatingCompareClear"),
+  floatingCompareDiff: document.getElementById("floatingCompareDiff"),
+  compareModeToggle: document.getElementById("compareModeToggle")
 };
+
+let isCompareMode = false;
 
 /* =========================
    MOBILE RESIZE (drag handle)
@@ -179,9 +188,7 @@ const COUNTRY_TO_ISO2 = {
   Greece: "GR",
   Hungary: "HU",
   India: "IN",
-  Indonesia: "ID",
   Ireland: "IE",
-  Israel: "IL",
   Italy: "IT",
   Japan: "JP",
   Kazakhstan: "KZ",
@@ -191,15 +198,12 @@ const COUNTRY_TO_ISO2 = {
   Malaysia: "MY",
   Mexico: "MX",
   Netherlands: "NL",
-  Norway: "NO",
-  Philippines: "PH",
   Poland: "PL",
   Portugal: "PT",
   Romania: "RO",
   Russia: "RU",
   Slovakia: "SK",
   Slovenia: "SI",
-  "South Africa": "ZA",
   "South Korea": "KR",
   Spain: "ES",
   Sweden: "SE",
@@ -321,6 +325,7 @@ function priceToColor(price, min, max) {
 ========================= */
 let ALL = [];
 let currentFiltered = [];
+let compareSelection = [];
 
 /* =========================
    LOAD DATA
@@ -372,7 +377,10 @@ fetch("data.json")
    UI WIRING
 ========================= */
 function wireUI() {
-  els.procedureSelect?.addEventListener("change", applyFiltersAndRender);
+  els.procedureSelect?.addEventListener("change", () => {
+    compareSelection = [];
+    applyFiltersAndRender();
+  });
 
   els.countrySelect?.addEventListener("change", applyFiltersAndRender);
   els.citySearch?.addEventListener("input", debounce(applyFiltersAndRender, 120));
@@ -384,7 +392,22 @@ function wireUI() {
     if (els.procedureSelect.value) return; // user already picked
     clearMarkers();
     currentFiltered = [];
+    compareSelection = [];
     renderResults([]);
+    renderCompareBox([]);
+  });
+
+  // Compare Mode Toggle
+  els.compareModeToggle?.addEventListener("change", (e) => {
+    isCompareMode = e.target.checked;
+    document.body.classList.toggle("compare-mode", isCompareMode);
+
+    if (!isCompareMode) {
+      // Exiting compare mode - clear selections
+      compareSelection = [];
+      renderResults(currentFiltered);
+      renderCompareBox(currentFiltered);
+    }
   });
 }
 
@@ -455,6 +478,7 @@ function applyFiltersAndRender() {
     clearMarkers();
     currentFiltered = [];
     renderResults([]);
+    renderCompareBox([]);
     return;
   }
 
@@ -462,7 +486,7 @@ function applyFiltersAndRender() {
 
   // Apply sorting based on sort select
   const sortMode = els.sortSelect?.value ?? "price";
-
+  
   if (sortMode === "alphabetical") {
     // Sort alphabetically by city name
     filtered.sort((a, b) => a.city.localeCompare(b.city));
@@ -484,6 +508,7 @@ function applyFiltersAndRender() {
 
   renderMarkers(filtered);
   renderResults(filtered);
+  renderCompareBox(filtered);
 }
 
 /* =========================
@@ -511,10 +536,20 @@ function renderMarkers(data) {
     // flags beside price in bubbles
     el.textContent = `${flag ? flag + " " : ""}${label}`;
 
+    // Check if this marker is in compare selection
+    const isSelected = compareSelection.includes(d._id);
+    
     // price-based color
     el.style.background = priceToColor(d.price_usd, min, max);
-    el.style.border = "1px solid rgba(255,255,255,0.35)";
-    el.style.boxShadow = "0 4px 10px rgba(0,0,0,0.18)";
+    
+    // Highlight selected markers with a border
+    if (isSelected) {
+      el.style.border = "3px solid #ef4444";
+      el.style.boxShadow = "0 0 0 3px rgba(239, 68, 68, 0.3), 0 4px 10px rgba(0,0,0,0.18)";
+    } else {
+      el.style.border = "1px solid rgba(255,255,255,0.35)";
+      el.style.boxShadow = "0 4px 10px rgba(0,0,0,0.18)";
+    }
 
     const popupHTML = `
       <div>
@@ -545,9 +580,19 @@ function renderMarkers(data) {
       }
     });
 
-    el.addEventListener("click", () => {
-      map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
-      marker.togglePopup();
+    el.addEventListener("click", (e) => {
+      if (isCompareMode) {
+        // In compare mode, toggle selection instead of opening popup
+        e.stopPropagation();
+        toggleCompare(d._id);
+        renderMarkers(currentFiltered);
+        renderResults(currentFiltered);
+        renderCompareBox(currentFiltered);
+      } else {
+        // Normal mode: fly to location and show popup
+        map.flyTo({ center: [d.lng, d.lat], zoom: Math.max(map.getZoom(), 4), speed: 0.9 });
+        marker.togglePopup();
+      }
     });
 
     markers.push(marker);
@@ -592,6 +637,10 @@ function renderResults(data) {
 
     const item = document.createElement("div");
     item.className = "result-item";
+    if (compareSelection.includes(d._id)) {
+      item.classList.add("selected");
+      item.classList.add("compare-selected");
+    }
 
     item.innerHTML = `
       <div class="result-left">
@@ -603,12 +652,141 @@ function renderResults(data) {
     `;
 
     item.addEventListener("click", () => {
-      const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
-      window.location.href = url;
+      if (isCompareMode) {
+        // Compare mode: toggle selection
+        toggleCompare(d._id);
+        renderResults(currentFiltered);
+        renderCompareBox(currentFiltered);
+      } else {
+        // Browse mode: navigate to city page
+        const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
+        window.location.href = url;
+      }
     });
 
     els.resultsList.appendChild(item);
   }
+}
+
+/* =========================
+   COMPARE (pick 2)
+========================= */
+function toggleCompare(id) {
+  const idx = compareSelection.indexOf(id);
+  if (idx >= 0) {
+    compareSelection.splice(idx, 1);
+    return;
+  }
+  if (compareSelection.length >= 2) compareSelection.shift();
+  compareSelection.push(id);
+}
+
+function renderCompareBox() {
+  const picks = compareSelection
+    .map((id) => ALL.find((d) => d._id === id))
+    .filter(Boolean);
+
+  if (picks.length === 2) {
+    // Fit map to show both selected cities
+    fitMapToCompare(picks[0], picks[1]);
+  } else {
+    // Re-render markers to update highlighting
+    renderMarkers(currentFiltered);
+  }
+
+  // Update floating compare bar
+  updateFloatingCompareBar();
+}
+
+function fitMapToCompare(city1, city2) {
+  if (!city1 || !city2) return;
+  
+  // Re-render markers first to show highlighting
+  renderMarkers(currentFiltered);
+  
+  // Create bounds to include both cities
+  const bounds = new mapboxgl.LngLatBounds();
+  bounds.extend([city1.lng, city1.lat]);
+  bounds.extend([city2.lng, city2.lat]);
+  
+  // Fit map to show both cities with padding
+  map.fitBounds(bounds, {
+    padding: { top: 80, bottom: 80, left: 80, right: 80 },
+    duration: 1000,
+    maxZoom: 10 // Prevent zooming in too close
+  });
+}
+
+/* =========================
+   FLOATING COMPARE BAR
+========================= */
+function updateFloatingCompareBar() {
+  if (!els.floatingCompareBar) return;
+
+  const picks = compareSelection
+    .map((id) => ALL.find((d) => d._id === id))
+    .filter(Boolean);
+
+  const count = picks.length;
+
+  // Update count
+  if (els.floatingCompareCount) {
+    els.floatingCompareCount.textContent = count;
+  }
+
+  // Update preview
+  if (els.floatingComparePreview) {
+    els.floatingComparePreview.innerHTML = "";
+
+    picks.forEach((d) => {
+      const flag = flagFromCountry(d.country);
+
+      const item = document.createElement("div");
+      item.className = "floating-compare-preview-item";
+      item.innerHTML = `
+        <span class="floating-compare-preview-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}</span>
+        <span class="floating-compare-preview-price">${formatPrice(d.price_usd)}</span>
+      `;
+      els.floatingComparePreview.appendChild(item);
+    });
+  }
+
+  // Update diff pill
+  if (els.floatingCompareDiff) {
+    if (count === 2) {
+      const a = picks[0].price_usd;
+      const b = picks[1].price_usd;
+
+      if (Number.isFinite(a) && Number.isFinite(b)) {
+        const delta = convertPrice(Math.abs(a - b));
+        const cheaper = a < b ? picks[0].city : picks[1].city;
+        const symbol = CURRENCY_RATES[currentCurrency].symbol;
+        els.floatingCompareDiff.textContent = `${cheaper} is cheaper by ${symbol}${delta.toLocaleString()}`;
+        els.floatingCompareDiff.classList.add("visible");
+      } else {
+        els.floatingCompareDiff.classList.remove("visible");
+      }
+    } else {
+      els.floatingCompareDiff.classList.remove("visible");
+    }
+  }
+
+  // Show/hide bar with animation
+  if (count > 0) {
+    els.floatingCompareBar.classList.add("visible");
+  } else {
+    els.floatingCompareBar.classList.remove("visible");
+  }
+}
+
+// Clear button handler
+if (els.floatingCompareClear) {
+  els.floatingCompareClear.addEventListener("click", () => {
+    compareSelection.length = 0;
+    renderResults(currentFiltered);
+    renderCompareBox();
+    renderMarkers(currentFiltered);
+  });
 }
 
 
@@ -771,6 +949,8 @@ window.toggleClinicDetails = function(idx) {
 const hamburgerMenu = document.getElementById('hamburgerMenu');
 const menuOverlay = document.getElementById('menuOverlay');
 const menuClose = document.getElementById('menuClose');
+const compareModeToggleMenu = document.getElementById('compareModeToggleMenu');
+
 // Open menu
 if (hamburgerMenu) {
   hamburgerMenu.addEventListener('click', () => {
@@ -843,21 +1023,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
   });
-
-  // Welcome overlay — show only on first visit
-  const overlay = document.getElementById('welcomeOverlay');
-  if (overlay && !localStorage.getItem('welcomeSeen')) {
-    overlay.style.display = 'flex';
-    const dismiss = () => {
-      overlay.style.display = 'none';
-      localStorage.setItem('welcomeSeen', '1');
-    };
-    overlay.addEventListener('click', dismiss);
-    const procSelect = document.getElementById('procedureSelect');
-    if (procSelect) {
-      procSelect.addEventListener('change', dismiss, { once: true });
-    }
-  }
 });
 
 // Load clinic data on init and re-render when loaded
