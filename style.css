@@ -1638,13 +1638,16 @@ html {
 }
 
 /* Trip Calculator */
+.trip-calculator-section {
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 32px;
+}
+
 .trip-calculator {
   background: transparent;
   border-radius: 0;
   border: none;
-  border-top: 1px solid rgba(255,255,255,0.15);
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  padding: 24px 0;
+  padding: 0;
 }
 
 .trip-calculator-input {

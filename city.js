@@ -270,7 +270,6 @@ function setupInlineCompare() {
     const opt = document.createElement('option');
     opt.value = proc;
     opt.textContent = `${icon} ${proc}`;
-    if (proc.toLowerCase() === procedure.toLowerCase()) opt.selected = true;
     procSelect.appendChild(opt);
   });
 

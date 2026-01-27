@@ -505,10 +505,28 @@ function applyFiltersAndRender() {
 
   let filtered = ALL.filter((d) => d.procedure === procVal);
 
+  // Top-rated cities for sorting
+  const TOP_RATED_SORT = new Set(["Bangkok", "Istanbul", "Seoul"]);
+
   // Apply sorting based on sort select
   const sortMode = els.sortSelect?.value ?? "price";
-  
-  if (sortMode === "alphabetical") {
+
+  if (sortMode === "rating") {
+    // Top Rated first, then by price
+    filtered.sort((a, b) => {
+      const aTop = TOP_RATED_SORT.has(a.city) ? 0 : 1;
+      const bTop = TOP_RATED_SORT.has(b.city) ? 0 : 1;
+      if (aTop !== bTop) return aTop - bTop;
+      const ap = a.price_usd;
+      const bp = b.price_usd;
+      const aN = Number.isFinite(ap);
+      const bN = Number.isFinite(bp);
+      if (aN && bN) return ap - bp;
+      if (aN) return -1;
+      if (bN) return 1;
+      return a.city.localeCompare(b.city);
+    });
+  } else if (sortMode === "alphabetical") {
     // Sort alphabetically by city name
     filtered.sort((a, b) => a.city.localeCompare(b.city));
   } else {
