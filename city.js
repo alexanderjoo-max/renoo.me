@@ -349,9 +349,10 @@ function runInlineCompare() {
 }
 
 function renderClinics() {
+  const cleanProc = stripParens(procedure).toLowerCase();
   const clinics = clinicData.filter(c =>
     c.City?.toLowerCase() === cityName.toLowerCase() &&
-    c.Procedure?.toLowerCase().includes(procedure.toLowerCase())
+    c.Procedure?.toLowerCase().includes(cleanProc)
   );
 
   const clinicList = document.getElementById('clinicList');
@@ -759,8 +760,30 @@ function calculateTripCost() {
   const totalTripCost = flightCost + hotelCost + procedureCost;
   const savings = homeProcedureCost ? (homeProcedureCost - totalTripCost) : null;
 
-  // Render results
+  // Render results — savings/total banner at top, breakdown below
   resultsDiv.innerHTML = `
+    ${homeProcedureCost && savings && savings > 0 ? `
+      <div class="trip-savings-banner">
+        <div class="savings-icon">💰</div>
+        <div class="savings-content">
+          <div class="savings-amount">Save ${formatPrice(savings)}</div>
+          <div class="savings-subtitle">Even with flight + hotel included</div>
+        </div>
+      </div>
+    ` : homeProcedureCost && savings && savings < 0 ? `
+      <div class="trip-cost-more-banner">
+        <div class="cost-more-icon">✈️</div>
+        <div class="cost-more-content">
+          <div class="cost-more-amount">Only ${formatPrice(Math.abs(savings))} more</div>
+          <div class="cost-more-subtitle">For a medical vacation with flight + hotel included</div>
+        </div>
+      </div>
+    ` : !homeProcedureCost ? `
+      <div class="trip-note">
+        Estimated costs based on average flight and hotel prices. Actual costs may vary.
+      </div>
+    ` : ''}
+
     <div class="trip-breakdown">
       <div class="trip-breakdown-title">Trip Cost Breakdown:</div>
       <div class="trip-row">
@@ -799,28 +822,6 @@ function calculateTripCost() {
         </div>
       ` : ''}
     </div>
-
-    ${homeProcedureCost && savings && savings > 0 ? `
-      <div class="trip-savings-banner">
-        <div class="savings-icon">💰</div>
-        <div class="savings-content">
-          <div class="savings-amount">Save ${formatPrice(savings)}</div>
-          <div class="savings-subtitle">Even with flight + hotel included</div>
-        </div>
-      </div>
-    ` : homeProcedureCost && savings && savings < 0 ? `
-      <div class="trip-cost-more-banner">
-        <div class="cost-more-icon">✈️</div>
-        <div class="cost-more-content">
-          <div class="cost-more-amount">Only ${formatPrice(Math.abs(savings))} more</div>
-          <div class="cost-more-subtitle">For a medical vacation with flight + hotel included</div>
-        </div>
-      </div>
-    ` : !homeProcedureCost ? `
-      <div class="trip-note">
-        Estimated costs based on average flight and hotel prices. Actual costs may vary.
-      </div>
-    ` : ''}
   `;
 
   resultsDiv.classList.add('visible');

@@ -176,7 +176,9 @@ const COUNTRY_TO_ISO2 = {
   Canada: "CA",
   China: "CN",
   Colombia: "CO",
+  "Costa Rica": "CR",
   Croatia: "HR",
+  Cyprus: "CY",
   "Czech Rep.": "CZ",
   "Czech Republic": "CZ",
   Denmark: "DK",
@@ -188,7 +190,9 @@ const COUNTRY_TO_ISO2 = {
   Greece: "GR",
   Hungary: "HU",
   India: "IN",
+  Indonesia: "ID",
   Ireland: "IE",
+  Israel: "IL",
   Italy: "IT",
   Japan: "JP",
   Kazakhstan: "KZ",
@@ -198,12 +202,16 @@ const COUNTRY_TO_ISO2 = {
   Malaysia: "MY",
   Mexico: "MX",
   Netherlands: "NL",
+  Norway: "NO",
+  Philippines: "PH",
   Poland: "PL",
   Portugal: "PT",
   Romania: "RO",
   Russia: "RU",
+  Singapore: "SG",
   Slovakia: "SK",
   Slovenia: "SI",
+  "South Africa": "ZA",
   "South Korea": "KR",
   Spain: "ES",
   Sweden: "SE",
@@ -619,21 +627,25 @@ function renderResults(data) {
     return;
   }
 
-  // Find the cheapest result (only if sorting by price)
+  // Find all cheapest results (only if sorting by price) — tag ties
   const sortMode = els.sortSelect?.value ?? "price";
-  let cheapestId = null;
+  const cheapestIds = new Set();
   if (sortMode === "price" && data.length > 0) {
     const prices = data.map((d) => ({ id: d._id, price: d.price_usd })).filter((d) => Number.isFinite(d.price));
     if (prices.length > 0) {
-      const cheapest = prices.reduce((min, curr) => (curr.price < min.price ? curr : min));
-      cheapestId = cheapest.id;
+      const minPrice = Math.min(...prices.map(p => p.price));
+      prices.filter(p => p.price === minPrice).forEach(p => cheapestIds.add(p.id));
     }
   }
+
+  // Top-rated medical tourism destinations
+  const TOP_RATED_CITIES = new Set(["Bangkok", "Istanbul", "Seoul"]);
 
   for (const d of data) {
     const flag = flagFromCountry(d.country);
     const price = formatPrice(d.price_usd);
-    const isCheapest = d._id === cheapestId;
+    const isCheapest = cheapestIds.has(d._id);
+    const isTopRated = TOP_RATED_CITIES.has(d.city);
 
     const item = document.createElement("div");
     item.className = "result-item";
@@ -642,9 +654,14 @@ function renderResults(data) {
       item.classList.add("compare-selected");
     }
 
+    // Build badges
+    let badges = '';
+    if (isCheapest) badges += '<span class="result-badge">Cheapest</span>';
+    if (isTopRated) badges += '<span class="result-badge result-badge-top-rated">Top Rated</span>';
+
     item.innerHTML = `
       <div class="result-left">
-        <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}</div>
+        <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${badges}</div>
         <div class="result-meta">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
         <div class="result-view-clinics">View Details →</div>
       </div>

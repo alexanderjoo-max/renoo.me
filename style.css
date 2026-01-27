@@ -880,6 +880,10 @@ html {
   letter-spacing: 0.3px;
 }
 
+.result-badge-top-rated {
+  background: #d946ef;
+}
+
 /* Results footer with compare toggle */
 /* Bubble marker */
 .price-marker{
