@@ -641,63 +641,130 @@ function populateHeaderDropdowns() {
 /* =========================
    TRIP CALCULATOR
 ========================= */
-// Average flight costs (USD) - estimates based on distance
-const FLIGHT_COSTS = {
-  'New York City': { 'Bangkok': 850, 'Istanbul': 650, 'Mexico City': 350, 'Dubai': 750, 'Seoul': 950, 'Singapore': 900, 'Jacksonville': 200, 'Austin': 250, 'Chicago': 200, 'Dallas': 250, 'Houston': 250, 'Los Angeles': 350, 'Phoenix': 300, 'San Antonio': 250, 'San Diego': 350 },
-  'Los Angeles': { 'Bangkok': 750, 'Istanbul': 850, 'Mexico City': 250, 'Dubai': 900, 'Seoul': 750, 'Singapore': 850, 'Jacksonville': 350, 'Austin': 250, 'Chicago': 300, 'Dallas': 200, 'Houston': 200, 'New York City': 350, 'Phoenix': 100, 'San Antonio': 200, 'San Diego': 50 },
-  'London': { 'Bangkok': 650, 'Istanbul': 200, 'Mexico City': 700, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700, 'Jacksonville': 750, 'Austin': 800, 'Chicago': 700, 'New York City': 600 },
-  'Toronto': { 'Bangkok': 900, 'Istanbul': 700, 'Mexico City': 300, 'Dubai': 800, 'Seoul': 850, 'Singapore': 950, 'Jacksonville': 250, 'Austin': 300, 'Chicago': 150, 'Dallas': 300, 'Houston': 300, 'New York City': 100, 'Los Angeles': 400 },
-  'Sydney': { 'Bangkok': 450, 'Istanbul': 950, 'Mexico City': 1100, 'Dubai': 850, 'Seoul': 650, 'Singapore': 400 },
-  'Paris': { 'Bangkok': 650, 'Istanbul': 220, 'Mexico City': 750, 'Dubai': 400, 'Seoul': 800, 'Singapore': 700 },
-  'Berlin': { 'Bangkok': 600, 'Istanbul': 180, 'Mexico City': 800, 'Dubai': 400, 'Seoul': 750, 'Singapore': 650 },
-  'Dubai': { 'Bangkok': 350, 'Istanbul': 250, 'Mexico City': 1000, 'Seoul': 600, 'Singapore': 400 },
-  'Tokyo': { 'Bangkok': 450, 'Istanbul': 900, 'Mexico City': 950, 'Dubai': 800, 'Seoul': 150, 'Singapore': 500 },
-  'Beijing': { 'Bangkok': 400, 'Istanbul': 850, 'Mexico City': 1000, 'Dubai': 750, 'Seoul': 200, 'Singapore': 450 },
-  'Delhi': { 'Bangkok': 300, 'Istanbul': 500, 'Mexico City': 1100, 'Dubai': 350, 'Seoul': 600, 'Singapore': 400 },
-  'Moscow': { 'Bangkok': 700, 'Istanbul': 300, 'Mexico City': 900, 'Dubai': 400, 'Seoul': 750, 'Singapore': 750 },
-  'Rome': { 'Bangkok': 650, 'Istanbul': 200, 'Mexico City': 800, 'Dubai': 450, 'Seoul': 850, 'Singapore': 700 },
-  'Madrid': { 'Bangkok': 700, 'Istanbul': 250, 'Mexico City': 650, 'Dubai': 500, 'Seoul': 900, 'Singapore': 750 },
-  'Amsterdam': { 'Bangkok': 650, 'Istanbul': 250, 'Mexico City': 750, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
-  'Brussels': { 'Bangkok': 650, 'Istanbul': 250, 'Mexico City': 750, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
-  'Vienna': { 'Bangkok': 600, 'Istanbul': 200, 'Mexico City': 800, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
-  'Stockholm': { 'Bangkok': 650, 'Istanbul': 300, 'Mexico City': 850, 'Dubai': 500, 'Seoul': 800, 'Singapore': 750 },
-  'Copenhagen': { 'Bangkok': 650, 'Istanbul': 300, 'Mexico City': 850, 'Dubai': 500, 'Seoul': 800, 'Singapore': 750 },
-  'Warsaw': { 'Bangkok': 600, 'Istanbul': 250, 'Mexico City': 850, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
-  'Athens': { 'Bangkok': 600, 'Istanbul': 150, 'Mexico City': 850, 'Dubai': 400, 'Seoul': 850, 'Singapore': 700 },
-  'Lisbon': { 'Bangkok': 700, 'Istanbul': 300, 'Mexico City': 700, 'Dubai': 500, 'Seoul': 900, 'Singapore': 750 },
-  'Dublin': { 'Bangkok': 700, 'Istanbul': 300, 'Mexico City': 750, 'Dubai': 500, 'Seoul': 850, 'Singapore': 750 },
-  'Oslo': { 'Bangkok': 700, 'Istanbul': 350, 'Mexico City': 900, 'Dubai': 550, 'Seoul': 850, 'Singapore': 800 },
-  'Helsinki': { 'Bangkok': 700, 'Istanbul': 350, 'Mexico City': 900, 'Dubai': 550, 'Seoul': 800, 'Singapore': 800 },
-  'Prague': { 'Bangkok': 600, 'Istanbul': 250, 'Mexico City': 850, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
-  'Budapest': { 'Bangkok': 600, 'Istanbul': 200, 'Mexico City': 850, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
-  'Zurich': { 'Bangkok': 600, 'Istanbul': 250, 'Mexico City': 850, 'Dubai': 450, 'Seoul': 800, 'Singapore': 700 },
-  'Seoul': { 'Bangkok': 400, 'Istanbul': 850, 'Mexico City': 1000, 'Dubai': 750, 'Singapore': 500 },
-  'Singapore': { 'Bangkok': 150, 'Istanbul': 750, 'Mexico City': 1100, 'Dubai': 600, 'Seoul': 500 },
-  'Bangkok': { 'Istanbul': 700, 'Mexico City': 1100, 'Dubai': 600, 'Seoul': 400, 'Singapore': 150 }
+// Region-based flight cost estimation (round-trip USD)
+// Each city is assigned a region; costs are estimated by region pairs
+const CITY_REGION = {
+  // North America — East
+  'New York City': 'NA_E', 'Jacksonville': 'NA_E', 'Philadelphia': 'NA_E', 'Toronto': 'NA_E', 'Chicago': 'NA_E', 'Calgary': 'NA_E',
+  // North America — South/Central
+  'Dallas': 'NA_S', 'Houston': 'NA_S', 'Austin': 'NA_S', 'San Antonio': 'NA_S',
+  // North America — West
+  'Los Angeles': 'NA_W', 'San Diego': 'NA_W', 'Phoenix': 'NA_W', 'San Jose': 'NA_W', 'Vancouver': 'NA_W',
+  // Latin America — Mexico/Central
+  'Mexico City': 'LATAM_MX', 'Tijuana': 'LATAM_MX', 'Cancun': 'LATAM_MX',
+  // Latin America — South
+  'Buenos Aires': 'LATAM_S', 'Rio de Janeiro': 'LATAM_S', 'Bogotá': 'LATAM_S', 'Medellín': 'LATAM_S', 'San Jose': 'LATAM_MX',
+  // Western Europe
+  'London': 'EU_W', 'Paris': 'EU_W', 'Amsterdam': 'EU_W', 'Brussels': 'EU_W', 'Dublin': 'EU_W', 'Luxembourg': 'EU_W',
+  // Central Europe
+  'Berlin': 'EU_C', 'Vienna': 'EU_C', 'Zurich': 'EU_C', 'Prague': 'EU_C', 'Warsaw': 'EU_C', 'Budapest': 'EU_C', 'Bratislava': 'EU_C', 'Zagreb': 'EU_C', 'Ljubljana': 'EU_C',
+  // Southern Europe
+  'Rome': 'EU_S', 'Madrid': 'EU_S', 'Barcelona': 'EU_S', 'Lisbon': 'EU_S', 'Athens': 'EU_S',
+  // Northern Europe
+  'Stockholm': 'EU_N', 'Copenhagen': 'EU_N', 'Oslo': 'EU_N', 'Helsinki': 'EU_N', 'Tallinn': 'EU_N', 'Riga': 'EU_N', 'Vilnius': 'EU_N',
+  // Eastern Europe
+  'Moscow': 'EU_E', 'Bucharest': 'EU_E', 'Sofia': 'EU_E',
+  // Turkey
+  'Istanbul': 'TR', 'Bodrum': 'TR',
+  // Middle East
+  'Dubai': 'ME', 'Tel Aviv': 'ME', 'Cairo': 'ME',
+  // South Asia
+  'Delhi': 'SA', 'Mumbai': 'SA',
+  // Southeast Asia
+  'Bangkok': 'SEA', 'Singapore': 'SEA', 'Kuala Lumpur': 'SEA', 'Ho Chi Minh City': 'SEA', 'Bali': 'SEA', 'Jakarta': 'SEA', 'Manila': 'SEA',
+  // East Asia
+  'Seoul': 'EA', 'Tokyo': 'EA', 'Beijing': 'EA', 'Shanghai': 'EA', 'Hong Kong': 'EA', 'Taipei': 'EA',
+  // Central Asia
+  'Almaty': 'CA',
+  // Oceania
+  'Sydney': 'OC', 'Melbourne': 'OC',
+  // Africa
+  'Cape Town': 'AF'
 };
+
+// Average round-trip flight costs between regions (USD)
+const REGION_FLIGHT = {
+  // Same region
+  'NA_E-NA_E': 200, 'NA_S-NA_S': 150, 'NA_W-NA_W': 100, 'EU_W-EU_W': 150, 'EU_C-EU_C': 120, 'EU_S-EU_S': 150, 'EU_N-EU_N': 150, 'EU_E-EU_E': 200, 'SEA-SEA': 150, 'EA-EA': 200, 'LATAM_MX-LATAM_MX': 150, 'LATAM_S-LATAM_S': 250, 'TR-TR': 100, 'ME-ME': 200, 'SA-SA': 150, 'OC-OC': 200, 'CA-CA': 150, 'AF-AF': 200,
+  // NA East ↔ other regions
+  'NA_E-NA_S': 200, 'NA_E-NA_W': 350, 'NA_E-LATAM_MX': 350, 'NA_E-LATAM_S': 700, 'NA_E-EU_W': 600, 'NA_E-EU_C': 650, 'NA_E-EU_S': 650, 'NA_E-EU_N': 700, 'NA_E-EU_E': 750, 'NA_E-TR': 700, 'NA_E-ME': 800, 'NA_E-SA': 950, 'NA_E-SEA': 900, 'NA_E-EA': 950, 'NA_E-CA': 900, 'NA_E-OC': 1200, 'NA_E-AF': 1000,
+  // NA South ↔ other regions
+  'NA_S-NA_W': 200, 'NA_S-LATAM_MX': 250, 'NA_S-LATAM_S': 650, 'NA_S-EU_W': 700, 'NA_S-EU_C': 750, 'NA_S-EU_S': 700, 'NA_S-EU_N': 800, 'NA_S-EU_E': 800, 'NA_S-TR': 800, 'NA_S-ME': 850, 'NA_S-SA': 1000, 'NA_S-SEA': 950, 'NA_S-EA': 950, 'NA_S-CA': 950, 'NA_S-OC': 1200, 'NA_S-AF': 1050,
+  // NA West ↔ other regions
+  'NA_W-LATAM_MX': 250, 'NA_W-LATAM_S': 750, 'NA_W-EU_W': 750, 'NA_W-EU_C': 800, 'NA_W-EU_S': 800, 'NA_W-EU_N': 850, 'NA_W-EU_E': 850, 'NA_W-TR': 900, 'NA_W-ME': 950, 'NA_W-SA': 1000, 'NA_W-SEA': 800, 'NA_W-EA': 750, 'NA_W-CA': 900, 'NA_W-OC': 1000, 'NA_W-AF': 1100,
+  // Latin America MX ↔ other regions
+  'LATAM_MX-LATAM_S': 500, 'LATAM_MX-EU_W': 700, 'LATAM_MX-EU_C': 750, 'LATAM_MX-EU_S': 700, 'LATAM_MX-EU_N': 800, 'LATAM_MX-EU_E': 850, 'LATAM_MX-TR': 900, 'LATAM_MX-ME': 1000, 'LATAM_MX-SA': 1100, 'LATAM_MX-SEA': 1050, 'LATAM_MX-EA': 1000, 'LATAM_MX-CA': 1050, 'LATAM_MX-OC': 1200, 'LATAM_MX-AF': 1100,
+  // Latin America South ↔ other regions
+  'LATAM_S-EU_W': 800, 'LATAM_S-EU_C': 850, 'LATAM_S-EU_S': 800, 'LATAM_S-EU_N': 900, 'LATAM_S-EU_E': 950, 'LATAM_S-TR': 950, 'LATAM_S-ME': 1050, 'LATAM_S-SA': 1100, 'LATAM_S-SEA': 1100, 'LATAM_S-EA': 1150, 'LATAM_S-CA': 1100, 'LATAM_S-OC': 1300, 'LATAM_S-AF': 1000,
+  // EU West ↔ other regions
+  'EU_W-EU_C': 150, 'EU_W-EU_S': 150, 'EU_W-EU_N': 200, 'EU_W-EU_E': 250, 'EU_W-TR': 250, 'EU_W-ME': 450, 'EU_W-SA': 550, 'EU_W-SEA': 650, 'EU_W-EA': 750, 'EU_W-CA': 500, 'EU_W-OC': 1100, 'EU_W-AF': 700,
+  // EU Central ↔ other regions
+  'EU_C-EU_S': 150, 'EU_C-EU_N': 150, 'EU_C-EU_E': 200, 'EU_C-TR': 200, 'EU_C-ME': 400, 'EU_C-SA': 500, 'EU_C-SEA': 600, 'EU_C-EA': 700, 'EU_C-CA': 450, 'EU_C-OC': 1050, 'EU_C-AF': 650,
+  // EU South ↔ other regions
+  'EU_S-EU_N': 250, 'EU_S-EU_E': 200, 'EU_S-TR': 200, 'EU_S-ME': 400, 'EU_S-SA': 500, 'EU_S-SEA': 650, 'EU_S-EA': 750, 'EU_S-CA': 500, 'EU_S-OC': 1100, 'EU_S-AF': 600,
+  // EU North ↔ other regions
+  'EU_N-EU_E': 200, 'EU_N-TR': 300, 'EU_N-ME': 500, 'EU_N-SA': 600, 'EU_N-SEA': 700, 'EU_N-EA': 750, 'EU_N-CA': 500, 'EU_N-OC': 1100, 'EU_N-AF': 750,
+  // EU East ↔ other regions
+  'EU_E-TR': 200, 'EU_E-ME': 400, 'EU_E-SA': 500, 'EU_E-SEA': 650, 'EU_E-EA': 700, 'EU_E-CA': 350, 'EU_E-OC': 1100, 'EU_E-AF': 700,
+  // Turkey ↔ other regions
+  'TR-ME': 250, 'TR-SA': 450, 'TR-SEA': 650, 'TR-EA': 800, 'TR-CA': 400, 'TR-OC': 1050, 'TR-AF': 600,
+  // Middle East ↔ other regions
+  'ME-SA': 300, 'ME-SEA': 500, 'ME-EA': 700, 'ME-CA': 400, 'ME-OC': 900, 'ME-AF': 550,
+  // South Asia ↔ other regions
+  'SA-SEA': 300, 'SA-EA': 550, 'SA-CA': 350, 'SA-OC': 800, 'SA-AF': 700,
+  // Southeast Asia ↔ other regions
+  'SEA-EA': 350, 'SEA-CA': 500, 'SEA-OC': 450, 'SEA-AF': 850,
+  // East Asia ↔ other regions
+  'EA-CA': 500, 'EA-OC': 650, 'EA-AF': 1000,
+  // Central Asia ↔ other regions
+  'CA-OC': 900, 'CA-AF': 750,
+  // Oceania ↔ Africa
+  'OC-AF': 1100
+};
+
+function getFlightCost(from, to) {
+  if (from === to) return 0;
+  const r1 = CITY_REGION[from];
+  const r2 = CITY_REGION[to];
+  if (!r1 || !r2) return 700;
+  if (r1 === r2) {
+    return REGION_FLIGHT[`${r1}-${r2}`] || 200;
+  }
+  return REGION_FLIGHT[`${r1}-${r2}`] || REGION_FLIGHT[`${r2}-${r1}`] || 700;
+}
 
 // Average 7-night hotel costs (USD)
 const HOTEL_COSTS = {
-  'Bangkok': 350,
-  'Istanbul': 400,
-  'Mexico City': 450,
-  'Dubai': 700,
-  'Seoul': 550,
-  'Singapore': 600,
-  'Bodrum': 450,
-  'Tijuana': 300,
-  'Cancun': 500,
-  'Jacksonville': 550,
-  'Austin': 600,
-  'Chicago': 650,
-  'Dallas': 550,
-  'Houston': 550,
-  'New York City': 900,
-  'Los Angeles': 700,
-  'Phoenix': 500,
-  'San Antonio': 500,
-  'San Diego': 650,
-  'Philadelphia': 600
+  // Southeast Asia
+  'Bangkok': 350, 'Ho Chi Minh City': 280, 'Kuala Lumpur': 320, 'Bali': 350, 'Jakarta': 300, 'Manila': 250, 'Singapore': 700,
+  // East Asia
+  'Seoul': 550, 'Tokyo': 750, 'Beijing': 400, 'Shanghai': 450, 'Hong Kong': 700, 'Taipei': 400,
+  // South Asia
+  'Delhi': 250, 'Mumbai': 300,
+  // Turkey
+  'Istanbul': 400, 'Bodrum': 450,
+  // Middle East / North Africa
+  'Dubai': 700, 'Tel Aviv': 750, 'Cairo': 250,
+  // Western Europe
+  'London': 900, 'Paris': 850, 'Amsterdam': 750, 'Brussels': 600, 'Dublin': 700, 'Luxembourg': 650,
+  // Central Europe
+  'Berlin': 550, 'Vienna': 600, 'Zurich': 900, 'Prague': 400, 'Warsaw': 350, 'Budapest': 350, 'Bratislava': 350, 'Zagreb': 350, 'Ljubljana': 350,
+  // Southern Europe
+  'Rome': 600, 'Madrid': 500, 'Barcelona': 550, 'Lisbon': 450, 'Athens': 400,
+  // Northern Europe
+  'Stockholm': 650, 'Copenhagen': 700, 'Oslo': 750, 'Helsinki': 600, 'Tallinn': 350, 'Riga': 300, 'Vilnius': 300,
+  // Eastern Europe
+  'Moscow': 450, 'Bucharest': 300, 'Sofia': 250,
+  // North America
+  'New York City': 1050, 'Los Angeles': 800, 'Chicago': 700, 'Dallas': 550, 'Houston': 550, 'Austin': 600, 'San Antonio': 500, 'San Diego': 700, 'Phoenix': 500, 'Jacksonville': 500, 'Philadelphia': 600, 'San Jose': 750, 'Toronto': 650, 'Calgary': 500, 'Vancouver': 600,
+  // Latin America
+  'Mexico City': 350, 'Tijuana': 250, 'Cancun': 500, 'Buenos Aires': 350, 'Rio de Janeiro': 400, 'Bogotá': 300, 'Medellín': 280,
+  // Central Asia
+  'Almaty': 300,
+  // Oceania
+  'Sydney': 750, 'Melbourne': 650,
+  // Africa
+  'Cape Town': 400
 };
 
 // Populate departure city dropdown
@@ -705,11 +772,9 @@ function populateDepartureCities() {
   const departureSelect = document.getElementById('departureCity');
   if (!departureSelect) return;
 
-  // Get all unique cities from allData
+  // Get all unique cities that have region data (for flight estimation)
   const dataCities = [...new Set(allData.map(d => d.city))];
-
-  // Filter FLIGHT_COSTS to only include cities that exist in our data
-  const cities = Object.keys(FLIGHT_COSTS)
+  const cities = Object.keys(CITY_REGION)
     .filter(city => dataCities.includes(city))
     .sort();
 
@@ -735,10 +800,10 @@ function calculateTripCost() {
   const procedureName = procedure;
 
   // Get flight cost
-  const flightCost = FLIGHT_COSTS[departureCity]?.[arrivalCity] || 800; // Default if not found
+  const flightCost = getFlightCost(departureCity, arrivalCity);
 
   // Get hotel cost
-  const hotelCost = HOTEL_COSTS[arrivalCity] || 400; // Default if not found
+  const hotelCost = HOTEL_COSTS[arrivalCity] || 400;
 
   // Strip parentheses for matching
   const cleanProcedureName = stripParens(procedureName);
