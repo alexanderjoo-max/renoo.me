@@ -211,11 +211,8 @@ function renderPage() {
   // Render other procedures
   renderOtherProcedures();
 
-  // Render compare cities
-  renderCompareCities();
-
-  // Populate compare dropdown
-  populateCompareDropdown();
+  // Set up inline compare dropdowns
+  setupInlineCompare();
 
   // Update trip calculator if a city is selected
   const departureCity = document.getElementById('departureCity');
@@ -269,56 +266,113 @@ function loadCityHeroImage() {
   heroImageEl.style.backgroundImage = `url(${imageUrl})`;
 }
 
-function populateCompareDropdown() {
-  const container = document.getElementById('compareCitySelect');
-  if (!container) return;
+function setupInlineCompare() {
+  const city1Select = document.getElementById('inlineCity1Select');
+  const city2Select = document.getElementById('inlineCity2Select');
+  const procSelect = document.getElementById('inlineProcedureSelect');
+  if (!city1Select || !city2Select || !procSelect) return;
 
-  const sameProcedure = allData.filter(d =>
-    d.procedure?.toLowerCase() === procedure.toLowerCase() &&
-    d.city?.toLowerCase() !== cityName.toLowerCase() &&
-    d.price_mid_usd
-  ).sort((a, b) => a.price_mid_usd - b.price_mid_usd);
+  // Populate city dropdowns
+  const uniqueCities = [...new Set(allData.map(d => d.city))].filter(Boolean).sort();
+  uniqueCities.forEach(city => {
+    const cityData = allData.find(d => d.city === city);
+    const flag = countryFlags[cityData?.country] || '';
 
-  // Find current city's price for comparison
-  const currentPrice = allData.find(d =>
-    d.city?.toLowerCase() === cityName.toLowerCase() &&
-    d.procedure?.toLowerCase() === procedure.toLowerCase()
-  )?.price_mid_usd || 0;
+    const opt1 = document.createElement('option');
+    opt1.value = city;
+    opt1.textContent = `${flag} ${city}`;
+    if (city.toLowerCase() === cityName.toLowerCase()) opt1.selected = true;
+    city1Select.appendChild(opt1);
 
-  // Find the cheapest city
-  let cheapestId = null;
-  if (sameProcedure.length > 0) {
-    const cheapest = sameProcedure.reduce((min, curr) =>
-      (curr.price_mid_usd < min.price_mid_usd ? curr : min)
-    );
-    cheapestId = cheapest.city + cheapest.country;
+    const opt2 = document.createElement('option');
+    opt2.value = city;
+    opt2.textContent = `${flag} ${city}`;
+    city2Select.appendChild(opt2);
+  });
+
+  // Populate procedure dropdown
+  const uniqueProcedures = [...new Set(allData.map(d => d.procedure))].filter(Boolean).sort();
+  uniqueProcedures.forEach(proc => {
+    const icon = procedureIcons[stripParens(proc)] || '🏥';
+    const opt = document.createElement('option');
+    opt.value = proc;
+    opt.textContent = `${icon} ${proc}`;
+    if (proc.toLowerCase() === procedure.toLowerCase()) opt.selected = true;
+    procSelect.appendChild(opt);
+  });
+
+  // Wire up change events
+  city1Select.addEventListener('change', runInlineCompare);
+  city2Select.addEventListener('change', runInlineCompare);
+  procSelect.addEventListener('change', runInlineCompare);
+}
+
+function runInlineCompare() {
+  const c1 = document.getElementById('inlineCity1Select').value;
+  const c2 = document.getElementById('inlineCity2Select').value;
+  const selectedProc = document.getElementById('inlineProcedureSelect').value;
+  const resultsEl = document.getElementById('inlineComparisonResults');
+  const tableEl = document.getElementById('inlineComparisonTable');
+
+  if (!c1 || !c2) {
+    resultsEl.style.display = 'none';
+    return;
   }
 
-  // Render as a scrollable results list (same UI as front page)
-  container.innerHTML = sameProcedure.map(city => {
-    const flag = countryFlags[city.country] || '';
-    const price = formatPrice(city.price_mid_usd);
-    const isCheapest = (city.city + city.country) === cheapestId;
+  const c1Data = allData.filter(d => d.city === c1);
+  const c2Data = allData.filter(d => d.city === c2);
 
-    // Calculate savings if this city is cheaper
-    const savingsAmount = currentPrice && city.price_mid_usd < currentPrice
-      ? convertPrice(currentPrice - city.price_mid_usd)
-      : null;
-    const savings = savingsAmount
-      ? `Save ${CURRENCY_RATES[currentCurrency].symbol}${savingsAmount.toLocaleString()}`
-      : '';
+  let procedures = new Set([
+    ...c1Data.map(d => d.procedure),
+    ...c2Data.map(d => d.procedure)
+  ]);
+  if (selectedProc) {
+    procedures = new Set([selectedProc]);
+  }
 
-    return `
-      <div class="result-item" onclick="window.location.href='compare.html?city1=${encodeURIComponent(cityName)}&city2=${encodeURIComponent(city.city)}&procedure=${encodeURIComponent(procedure)}&country1=${encodeURIComponent(country)}&country2=${encodeURIComponent(city.country)}'">
-        <div class="result-left">
-          <div class="result-city">${flag} ${city.city}${isCheapest ? '<span class="result-badge">Cheapest</span>' : ''}${savings ? `<span class="result-savings-badge">${savings}</span>` : ''}</div>
-          <div class="result-meta">${city.country} • ${procedure}</div>
-          <div class="result-view-clinics">Compare cities →</div>
-        </div>
-        <div class="result-price">${price}</div>
+  const c1Country = c1Data[0]?.country;
+  const c2Country = c2Data[0]?.country;
+  const flag1 = countryFlags[c1Country] || '';
+  const flag2 = countryFlags[c2Country] || '';
+
+  let html = `
+    <div class="comparison-header">
+      <div class="comparison-city-col"></div>
+      <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(c1)}&country=${encodeURIComponent(c1Country)}&procedure=${encodeURIComponent(selectedProc || 'Botox')}" class="compare-city-link">${flag1} ${c1}</a></div>
+      <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(c2)}&country=${encodeURIComponent(c2Country)}&procedure=${encodeURIComponent(selectedProc || 'Botox')}" class="compare-city-link">${flag2} ${c2}</a></div>
+    </div>
+  `;
+
+  Array.from(procedures).sort().forEach(proc => {
+    const p1 = c1Data.find(d => d.procedure === proc);
+    const p2 = c2Data.find(d => d.procedure === proc);
+    const cleanProc = stripParens(proc);
+    const icon = procedureIcons[cleanProc] || '🏥';
+    const price1 = p1?.price_mid_usd ? formatPrice(p1.price_mid_usd) : 'N/A';
+    const price2 = p2?.price_mid_usd ? formatPrice(p2.price_mid_usd) : 'N/A';
+
+    let cheaper1 = '', cheaper2 = '';
+    if (p1 && p2) {
+      if (p1.price_mid_usd < p2.price_mid_usd) cheaper1 = 'comparison-cheaper';
+      else if (p2.price_mid_usd < p1.price_mid_usd) cheaper2 = 'comparison-cheaper';
+    }
+
+    const link1 = p1 ? `city.html?city=${encodeURIComponent(c1)}&procedure=${encodeURIComponent(proc)}&country=${encodeURIComponent(c1Country)}` : '';
+    const link2 = p2 ? `city.html?city=${encodeURIComponent(c2)}&procedure=${encodeURIComponent(proc)}&country=${encodeURIComponent(c2Country)}` : '';
+    const price1Html = link1 ? `<a href="${link1}" class="compare-price-link ${cheaper1}">${price1}</a>` : `<span class="${cheaper1}">${price1}</span>`;
+    const price2Html = link2 ? `<a href="${link2}" class="compare-price-link ${cheaper2}">${price2}</a>` : `<span class="${cheaper2}">${price2}</span>`;
+
+    html += `
+      <div class="comparison-row">
+        <div class="comparison-procedure-col">${icon} ${proc}</div>
+        <div class="comparison-price-col">${price1Html}</div>
+        <div class="comparison-price-col">${price2Html}</div>
       </div>
     `;
-  }).join('');
+  });
+
+  tableEl.innerHTML = html;
+  resultsEl.style.display = 'block';
 }
 
 function renderClinics() {
@@ -406,45 +460,6 @@ function renderOtherProcedures() {
   }).join('');
 }
 
-function renderCompareCities() {
-  const sameProcedure = allData.filter(d =>
-    d.procedure?.toLowerCase() === procedure.toLowerCase() &&
-    d.city?.toLowerCase() !== cityName.toLowerCase() &&
-    d.price_mid_usd
-  ).sort((a, b) => a.price_mid_usd - b.price_mid_usd);
-
-  const compareCities = document.getElementById('compareCities');
-
-  if (sameProcedure.length === 0) {
-    compareCities.innerHTML = '<p style="color: rgba(255,255,255,0.6);">No comparison cities available.</p>';
-    return;
-  }
-
-  const currentPrice = allData.find(d =>
-    d.city?.toLowerCase() === cityName.toLowerCase() &&
-    d.procedure?.toLowerCase() === procedure.toLowerCase()
-  )?.price_mid_usd || 0;
-
-  compareCities.innerHTML = sameProcedure.slice(0, 5).map(city => {
-    const flag = countryFlags[city.country] || '';
-    const price = formatPrice(city.price_mid_usd);
-    const savingsAmount = currentPrice && city.price_mid_usd < currentPrice
-      ? convertPrice(currentPrice - city.price_mid_usd)
-      : null;
-    const savings = savingsAmount
-      ? `Save ${CURRENCY_RATES[currentCurrency].symbol}${savingsAmount.toLocaleString()}`
-      : '';
-
-    return `
-      <a href="city.html?city=${encodeURIComponent(city.city)}&procedure=${encodeURIComponent(procedure)}&country=${encodeURIComponent(city.country)}" class="city-compare-card">
-        <div class="city-compare-flag">${flag}</div>
-        <div class="city-compare-name">${city.city}</div>
-        <div class="city-compare-price">${price}</div>
-        ${savings ? `<div class="city-compare-savings">${savings}</div>` : ''}
-      </a>
-    `;
-  }).join('');
-}
 
 /* =========================
    HAMBURGER MENU

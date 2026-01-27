@@ -168,13 +168,28 @@
         <span class="section-toggle-icon">▼</span>
       </button>
       <div class="section-content" id="compareContent" style="display: none;">
-        <!-- Mobile Compare -->
-        <div class="city-compare-section" id="cityCompareSection">
-          <div id="compareCitySelect" class="compare-city-results"></div>
+        <div class="compare-page-selectors">
+          <div class="compare-selector-group">
+            <label class="trip-label">City 1 (e.g. Departure City):</label>
+            <select class="trip-select" id="inlineCity1Select">
+              <option value="">Select first city...</option>
+            </select>
+          </div>
+          <div class="compare-selector-group">
+            <label class="trip-label">City 2 (e.g. Destination City):</label>
+            <select class="trip-select" id="inlineCity2Select">
+              <option value="">Select second city...</option>
+            </select>
+          </div>
+          <div class="compare-selector-group">
+            <label class="trip-label">Procedure:</label>
+            <select class="trip-select" id="inlineProcedureSelect">
+              <option value="">All Procedures</option>
+            </select>
+          </div>
         </div>
-        <!-- Desktop Compare -->
-        <div class="city-compare-cities-section">
-          <div class="compare-cities" id="compareCities"></div>
+        <div id="inlineComparisonResults" style="display: none;">
+          <div class="comparison-table" id="inlineComparisonTable"></div>
         </div>
       </div>
     </section>
