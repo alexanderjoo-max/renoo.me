@@ -3,6 +3,17 @@ const urlParams = new URLSearchParams(window.location.search);
 const cityName = urlParams.get('city');
 const procedure = urlParams.get('procedure');
 const country = urlParams.get('country');
+const isEmbed = urlParams.get('embed') === '1';
+
+// In embed mode, hide the header and adjust padding
+if (isEmbed) {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('fixedHeader')?.style.setProperty('display', 'none');
+    document.getElementById('menuOverlay')?.style.setProperty('display', 'none', 'important');
+    const main = document.querySelector('.city-main');
+    if (main) main.style.paddingTop = '24px';
+  });
+}
 
 /* =========================
    CURRENCY CONVERSION

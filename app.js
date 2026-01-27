@@ -248,6 +248,19 @@ function stripParens(s) {
   return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, "").trim();
 }
 
+/* Open city page: overlay on desktop, navigate on mobile */
+function openCityPage(city, procedure, country) {
+  const url = `city.html?city=${encodeURIComponent(city)}&procedure=${encodeURIComponent(stripParens(procedure))}&country=${encodeURIComponent(country)}`;
+  if (window.innerWidth > 768) {
+    const overlay = document.getElementById('cityOverlay');
+    const frame = document.getElementById('cityOverlayFrame');
+    frame.src = url + '&embed=1';
+    overlay.style.display = 'block';
+  } else {
+    window.location.href = url;
+  }
+}
+
 function procedureIcon(cleanName) {
   const key = cleanName.toLowerCase();
 
@@ -582,8 +595,7 @@ function renderMarkers(data) {
       if (viewClinicsBtn) {
         viewClinicsBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
-          window.location.href = url;
+          openCityPage(d.city, d.procedure, d.country);
         });
       }
     });
@@ -676,8 +688,7 @@ function renderResults(data) {
         renderCompareBox(currentFiltered);
       } else {
         // Browse mode: navigate to city page
-        const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
-        window.location.href = url;
+        openCityPage(d.city, d.procedure, d.country);
       }
     });
 
@@ -1036,6 +1047,14 @@ document.addEventListener('DOMContentLoaded', () => {
     currencyDropdown.value = currentCurrency;
   }
 
+  // City overlay close button
+  document.getElementById('cityOverlayClose')?.addEventListener('click', () => {
+    const overlay = document.getElementById('cityOverlay');
+    const frame = document.getElementById('cityOverlayFrame');
+    overlay.style.display = 'none';
+    frame.src = '';
+  });
+
   // Initialize currency selector (legacy support)
   document.querySelectorAll('.currency-option, .currency-option-menu').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.currency === currentCurrency);
@@ -1103,7 +1122,7 @@ if (menuDestinationSelect) {
         const country = cityData[0].country;
 
         // Navigate to city page with city, country, and procedure
-        window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(currentProcedure)}`;
+        openCityPage(selectedCity, currentProcedure, country);
       }
     }
   });
