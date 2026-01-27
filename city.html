@@ -103,18 +103,18 @@
     <section class="city-header-redesign">
       <div class="city-header-selectors">
         <div class="city-header-selector-group">
-          <h1 class="city-header-name" id="cityHeaderName"></h1>
-          <div class="city-header-btn-wrap">
-            <button class="city-header-change-btn">Change City</button>
+          <div class="city-header-inline-select">
+            <h1 class="city-header-name" id="cityHeaderName"></h1>
+            <svg class="city-header-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <select class="city-header-hidden-select" id="cityHeaderCitySelect">
               <option value="" disabled>Select city...</option>
             </select>
           </div>
         </div>
         <div class="city-header-selector-group">
-          <h2 class="city-header-procedure" id="cityHeaderProcedure"></h2>
-          <div class="city-header-btn-wrap">
-            <button class="city-header-change-btn">Change Procedure</button>
+          <div class="city-header-inline-select">
+            <h2 class="city-header-procedure" id="cityHeaderProcedure"></h2>
+            <svg class="city-header-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <select class="city-header-hidden-select" id="cityHeaderProcedureSelect">
               <option value="" disabled>Select procedure...</option>
             </select>
@@ -124,17 +124,13 @@
       <div class="city-stats-header" id="cityStatsHeader"></div>
     </section>
 
-    <!-- City Info Blurb (mobile only) -->
-    <section class="city-info" id="cityInfo"></section>
-
     <!-- Trip Calculator -->
     <section class="city-section trip-calculator-section">
       <h2 class="section-title">✈️ Trip Cost Calculator</h2>
       <div class="trip-calculator">
         <div class="trip-calculator-input">
-          <label for="departureCity" class="trip-label">Your Home City:</label>
           <select id="departureCity" class="trip-select">
-            <option value="">Select your city...</option>
+            <option value="">Select Departure City...</option>
           </select>
         </div>
 

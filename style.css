@@ -1464,7 +1464,8 @@ html {
 
 /* -------- City Page -------- */
 .city-page {
-  background: #1a1a1a;
+  background: linear-gradient(135deg, #1a2a1a 0%, #1a1a2e 50%, #1a1a1a 100%);
+  min-height: 100vh;
   color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
@@ -1510,29 +1511,19 @@ html {
   line-height: 1.1;
 }
 
-.city-header-btn-wrap {
+.city-header-inline-select {
   position: relative;
-  display: inline-block;
-}
-
-.city-header-change-btn {
-  display: inline-block;
-  padding: 6px 16px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 6px;
-  color: rgba(255,255,255,0.8);
-  font-size: 13px;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  pointer-events: none;
 }
 
-.city-header-btn-wrap:hover .city-header-change-btn {
-  background: rgba(255,255,255,0.2);
-  color: #fff;
+.city-header-chevron {
+  color: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+  margin-top: 4px;
+  pointer-events: none;
 }
 
 .city-header-hidden-select {
@@ -1580,21 +1571,6 @@ html {
   color: #fbbf24;
 }
 
-.city-info {
-  background: rgba(255,255,255,0.05);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 32px;
-  color: rgba(255,255,255,0.8);
-  line-height: 1.6;
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .city-info {
-    display: block;
-  }
-}
 
 .city-section {
   margin-bottom: 40px;
@@ -1663,10 +1639,12 @@ html {
 
 /* Trip Calculator */
 .trip-calculator {
-  background: #2f2f2f;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 24px;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding: 24px 0;
 }
 
 .trip-calculator-input {

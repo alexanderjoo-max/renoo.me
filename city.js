@@ -208,17 +208,6 @@ function renderPage() {
     `;
   }
 
-  // City info blurb (mobile only, hidden on desktop via CSS)
-  const infoBlurbs = {
-    "Bangkok": "Bangkok is a leading destination for medical tourism, known for world-class hospitals, internationally accredited clinics, and English-speaking medical professionals at a fraction of Western prices.",
-    "Istanbul": "Istanbul combines ancient heritage with modern medical excellence. The city's hospitals feature cutting-edge technology and highly trained surgeons, making it a top choice for European medical tourists.",
-    "Mexico City": "Mexico City offers high-quality medical care with US-trained doctors and JCI-accredited facilities, all within easy reach of North American patients.",
-    "Bodrum": "Bodrum is Turkey's premier coastal destination for medical tourism, offering world-class cosmetic procedures with scenic Mediterranean recovery."
-  };
-
-  const blurb = infoBlurbs[cityName] || `${cityName} is a popular destination for ${procedure} procedures, offering quality care at competitive prices.`;
-  document.getElementById('cityInfo').textContent = blurb;
-
   // Render clinics
   renderClinics();
 
