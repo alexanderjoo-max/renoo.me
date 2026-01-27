@@ -40,14 +40,16 @@ html {
 /* -------- Welcome Overlay (first visit) -------- */
 .welcome-overlay {
   position: fixed;
-  inset: 0;
-  z-index: 999;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
   background: rgba(0, 0, 0, 0.88);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding-top: 60px;
 }
 
 .welcome-content {
