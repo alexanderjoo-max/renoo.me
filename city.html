@@ -15,6 +15,12 @@
   </script>
 
   <link rel="stylesheet" href="style.css">
+  <script>
+    // When loaded inside an iframe (overlay), hide header and adjust layout
+    if (window !== window.top) {
+      document.documentElement.classList.add('in-overlay');
+    }
+  </script>
 </head>
 <body class="city-page">
   <!-- Header -->
