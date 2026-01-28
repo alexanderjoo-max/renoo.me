@@ -143,69 +143,70 @@
       <div class="city-stats-header" id="cityStatsHeader"></div>
     </section>
 
-    <!-- Trip Calculator -->
-    <section class="city-section trip-calculator-section">
-      <h2 class="section-title">✈️ Trip Cost Calculator</h2>
-      <div class="trip-calculator">
-        <div class="trip-calculator-input">
-          <select id="departureCity" class="trip-select">
-            <option value="">Select Departure City...</option>
-          </select>
+    <!-- Bottom Section: Trip Calculator + Collapsible Sections -->
+    <div class="city-bottom-section">
+      <!-- Trip Calculator -->
+      <section class="city-section trip-calculator-section">
+        <h2 class="section-title">✈️ Trip Cost Calculator</h2>
+        <div class="trip-calculator">
+          <div class="trip-calculator-input">
+            <select id="departureCity" class="trip-select">
+              <option value="">Select Departure City...</option>
+            </select>
+          </div>
+
+          <div class="trip-calculator-results" id="tripCalculatorResults">
+            <!-- Results will be populated by JavaScript -->
+          </div>
         </div>
+      </section>
 
-        <div class="trip-calculator-results" id="tripCalculatorResults">
-          <!-- Results will be populated by JavaScript -->
+      <!-- Top Clinics (Collapsible) -->
+      <section class="city-section collapsible-section">
+        <button class="section-toggle" id="toggleClinics">
+          <span class="section-toggle-title">Top Clinics</span>
+          <span class="section-toggle-icon">▼</span>
+        </button>
+        <div class="section-content" id="clinicsContent" style="display: none;">
+          <div class="clinic-list" id="clinicList"></div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Collapsible Sections -->
-
-    <!-- Top Clinics (Collapsible) -->
-    <section class="city-section collapsible-section">
-      <button class="section-toggle" id="toggleClinics">
-        <span class="section-toggle-title">Top Clinics</span>
-        <span class="section-toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="clinicsContent" style="display: none;">
-        <div class="clinic-list" id="clinicList"></div>
-      </div>
-    </section>
-
-    <!-- Other Procedures (Collapsible) -->
-    <section class="city-section collapsible-section">
-      <button class="section-toggle" id="toggleProcedures">
-        <span class="section-toggle-title">Other Procedures in <span id="cityNameProcedures"></span></span>
-        <span class="section-toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="proceduresContent" style="display: none;">
-        <div class="procedure-cards" id="procedureCards"></div>
-      </div>
-    </section>
-
-    <!-- Compare With Another City (Collapsible) -->
-    <section class="city-section collapsible-section">
-      <button class="section-toggle" id="toggleCompare">
-        <span class="section-toggle-title">Compare with another city</span>
-        <span class="section-toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="compareContent" style="display: none;">
-        <div class="compare-page-selectors">
-          <select class="trip-select" id="inlineCity1Select">
-            <option value="">Home City...</option>
-          </select>
-          <select class="trip-select" id="inlineCity2Select">
-            <option value="">Destination City...</option>
-          </select>
-          <select class="trip-select" id="inlineProcedureSelect">
-            <option value="">All Procedures</option>
-          </select>
+      <!-- Other Procedures (Collapsible) -->
+      <section class="city-section collapsible-section">
+        <button class="section-toggle" id="toggleProcedures">
+          <span class="section-toggle-title">Other Procedures in <span id="cityNameProcedures"></span></span>
+          <span class="section-toggle-icon">▼</span>
+        </button>
+        <div class="section-content" id="proceduresContent" style="display: none;">
+          <div class="procedure-cards" id="procedureCards"></div>
         </div>
-        <div id="inlineComparisonResults" style="display: none;">
-          <div class="comparison-table" id="inlineComparisonTable"></div>
+      </section>
+
+      <!-- Compare With Another City (Collapsible) -->
+      <section class="city-section collapsible-section">
+        <button class="section-toggle" id="toggleCompare">
+          <span class="section-toggle-title">Compare with another city</span>
+          <span class="section-toggle-icon">▼</span>
+        </button>
+        <div class="section-content" id="compareContent" style="display: none;">
+          <div class="compare-page-selectors">
+            <select class="trip-select" id="inlineCity1Select">
+              <option value="">Home City...</option>
+            </select>
+            <select class="trip-select" id="inlineCity2Select">
+              <option value="">Destination City...</option>
+            </select>
+            <select class="trip-select" id="inlineProcedureSelect">
+              <option value="">All Procedures</option>
+            </select>
+          </div>
+          <div id="inlineComparisonResults" style="display: none;">
+            <div class="comparison-table" id="inlineComparisonTable"></div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <script src="city.js?v=2"></script>
