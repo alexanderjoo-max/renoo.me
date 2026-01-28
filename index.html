@@ -87,10 +87,28 @@
       <div class="header-logo">
         <img src="/logo-white.svg" alt="Renoo.me" />
       </div>
-      <div class="header-search">
-        <select id="procedureSelect" class="procedure-select">
+      <div class="header-search" id="megaNavTrigger">
+        <select id="procedureSelect" class="procedure-select" style="display:none">
           <option value="" selected>Choose procedure</option>
         </select>
+        <button class="mega-nav-btn" id="megaNavBtn" type="button">
+          <span class="mega-nav-btn-icon" id="megaNavBtnIcon">💉</span>
+          <span class="mega-nav-btn-label" id="megaNavBtnLabel">Choose procedure</span>
+          <svg class="mega-nav-btn-chevron" width="14" height="9" viewBox="0 0 14 9" fill="none"><path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- Mega Navigation Overlay -->
+      <div class="mega-nav-overlay" id="megaNavOverlay">
+        <div class="mega-nav-panel">
+          <div class="mega-nav-header">
+            <h3 class="mega-nav-title">Choose a Procedure</h3>
+            <button class="mega-nav-close" id="megaNavClose" type="button">&times;</button>
+          </div>
+          <div class="mega-nav-categories" id="megaNavCategories">
+            <!-- Categories populated by JS -->
+          </div>
+        </div>
       </div>
       <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
         <span></span>

@@ -96,7 +96,14 @@ const els = {
   floatingComparePreview: document.getElementById("floatingComparePreview"),
   floatingCompareClear: document.getElementById("floatingCompareClear"),
   floatingCompareDiff: document.getElementById("floatingCompareDiff"),
-  compareModeToggle: document.getElementById("compareModeToggle")
+  compareModeToggle: document.getElementById("compareModeToggle"),
+  // Mega Nav elements
+  megaNavBtn: document.getElementById("megaNavBtn"),
+  megaNavBtnIcon: document.getElementById("megaNavBtnIcon"),
+  megaNavBtnLabel: document.getElementById("megaNavBtnLabel"),
+  megaNavOverlay: document.getElementById("megaNavOverlay"),
+  megaNavClose: document.getElementById("megaNavClose"),
+  megaNavCategories: document.getElementById("megaNavCategories")
 };
 
 let isCompareMode = false;
@@ -314,6 +321,186 @@ function procedureLabel(procedureRawOrClean) {
 }
 
 /* =========================
+   MEGA NAVIGATION CATEGORIES
+========================= */
+const PROCEDURE_CATEGORIES = {
+  "Biohacking": [
+    "Stem Cell Therapy",
+    "Exosome Therapy",
+    "PRP Therapy",
+    "Plasma Exchange (TPE) Therapy",
+    "NAD+ IV Injection",
+    "Peptide Therapy",
+    "Ozone Therapy",
+    "Hyperbaric Oxygen Therapy (HBOT)",
+    "Biochip Implantation",
+    "Advanced Health Screening"
+  ],
+  "Beauty": [
+    "Botox",
+    "Facelift",
+    "Rhinoplasty",
+    "Hair Transplant (3000 grafts)",
+    "Dental Veneers (Full Mouth)"
+  ],
+  "Body": [
+    "Breast Augmentation",
+    "Brazilian Butt Lift (BBL)",
+    "Liposuction",
+    "Tummy Tuck",
+    "Gastric Bypass"
+  ],
+  "Medical": [
+    "LASIK",
+    "Dental Implant",
+    "Knee Replacement",
+    "Hip Replacement",
+    "Colonoscopy",
+    "IVF (Fertility Treatment)"
+  ]
+};
+
+function populateMegaNav(procedures) {
+  if (!els.megaNavCategories) return;
+
+  // Build categorized HTML
+  let html = '';
+
+  for (const [category, categoryProcs] of Object.entries(PROCEDURE_CATEGORIES)) {
+    // Filter to only include procedures that exist in data
+    const availableProcs = categoryProcs.filter(p => procedures.includes(p));
+    if (availableProcs.length === 0) continue;
+
+    html += `
+      <div class="mega-nav-category">
+        <h4 class="mega-nav-category-title">${category}</h4>
+        <div class="mega-nav-items">
+          ${availableProcs.map(proc => {
+            const icon = procedureIcon(stripParens(proc));
+            const cleanName = stripParens(proc);
+            return `
+              <div class="mega-nav-item" data-procedure="${proc}">
+                <span class="mega-nav-item-icon">${icon}</span>
+                <span class="mega-nav-item-name">${cleanName}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // Add any procedures not in categories under "Other"
+  const allCategorized = Object.values(PROCEDURE_CATEGORIES).flat();
+  const uncategorized = procedures.filter(p => !allCategorized.includes(p));
+
+  if (uncategorized.length > 0) {
+    html += `
+      <div class="mega-nav-category">
+        <h4 class="mega-nav-category-title">Other</h4>
+        <div class="mega-nav-items">
+          ${uncategorized.map(proc => {
+            const icon = procedureIcon(stripParens(proc));
+            const cleanName = stripParens(proc);
+            return `
+              <div class="mega-nav-item" data-procedure="${proc}">
+                <span class="mega-nav-item-icon">${icon}</span>
+                <span class="mega-nav-item-name">${cleanName}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  els.megaNavCategories.innerHTML = html;
+
+  // Add click handlers to items
+  els.megaNavCategories.querySelectorAll('.mega-nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const proc = item.dataset.procedure;
+      selectProcedure(proc);
+    });
+  });
+}
+
+function selectProcedure(proc) {
+  // Update hidden select
+  if (els.procedureSelect) {
+    els.procedureSelect.value = proc;
+  }
+
+  // Update mega nav button display
+  updateMegaNavButton(proc);
+
+  // Close mega nav
+  closeMegaNav();
+
+  // Highlight selected item
+  els.megaNavCategories?.querySelectorAll('.mega-nav-item').forEach(item => {
+    item.classList.toggle('selected', item.dataset.procedure === proc);
+  });
+
+  // Trigger filter update
+  compareSelection = [];
+  applyFiltersAndRender();
+}
+
+function updateMegaNavButton(proc) {
+  if (!els.megaNavBtnLabel || !els.megaNavBtnIcon) return;
+
+  if (proc) {
+    const clean = stripParens(proc);
+    els.megaNavBtnLabel.textContent = clean;
+    els.megaNavBtnIcon.textContent = procedureIcon(clean);
+  } else {
+    els.megaNavBtnLabel.textContent = 'Choose procedure';
+    els.megaNavBtnIcon.textContent = '💉';
+  }
+}
+
+function openMegaNav() {
+  els.megaNavOverlay?.classList.add('active');
+  els.megaNavBtn?.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMegaNav() {
+  els.megaNavOverlay?.classList.remove('active');
+  els.megaNavBtn?.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function wireMegaNav() {
+  // Toggle mega nav on button click
+  els.megaNavBtn?.addEventListener('click', () => {
+    if (els.megaNavOverlay?.classList.contains('active')) {
+      closeMegaNav();
+    } else {
+      openMegaNav();
+    }
+  });
+
+  // Close on X button
+  els.megaNavClose?.addEventListener('click', closeMegaNav);
+
+  // Close on overlay click (outside panel)
+  els.megaNavOverlay?.addEventListener('click', (e) => {
+    if (e.target === els.megaNavOverlay) {
+      closeMegaNav();
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && els.megaNavOverlay?.classList.contains('active')) {
+      closeMegaNav();
+    }
+  });
+}
+
+/* =========================
    PRICE PARSING + GRADIENT
 ========================= */
 function toNumber(v) {
@@ -397,10 +584,20 @@ fetch("data.json")
     populateCountryDropdown(ALL);
     populateDestinationDropdown();
     wireUI();
+    wireMegaNav();
+
+    // Populate mega nav with available procedures
+    const procedures = [...new Set(ALL.map(d => d.procedure))].filter(Boolean).sort((a, b) => a.localeCompare(b));
+    populateMegaNav(procedures);
 
     // Set "Botox" as default and load pins on map
     if (els.procedureSelect) {
       els.procedureSelect.value = "Botox";
+      updateMegaNavButton("Botox");
+      // Highlight Botox in mega nav
+      els.megaNavCategories?.querySelectorAll('.mega-nav-item').forEach(item => {
+        item.classList.toggle('selected', item.dataset.procedure === "Botox");
+      });
       applyFiltersAndRender();
     }
   })
