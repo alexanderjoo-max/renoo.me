@@ -393,7 +393,7 @@ function renderClinics() {
           ${clinic.Languages ? `<div class="clinic-detail-row"><span class="clinic-detail-label">Languages:</span><span>${clinic.Languages}</span></div>` : ''}
         </div>
         <div class="clinic-card-footer">
-          ${clinic.Website ? `<button class="clinic-btn clinic-btn-primary" onclick="window.open('${clinic.Website}', '_blank')">Visit Website</button>` : ''}
+          ${clinic.Website ? `<button class="clinic-btn clinic-btn-primary" onclick="window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'clinic_website_click',clinic_name:'${clinic.Clinic_Name.replace(/'/g, "\\'")}',clinic_website:'${clinic.Website}',city:'${cityName}',procedure:'${procedure}'});window.open('${clinic.Website}', '_blank')">Visit Website</button>` : ''}
         </div>
       </div>
     `;
