@@ -252,7 +252,7 @@ function flagFromCountry(countryName) {
    - Cherry emoji for breast augmentation
 ========================= */
 function stripParens(s) {
-  return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, "").trim();
+  return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, " ").replace(/\s+/g, " ").trim();
 }
 
 /* Open city page: overlay on desktop, navigate on mobile */

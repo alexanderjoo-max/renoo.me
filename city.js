@@ -101,7 +101,7 @@ const countryFlags = {
 
 // Helper function to strip parenthetical info
 function stripParens(s) {
-  return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, "").trim();
+  return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, " ").replace(/\s+/g, " ").trim();
 }
 
 // Procedure icons mapping
