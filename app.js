@@ -69,6 +69,38 @@ function setCurrency(currency) {
 }
 
 /* =========================
+   CITY OVERLAY (Desktop panel)
+========================= */
+function openCityOverlay(url) {
+  // On mobile, navigate normally
+  if (window.innerWidth <= 768) {
+    window.location.href = url;
+    return;
+  }
+  const overlay = document.getElementById('cityOverlay');
+  const frame = document.getElementById('cityOverlayFrame');
+  if (!overlay || !frame) {
+    window.location.href = url;
+    return;
+  }
+  frame.src = url;
+  overlay.classList.add('active');
+}
+
+function closeCityOverlay() {
+  const overlay = document.getElementById('cityOverlay');
+  const frame = document.getElementById('cityOverlayFrame');
+  if (overlay) overlay.classList.remove('active');
+  if (frame) frame.src = '';
+}
+
+// Wire close button
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('cityOverlayClose');
+  if (closeBtn) closeBtn.addEventListener('click', closeCityOverlay);
+});
+
+/* =========================
    MAP INIT
 ========================= */
 const map = new mapboxgl.Map({
@@ -575,7 +607,7 @@ function renderMarkers(data) {
         viewClinicsBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
-          window.location.href = url;
+          openCityOverlay(url);
         });
       }
     });
@@ -658,9 +690,9 @@ function renderResults(data) {
         renderResults(currentFiltered);
         renderCompareBox(currentFiltered);
       } else {
-        // Browse mode: navigate to city page
+        // Browse mode: open city detail overlay
         const url = `city.html?city=${encodeURIComponent(d.city)}&procedure=${encodeURIComponent(stripParens(d.procedure))}&country=${encodeURIComponent(d.country)}`;
-        window.location.href = url;
+        openCityOverlay(url);
       }
     });
 
@@ -1068,8 +1100,8 @@ if (menuDestinationSelect) {
         const currentProcedure = els.procedureSelect?.value || 'Botox';
         const country = cityData[0].country;
 
-        // Navigate to city page with city, country, and procedure
-        window.location.href = `city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(currentProcedure)}`;
+        // Open city detail overlay (or navigate on mobile)
+        openCityOverlay(`city.html?city=${encodeURIComponent(selectedCity)}&country=${encodeURIComponent(country)}&procedure=${encodeURIComponent(currentProcedure)}`);
       }
     }
   });
