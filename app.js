@@ -329,6 +329,54 @@ function procedureLabel(procedureRawOrClean) {
 }
 
 /* =========================
+   TOP RATED CITIES BY PROCEDURE
+========================= */
+// Based on medical tourism reputation and specialization
+const TOP_RATED_BY_PROCEDURE = {
+  // Dental
+  "Dental Implant": ["Budapest", "Istanbul", "Bangkok", "Mexico City", "Tijuana"],
+  "Dental Veneers": ["Istanbul", "Budapest", "Bangkok", "Cancun", "Medellín"],
+  // Cosmetic Surgery
+  "Rhinoplasty": ["Istanbul", "Seoul", "Tehran", "Bangkok", "Mexico City"],
+  "Facelift": ["Seoul", "Bangkok", "Miami", "Istanbul", "Rio de Janeiro"],
+  "Breast Augmentation": ["Bangkok", "Seoul", "Miami", "Istanbul", "Bogotá"],
+  "Liposuction": ["Bangkok", "Seoul", "Miami", "Medellín", "Mexico City"],
+  "Brazilian Butt Lift": ["Miami", "Bogotá", "Medellín", "Rio de Janeiro", "Mexico City"],
+  "Tummy Tuck": ["Bangkok", "Miami", "Mexico City", "Istanbul", "Seoul"],
+  "Botox": ["Seoul", "Bangkok", "Los Angeles", "Miami", "London"],
+  // Hair
+  "Hair Transplant": ["Istanbul", "Bangkok", "Delhi", "Budapest", "Seoul"],
+  // Eye
+  "LASIK": ["Seoul", "Singapore", "Bangkok", "Istanbul", "Prague"],
+  // Orthopedic
+  "Knee Replacement": ["Bangkok", "Singapore", "Mumbai", "Seoul", "Istanbul"],
+  "Hip Replacement": ["Bangkok", "Singapore", "Mumbai", "Seoul", "Berlin"],
+  "Limb Lengthening Surgery": ["Istanbul", "Mumbai", "Seoul", "Warsaw", "Cairo"],
+  // Fertility
+  "IVF": ["Prague", "Barcelona", "Bangkok", "Athens", "Mumbai"],
+  // Bariatric
+  "Gastric Bypass": ["Mexico City", "Tijuana", "Istanbul", "Bangkok", "Mumbai"],
+  // Diagnostics
+  "Colonoscopy": ["Bangkok", "Singapore", "Seoul", "Tokyo", "Mumbai"],
+  "Advanced Health Screening": ["Bangkok", "Singapore", "Seoul", "Tokyo", "Dubai"],
+  // Regenerative/Biohacking
+  "Stem Cell Therapy": ["Bangkok", "Mexico City", "Panama City", "Seoul", "Dubai"],
+  "PRP Therapy": ["Seoul", "Bangkok", "Dubai", "Miami", "Istanbul"],
+  "Exosome Therapy": ["Seoul", "Bangkok", "Tokyo", "Dubai", "Miami"],
+  "NAD+ IV Injection": ["Bangkok", "Dubai", "Miami", "Bali", "Los Angeles"],
+  "Peptide Therapy": ["Bangkok", "Dubai", "Miami", "Seoul", "Singapore"],
+  "Ozone Therapy": ["Bangkok", "Dubai", "Berlin", "Mexico City", "Bali"],
+  "Plasma Exchange Therapy": ["Bangkok", "Seoul", "Tokyo", "Singapore", "Mumbai"],
+  "Hyperbaric Oxygen Therapy": ["Bangkok", "Dubai", "Bali", "Miami", "Seoul"],
+  "Biochip Implantation": ["Dubai", "Singapore", "Seoul", "Tokyo", "Bangkok"],
+  // Hormone
+  "Testosterone Replacement Therapy": ["Bangkok", "Mexico City", "Miami", "Dubai", "London"],
+  "Human Growth Hormone": ["Bangkok", "Mexico City", "Dubai", "Miami", "Prague"],
+  // Gender
+  "Gender Reassignment Surgery": ["Bangkok", "Seoul", "Madrid", "Montreal", "Berlin"]
+};
+
+/* =========================
    MEGA NAVIGATION CATEGORIES
 ========================= */
 // Note: Procedure names are stored without parentheses (stripped by stripParens during load)
@@ -727,8 +775,10 @@ function applyFiltersAndRender() {
 
   let filtered = ALL.filter((d) => d.procedure === procVal);
 
-  // Top-rated cities for sorting
-  const TOP_RATED_SORT = new Set(["Bangkok", "Istanbul", "Seoul"]);
+  // Get top rated cities for current procedure (uses global TOP_RATED_BY_PROCEDURE)
+  const procClean = stripParens(procVal);
+  const topRatedForProc = TOP_RATED_BY_PROCEDURE[procClean] || [];
+  const TOP_RATED_SORT = new Set(topRatedForProc.slice(0, 3));
 
   // Apply sorting based on sort select
   const sortMode = els.sortSelect?.value ?? "price";
@@ -890,8 +940,10 @@ function renderResults(data) {
     }
   }
 
-  // Top-rated medical tourism destinations
-  const TOP_RATED_CITIES = new Set(["Bangkok", "Istanbul", "Seoul"]);
+  // Get top-rated cities for current procedure (use first item's procedure)
+  const currentProc = data.length > 0 ? stripParens(data[0].procedure) : '';
+  const topRatedForProcedure = TOP_RATED_BY_PROCEDURE[currentProc] || [];
+  const TOP_RATED_CITIES = new Set(topRatedForProcedure.slice(0, 3));
 
   for (const d of data) {
     const flag = flagFromCountry(d.country);
