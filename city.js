@@ -363,7 +363,6 @@ function renderClinics() {
         <p style="color: rgba(255,255,255,0.8); margin: 0 0 20px 0; line-height: 1.6;">
           We're currently adding detailed clinic information for ${cityName}. In the meantime, we can connect you with verified medical tourism providers in this area.
         </p>
-        <button class="clinic-btn clinic-btn-primary" style="max-width: 300px; margin: 0 auto;">Get Personalized Recommendations</button>
       </div>
     `;
     return;
@@ -394,8 +393,7 @@ function renderClinics() {
           ${clinic.Languages ? `<div class="clinic-detail-row"><span class="clinic-detail-label">Languages:</span><span>${clinic.Languages}</span></div>` : ''}
         </div>
         <div class="clinic-card-footer">
-          <button class="clinic-btn clinic-btn-primary">Get Quote</button>
-          ${clinic.Website ? `<button class="clinic-btn clinic-btn-secondary" onclick="window.open('${clinic.Website}', '_blank')">Visit Website</button>` : ''}
+          ${clinic.Website ? `<button class="clinic-btn clinic-btn-primary" onclick="window.open('${clinic.Website}', '_blank')">Visit Website</button>` : ''}
         </div>
       </div>
     `;
