@@ -293,6 +293,18 @@ function procedureIcon(cleanName) {
   // Fertility
   if (key.includes("ivf")) return "👶";
 
+  // Regenerative & Wellness
+  if (key.includes("stem cell")) return "🧬";
+  if (key.includes("hyperbaric") || key.includes("hbot")) return "🫧";
+  if (key.includes("exosome")) return "🔬";
+  if (key.includes("nad+") || key.includes("nad ")) return "⚡";
+  if (key.includes("plasma exchange") || key.includes("tpe")) return "🩸";
+  if (key.includes("health screening")) return "🩺";
+  if (key.includes("prp")) return "💎";
+  if (key.includes("peptide")) return "🧪";
+  if (key.includes("ozone")) return "🌀";
+  if (key.includes("biochip")) return "📡";
+
   return "✨";
 }
 

@@ -110,7 +110,12 @@ const procedureIcons = {
   "Colonoscopy": "🔬", "Dental Implant": "🦷", "Dental Veneers": "😁",
   "Facelift": "🧖", "Gastric Bypass": "🏥", "Hair Transplant": "💇",
   "Hip Replacement": "🦴", "IVF": "👶", "Knee Replacement": "🦵",
-  "LASIK": "👁️", "Liposuction": "💪", "Rhinoplasty": "👃", "Tummy Tuck": "🤰"
+  "LASIK": "👁️", "Liposuction": "💪", "Rhinoplasty": "👃", "Tummy Tuck": "🤰",
+  "Stem Cell Therapy": "🧬", "Hyperbaric Oxygen Therapy": "🫧",
+  "Exosome Therapy": "🔬", "NAD+ IV Injection": "⚡",
+  "Plasma Exchange Therapy": "🩸", "Advanced Health Screening": "🩺",
+  "PRP Therapy": "💎", "Peptide Therapy": "🧪",
+  "Ozone Therapy": "🌀", "Biochip Implantation": "📡"
 };
 
 // Data storage
