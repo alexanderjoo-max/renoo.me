@@ -359,15 +359,15 @@ html {
 }
 
 .mega-nav-categories {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 .mega-nav-category {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .mega-nav-category-title {
@@ -376,52 +376,51 @@ html {
   color: rgba(255,255,255,0.5);
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  margin: 0;
-  padding-left: 4px;
+  margin: 0 0 4px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .mega-nav-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .mega-nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 10px;
+  gap: 8px;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   text-decoration: none;
-  color: #fff;
+  color: rgba(255,255,255,0.85);
 }
 
 .mega-nav-item:hover {
   background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.2);
-  transform: translateY(-2px);
+  color: #fff;
 }
 
 .mega-nav-item.selected {
   background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(236,72,153,0.2));
-  border-color: rgba(99,102,241,0.5);
+  color: #fff;
 }
 
 .mega-nav-item-icon {
-  font-size: 20px;
+  font-size: 16px;
   flex-shrink: 0;
+  width: 20px;
+  text-align: center;
 }
 
 .mega-nav-item-name {
   font-size: 13px;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Mobile adjustments */
@@ -437,18 +436,19 @@ html {
     max-height: calc(100vh - 70px);
   }
 
-  .mega-nav-items {
+  .mega-nav-categories {
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 16px;
   }
 
   .mega-nav-item {
-    padding: 10px 12px;
-    gap: 8px;
+    padding: 6px 8px;
+    gap: 6px;
   }
 
   .mega-nav-item-icon {
-    font-size: 18px;
+    font-size: 14px;
+    width: 18px;
   }
 
   .mega-nav-item-name {
@@ -457,6 +457,12 @@ html {
 
   .mega-nav-category-title {
     font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mega-nav-categories {
+    grid-template-columns: 1fr;
   }
 }
 

@@ -323,16 +323,17 @@ function procedureLabel(procedureRawOrClean) {
 /* =========================
    MEGA NAVIGATION CATEGORIES
 ========================= */
+// Note: Procedure names are stored without parentheses (stripped by stripParens during load)
 const PROCEDURE_CATEGORIES = {
   "Biohacking": [
     "Stem Cell Therapy",
     "Exosome Therapy",
     "PRP Therapy",
-    "Plasma Exchange (TPE) Therapy",
+    "Plasma Exchange Therapy",
     "NAD+ IV Injection",
     "Peptide Therapy",
     "Ozone Therapy",
-    "Hyperbaric Oxygen Therapy (HBOT)",
+    "Hyperbaric Oxygen Therapy",
     "Biochip Implantation",
     "Advanced Health Screening"
   ],
@@ -340,12 +341,12 @@ const PROCEDURE_CATEGORIES = {
     "Botox",
     "Facelift",
     "Rhinoplasty",
-    "Hair Transplant (3000 grafts)",
-    "Dental Veneers (Full Mouth)"
+    "Hair Transplant",
+    "Dental Veneers"
   ],
   "Body": [
     "Breast Augmentation",
-    "Brazilian Butt Lift (BBL)",
+    "Brazilian Butt Lift",
     "Liposuction",
     "Tummy Tuck",
     "Gastric Bypass"
@@ -356,7 +357,7 @@ const PROCEDURE_CATEGORIES = {
     "Knee Replacement",
     "Hip Replacement",
     "Colonoscopy",
-    "IVF (Fertility Treatment)"
+    "IVF"
   ]
 };
 
