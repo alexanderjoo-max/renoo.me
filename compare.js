@@ -90,7 +90,9 @@ const procedureIcons = {
   "Exosome Therapy": "🔬", "NAD+ IV Injection": "⚡",
   "Plasma Exchange Therapy": "🩸", "Advanced Health Screening": "🩺",
   "PRP Therapy": "💎", "Peptide Therapy": "🧪",
-  "Ozone Therapy": "🌀", "Biochip Implantation": "📡"
+  "Ozone Therapy": "🌀", "Biochip Implantation": "📡",
+  "Testosterone Replacement Therapy": "💪", "Human Growth Hormone": "📈",
+  "Limb Lengthening Surgery": "📏", "Gender Reassignment Surgery": "🏳️‍⚧️"
 };
 
 // Data storage

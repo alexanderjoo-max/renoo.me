@@ -312,6 +312,14 @@ function procedureIcon(cleanName) {
   if (key.includes("ozone")) return "🌀";
   if (key.includes("biochip")) return "📡";
 
+  // Hormone Therapy
+  if (key.includes("testosterone") || key.includes("trt")) return "💪";
+  if (key.includes("human growth hormone") || key.includes("hgh")) return "📈";
+
+  // Specialized Surgery
+  if (key.includes("limb lengthening")) return "📏";
+  if (key.includes("gender reassignment")) return "🏳️‍⚧️";
+
   return "✨";
 }
 
@@ -335,7 +343,9 @@ const PROCEDURE_CATEGORIES = {
     "Ozone Therapy",
     "Hyperbaric Oxygen Therapy",
     "Biochip Implantation",
-    "Advanced Health Screening"
+    "Advanced Health Screening",
+    "Testosterone Replacement Therapy",
+    "Human Growth Hormone"
   ],
   "Beauty": [
     "Botox",
@@ -349,7 +359,9 @@ const PROCEDURE_CATEGORIES = {
     "Brazilian Butt Lift",
     "Liposuction",
     "Tummy Tuck",
-    "Gastric Bypass"
+    "Gastric Bypass",
+    "Limb Lengthening Surgery",
+    "Gender Reassignment Surgery"
   ],
   "Medical": [
     "LASIK",
