@@ -1269,7 +1269,6 @@ window.toggleClinicDetails = function(idx) {
 const hamburgerMenu = document.getElementById('hamburgerMenu');
 const menuOverlay = document.getElementById('menuOverlay');
 const menuClose = document.getElementById('menuClose');
-const compareModeToggleMenu = document.getElementById('compareModeToggleMenu');
 
 // Open menu
 if (hamburgerMenu) {
@@ -1307,29 +1306,6 @@ if (menuBrowseCities && menuCityDropdown) {
   });
 }
 
-// Sync compare mode toggle in menu with main compare mode
-if (compareModeToggleMenu) {
-  compareModeToggleMenu.addEventListener('change', (e) => {
-    isCompareMode = e.target.checked;
-
-    // Update compare bar visibility
-    if (isCompareMode) {
-      els.floatingCompareBar.classList.add('active');
-    } else {
-      compareSelection = [];
-      els.floatingCompareBar.classList.remove('active');
-    }
-
-    // Re-render
-    renderResults(currentFiltered);
-    renderMarkers(currentFiltered);
-    renderCompareBox(currentFiltered);
-
-    // Close menu
-    menuOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  });
-}
 
 // Initialize currency selector on page load
 document.addEventListener('DOMContentLoaded', () => {
