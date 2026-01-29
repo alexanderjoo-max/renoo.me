@@ -206,8 +206,8 @@ function compareCities() {
   let html = `
     <div class="comparison-header">
       <div class="comparison-city-col"></div>
-      <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(city1)}&country=${encodeURIComponent(city1Country)}&procedure=${encodeURIComponent(selectedProcedure || 'Botox')}" class="compare-city-link">${flag1} ${city1}</a></div>
-      <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(city2)}&country=${encodeURIComponent(city2Country)}&procedure=${encodeURIComponent(selectedProcedure || 'Botox')}" class="compare-city-link">${flag2} ${city2}</a></div>
+      <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(city1)}&country=${encodeURIComponent(city1Country)}&procedure=${encodeURIComponent(selectedProcedure || 'Liposuction')}" class="compare-city-link">${flag1} ${city1}</a></div>
+      <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(city2)}&country=${encodeURIComponent(city2Country)}&procedure=${encodeURIComponent(selectedProcedure || 'Liposuction')}" class="compare-city-link">${flag2} ${city2}</a></div>
     </div>
   `;
 

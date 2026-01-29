@@ -651,13 +651,13 @@ fetch("data.json")
     const procedures = [...new Set(ALL.map(d => d.procedure))].filter(Boolean).sort((a, b) => a.localeCompare(b));
     populateMegaNav(procedures);
 
-    // Set "Botox" as default and load pins on map
+    // Set "Liposuction" as default and load pins on map
     if (els.procedureSelect) {
-      els.procedureSelect.value = "Botox";
-      updateMegaNavButton("Botox");
-      // Highlight Botox in mega nav
+      els.procedureSelect.value = "Liposuction";
+      updateMegaNavButton("Liposuction");
+      // Highlight Liposuction in mega nav
       els.megaNavCategories?.querySelectorAll('.mega-nav-item').forEach(item => {
-        item.classList.toggle('selected', item.dataset.procedure === "Botox");
+        item.classList.toggle('selected', item.dataset.procedure === "Liposuction");
       });
       applyFiltersAndRender();
     }
