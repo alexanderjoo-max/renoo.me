@@ -381,20 +381,6 @@ const TOP_RATED_BY_PROCEDURE = {
 ========================= */
 // Note: Procedure names are stored without parentheses (stripped by stripParens during load)
 const PROCEDURE_CATEGORIES = {
-  "Biohacking": [
-    "Stem Cell Therapy",
-    "Exosome Therapy",
-    "PRP Therapy",
-    "Plasma Exchange Therapy",
-    "NAD+ IV Injection",
-    "Peptide Therapy",
-    "Ozone Therapy",
-    "Hyperbaric Oxygen Therapy",
-    "Biochip Implantation",
-    "Advanced Health Screening",
-    "Testosterone Replacement Therapy",
-    "Human Growth Hormone"
-  ],
   "Beauty": [
     "Botox",
     "Facelift",
@@ -418,6 +404,20 @@ const PROCEDURE_CATEGORIES = {
     "Hip Replacement",
     "Colonoscopy",
     "IVF"
+  ],
+  "Biohacking": [
+    "Stem Cell Therapy",
+    "Exosome Therapy",
+    "PRP Therapy",
+    "Plasma Exchange Therapy",
+    "NAD+ IV Injection",
+    "Peptide Therapy",
+    "Ozone Therapy",
+    "Hyperbaric Oxygen Therapy",
+    "Biochip Implantation",
+    "Advanced Health Screening",
+    "Testosterone Replacement Therapy",
+    "Human Growth Hormone"
   ]
 };
 
