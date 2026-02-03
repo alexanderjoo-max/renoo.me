@@ -679,6 +679,11 @@ html {
   color: #fff;
 }
 
+.menu-city-dropdown .menu-search-select optgroup {
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+}
+
 /* Currency row */
 .menu-row-currency {
   display: flex;
@@ -2155,6 +2160,11 @@ html {
   color: #fff;
 }
 
+.trip-select optgroup {
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+}
+
 .trip-calculator-results {
   display: none;
 }
@@ -3055,23 +3065,51 @@ html {
 
 /* Compare page use-case examples */
 .compare-use-cases {
-  margin-top: 40px;
-  margin-bottom: 32px;
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
 
-.compare-use-cases-label {
+.compare-use-cases-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   font-size: 13px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  margin: 0 0 12px 0;
+  transition: color 0.2s ease;
+}
+
+.compare-use-cases-toggle:hover {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.compare-use-cases-chevron {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+  transform: rotate(90deg);
+}
+
+.compare-use-cases-toggle[aria-expanded="true"] .compare-use-cases-chevron {
+  transform: rotate(270deg);
 }
 
 .compare-use-case-chips {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 10px;
+  margin-top: 12px;
+}
+
+.compare-use-case-chips.open {
+  display: flex;
 }
 
 .compare-use-case-chip {
@@ -3119,10 +3157,10 @@ html {
 
 @media (max-width: 768px) {
   .compare-use-cases {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
-  .compare-use-cases-label {
+  .compare-use-cases-toggle {
     font-size: 12px;
   }
 

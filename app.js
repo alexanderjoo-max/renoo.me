@@ -229,7 +229,11 @@ const COUNTRY_TO_ISO2 = {
   UAE: "AE",
   UK: "GB",
   USA: "US",
-  Vietnam: "VN"
+  "United States": "US",
+  Vietnam: "VN",
+  Serbia: "RS",
+  "Czech Republic": "CZ",
+  "United Kingdom": "GB"
 };
 
 function iso2ToFlagEmoji(iso2) {
@@ -243,6 +247,68 @@ function iso2ToFlagEmoji(iso2) {
 function flagFromCountry(countryName) {
   const name = (countryName ?? "").toString().trim();
   return iso2ToFlagEmoji(COUNTRY_TO_ISO2[name]);
+}
+
+// Continent ordering (by popularity for medical tourism)
+const CONTINENT_ORDER = ["North America", "Europe", "Asia", "South America", "Africa", "Oceania"];
+
+const COUNTRY_CONTINENT = {
+  "USA": "North America", "Canada": "North America", "Mexico": "North America", "Costa Rica": "North America",
+  "UK": "Europe", "France": "Europe", "Germany": "Europe", "Italy": "Europe", "Spain": "Europe",
+  "Portugal": "Europe", "Netherlands": "Europe", "Belgium": "Europe", "Switzerland": "Europe",
+  "Austria": "Europe", "Denmark": "Europe", "Sweden": "Europe", "Norway": "Europe", "Finland": "Europe",
+  "Ireland": "Europe", "Greece": "Europe", "Poland": "Europe", "Czech Rep.": "Europe",
+  "Hungary": "Europe", "Romania": "Europe", "Bulgaria": "Europe", "Croatia": "Europe",
+  "Slovenia": "Europe", "Slovakia": "Europe", "Estonia": "Europe", "Latvia": "Europe",
+  "Lithuania": "Europe", "Luxembourg": "Europe", "Serbia": "Europe", "Cyprus": "Europe",
+  "Turkey": "Europe", "Russia": "Europe", "Serbia": "Europe",
+  "United Kingdom": "Europe", "Czech Republic": "Europe", "United States": "North America",
+  "Thailand": "Asia", "Japan": "Asia", "South Korea": "Asia", "India": "Asia",
+  "Indonesia": "Asia", "Philippines": "Asia", "Malaysia": "Asia", "Singapore": "Asia",
+  "Vietnam": "Asia", "China": "Asia", "Taiwan": "Asia", "UAE": "Asia", "Israel": "Asia", "Kazakhstan": "Asia",
+  "Argentina": "South America", "Brazil": "South America", "Colombia": "South America",
+  "Egypt": "Africa", "South Africa": "Africa",
+  "Australia": "Oceania"
+};
+
+// Populates a <select> element with city options grouped by continent, with flags
+function populateCitySelectGrouped(selectEl, cities, data) {
+  const grouped = {};
+  CONTINENT_ORDER.forEach(c => { grouped[c] = []; });
+
+  cities.forEach(city => {
+    const cityData = data.find(d => d.city === city);
+    const country = cityData?.country;
+    const continent = COUNTRY_CONTINENT[country] || "Other";
+    if (!grouped[continent]) grouped[continent] = [];
+    grouped[continent].push({ city, country });
+  });
+
+  CONTINENT_ORDER.forEach(continent => {
+    if (grouped[continent].length === 0) return;
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = continent;
+    grouped[continent].sort((a, b) => a.city.localeCompare(b.city)).forEach(({ city, country }) => {
+      const flag = flagFromCountry(country);
+      const option = document.createElement('option');
+      option.value = city;
+      option.textContent = `${flag} ${city}`;
+      optgroup.appendChild(option);
+    });
+    selectEl.appendChild(optgroup);
+  });
+  if (grouped["Other"] && grouped["Other"].length > 0) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = "Other";
+    grouped["Other"].sort((a, b) => a.city.localeCompare(b.city)).forEach(({ city, country }) => {
+      const flag = flagFromCountry(country);
+      const option = document.createElement('option');
+      option.value = city;
+      option.textContent = `${flag} ${city}`;
+      optgroup.appendChild(option);
+    });
+    selectEl.appendChild(optgroup);
+  }
 }
 
 /* =========================
@@ -303,7 +369,7 @@ function procedureIcon(cleanName) {
   // Regenerative & Wellness
   if (key.includes("stem cell")) return "🧬";
   if (key.includes("hyperbaric") || key.includes("hbot")) return "🫧";
-  if (key.includes("exosome")) return "🔬";
+  if (key.includes("exosome")) return "🧫";
   if (key.includes("nad+") || key.includes("nad ")) return "⚡";
   if (key.includes("plasma exchange") || key.includes("tpe")) return "🩸";
   if (key.includes("health screening")) return "🩺";
@@ -313,7 +379,7 @@ function procedureIcon(cleanName) {
   if (key.includes("biochip")) return "📡";
 
   // Hormone Therapy
-  if (key.includes("testosterone") || key.includes("trt")) return "💪";
+  if (key.includes("testosterone") || key.includes("trt")) return "💊";
   if (key.includes("human growth hormone") || key.includes("hgh")) return "📈";
 
   // Specialized Surgery
@@ -1357,23 +1423,14 @@ if (overlay && !localStorage.getItem('welcomeSeen')) {
 ========================= */
 const menuDestinationSelect = document.getElementById('menuDestinationSelect');
 
-// Populate destination dropdown with unique cities
+// Populate destination dropdown with unique cities grouped by continent
 function populateDestinationDropdown() {
   if (!menuDestinationSelect || !ALL || ALL.length === 0) return;
 
-  // Get unique cities sorted alphabetically
   const uniqueCities = [...new Set(ALL.map(d => d.city))].filter(Boolean).sort();
 
-  // Clear existing options (except first placeholder)
   menuDestinationSelect.innerHTML = '<option value="" selected>Choose destination...</option>';
-
-  // Add city options
-  uniqueCities.forEach(city => {
-    const option = document.createElement('option');
-    option.value = city;
-    option.textContent = city;
-    menuDestinationSelect.appendChild(option);
-  });
+  populateCitySelectGrouped(menuDestinationSelect, uniqueCities, ALL);
 }
 
 // Handle destination selection

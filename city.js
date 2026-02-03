@@ -96,8 +96,71 @@ const countryFlags = {
   "South Africa": "🇿🇦", "South Korea": "🇰🇷",
   "Spain": "🇪🇸", "Sweden": "🇸🇪", "Switzerland": "🇨🇭", "Taiwan": "🇹🇼",
   "Thailand": "🇹🇭", "Turkey": "🇹🇷", "UAE": "🇦🇪", "UK": "🇬🇧",
-  "USA": "🇺🇸", "Vietnam": "🇻🇳"
+  "USA": "🇺🇸", "United States": "🇺🇸", "Vietnam": "🇻🇳",
+  "Serbia": "🇷🇸", "Czech Republic": "🇨🇿", "United Kingdom": "🇬🇧"
 };
+
+// Continent ordering (by popularity for medical tourism)
+const CONTINENT_ORDER = ["North America", "Europe", "Asia", "South America", "Africa", "Oceania"];
+
+const COUNTRY_CONTINENT = {
+  "USA": "North America", "Canada": "North America", "Mexico": "North America", "Costa Rica": "North America",
+  "UK": "Europe", "France": "Europe", "Germany": "Europe", "Italy": "Europe", "Spain": "Europe",
+  "Portugal": "Europe", "Netherlands": "Europe", "Belgium": "Europe", "Switzerland": "Europe",
+  "Austria": "Europe", "Denmark": "Europe", "Sweden": "Europe", "Norway": "Europe", "Finland": "Europe",
+  "Ireland": "Europe", "Greece": "Europe", "Poland": "Europe", "Czech Rep.": "Europe",
+  "Hungary": "Europe", "Romania": "Europe", "Bulgaria": "Europe", "Croatia": "Europe",
+  "Slovenia": "Europe", "Slovakia": "Europe", "Estonia": "Europe", "Latvia": "Europe",
+  "Lithuania": "Europe", "Luxembourg": "Europe", "Serbia": "Europe", "Cyprus": "Europe",
+  "Turkey": "Europe", "Russia": "Europe", "Serbia": "Europe",
+  "United Kingdom": "Europe", "Czech Republic": "Europe", "United States": "North America",
+  "Thailand": "Asia", "Japan": "Asia", "South Korea": "Asia", "India": "Asia",
+  "Indonesia": "Asia", "Philippines": "Asia", "Malaysia": "Asia", "Singapore": "Asia",
+  "Vietnam": "Asia", "China": "Asia", "Taiwan": "Asia", "UAE": "Asia", "Israel": "Asia", "Kazakhstan": "Asia",
+  "Argentina": "South America", "Brazil": "South America", "Colombia": "South America",
+  "Egypt": "Africa", "South Africa": "Africa",
+  "Australia": "Oceania"
+};
+
+// Populates a <select> element with city options grouped by continent, with flags
+function populateCitySelectGrouped(selectEl, cities, data) {
+  const grouped = {};
+  CONTINENT_ORDER.forEach(c => { grouped[c] = []; });
+
+  cities.forEach(city => {
+    const cityData = data.find(d => d.city === city);
+    const country = cityData?.country;
+    const continent = COUNTRY_CONTINENT[country] || "Other";
+    if (!grouped[continent]) grouped[continent] = [];
+    grouped[continent].push({ city, country });
+  });
+
+  CONTINENT_ORDER.forEach(continent => {
+    if (grouped[continent].length === 0) return;
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = continent;
+    grouped[continent].sort((a, b) => a.city.localeCompare(b.city)).forEach(({ city, country }) => {
+      const flag = countryFlags[country] || '';
+      const option = document.createElement('option');
+      option.value = city;
+      option.textContent = `${flag} ${city}`;
+      optgroup.appendChild(option);
+    });
+    selectEl.appendChild(optgroup);
+  });
+  if (grouped["Other"] && grouped["Other"].length > 0) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = "Other";
+    grouped["Other"].sort((a, b) => a.city.localeCompare(b.city)).forEach(({ city, country }) => {
+      const flag = countryFlags[country] || '';
+      const option = document.createElement('option');
+      option.value = city;
+      option.textContent = `${flag} ${city}`;
+      optgroup.appendChild(option);
+    });
+    selectEl.appendChild(optgroup);
+  }
+}
 
 // Helper function to strip parenthetical info
 function stripParens(s) {
@@ -112,11 +175,11 @@ const procedureIcons = {
   "Hip Replacement": "🦴", "IVF": "👶", "Knee Replacement": "🦵",
   "LASIK": "👁️", "Liposuction": "💪", "Rhinoplasty": "👃", "Tummy Tuck": "🤰",
   "Stem Cell Therapy": "🧬", "Hyperbaric Oxygen Therapy": "🫧",
-  "Exosome Therapy": "🔬", "NAD+ IV Injection": "⚡",
+  "Exosome Therapy": "🧫", "NAD+ IV Injection": "⚡",
   "Plasma Exchange Therapy": "🩸", "Advanced Health Screening": "🩺",
   "PRP Therapy": "💎", "Peptide Therapy": "🧪",
   "Ozone Therapy": "🌀", "Biochip Implantation": "📡",
-  "Testosterone Replacement Therapy": "💪", "Human Growth Hormone": "📈",
+  "Testosterone Replacement Therapy": "💊", "Human Growth Hormone": "📈",
   "Limb Lengthening Surgery": "📏", "Gender Reassignment Surgery": "🏳️‍⚧️"
 };
 
@@ -252,23 +315,11 @@ function setupInlineCompare() {
   const procSelect = document.getElementById('inlineProcedureSelect');
   if (!city1Select || !city2Select || !procSelect) return;
 
-  // Populate city dropdowns
+  // Populate city dropdowns grouped by continent with flags
   const uniqueCities = [...new Set(allData.map(d => d.city))].filter(Boolean).sort();
-  uniqueCities.forEach(city => {
-    const cityData = allData.find(d => d.city === city);
-    const flag = countryFlags[cityData?.country] || '';
-
-    const opt1 = document.createElement('option');
-    opt1.value = city;
-    opt1.textContent = `${flag} ${city}`;
-    if (city.toLowerCase() === cityName.toLowerCase()) opt1.selected = true;
-    city1Select.appendChild(opt1);
-
-    const opt2 = document.createElement('option');
-    opt2.value = city;
-    opt2.textContent = `${flag} ${city}`;
-    city2Select.appendChild(opt2);
-  });
+  populateCitySelectGrouped(city1Select, uniqueCities, allData);
+  city1Select.value = cityName;
+  populateCitySelectGrouped(city2Select, uniqueCities, allData);
 
   // Populate procedure dropdown
   const uniqueProcedures = [...new Set(allData.map(d => d.procedure))].filter(Boolean).sort();
@@ -558,13 +609,8 @@ function populateDestinationDropdown() {
   // Clear existing options (except first placeholder)
   menuDestinationSelect.innerHTML = '<option value="" selected>Choose destination...</option>';
 
-  // Add city options
-  uniqueCities.forEach(city => {
-    const option = document.createElement('option');
-    option.value = city;
-    option.textContent = city;
-    menuDestinationSelect.appendChild(option);
-  });
+  // Add city options grouped by continent with flags
+  populateCitySelectGrouped(menuDestinationSelect, uniqueCities, allData);
 
   console.log('Dropdown populated successfully');
 
@@ -608,15 +654,9 @@ function populateHeaderDropdowns() {
   const cityHeaderProcedureSelect = document.getElementById('cityHeaderProcedureSelect');
 
   if (cityHeaderCitySelect) {
-    uniqueCities.forEach(city => {
-      const option = document.createElement('option');
-      const cityCountry = allData.find(d => d.city === city)?.country;
-      const flag = countryFlags[cityCountry] || '';
-      option.value = city;
-      option.textContent = `${flag} ${city}`;
-      if (city === cityName) option.selected = true;
-      cityHeaderCitySelect.appendChild(option);
-    });
+    populateCitySelectGrouped(cityHeaderCitySelect, uniqueCities, allData);
+    // Mark current city as selected
+    cityHeaderCitySelect.value = cityName;
 
     cityHeaderCitySelect.addEventListener('change', (e) => {
       const selectedCity = e.target.value;
@@ -783,12 +823,7 @@ function populateDepartureCities() {
     .filter(city => dataCities.includes(city))
     .sort();
 
-  cities.forEach(city => {
-    const option = document.createElement('option');
-    option.value = city;
-    option.textContent = city;
-    departureSelect.appendChild(option);
-  });
+  populateCitySelectGrouped(departureSelect, cities, allData);
 
   // Add change event listener
   departureSelect.addEventListener('change', calculateTripCost);

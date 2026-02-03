@@ -71,8 +71,72 @@ const countryFlags = {
   "South Africa": "🇿🇦", "South Korea": "🇰🇷",
   "Spain": "🇪🇸", "Sweden": "🇸🇪", "Switzerland": "🇨🇭", "Taiwan": "🇹🇼",
   "Thailand": "🇹🇭", "Turkey": "🇹🇷", "UAE": "🇦🇪", "UK": "🇬🇧",
-  "USA": "🇺🇸", "Vietnam": "🇻🇳"
+  "USA": "🇺🇸", "United States": "🇺🇸", "Vietnam": "🇻🇳",
+  "Serbia": "🇷🇸", "Czech Republic": "🇨🇿", "United Kingdom": "🇬🇧"
 };
+
+// Continent ordering (by popularity for medical tourism)
+const CONTINENT_ORDER = ["North America", "Europe", "Asia", "South America", "Africa", "Oceania"];
+
+const COUNTRY_CONTINENT = {
+  "USA": "North America", "Canada": "North America", "Mexico": "North America", "Costa Rica": "North America",
+  "UK": "Europe", "France": "Europe", "Germany": "Europe", "Italy": "Europe", "Spain": "Europe",
+  "Portugal": "Europe", "Netherlands": "Europe", "Belgium": "Europe", "Switzerland": "Europe",
+  "Austria": "Europe", "Denmark": "Europe", "Sweden": "Europe", "Norway": "Europe", "Finland": "Europe",
+  "Ireland": "Europe", "Greece": "Europe", "Poland": "Europe", "Czech Rep.": "Europe",
+  "Hungary": "Europe", "Romania": "Europe", "Bulgaria": "Europe", "Croatia": "Europe",
+  "Slovenia": "Europe", "Slovakia": "Europe", "Estonia": "Europe", "Latvia": "Europe",
+  "Lithuania": "Europe", "Luxembourg": "Europe", "Serbia": "Europe", "Cyprus": "Europe",
+  "Turkey": "Europe", "Russia": "Europe", "Serbia": "Europe",
+  "United Kingdom": "Europe", "Czech Republic": "Europe", "United States": "North America",
+  "Thailand": "Asia", "Japan": "Asia", "South Korea": "Asia", "India": "Asia",
+  "Indonesia": "Asia", "Philippines": "Asia", "Malaysia": "Asia", "Singapore": "Asia",
+  "Vietnam": "Asia", "China": "Asia", "Taiwan": "Asia", "UAE": "Asia", "Israel": "Asia", "Kazakhstan": "Asia",
+  "Argentina": "South America", "Brazil": "South America", "Colombia": "South America",
+  "Egypt": "Africa", "South Africa": "Africa",
+  "Australia": "Oceania"
+};
+
+// Populates a <select> element with city options grouped by continent, with flags
+function populateCitySelectGrouped(selectEl, cities, data) {
+  const grouped = {};
+  CONTINENT_ORDER.forEach(c => { grouped[c] = []; });
+
+  cities.forEach(city => {
+    const cityData = data.find(d => d.city === city);
+    const country = cityData?.country;
+    const continent = COUNTRY_CONTINENT[country] || "Other";
+    if (!grouped[continent]) grouped[continent] = [];
+    grouped[continent].push({ city, country });
+  });
+
+  CONTINENT_ORDER.forEach(continent => {
+    if (grouped[continent].length === 0) return;
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = continent;
+    grouped[continent].sort((a, b) => a.city.localeCompare(b.city)).forEach(({ city, country }) => {
+      const flag = countryFlags[country] || '';
+      const option = document.createElement('option');
+      option.value = city;
+      option.textContent = `${flag} ${city}`;
+      optgroup.appendChild(option);
+    });
+    selectEl.appendChild(optgroup);
+  });
+  // Any cities not in a known continent
+  if (grouped["Other"] && grouped["Other"].length > 0) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = "Other";
+    grouped["Other"].sort((a, b) => a.city.localeCompare(b.city)).forEach(({ city, country }) => {
+      const flag = countryFlags[country] || '';
+      const option = document.createElement('option');
+      option.value = city;
+      option.textContent = `${flag} ${city}`;
+      optgroup.appendChild(option);
+    });
+    selectEl.appendChild(optgroup);
+  }
+}
 
 // Procedure icons mapping
 // Helper function to strip parenthetical info
@@ -87,11 +151,11 @@ const procedureIcons = {
   "Hip Replacement": "🦴", "IVF": "👶", "Knee Replacement": "🦵",
   "LASIK": "👁️", "Liposuction": "💪", "Rhinoplasty": "👃", "Tummy Tuck": "🤰",
   "Stem Cell Therapy": "🧬", "Hyperbaric Oxygen Therapy": "🫧",
-  "Exosome Therapy": "🔬", "NAD+ IV Injection": "⚡",
+  "Exosome Therapy": "🧫", "NAD+ IV Injection": "⚡",
   "Plasma Exchange Therapy": "🩸", "Advanced Health Screening": "🩺",
   "PRP Therapy": "💎", "Peptide Therapy": "🧪",
   "Ozone Therapy": "🌀", "Biochip Implantation": "📡",
-  "Testosterone Replacement Therapy": "💪", "Human Growth Hormone": "📈",
+  "Testosterone Replacement Therapy": "💊", "Human Growth Hormone": "📈",
   "Limb Lengthening Surgery": "📏", "Gender Reassignment Surgery": "🏳️‍⚧️"
 };
 
@@ -117,20 +181,8 @@ function populateCitySelectors() {
   const city1Select = document.getElementById('city1Select');
   const city2Select = document.getElementById('city2Select');
 
-  uniqueCities.forEach(city => {
-    const cityData = allData.find(d => d.city === city);
-    const flag = countryFlags[cityData?.country] || '';
-
-    const option1 = document.createElement('option');
-    option1.value = city;
-    option1.textContent = `${flag} ${city}`;
-    city1Select.appendChild(option1);
-
-    const option2 = document.createElement('option');
-    option2.value = city;
-    option2.textContent = `${flag} ${city}`;
-    city2Select.appendChild(option2);
-  });
+  populateCitySelectGrouped(city1Select, uniqueCities, allData);
+  populateCitySelectGrouped(city2Select, uniqueCities, allData);
 
   city1Select.addEventListener('change', compareCities);
   city2Select.addEventListener('change', compareCities);
@@ -148,12 +200,7 @@ function populateCitySelectors() {
   const menuDestinationSelect = document.getElementById('menuDestinationSelect');
   if (menuDestinationSelect) {
     menuDestinationSelect.innerHTML = '<option value="" selected>Choose destination...</option>';
-    uniqueCities.forEach(city => {
-      const option = document.createElement('option');
-      option.value = city;
-      option.textContent = city;
-      menuDestinationSelect.appendChild(option);
-    });
+    populateCitySelectGrouped(menuDestinationSelect, uniqueCities, allData);
     menuDestinationSelect.addEventListener('change', (e) => {
       const selectedCity = e.target.value;
       if (selectedCity) {
@@ -171,7 +218,7 @@ function populateProcedureSelector() {
   const procedureSelect = document.getElementById('procedureSelect');
 
   uniqueProcedures.forEach(procedure => {
-    const icon = procedureIcons[procedure] || '🏥';
+    const icon = procedureIcons[stripParens(procedure)] || '🏥';
     const option = document.createElement('option');
     option.value = procedure;
     option.textContent = `${icon} ${procedure}`;
@@ -296,6 +343,17 @@ if (menuBrowseCities && menuCityDropdown) {
   menuBrowseCities.addEventListener('click', () => {
     menuBrowseCities.classList.toggle('open');
     menuCityDropdown.classList.toggle('open');
+  });
+}
+
+// Use-case chips toggle
+const compareUseCasesToggle = document.getElementById('compareUseCasesToggle');
+const compareUseCaseChips = document.getElementById('compareUseCaseChips');
+if (compareUseCasesToggle && compareUseCaseChips) {
+  compareUseCasesToggle.addEventListener('click', () => {
+    const expanded = compareUseCasesToggle.getAttribute('aria-expanded') === 'true';
+    compareUseCasesToggle.setAttribute('aria-expanded', !expanded);
+    compareUseCaseChips.classList.toggle('open', !expanded);
   });
 }
 

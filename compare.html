@@ -135,15 +135,12 @@
 
     </section>
 
-    <!-- Comparison Results -->
-    <section class="city-section" id="comparisonResults" style="display: none;">
-      <div class="comparison-table" id="comparisonTable"></div>
-    </section>
-
-    <!-- Use-case examples (always visible) -->
+    <!-- Use-case examples (toggle) -->
     <div class="compare-use-cases" id="compareUseCases">
-      <p class="compare-use-cases-label">How people use this</p>
-      <div class="compare-use-case-chips">
+      <button class="compare-use-cases-toggle" id="compareUseCasesToggle" aria-expanded="false">
+        How people use this <span class="compare-use-cases-chevron">›</span>
+      </button>
+      <div class="compare-use-case-chips" id="compareUseCaseChips">
         <div class="compare-use-case-chip">
           <span class="compare-use-case-icon">✈️</span>
           <div class="compare-use-case-text">
@@ -164,6 +161,11 @@
         </div>
       </div>
     </div>
+
+    <!-- Comparison Results -->
+    <section class="city-section" id="comparisonResults" style="display: none;">
+      <div class="comparison-table" id="comparisonTable"></div>
+    </section>
   </main>
 
   <script src="compare.js?v=2"></script>
