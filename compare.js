@@ -135,6 +135,15 @@ function populateCitySelectors() {
   city1Select.addEventListener('change', compareCities);
   city2Select.addEventListener('change', compareCities);
 
+  // Autofill defaults: Los Angeles → Bangkok
+  if ([...city1Select.options].some(o => o.value === 'Los Angeles')) {
+    city1Select.value = 'Los Angeles';
+  }
+  if ([...city2Select.options].some(o => o.value === 'Bangkok')) {
+    city2Select.value = 'Bangkok';
+  }
+  compareCities();
+
   // Populate menu destination dropdown
   const menuDestinationSelect = document.getElementById('menuDestinationSelect');
   if (menuDestinationSelect) {
@@ -179,6 +188,8 @@ function compareCities() {
 
   if (!city1 || !city2) {
     document.getElementById('comparisonResults').style.display = 'none';
+    const useCases = document.getElementById('compareUseCases');
+    if (useCases) useCases.style.display = 'block';
     return;
   }
 
@@ -248,6 +259,9 @@ function compareCities() {
 
   document.getElementById('comparisonTable').innerHTML = html;
   document.getElementById('comparisonResults').style.display = 'block';
+
+  const useCases = document.getElementById('compareUseCases');
+  if (useCases) useCases.style.display = 'none';
 }
 
 /* =========================
