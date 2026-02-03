@@ -188,8 +188,6 @@ function compareCities() {
 
   if (!city1 || !city2) {
     document.getElementById('comparisonResults').style.display = 'none';
-    const useCases = document.getElementById('compareUseCases');
-    if (useCases) useCases.style.display = 'block';
     return;
   }
 
@@ -259,9 +257,6 @@ function compareCities() {
 
   document.getElementById('comparisonTable').innerHTML = html;
   document.getElementById('comparisonResults').style.display = 'block';
-
-  const useCases = document.getElementById('compareUseCases');
-  if (useCases) useCases.style.display = 'none';
 }
 
 /* =========================
