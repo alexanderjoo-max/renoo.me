@@ -330,6 +330,7 @@ function openCityPage(city, procedure, country) {
     frame.src = url + '&embed=1';
     overlay.style.display = 'block';
   } else {
+    sessionStorage.setItem('selectedProcedure', procedure);
     window.location.href = url;
   }
 }
@@ -558,6 +559,9 @@ function selectProcedure(proc) {
     els.procedureSelect.value = proc;
   }
 
+  // Persist so mobile back-navigation restores it
+  sessionStorage.setItem('selectedProcedure', proc);
+
   // Update mega nav button display
   updateMegaNavButton(proc);
 
@@ -717,13 +721,14 @@ fetch("data.json")
     const procedures = [...new Set(ALL.map(d => d.procedure))].filter(Boolean).sort((a, b) => a.localeCompare(b));
     populateMegaNav(procedures);
 
-    // Set "Liposuction" as default and load pins on map
+    // Restore previously selected procedure, or fall back to "Liposuction"
     if (els.procedureSelect) {
-      els.procedureSelect.value = "Liposuction";
-      updateMegaNavButton("Liposuction");
-      // Highlight Liposuction in mega nav
+      const savedProcedure = sessionStorage.getItem('selectedProcedure');
+      const defaultProcedure = (savedProcedure && ALL.some(d => d.procedure === savedProcedure)) ? savedProcedure : "Liposuction";
+      els.procedureSelect.value = defaultProcedure;
+      updateMegaNavButton(defaultProcedure);
       els.megaNavCategories?.querySelectorAll('.mega-nav-item').forEach(item => {
-        item.classList.toggle('selected', item.dataset.procedure === "Liposuction");
+        item.classList.toggle('selected', item.dataset.procedure === defaultProcedure);
       });
       applyFiltersAndRender();
     }
@@ -735,6 +740,7 @@ fetch("data.json")
 ========================= */
 function wireUI() {
   els.procedureSelect?.addEventListener("change", () => {
+    sessionStorage.setItem('selectedProcedure', els.procedureSelect.value);
     compareSelection = [];
     applyFiltersAndRender();
   });
