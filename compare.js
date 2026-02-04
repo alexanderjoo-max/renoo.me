@@ -260,6 +260,10 @@ function compareCities() {
 
   // Build comparison table
   let html = `
+    <div class="compare-travel-cta">
+      <a href="travel.html?city=${encodeURIComponent(city1)}" target="_blank" class="compare-travel-cta-btn">✈️ Travel to ${city1}</a>
+      <a href="travel.html?city=${encodeURIComponent(city2)}" target="_blank" class="compare-travel-cta-btn">✈️ Travel to ${city2}</a>
+    </div>
     <div class="comparison-header">
       <div class="comparison-city-col"></div>
       <div class="comparison-city-col comparison-city-header"><a href="city.html?city=${encodeURIComponent(city1)}&country=${encodeURIComponent(city1Country)}&procedure=${encodeURIComponent(selectedProcedure || 'Liposuction')}" class="compare-city-link">${flag1} ${city1}</a></div>

@@ -3358,6 +3358,81 @@ html.in-overlay .mobile-back-link {
   display: none !important;
 }
 
+/* =========================
+   TRAVEL CTA (city page trip calculator)
+========================= */
+.trip-travel-cta {
+  display: block;
+  margin-top: 18px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.18) 0%, rgba(99, 102, 241, 0.18) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 12px;
+  color: #60a5fa;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.trip-travel-cta:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.28) 0%, rgba(99, 102, 241, 0.28) 100%);
+  border-color: rgba(59, 130, 246, 0.55);
+}
+
+/* =========================
+   TRAVEL CTAs (compare page)
+========================= */
+.compare-travel-cta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.compare-travel-cta-btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px 16px;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  color: #60a5fa;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.compare-travel-cta-btn:hover {
+  background: rgba(59, 130, 246, 0.22);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* =========================
+   TRAVEL PAGE (/travel)
+========================= */
+.travel-back-link {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: color 0.2s ease;
+}
+
+.travel-back-link:hover {
+  color: #fff;
+}
+
+.travel-widget-container {
+  margin-top: 24px;
+  width: 100%;
+}
+
 .in-overlay .city-main {
   padding-top: 16px;
 }

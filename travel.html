@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Prefill destination IATA — must run BEFORE the WL script -->
+  <script>
+    (function() {
+      var city = new URLSearchParams(window.location.search).get('city') || '';
+      var CITY_IATA = {
+        'Bangkok':'BKK','Ho Chi Minh City':'SGN','Kuala Lumpur':'KUL','Bali':'DPS',
+        'Jakarta':'CGK','Manila':'MNL','Singapore':'SIN','Seoul':'ICN','Tokyo':'NRT',
+        'Beijing':'PEK','Shanghai':'PVG','Hong Kong':'HKG','Taipei':'TPE',
+        'Delhi':'DEL','Mumbai':'BOM','Istanbul':'IST','Bodrum':'BAL','Dubai':'DXB',
+        'Tel Aviv':'TLV','Cairo':'CAI','London':'LHR','Paris':'CDG','Amsterdam':'AMS',
+        'Brussels':'BRU','Dublin':'DUB','Luxembourg':'LXG','Berlin':'TXL','Vienna':'VIE',
+        'Zurich':'ZRH','Prague':'PRG','Warsaw':'WAW','Budapest':'BUD','Bratislava':'BTS',
+        'Zagreb':'ZAG','Ljubljana':'LJU','Rome':'FCO','Madrid':'MAD','Barcelona':'BCN',
+        'Lisbon':'LIS','Athens':'ATH','Stockholm':'ARN','Copenhagen':'CPH','Oslo':'OSL',
+        'Helsinki':'HEL','Tallinn':'TLL','Riga':'RIX','Vilnius':'VNO','Moscow':'SVO',
+        'Bucharest':'OTP','Sofia':'SOF','New York City':'JFK','Los Angeles':'LAX',
+        'Chicago':'ORD','Dallas':'DFW','Houston':'IAH','Austin':'AUS','San Antonio':'SAT',
+        'San Diego':'SAN','Phoenix':'PHX','Jacksonville':'JAX','Philadelphia':'PHL',
+        'San Jose':'SJC','Toronto':'YYZ','Calgary':'YYC','Vancouver':'YVR',
+        'Mexico City':'MEX','Tijuana':'TJS','Cancun':'CUN','Buenos Aires':'EZE',
+        'Rio de Janeiro':'GIG','Bogotá':'BOG','Medellín':'MDE','Almaty':'ALA',
+        'Sydney':'SYD','Melbourne':'MEL','Cape Town':'CPT'
+      };
+      var iata = CITY_IATA[city] || '';
+      // Set config for white-label widget prefill
+      window.tpwlConfig = window.tpwlConfig || {};
+      if (iata) window.tpwlConfig.destination = iata;
+      // Also store city name for page title
+      window._travelCity = city;
+      window._travelIATA = iata;
+    })();
+  </script>
+
+  <!-- Travelpayouts White Label script -->
+  <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">
+    (function () {
+          var script = document.createElement("script");
+          script.async = 1;
+          script.type = "module";
+          script.src = "https://tpwgts.com/wl_web/main.js?wl_id=5242";
+          document.head.appendChild(script);
+        })();
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>Compare Travel Prices - Renoo.me</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WXWMBBSK');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="city-page">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXWMBBSK"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Header -->
+  <header class="fixed-header" id="fixedHeader">
+    <div class="header-content">
+      <div class="header-logo">
+        <a href="/"><img src="/logo-white.svg" alt="Renoo.me" /></a>
+      </div>
+      <div class="city-page-title">✈️ Travel Prices</div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="city-main" style="padding-top: 80px;">
+    <a href="javascript:history.back()" class="travel-back-link">← Back</a>
+
+    <section class="city-header">
+      <h1 class="city-name" id="travelPageTitle">✈️ Compare travel prices</h1>
+      <p class="city-info" id="travelPageSubtitle">Find flights and hotels for your medical tourism trip</p>
+    </section>
+
+    <!-- Travelpayouts widget containers -->
+    <div class="travel-widget-container">
+      <div id="tpwl-search" data-destination=""></div>
+      <div id="tpwl-tickets"></div>
+    </div>
+  </main>
+
+  <script>
+    // Set page title and prefill data-destination attribute
+    (function() {
+      var city = window._travelCity || '';
+      var iata = window._travelIATA || '';
+      if (city) {
+        document.getElementById('travelPageTitle').textContent = '✈️ Compare travel prices to ' + city;
+        document.getElementById('travelPageSubtitle').textContent = 'Search flights and hotels to ' + city + ' for your medical tourism trip';
+        document.title = 'Travel Prices to ' + city + ' - Renoo.me';
+      }
+      if (iata) {
+        document.getElementById('tpwl-search').setAttribute('data-destination', iata);
+      }
+    })();
+  </script>
+</body>
+</html>
