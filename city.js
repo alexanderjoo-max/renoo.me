@@ -825,8 +825,19 @@ function populateDepartureCities() {
 
   populateCitySelectGrouped(departureSelect, cities, allData);
 
-  // Add change event listener
-  departureSelect.addEventListener('change', calculateTripCost);
+  // Restore previously saved departure city
+  const savedDeparture = localStorage.getItem('departureCitySelection');
+  if (savedDeparture && cities.includes(savedDeparture) && savedDeparture !== cityName) {
+    departureSelect.value = savedDeparture;
+    calculateTripCost();
+  }
+
+  // Add change event listener — persist selection and calculate
+  departureSelect.addEventListener('change', () => {
+    const val = departureSelect.value;
+    if (val) localStorage.setItem('departureCitySelection', val);
+    calculateTripCost();
+  });
 }
 
 function calculateTripCost() {
@@ -864,6 +875,15 @@ function calculateTripCost() {
   const totalTripCost = flightCost + hotelCost + procedureCost;
   const savings = homeProcedureCost ? (homeProcedureCost - totalTripCost) : null;
 
+  // Find cities that have this procedure (for the "no home price" hint)
+  const citiesWithProc = !homeProcedureCost
+    ? [...new Set(
+        allData
+          .filter(d => stripParens(d.procedure || '').toLowerCase() === cleanProcedureName.toLowerCase() && d.city !== arrivalCity && d.price_mid_usd)
+          .map(d => d.city)
+      )]
+    : [];
+
   // Render results — savings/total banner at top, breakdown below
   resultsDiv.innerHTML = `
     ${homeProcedureCost && savings && savings > 0 ? `
@@ -884,7 +904,8 @@ function calculateTripCost() {
       </div>
     ` : !homeProcedureCost ? `
       <div class="trip-note">
-        Estimated costs based on average flight and hotel prices. Actual costs may vary.
+        ${cleanProcedureName} isn't available in ${departureCity} — can't compare savings.
+        ${citiesWithProc.length > 0 ? `Try departing from: <strong>${citiesWithProc.join(', ')}</strong>` : ''}
       </div>
     ` : ''}
 
