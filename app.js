@@ -504,15 +504,15 @@ function populateMegaNav(procedures) {
         <h4 class="mega-nav-category-title">${category}</h4>
         <div class="mega-nav-items">
           ${availableProcs.map(proc => {
-            const icon = procedureIcon(stripParens(proc));
-            const cleanName = stripParens(proc);
-            return `
+      const icon = procedureIcon(stripParens(proc));
+      const cleanName = stripParens(proc);
+      return `
               <div class="mega-nav-item" data-procedure="${proc}">
                 <span class="mega-nav-item-icon">${icon}</span>
                 <span class="mega-nav-item-name">${cleanName}</span>
               </div>
             `;
-          }).join('')}
+    }).join('')}
         </div>
       </div>
     `;
@@ -528,15 +528,15 @@ function populateMegaNav(procedures) {
         <h4 class="mega-nav-category-title">Other</h4>
         <div class="mega-nav-items">
           ${uncategorized.map(proc => {
-            const icon = procedureIcon(stripParens(proc));
-            const cleanName = stripParens(proc);
-            return `
+      const icon = procedureIcon(stripParens(proc));
+      const cleanName = stripParens(proc);
+      return `
               <div class="mega-nav-item" data-procedure="${proc}">
                 <span class="mega-nav-item-icon">${icon}</span>
                 <span class="mega-nav-item-name">${cleanName}</span>
               </div>
             `;
-          }).join('')}
+    }).join('')}
         </div>
       </div>
     `;
@@ -921,10 +921,10 @@ function renderMarkers(data) {
 
     // Check if this marker is in compare selection
     const isSelected = compareSelection.includes(d._id);
-    
+
     // price-based color
     el.style.background = priceToColor(d.price_usd, min, max);
-    
+
     // Highlight selected markers with a border
     if (isSelected) {
       el.style.border = "3px solid #ef4444";
@@ -1092,15 +1092,15 @@ function renderCompareBox() {
 
 function fitMapToCompare(city1, city2) {
   if (!city1 || !city2) return;
-  
+
   // Re-render markers first to show highlighting
   renderMarkers(currentFiltered);
-  
+
   // Create bounds to include both cities
   const bounds = new mapboxgl.LngLatBounds();
   bounds.extend([city1.lng, city1.lat]);
   bounds.extend([city2.lng, city2.lat]);
-  
+
   // Fit map to show both cities with padding
   map.fitBounds(bounds, {
     padding: { top: 80, bottom: 80, left: 80, right: 80 },
@@ -1328,7 +1328,7 @@ function openClinicModal(cityData) {
 }
 
 // Toggle clinic details
-window.toggleClinicDetails = function(idx) {
+window.toggleClinicDetails = function (idx) {
   const details = document.getElementById(`clinicDetails${idx}`);
   if (details) {
     details.classList.toggle('visible');
@@ -1365,6 +1365,17 @@ if (menuOverlay) {
       menuOverlay.classList.remove('active');
       document.body.style.overflow = '';
     }
+  });
+}
+
+// Use-case chips toggle (Menu)
+const compareUseCasesToggle = document.getElementById('compareUseCasesToggle');
+const compareUseCaseChips = document.getElementById('compareUseCaseChips');
+if (compareUseCasesToggle && compareUseCaseChips) {
+  compareUseCasesToggle.addEventListener('click', () => {
+    const expanded = compareUseCasesToggle.getAttribute('aria-expanded') === 'true';
+    compareUseCasesToggle.setAttribute('aria-expanded', !expanded);
+    compareUseCaseChips.classList.toggle('open', !expanded);
   });
 }
 

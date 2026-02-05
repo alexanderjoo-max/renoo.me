@@ -642,6 +642,19 @@ function populateDestinationDropdown() {
 }
 
 /* =========================
+   USE CASE TOGGLE (Menu)
+========================= */
+const compareUseCasesToggle = document.getElementById('compareUseCasesToggle');
+const compareUseCaseChips = document.getElementById('compareUseCaseChips');
+if (compareUseCasesToggle && compareUseCaseChips) {
+  compareUseCasesToggle.addEventListener('click', () => {
+    const expanded = compareUseCasesToggle.getAttribute('aria-expanded') === 'true';
+    compareUseCasesToggle.setAttribute('aria-expanded', !expanded);
+    compareUseCaseChips.classList.toggle('open', !expanded);
+  });
+}
+
+/* =========================
    HEADER DROPDOWNS
 ========================= */
 function populateHeaderDropdowns() {
