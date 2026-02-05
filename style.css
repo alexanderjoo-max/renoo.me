@@ -3204,13 +3204,13 @@ html {
   display: none;
   position: fixed;
   top: 60px;
-  right: 0;
+  left: 0;
   bottom: 0;
   width: 520px;
   z-index: 20;
   background: rgba(26, 26, 26, 0.95);
-  box-shadow: -4px 0 30px rgba(0, 0, 0, 0.5);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   animation: cityOverlaySlideIn 0.3s ease-out;
 }
 
@@ -3221,7 +3221,7 @@ html {
 
 @keyframes cityOverlaySlideIn {
   from {
-    transform: translateX(100%);
+    transform: translateX(-100%);
     opacity: 0;
   }
 
