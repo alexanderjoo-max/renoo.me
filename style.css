@@ -629,15 +629,13 @@ html {
 
 /* City dropdown (hidden by default) */
 .menu-city-dropdown {
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease;
+  display: none;
   background: rgba(0, 0, 0, 0.15);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .menu-city-dropdown.open {
-  height: 68px;
+  display: block;
 }
 
 .menu-city-dropdown .menu-search-select {
