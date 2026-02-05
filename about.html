@@ -46,28 +46,67 @@
   <!-- End Google Tag Manager (noscript) -->
 
   <!-- Header -->
-  <header class="about-header">
-    <div class="about-header-content">
-      <a href="/" class="about-back-btn">← Back to Map</a>
-      <div class="about-logo">
-        <img src="/logo-white.svg" alt="Renoo.me" />
+  <header class="fixed-header" id="fixedHeader">
+    <div class="header-content">
+      <div class="header-logo">
+        <a href="/"><img src="/logo-white.svg" alt="Renoo.me" /></a>
       </div>
+      <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
+
+  <!-- HAMBURGER MENU OVERLAY -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-content">
+      <button class="menu-close" id="menuClose" aria-label="Close menu">&times;</button>
+
+      <div class="menu-header">
+        <img src="/logo-white.svg" alt="Renoo.me" class="menu-logo" />
+        <p class="menu-subtitle">Travel + Transform</p>
+      </div>
+
+      <nav class="menu-nav">
+        <a href="compare.html" class="menu-row">
+          <div class="menu-row-text">
+            <div class="menu-row-title">⚖️ Compare Prices in Two Cities</div>
+            <div class="menu-row-desc">See cost differences instantly</div>
+          </div>
+        </a>
+
+        <a href="/" class="menu-row">
+          <div class="menu-row-text">
+            <div class="menu-row-title">🌍 Browse Prices by City</div>
+            <div class="menu-row-desc">Explore procedure costs worldwide</div>
+          </div>
+        </a>
+
+        <a href="about.html" class="menu-row">
+          <div class="menu-row-text">
+            <div class="menu-row-title">ℹ️ About</div>
+          </div>
+        </a>
+      </nav>
+    </div>
+  </div>
 
   <!-- Main Content -->
   <main class="about-main">
     <div class="about-container">
-      <h1 class="about-title">About Renoo.me</h1>
+
+      <a href="/" class="about-back-link">← Back to map</a>
 
       <section class="about-section">
         <h2>Transparent Healthcare Pricing, Worldwide</h2>
-        <p>Renoo.me is a global medical procedure price comparison platform. We make healthcare pricing transparent and easy to understand—whether you're considering treatment locally or exploring medical tourism abroad.</p>
+        <p>Renoo.me is a global medical procedure price comparison platform. We make healthcare pricing transparent and easy to understand — whether you're considering treatment locally or exploring medical tourism abroad.</p>
       </section>
 
       <section class="about-section">
         <h2>What We Do</h2>
-        <p>Compare typical pricing for medical procedures across hundreds of cities worldwide. Save 50-80% by exploring quality care options in destinations like Bangkok, Istanbul, and Mexico City.</p>
+        <p>Compare typical pricing for medical procedures across hundreds of cities worldwide. Save 50–80% by exploring quality care options in destinations like Bangkok, Istanbul, and Mexico City.</p>
       </section>
 
       <section class="about-section">
@@ -81,10 +120,15 @@
         </ul>
       </section>
 
-      <section class="about-section">
-        <h2>Get in Touch</h2>
-        <p><strong>Email:</strong> <a href="mailto:hello@renoo.me">hello@renoo.me</a></p>
-      </section>
+      <!-- Get in Touch — rainbow gradient card -->
+      <div class="about-contact-wrap">
+        <div class="about-contact-inner">
+          <p class="about-contact-text">
+            Want to add your clinic? Got a bug that's bugging you? Have opinions so hot they could melt titanium? We genuinely want to hear from you — compliments, complaints, or just a vibe check.
+          </p>
+          <a href="mailto:hello@renoo.me" class="about-contact-email">hello@renoo.me</a>
+        </div>
+      </div>
 
       <div class="about-cta">
         <a href="/" class="about-cta-button">Start Exploring Prices →</a>
@@ -95,5 +139,35 @@
   <footer class="about-footer">
     <p>&copy; 2026 Renoo.me. All rights reserved.</p>
   </footer>
+
+  <!-- Hamburger menu JS -->
+  <script>
+    (function() {
+      var hamburger = document.getElementById('hamburgerMenu');
+      var overlay   = document.getElementById('menuOverlay');
+      var close     = document.getElementById('menuClose');
+
+      if (hamburger && overlay) {
+        hamburger.addEventListener('click', function() {
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      }
+      if (close && overlay) {
+        close.addEventListener('click', function() {
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+      if (overlay) {
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

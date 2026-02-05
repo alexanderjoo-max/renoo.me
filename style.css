@@ -2751,62 +2751,35 @@ html {
    ABOUT PAGE
 ========================= */
 .about-page {
-  background: #1a1a1a;
+  background: linear-gradient(135deg, #1a2a1a 0%, #1a1a2e 50%, #1a1a1a 100%);
   color: #fff;
   min-height: 100vh;
 }
 
-.about-header {
-  height: 60px;
-  background: #2f2f2f;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-}
-
-.about-header-content {
-  height: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 0 24px;
-}
-
-.about-back-btn {
-  color: #3b82f6;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.about-back-btn:hover {
-  color: #60a5fa;
-}
-
-.about-logo img {
-  height: 28px;
-  width: auto;
-}
-
 .about-main {
-  padding: 40px 24px 80px;
+  padding: 80px 24px 80px;
 }
 
 .about-container {
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
-.about-title {
-  font-size: 48px;
-  font-weight: 700;
-  margin: 0 0 40px 0;
-  background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Back link in body */
+.about-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #ec4899;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  transition: color 0.2s ease;
+}
+
+.about-back-link:hover {
+  color: #f472b6;
 }
 
 .about-section {
@@ -2814,16 +2787,16 @@ html {
 }
 
 .about-section h2 {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 600;
-  margin: 0 0 16px 0;
+  margin: 0 0 14px 0;
   color: #fff;
 }
 
 .about-section p {
   font-size: 16px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.75);
   margin: 0 0 16px 0;
 }
 
@@ -2835,8 +2808,8 @@ html {
 .about-section li {
   font-size: 16px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 10px;
 }
 
 .about-section li strong {
@@ -2844,29 +2817,71 @@ html {
   font-weight: 600;
 }
 
-.about-section a {
-  color: #3b82f6;
+/* Rainbow gradient contact card — same pattern as .header-search / .trip-travel-cta */
+.about-contact-wrap {
+  margin: 48px 0 16px;
+  padding: 2px;
+  border-radius: 16px;
+  background: linear-gradient(var(--glow-angle, 0deg), #6366f1, #ec4899, #8b5cf6, #06b6d4, #6366f1);
+  animation: glow-rotate 4s linear infinite;
+  position: relative;
+}
+
+.about-contact-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 20px;
+  background: linear-gradient(var(--glow-angle, 0deg), #6366f1, #ec4899, #8b5cf6, #06b6d4, #6366f1);
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0.4;
+  animation: glow-rotate 4s linear infinite;
+}
+
+.about-contact-inner {
+  background: #1e1e2e;
+  border-radius: 14px;
+  padding: 32px 28px;
+  text-align: center;
+}
+
+.about-contact-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 20px 0;
+}
+
+.about-contact-email {
+  display: inline-block;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
+  border-bottom: 2px solid #ec4899;
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.about-section a:hover {
-  color: #60a5fa;
-  text-decoration: underline;
+.about-contact-email:hover {
+  color: #ec4899;
+  border-color: #f472b6;
 }
 
+/* CTA button */
 .about-cta {
-  margin: 60px 0 40px;
+  margin: 48px 0 40px;
   text-align: center;
 }
 
 .about-cta-button {
   display: inline-block;
-  padding: 16px 32px;
+  padding: 14px 32px;
   background: #3b82f6;
   color: #fff;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   border-radius: 12px;
   transition: all 0.2s ease;
@@ -2880,33 +2895,24 @@ html {
 }
 
 .about-footer {
-  background: #2f2f2f;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 24px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 14px;
 }
 
 @media (max-width: 768px) {
-  .about-header-content {
-    padding: 0 16px;
-  }
-
-  .about-logo img {
-    height: 20px;
-  }
-
-  .about-title {
-    font-size: 36px;
+  .about-main {
+    padding: 80px 20px 60px;
   }
 
   .about-section h2 {
-    font-size: 24px;
+    font-size: 22px;
   }
 
-  .about-main {
-    padding: 24px 16px 60px;
+  .about-contact-inner {
+    padding: 24px 20px;
   }
 }
 
