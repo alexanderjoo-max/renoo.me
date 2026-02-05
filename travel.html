@@ -30,27 +30,40 @@
       window.tpwlConfig = window.tpwlConfig || {};
       if (iata) window.tpwlConfig.destination = iata;
 
-      // Patch TPWL_BACKEND_CONFIGURATION once the widget script defines it,
-      // so destination and resultsURL are set before the widget renders.
       window._travelCity = city;
       window._travelIATA = iata;
 
-      // Poll for the backend config and patch it with destination + resultsURL
-      (function patch() {
-        if (window.TPWL_BACKEND_CONFIGURATION) {
+      // Intercept the widget's assignment of TPWL_BACKEND_CONFIGURATION so we
+      // can patch destination and resultsURL the instant it is set — before the
+      // widget reads it to initialise.  (A poll/setTimeout approach loses the
+      // race because the widget reads the config synchronously after setting it.)
+      var _realConfig = null;
+      Object.defineProperty(window, 'TPWL_BACKEND_CONFIGURATION', {
+        configurable: true,
+        enumerable: true,
+        set: function(val) {
+          // Patch destination
           if (iata) {
-            if (!window.TPWL_BACKEND_CONFIGURATION.flightParams) {
-              window.TPWL_BACKEND_CONFIGURATION.flightParams = {};
-            }
-            window.TPWL_BACKEND_CONFIGURATION.flightParams.destination = iata;
+            if (!val.flightParams) val.flightParams = {};
+            val.flightParams.destination = iata;
           }
-          // Ensure results render on this same page
-          window.TPWL_BACKEND_CONFIGURATION.resultsURL = window.location.pathname + window.location.search;
-        } else {
-          // Config not yet available — retry quickly
-          setTimeout(patch, 50);
+          // resultsURL must include ?city= so the results page knows the destination.
+          // Cannot use location.search here — renoo.me → www.renoo.me redirect strips it.
+          val.resultsURL = '/travel.html' + (city ? '?city=' + encodeURIComponent(city) : '');
+
+          // Store the patched value and replace this interceptor with a plain property
+          _realConfig = val;
+          Object.defineProperty(window, 'TPWL_BACKEND_CONFIGURATION', {
+            configurable: true,
+            enumerable: true,
+            writable: true,
+            value: _realConfig
+          });
+        },
+        get: function() {
+          return _realConfig;
         }
-      })();
+      });
     })();
   </script>
 
