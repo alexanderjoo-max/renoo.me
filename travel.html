@@ -4,7 +4,9 @@
   <!-- Prefill destination IATA — must run BEFORE the WL script -->
   <script>
     (function() {
-      var city = new URLSearchParams(window.location.search).get('city') || '';
+      // ---------------------------------------------------------------------------
+      // City / IATA maps
+      // ---------------------------------------------------------------------------
       var CITY_IATA = {
         'Bangkok':'BKK','Ho Chi Minh City':'SGN','Kuala Lumpur':'KUL','Bali':'DPS',
         'Jakarta':'CGK','Manila':'MNL','Singapore':'SIN','Seoul':'ICN','Tokyo':'NRT',
@@ -24,45 +26,80 @@
         'Rio de Janeiro':'GIG','Bogotá':'BOG','Medellín':'MDE','Almaty':'ALA',
         'Sydney':'SYD','Melbourne':'MEL','Cape Town':'CPT'
       };
+
+      // Reverse map: IATA → city name
+      var IATA_CITY = {};
+      Object.keys(CITY_IATA).forEach(function(c) { IATA_CITY[CITY_IATA[c]] = c; });
+
+      // ---------------------------------------------------------------------------
+      // Resolve city name — three sources, in priority order:
+      //   1. Hash fragment  (#city=Istanbul)  — survives the renoo.me → www redirect
+      //   2. Query string   (?city=Istanbul)  — works on localhost / direct links
+      //   3. flightSearch token in query      (?flightSearch=SGN2002IST1)
+      //      The widget opens resultsURL + "?flightSearch=<token>" in a new tab.
+      //      Token format: ORIGIN(3) + DDMM(4) + DEST(3) + PAX(1+)
+      //      We extract chars [7..10] as the destination IATA.
+      // ---------------------------------------------------------------------------
+      var city = '';
+
+      // 1. Hash
+      var hash = window.location.hash.replace(/^#/, '');
+      if (hash) {
+        try { city = new URLSearchParams(hash).get('city') || ''; } catch(e) {}
+      }
+
+      // 2. Query string (fallback)
+      if (!city) {
+        city = new URLSearchParams(window.location.search).get('city') || '';
+      }
+
+      // 3. flightSearch token (results-page fallback)
+      var flightSearch = new URLSearchParams(window.location.search).get('flightSearch') || '';
+      if (!city && flightSearch.length >= 10) {
+        var destIATA = flightSearch.substring(7, 10).toUpperCase();
+        city = IATA_CITY[destIATA] || '';
+      }
+
       var iata = CITY_IATA[city] || '';
 
       // Legacy prefill config
       window.tpwlConfig = window.tpwlConfig || {};
       if (iata) window.tpwlConfig.destination = iata;
 
-      window._travelCity = city;
-      window._travelIATA = iata;
+      window._travelCity  = city;
+      window._travelIATA  = iata;
+      window._IATA_CITY   = IATA_CITY;
 
-      // Intercept the widget's assignment of TPWL_BACKEND_CONFIGURATION so we
-      // can patch destination and resultsURL the instant it is set — before the
-      // widget reads it to initialise.  (A poll/setTimeout approach loses the
-      // race because the widget reads the config synchronously after setting it.)
+      // ---------------------------------------------------------------------------
+      // Intercept TPWL_BACKEND_CONFIGURATION assignment
+      // The widget sets this property then reads it synchronously in the same tick.
+      // A setTimeout poll always loses that race; a setter fires in time.
+      //
+      // resultsURL is set to plain "/travel.html" — the widget unconditionally
+      // appends "?flightSearch=<token>" (always "?", never "&") so we cannot
+      // put our own query params there.  The results page recovers the city from
+      // the flightSearch token (source 3 above).
+      // ---------------------------------------------------------------------------
       var _realConfig = null;
       Object.defineProperty(window, 'TPWL_BACKEND_CONFIGURATION', {
         configurable: true,
         enumerable: true,
         set: function(val) {
-          // Patch destination
           if (iata) {
             if (!val.flightParams) val.flightParams = {};
             val.flightParams.destination = iata;
           }
-          // resultsURL must include ?city= so the results page knows the destination.
-          // Cannot use location.search here — renoo.me → www.renoo.me redirect strips it.
-          val.resultsURL = '/travel.html' + (city ? '?city=' + encodeURIComponent(city) : '');
+          // Disable the hotel checkbox — when enabled the widget redirects the
+          // current tab to booking.com on search, navigating the user away.
+          val.showHotels = false;
+          val.resultsURL = '/travel.html';
 
-          // Store the patched value and replace this interceptor with a plain property
           _realConfig = val;
           Object.defineProperty(window, 'TPWL_BACKEND_CONFIGURATION', {
-            configurable: true,
-            enumerable: true,
-            writable: true,
-            value: _realConfig
+            configurable: true, enumerable: true, writable: true, value: _realConfig
           });
         },
-        get: function() {
-          return _realConfig;
-        }
+        get: function() { return _realConfig; }
       });
     })();
   </script>
@@ -146,7 +183,9 @@
       // Back link: return to city page if we have a city, otherwise home
       var backLink = document.getElementById('travelBackLink');
       if (backLink) {
-        backLink.href = city ? 'city.html?city=' + encodeURIComponent(city) + '&procedure=Botox' : '/';
+        backLink.href = city
+          ? 'city.html?city=' + encodeURIComponent(city) + '&procedure=Botox'
+          : '/';
       }
     })();
   </script>

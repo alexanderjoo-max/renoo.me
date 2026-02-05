@@ -938,7 +938,7 @@ function calculateTripCost() {
       ` : ''}
     </div>
 
-    <a href="travel.html?city=${encodeURIComponent(arrivalCity)}" class="trip-travel-cta">
+    <a href="travel.html#city=${encodeURIComponent(arrivalCity)}" class="trip-travel-cta">
       <span class="trip-travel-cta-inner">✈️ Compare flight + hotel prices</span>
     </a>
   `;
