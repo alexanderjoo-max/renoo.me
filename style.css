@@ -3204,14 +3204,15 @@ html {
   display: none;
   position: fixed;
   top: 60px;
-  right: 0;
+  left: 420px;
   bottom: 0;
   width: 520px;
   z-index: 20;
   background: rgba(26, 26, 26, 0.95);
-  box-shadow: -4px 0 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.4);
   border-left: 1px solid rgba(255, 255, 255, 0.1);
   animation: cityOverlaySlideIn 0.3s ease-out;
+  transition: none;
 }
 
 .city-overlay.active {
@@ -3221,7 +3222,7 @@ html {
 
 @keyframes cityOverlaySlideIn {
   from {
-    transform: translateX(100%);
+    transform: translateX(-100%);
     opacity: 0;
   }
 
@@ -3229,6 +3230,15 @@ html {
     transform: translateX(0);
     opacity: 1;
   }
+}
+
+/* Map shifts right when city overlay is open */
+#map.overlay-open {
+  left: 940px;
+  transition: left 0.3s ease-out;
+}
+#map {
+  transition: left 0.3s ease-out;
 }
 
 /* Restored city overlay close button */

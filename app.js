@@ -329,6 +329,7 @@ function openCityPage(city, procedure, country) {
     const frame = document.getElementById('cityOverlayFrame');
     frame.src = url + '&embed=1';
     overlay.style.display = 'block';
+    document.getElementById('map')?.classList.add('overlay-open');
   } else {
     sessionStorage.setItem('selectedProcedure', procedure);
     window.location.href = url;
@@ -1393,6 +1394,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const frame = document.getElementById('cityOverlayFrame');
     overlay.style.display = 'none';
     frame.src = '';
+    document.getElementById('map')?.classList.remove('overlay-open');
   });
 
   // Initialize currency selector (legacy support)
