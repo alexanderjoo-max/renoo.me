@@ -581,8 +581,6 @@ html {
 .menu-nav {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  max-height: calc(100vh - 140px);
 }
 
 /* Menu rows */
@@ -639,7 +637,7 @@ html {
 }
 
 .menu-city-dropdown.open {
-  max-height: 80px;
+  max-height: 100px;
 }
 
 .menu-city-dropdown .menu-search-select {
