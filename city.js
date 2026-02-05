@@ -825,17 +825,7 @@ function populateDepartureCities() {
 
   populateCitySelectGrouped(departureSelect, cities, allData);
 
-  // Restore previously saved departure city
-  const savedDeparture = localStorage.getItem('departureCitySelection');
-  if (savedDeparture && cities.includes(savedDeparture) && savedDeparture !== cityName) {
-    departureSelect.value = savedDeparture;
-    calculateTripCost();
-  }
-
-  // Add change event listener — persist selection and calculate
   departureSelect.addEventListener('change', () => {
-    const val = departureSelect.value;
-    if (val) localStorage.setItem('departureCitySelection', val);
     calculateTripCost();
   });
 }
