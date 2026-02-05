@@ -1369,16 +1369,6 @@ if (menuOverlay) {
 }
 
 // Use-case chips toggle (Menu)
-const compareUseCasesToggle = document.getElementById('compareUseCasesToggle');
-const compareUseCaseChips = document.getElementById('compareUseCaseChips');
-if (compareUseCasesToggle && compareUseCaseChips) {
-  compareUseCasesToggle.addEventListener('click', () => {
-    const expanded = compareUseCasesToggle.getAttribute('aria-expanded') === 'true';
-    compareUseCasesToggle.setAttribute('aria-expanded', !expanded);
-    compareUseCaseChips.classList.toggle('open', !expanded);
-  });
-}
-
 // Browse Cities expandable toggle
 const menuBrowseCities = document.getElementById('menuBrowseCities');
 const menuCityDropdown = document.getElementById('menuCityDropdown');

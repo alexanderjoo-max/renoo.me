@@ -642,19 +642,6 @@ function populateDestinationDropdown() {
 }
 
 /* =========================
-   USE CASE TOGGLE (Menu)
-========================= */
-const compareUseCasesToggle = document.getElementById('compareUseCasesToggle');
-const compareUseCaseChips = document.getElementById('compareUseCaseChips');
-if (compareUseCasesToggle && compareUseCaseChips) {
-  compareUseCasesToggle.addEventListener('click', () => {
-    const expanded = compareUseCasesToggle.getAttribute('aria-expanded') === 'true';
-    compareUseCasesToggle.setAttribute('aria-expanded', !expanded);
-    compareUseCaseChips.classList.toggle('open', !expanded);
-  });
-}
-
-/* =========================
    HEADER DROPDOWNS
 ========================= */
 function populateHeaderDropdowns() {
@@ -891,10 +878,10 @@ function calculateTripCost() {
   // Find cities that have this procedure (for the "no home price" hint)
   const citiesWithProc = !homeProcedureCost
     ? [...new Set(
-        allData
-          .filter(d => stripParens(d.procedure || '').toLowerCase() === cleanProcedureName.toLowerCase() && d.city !== arrivalCity && d.price_mid_usd)
-          .map(d => d.city)
-      )]
+      allData
+        .filter(d => stripParens(d.procedure || '').toLowerCase() === cleanProcedureName.toLowerCase() && d.city !== arrivalCity && d.price_mid_usd)
+        .map(d => d.city)
+    )]
     : [];
 
   // Render results — savings/total banner at top, breakdown below

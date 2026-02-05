@@ -3064,52 +3064,28 @@ html {
 }
 
 /* Compare page use-case examples */
+/* Compare page use-case examples */
 .compare-use-cases {
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin: 24px 16px 16px 16px;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
 }
 
-.compare-use-cases-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.4);
+.compare-use-cases-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  transition: color 0.2s ease;
-}
-
-.compare-use-cases-toggle:hover {
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.compare-use-cases-chevron {
-  display: inline-block;
-  font-size: 18px;
-  line-height: 1;
-  transition: transform 0.2s ease;
-  transform: rotate(90deg);
-}
-
-.compare-use-cases-toggle[aria-expanded="true"] .compare-use-cases-chevron {
-  transform: rotate(270deg);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
 }
 
 .compare-use-case-chips {
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 12px;
-}
-
-.compare-use-case-chips.open {
-  display: flex;
 }
 
 .compare-use-case-chip {
