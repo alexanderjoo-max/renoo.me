@@ -1368,7 +1368,6 @@ if (menuOverlay) {
   });
 }
 
-// Use-case chips toggle (Menu)
 // Browse Cities expandable toggle
 const menuBrowseCities = document.getElementById('menuBrowseCities');
 const menuCityDropdown = document.getElementById('menuCityDropdown');
@@ -1452,6 +1451,10 @@ if (menuDestinationSelect) {
         // Get currently selected procedure or default to Botox
         const currentProcedure = els.procedureSelect?.value || 'Botox';
         const country = cityData[0].country;
+
+        // Close the menu before opening the city page
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
 
         // Navigate to city page with city, country, and procedure
         openCityPage(selectedCity, currentProcedure, country);

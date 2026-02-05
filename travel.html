@@ -25,12 +25,32 @@
         'Sydney':'SYD','Melbourne':'MEL','Cape Town':'CPT'
       };
       var iata = CITY_IATA[city] || '';
-      // Set config for white-label widget prefill
+
+      // Legacy prefill config
       window.tpwlConfig = window.tpwlConfig || {};
       if (iata) window.tpwlConfig.destination = iata;
-      // Also store city name for page title
+
+      // Patch TPWL_BACKEND_CONFIGURATION once the widget script defines it,
+      // so destination and resultsURL are set before the widget renders.
       window._travelCity = city;
       window._travelIATA = iata;
+
+      // Poll for the backend config and patch it with destination + resultsURL
+      (function patch() {
+        if (window.TPWL_BACKEND_CONFIGURATION) {
+          if (iata) {
+            if (!window.TPWL_BACKEND_CONFIGURATION.flightParams) {
+              window.TPWL_BACKEND_CONFIGURATION.flightParams = {};
+            }
+            window.TPWL_BACKEND_CONFIGURATION.flightParams.destination = iata;
+          }
+          // Ensure results render on this same page
+          window.TPWL_BACKEND_CONFIGURATION.resultsURL = window.location.pathname + window.location.search;
+        } else {
+          // Config not yet available — retry quickly
+          setTimeout(patch, 50);
+        }
+      })();
     })();
   </script>
 
@@ -78,7 +98,7 @@
 
   <!-- Main Content -->
   <main class="city-main" style="padding-top: 80px;">
-    <a href="javascript:history.back()" class="travel-back-link">← Back</a>
+    <a href="#" class="travel-back-link" id="travelBackLink">← Back</a>
 
     <section class="city-header">
       <h1 class="city-name" id="travelPageTitle">✈️ Compare travel prices</h1>
@@ -89,21 +109,31 @@
     <div class="travel-widget-container">
       <div id="tpwl-search" data-destination=""></div>
       <div id="tpwl-tickets"></div>
+      <div id="tpwl-modals"></div>
     </div>
   </main>
 
   <script>
-    // Set page title and prefill data-destination attribute
     (function() {
       var city = window._travelCity || '';
       var iata = window._travelIATA || '';
+
+      // Page title and subtitle
       if (city) {
         document.getElementById('travelPageTitle').textContent = '✈️ Compare travel prices to ' + city;
         document.getElementById('travelPageSubtitle').textContent = 'Search flights and hotels to ' + city + ' for your medical tourism trip';
         document.title = 'Travel Prices to ' + city + ' - Renoo.me';
       }
+
+      // Prefill widget destination
       if (iata) {
         document.getElementById('tpwl-search').setAttribute('data-destination', iata);
+      }
+
+      // Back link: return to city page if we have a city, otherwise home
+      var backLink = document.getElementById('travelBackLink');
+      if (backLink) {
+        backLink.href = city ? 'city.html?city=' + encodeURIComponent(city) + '&procedure=Botox' : '/';
       }
     })();
   </script>
