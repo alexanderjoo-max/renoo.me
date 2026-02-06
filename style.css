@@ -3432,3 +3432,424 @@ html.in-overlay .mobile-back-link {
 .in-overlay .city-page {
   background: transparent;
 }
+
+/* =========================
+   PROCEDURE PAGE
+========================= */
+.procedure-page {
+  background: linear-gradient(135deg, #1a2a1a 0%, #1a1a2e 50%, #1a1a1a 100%);
+  color: #fff;
+  min-height: 100vh;
+}
+
+.proc-main {
+  padding: 80px 24px 80px;
+}
+
+.proc-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Hero */
+.proc-hero {
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.proc-hero-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.proc-hero-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Sections */
+.proc-section {
+  margin-bottom: 48px;
+}
+
+.proc-section h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: #fff;
+}
+
+.proc-section-desc {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: -8px 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Country Price Table */
+.proc-country-table {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.proc-table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.proc-table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 14px;
+  align-items: center;
+  transition: background 0.15s ease;
+}
+
+.proc-table-row:last-child {
+  border-bottom: none;
+}
+
+.proc-table-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.proc-table-col-country {
+  font-weight: 500;
+  color: #fff;
+}
+
+.proc-table-col-price {
+  font-weight: 600;
+  color: #22c55e;
+}
+
+.proc-table-col-range {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+}
+
+.proc-table-col-savings {
+  text-align: right;
+}
+
+.proc-table-save {
+  color: #22c55e;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.proc-table-more {
+  color: #f87171;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.proc-table-baseline {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+}
+
+/* Calculator */
+.proc-calculator {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.proc-calc-selectors {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 8px;
+}
+
+.proc-calc-field {
+  flex: 1;
+}
+
+.proc-calc-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.proc-calc-arrow {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.4);
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.proc-calc-results {
+  margin-top: 16px;
+}
+
+.proc-calc-results .trip-select {
+  max-width: none;
+}
+
+/* Why prices vary — factors */
+.proc-factors {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.proc-factor {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.proc-factor-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.proc-factor-content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  color: #fff;
+}
+
+.proc-factor-content p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+/* Safety */
+.proc-safety {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.proc-safety-block {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.proc-safety-block h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #fff;
+}
+
+.proc-safety-block ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.proc-safety-block li {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+}
+
+.proc-safety-block li strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.proc-red-flags {
+  border-color: rgba(248, 113, 113, 0.2);
+  background: rgba(248, 113, 113, 0.05);
+}
+
+.proc-red-flags h3 {
+  color: #f87171;
+}
+
+.proc-red-flags li {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Top Cities Grid */
+.proc-city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.proc-city-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.proc-city-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.proc-city-card-flag {
+  font-size: 28px;
+}
+
+.proc-city-card-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.proc-city-card-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.proc-city-card-range {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Related Procedures */
+.proc-related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.proc-related-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.proc-related-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.proc-related-icon {
+  font-size: 20px;
+}
+
+.proc-related-name {
+  font-weight: 600;
+}
+
+/* CTA */
+.proc-cta {
+  margin: 48px 0 40px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .proc-main {
+    padding: 80px 16px 60px;
+  }
+
+  .proc-hero-title {
+    font-size: 36px;
+  }
+
+  .proc-hero-subtitle {
+    font-size: 16px;
+  }
+
+  .proc-section h2 {
+    font-size: 22px;
+  }
+
+  .proc-table-header,
+  .proc-table-row {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .proc-table-col-range {
+    display: none;
+  }
+
+  .proc-calc-selectors {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .proc-calc-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+    padding: 0;
+  }
+
+  .proc-city-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .proc-city-card {
+    padding: 14px 10px;
+  }
+
+  .proc-factor {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .proc-calculator {
+    padding: 16px;
+  }
+
+  .proc-safety-block {
+    padding: 16px;
+  }
+}

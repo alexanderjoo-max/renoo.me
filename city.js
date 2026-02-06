@@ -690,7 +690,7 @@ function populateHeaderDropdowns() {
 // Each city is assigned a region; costs are estimated by region pairs
 const CITY_REGION = {
   // North America — East
-  'New York City': 'NA_E', 'Jacksonville': 'NA_E', 'Philadelphia': 'NA_E', 'Toronto': 'NA_E', 'Chicago': 'NA_E', 'Calgary': 'NA_E',
+  'New York City': 'NA_E', 'Jacksonville': 'NA_E', 'Philadelphia': 'NA_E', 'Toronto': 'NA_E', 'Chicago': 'NA_E', 'Calgary': 'NA_E', 'Miami': 'NA_E',
   // North America — South/Central
   'Dallas': 'NA_S', 'Houston': 'NA_S', 'Austin': 'NA_S', 'San Antonio': 'NA_S',
   // North America — West
@@ -781,17 +781,17 @@ function getFlightCost(from, to) {
 // Average 7-night hotel costs (USD)
 const HOTEL_COSTS = {
   // Southeast Asia
-  'Bangkok': 350, 'Ho Chi Minh City': 280, 'Kuala Lumpur': 320, 'Bali': 350, 'Jakarta': 300, 'Manila': 250, 'Singapore': 700,
+  'Bangkok': 1000, 'Ho Chi Minh City': 450, 'Kuala Lumpur': 450, 'Bali': 550, 'Jakarta': 400, 'Manila': 350, 'Singapore': 1200,
   // East Asia
-  'Seoul': 550, 'Tokyo': 750, 'Beijing': 400, 'Shanghai': 450, 'Hong Kong': 700, 'Taipei': 400,
+  'Seoul': 700, 'Tokyo': 900, 'Beijing': 550, 'Shanghai': 600, 'Hong Kong': 900, 'Taipei': 550,
   // South Asia
   'Delhi': 250, 'Mumbai': 300,
   // Turkey
-  'Istanbul': 400, 'Bodrum': 450,
+  'Istanbul': 600, 'Bodrum': 700,
   // Middle East / North Africa
   'Dubai': 700, 'Tel Aviv': 750, 'Cairo': 250,
   // Western Europe
-  'London': 900, 'Paris': 850, 'Amsterdam': 750, 'Brussels': 600, 'Dublin': 700, 'Luxembourg': 650,
+  'London': 1500, 'Paris': 1400, 'Amsterdam': 1200, 'Brussels': 900, 'Dublin': 1100, 'Luxembourg': 1000,
   // Central Europe
   'Berlin': 550, 'Vienna': 600, 'Zurich': 900, 'Prague': 400, 'Warsaw': 350, 'Budapest': 350, 'Bratislava': 350, 'Zagreb': 350, 'Ljubljana': 350,
   // Southern Europe
@@ -801,7 +801,7 @@ const HOTEL_COSTS = {
   // Eastern Europe
   'Moscow': 450, 'Bucharest': 300, 'Sofia': 250,
   // North America
-  'New York City': 1050, 'Los Angeles': 800, 'Chicago': 700, 'Dallas': 550, 'Houston': 550, 'Austin': 600, 'San Antonio': 500, 'San Diego': 700, 'Phoenix': 500, 'Jacksonville': 500, 'Philadelphia': 600, 'San Jose': 750, 'Toronto': 650, 'Calgary': 500, 'Vancouver': 600,
+  'New York City': 2000, 'Miami': 2200, 'Los Angeles': 1600, 'Chicago': 1200, 'Dallas': 900, 'Houston': 900, 'Austin': 1000, 'San Antonio': 800, 'San Diego': 1100, 'Phoenix': 800, 'Jacksonville': 700, 'Philadelphia': 1000, 'San Jose': 1300, 'Toronto': 1000, 'Calgary': 800, 'Vancouver': 1100,
   // Latin America
   'Mexico City': 350, 'Tijuana': 250, 'Cancun': 500, 'Buenos Aires': 350, 'Rio de Janeiro': 400, 'Bogotá': 300, 'Medellín': 280,
   // Central Asia
