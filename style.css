@@ -2924,6 +2924,10 @@ html {
   padding-top: 80px;
 }
 
+.compare-main .city-header {
+  margin-bottom: 32px;
+}
+
 .compare-page-selectors {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -3969,13 +3973,13 @@ html.in-overlay .mobile-back-link {
   color: #60a5fa;
 }
 
-/* In popup context */
+/* In popup context (light background) */
 .popup-row .procedure-link {
-  color: rgba(255, 255, 255, 0.85);
+  color: #2563eb;
 }
 
 .popup-row .procedure-link:hover {
-  color: #60a5fa;
+  color: #1d4ed8;
 }
 
 /* In comparison table context */
