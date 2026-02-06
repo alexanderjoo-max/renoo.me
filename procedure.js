@@ -277,7 +277,6 @@ function updatePageText(name) {
   const el = (id) => document.getElementById(id);
 
   if (el('procHeroTitle')) el('procHeroTitle').textContent = `${icon} ${name}`;
-  if (el('procHeroSubtitle')) el('procHeroSubtitle').textContent = `Compare ${name} prices worldwide (including flights & hotels)`;
   if (el('procHeroDesc')) {
     const desc = procedureDescriptions[name] || '';
     el('procHeroDesc').textContent = desc;
@@ -436,8 +435,8 @@ function renderCalculator() {
 
   const procCities = [...new Set(procedureData.map(d => d.city))].filter(c => CITY_REGION[c]).sort();
 
-  homeSelect.innerHTML = '<option value="">Select your city...</option>';
-  destSelect.innerHTML = '<option value="">Select destination...</option>';
+  homeSelect.innerHTML = '<option value="">Home City...</option>';
+  destSelect.innerHTML = '<option value="">Destination City...</option>';
 
   populateCitySelectGrouped(homeSelect, procCities);
   populateCitySelectGrouped(destSelect, procCities);
