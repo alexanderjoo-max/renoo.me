@@ -170,6 +170,7 @@ async function loadData() {
 
     populateCitySelectors();
     populateProcedureSelector();
+    populateMenuMegaNav();
   } catch (e) {
     console.error('Failed to load data:', e);
   }
@@ -299,7 +300,7 @@ function compareCities() {
 
     html += `
       <div class="comparison-row">
-        <div class="comparison-procedure-col">${icon} ${procedure}</div>
+        <div class="comparison-procedure-col"><a href="procedure.html?procedure=${encodeURIComponent(procedure)}" class="procedure-link">${icon} ${procedure}</a></div>
         <div class="comparison-price-col">${price1Html}</div>
         <div class="comparison-price-col">${price2Html}</div>
       </div>
@@ -340,6 +341,16 @@ if (menuOverlay) {
   });
 }
 
+// Browse Procedures expandable toggle
+const menuBrowseProcedures = document.getElementById('menuBrowseProcedures');
+const menuProcedureDropdown = document.getElementById('menuProcedureDropdown');
+if (menuBrowseProcedures && menuProcedureDropdown) {
+  menuBrowseProcedures.addEventListener('click', () => {
+    menuBrowseProcedures.classList.toggle('expanded');
+    menuProcedureDropdown.classList.toggle('open');
+  });
+}
+
 // Browse Cities expandable toggle
 const menuBrowseCities = document.getElementById('menuBrowseCities');
 const menuCityDropdown = document.getElementById('menuCityDropdown');
@@ -348,6 +359,37 @@ if (menuBrowseCities && menuCityDropdown) {
     menuBrowseCities.classList.toggle('open');
     menuCityDropdown.classList.toggle('open');
   });
+}
+
+/* Procedure categories for hamburger mega-nav */
+const PROCEDURE_CATEGORIES = {
+  "Beauty": ["Botox", "Facelift", "Rhinoplasty", "Hair Transplant", "Dental Veneers"],
+  "Body": ["Breast Augmentation", "Brazilian Butt Lift", "Liposuction", "Tummy Tuck", "Gastric Bypass", "Limb Lengthening Surgery", "Gender Reassignment Surgery"],
+  "Medical": ["LASIK", "Dental Implant", "Knee Replacement", "Hip Replacement", "Colonoscopy", "IVF"],
+  "Biohacking": ["Stem Cell Therapy", "Exosome Therapy", "PRP Therapy", "Plasma Exchange Therapy", "NAD+ IV Injection", "Peptide Therapy", "Ozone Therapy", "Hyperbaric Oxygen Therapy", "Biochip Implantation", "Advanced Health Screening", "Testosterone Replacement Therapy", "Human Growth Hormone"]
+};
+
+/* Populate the hamburger menu mega-nav with procedure links */
+function populateMenuMegaNav() {
+  const container = document.getElementById('menuMegaNavCategories');
+  if (!container || !allData || allData.length === 0) return;
+  const procedures = [...new Set(allData.map(d => d.procedure ? stripParens(d.procedure) : null))].filter(Boolean);
+  let html = '';
+  for (const [category, categoryProcs] of Object.entries(PROCEDURE_CATEGORIES)) {
+    const available = categoryProcs.filter(p => procedures.includes(p));
+    if (available.length === 0) continue;
+    html += `<div class="menu-mega-nav-category">
+      <h4 class="menu-mega-nav-cat-title">${category}</h4>
+      ${available.map(proc => {
+        const icon = procedureIcons[proc] || '✨';
+        return `<a href="procedure.html?procedure=${encodeURIComponent(proc)}" class="menu-mega-nav-item">
+          <span>${icon}</span>
+          <span>${proc}</span>
+        </a>`;
+      }).join('')}
+    </div>`;
+  }
+  container.innerHTML = html;
 }
 
 // Use-case chips toggle

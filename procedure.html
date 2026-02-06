@@ -5,35 +5,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>Botox Cost Worldwide — Compare Prices Including Flights & Hotels | Renoo.me</title>
-  <meta name="description"
-    content="How much does Botox cost? Compare Botox prices worldwide including flights and hotels. Find cheap Botox abroad in Thailand, Turkey, Mexico, Korea and more.">
-  <link rel="canonical" href="https://renoo.me/procedure.html" />
+  <title>Browse Procedures — Compare Prices Worldwide | Renoo.me</title>
+  <meta name="description" id="metaDescription"
+    content="Compare medical procedure prices worldwide including flights and hotels. Find affordable treatments abroad.">
+  <link rel="canonical" id="canonicalUrl" href="https://renoo.me/procedure.html" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Botox Cost Worldwide — Compare Prices Including Flights & Hotels" />
-  <meta property="og:description"
-    content="Compare Botox prices worldwide. Find affordable Botox abroad including total trip costs with flights and hotels." />
+  <meta property="og:title" id="ogTitle" content="Browse Procedures — Compare Prices Worldwide" />
+  <meta property="og:description" id="ogDescription"
+    content="Compare medical procedure prices worldwide including flights and hotels." />
   <meta property="og:image" content="https://renoo.me/og-image.jpg" />
   <meta property="og:url" content="https://renoo.me/procedure.html" />
   <meta property="og:type" content="website" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Botox Cost Worldwide — Compare Prices Including Flights & Hotels" />
+  <meta name="twitter:title" content="Browse Procedures — Compare Prices Worldwide" />
   <meta name="twitter:description"
-    content="Compare Botox prices worldwide. Find affordable Botox abroad including total trip costs." />
+    content="Compare medical procedure prices worldwide including flights and hotels." />
   <meta name="twitter:image" content="https://renoo.me/og-image.jpg" />
 
   <meta name="robots" content="index, follow, max-image-preview:large" />
 
   <!-- Structured Data -->
-  <script type="application/ld+json">
+  <script type="application/ld+json" id="structuredData">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Botox Cost Worldwide",
-    "description": "Compare Botox prices worldwide including flights and hotels. Find affordable Botox abroad.",
+    "name": "Browse Procedures",
+    "description": "Compare medical procedure prices worldwide including flights and hotels.",
     "url": "https://renoo.me/procedure.html",
     "isPartOf": {
       "@type": "WebSite",
@@ -97,12 +97,21 @@
       </div>
 
       <nav class="menu-nav">
-        <a href="procedure.html" class="menu-row">
+        <div class="menu-row menu-row-expandable" id="menuBrowseProcedures">
           <div class="menu-row-text">
-            <div class="menu-row-title">💉 Botox Prices Worldwide</div>
+            <div class="menu-row-title">💉 Browse Procedures</div>
             <div class="menu-row-desc">Compare costs across countries</div>
           </div>
-        </a>
+          <svg class="menu-row-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="menu-procedure-dropdown" id="menuProcedureDropdown">
+          <div class="menu-mega-nav-categories" id="menuMegaNavCategories">
+            <!-- Populated by JS -->
+          </div>
+        </div>
 
         <a href="compare.html" class="menu-row">
           <div class="menu-row-text">
@@ -166,126 +175,144 @@
   <main class="proc-main">
     <div class="proc-container">
 
-      <!-- 1. Hero -->
-      <section class="proc-hero">
-        <h1 class="proc-hero-title">Botox</h1>
-        <p class="proc-hero-subtitle">Compare Botox prices worldwide (including flights & hotels)</p>
+      <!-- Browse All Procedures Landing (shown when no ?procedure= param) -->
+      <section id="procBrowseLanding" style="display:none;">
+        <div class="proc-hero">
+          <h1 class="proc-hero-title">Browse Procedures</h1>
+          <p class="proc-hero-subtitle">Compare medical & cosmetic procedure prices worldwide</p>
+        </div>
+        <div class="proc-landing-categories" id="procLandingCategories">
+          <!-- Populated by JS with procedure category grid -->
+        </div>
       </section>
 
-      <!-- 2. Average Cost by Country -->
-      <section class="proc-section">
-        <h2>Average Botox Cost by Country</h2>
-        <div class="proc-country-table">
-          <div class="proc-table-header">
-            <span class="proc-table-col-country">Country</span>
-            <span class="proc-table-col-price">Avg. Price</span>
-            <span class="proc-table-col-range">Range</span>
-            <span class="proc-table-col-savings">vs. USA</span>
+      <!-- Dynamic Procedure Content (shown when ?procedure=X is valid) -->
+      <div id="procDynamicContent">
+
+        <!-- 1. Hero -->
+        <section class="proc-hero">
+          <h1 class="proc-hero-title" id="procHeroTitle"></h1>
+          <p class="proc-hero-subtitle" id="procHeroSubtitle"></p>
+        </section>
+
+        <!-- 2. Average Cost by Country (collapsible) -->
+        <section class="proc-section">
+          <button class="section-toggle active" id="toggleCountryTable">
+            <span class="section-toggle-title" id="countryTableTitle">Average Cost by Country</span>
+            <span class="section-toggle-icon">&#9660;</span>
+          </button>
+          <div class="section-content" id="countryTableContent">
+            <div class="proc-country-table">
+              <div class="proc-table-header">
+                <span class="proc-table-col-country">Country</span>
+                <span class="proc-table-col-price">Avg. Price</span>
+                <span class="proc-table-col-range">Range</span>
+                <span class="proc-table-col-savings">vs. USA</span>
+              </div>
+              <div id="countryTableBody">
+                <!-- Populated by JS -->
+              </div>
+            </div>
           </div>
-          <div id="countryTableBody">
+        </section>
+
+        <!-- 3. Interactive Calculator -->
+        <section class="proc-section">
+          <h2>Trip Cost Calculator</h2>
+          <p class="proc-section-desc" id="calcDesc">See what this procedure would actually cost you, including flights and hotels.</p>
+          <div class="proc-calculator">
+            <div class="proc-calc-selectors">
+              <div class="proc-calc-field">
+                <label class="proc-calc-label" for="calcHomeCity">Your city</label>
+                <select id="calcHomeCity" class="trip-select">
+                  <option value="">Select your city...</option>
+                </select>
+              </div>
+              <div class="proc-calc-arrow">&#8594;</div>
+              <div class="proc-calc-field">
+                <label class="proc-calc-label" for="calcDestCity">Destination</label>
+                <select id="calcDestCity" class="trip-select">
+                  <option value="">Select destination...</option>
+                </select>
+              </div>
+            </div>
+            <div id="calcResults" class="proc-calc-results">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Why Prices Vary -->
+        <section class="proc-section">
+          <h2 id="whyPricesVaryTitle">Why Prices Vary So Much</h2>
+          <div class="proc-factors">
+            <div class="proc-factor">
+              <div class="proc-factor-icon">👨‍⚕️</div>
+              <div class="proc-factor-content">
+                <h3>Labor Costs</h3>
+                <p>Practitioner salaries are the largest cost driver. A specialist in New York earns 5-10x more than one in Bangkok, directly impacting what you pay.</p>
+              </div>
+            </div>
+            <div class="proc-factor">
+              <div class="proc-factor-icon">📋</div>
+              <div class="proc-factor-content">
+                <h3>Regulation & Overhead</h3>
+                <p>Stricter regulatory environments mean higher compliance costs. Clinic rent, insurance, and licensing fees in Western countries add significantly to the final price.</p>
+              </div>
+            </div>
+            <div class="proc-factor">
+              <div class="proc-factor-icon">💱</div>
+              <div class="proc-factor-content">
+                <h3>Currency & Purchasing Power</h3>
+                <p>Favorable exchange rates make destinations like Turkey, Thailand, and Mexico substantially cheaper for international patients without compromising quality.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Safety & Standards -->
+        <section class="proc-section">
+          <h2>Safety & Standards</h2>
+          <div class="proc-safety">
+            <div class="proc-safety-block">
+              <h3>Accreditation to Look For</h3>
+              <ul id="safetyAccreditation">
+                <li><strong>JCI (Joint Commission International)</strong> &mdash; the gold standard for international hospital accreditation</li>
+                <li><strong>Board-certified practitioners</strong> &mdash; verify credentials in the country's medical registry</li>
+                <li><strong>GCR (Global Clinic Rating)</strong> &mdash; independent quality scoring for medical tourism clinics</li>
+              </ul>
+            </div>
+            <div class="proc-safety-block proc-red-flags">
+              <h3>Red Flags Checklist</h3>
+              <ul>
+                <li>Prices that seem too good to be true (well below country average)</li>
+                <li>No verifiable practitioner credentials or clinic registration</li>
+                <li>No before/after photos or patient reviews available</li>
+                <li>Pressure to commit or pay in full before consultation</li>
+                <li>Clinic does not provide written aftercare instructions</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. Internal Links -->
+        <section class="proc-section">
+          <h2 id="topCitiesTitle">Top Cities</h2>
+          <div class="proc-city-grid" id="topCitiesGrid">
             <!-- Populated by JS -->
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- 3. Interactive Calculator -->
-      <section class="proc-section">
-        <h2>Trip Cost Calculator</h2>
-        <p class="proc-section-desc">See what Botox would actually cost you, including flights and hotels.</p>
-        <div class="proc-calculator">
-          <div class="proc-calc-selectors">
-            <div class="proc-calc-field">
-              <label class="proc-calc-label" for="calcHomeCity">Your city</label>
-              <select id="calcHomeCity" class="trip-select">
-                <option value="">Select your city...</option>
-              </select>
-            </div>
-            <div class="proc-calc-arrow">&#8594;</div>
-            <div class="proc-calc-field">
-              <label class="proc-calc-label" for="calcDestCity">Destination</label>
-              <select id="calcDestCity" class="trip-select">
-                <option value="">Select destination...</option>
-              </select>
-            </div>
-          </div>
-          <div id="calcResults" class="proc-calc-results">
+        <section class="proc-section">
+          <h2>Related Procedures</h2>
+          <div class="proc-related" id="relatedProcedures">
             <!-- Populated by JS -->
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- 4. Why Prices Vary -->
-      <section class="proc-section">
-        <h2>Why Botox Prices Vary So Much</h2>
-        <div class="proc-factors">
-          <div class="proc-factor">
-            <div class="proc-factor-icon">👨‍⚕️</div>
-            <div class="proc-factor-content">
-              <h3>Labor Costs</h3>
-              <p>Practitioner salaries are the largest cost driver. A dermatologist in New York earns 5-10x more than one in Bangkok, directly impacting what you pay per unit.</p>
-            </div>
-          </div>
-          <div class="proc-factor">
-            <div class="proc-factor-icon">📋</div>
-            <div class="proc-factor-content">
-              <h3>Regulation & Overhead</h3>
-              <p>Stricter regulatory environments mean higher compliance costs. Clinic rent, insurance, and licensing fees in Western countries add significantly to the final price.</p>
-            </div>
-          </div>
-          <div class="proc-factor">
-            <div class="proc-factor-icon">💱</div>
-            <div class="proc-factor-content">
-              <h3>Currency & Purchasing Power</h3>
-              <p>Favorable exchange rates make destinations like Turkey, Thailand, and Mexico substantially cheaper for international patients without compromising quality.</p>
-            </div>
-          </div>
+        <div class="proc-cta">
+          <a href="/" class="about-cta-button">Explore All Procedures on the Map &#8594;</a>
         </div>
-      </section>
-
-      <!-- 5. Safety & Standards -->
-      <section class="proc-section">
-        <h2>Safety & Standards</h2>
-        <div class="proc-safety">
-          <div class="proc-safety-block">
-            <h3>Accreditation to Look For</h3>
-            <ul>
-              <li><strong>JCI (Joint Commission International)</strong> &mdash; the gold standard for international hospital accreditation</li>
-              <li><strong>Board-certified practitioners</strong> &mdash; verify credentials in the country's medical registry</li>
-              <li><strong>Genuine Botulinum Toxin brands</strong> &mdash; Allergan (Botox), Galderma (Dysport), or Merz (Xeomin)</li>
-              <li><strong>GCR (Global Clinic Rating)</strong> &mdash; independent quality scoring for medical tourism clinics</li>
-            </ul>
-          </div>
-          <div class="proc-safety-block proc-red-flags">
-            <h3>Red Flags Checklist</h3>
-            <ul>
-              <li>Prices that seem too good to be true (well below country average)</li>
-              <li>No verifiable practitioner credentials or clinic registration</li>
-              <li>Unwillingness to disclose the brand of botulinum toxin used</li>
-              <li>No before/after photos or patient reviews available</li>
-              <li>Pressure to commit or pay in full before consultation</li>
-              <li>Clinic does not provide written aftercare instructions</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- 6. Internal Links -->
-      <section class="proc-section">
-        <h2>Top Cities for Botox</h2>
-        <div class="proc-city-grid" id="topCitiesGrid">
-          <!-- Populated by JS -->
-        </div>
-      </section>
-
-      <section class="proc-section">
-        <h2>Related Procedures</h2>
-        <div class="proc-related" id="relatedProcedures">
-          <!-- Populated by JS -->
-        </div>
-      </section>
-
-      <div class="proc-cta">
-        <a href="/" class="about-cta-button">Explore All Procedures on the Map &#8594;</a>
       </div>
     </div>
   </main>

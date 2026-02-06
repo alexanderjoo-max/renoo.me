@@ -1,4 +1,40 @@
 /* =========================
+   URL PARAMETER
+========================= */
+const urlParams = new URLSearchParams(window.location.search);
+const PROCEDURE_NAME = urlParams.get('procedure');
+
+/* =========================
+   PROCEDURE CATEGORIES (mirrors app.js)
+========================= */
+const PROCEDURE_CATEGORIES = {
+  "Beauty": ["Botox", "Facelift", "Rhinoplasty", "Hair Transplant", "Dental Veneers"],
+  "Body": ["Breast Augmentation", "Brazilian Butt Lift", "Liposuction", "Tummy Tuck", "Gastric Bypass", "Limb Lengthening Surgery", "Gender Reassignment Surgery"],
+  "Medical": ["LASIK", "Dental Implant", "Knee Replacement", "Hip Replacement", "Colonoscopy", "IVF"],
+  "Biohacking": ["Stem Cell Therapy", "Exosome Therapy", "PRP Therapy", "Plasma Exchange Therapy", "NAD+ IV Injection", "Peptide Therapy", "Ozone Therapy", "Hyperbaric Oxygen Therapy", "Biochip Implantation", "Advanced Health Screening", "Testosterone Replacement Therapy", "Human Growth Hormone"]
+};
+
+const procedureIcons = {
+  "Botox": "\ud83d\udc89", "Facelift": "\u2728", "Rhinoplasty": "\ud83d\udc43",
+  "Hair Transplant": "\ud83d\udc87", "Dental Veneers": "\ud83d\ude01",
+  "Breast Augmentation": "\ud83c\udf52", "Brazilian Butt Lift": "\ud83c\udf51",
+  "Liposuction": "\ud83d\udcaa", "Tummy Tuck": "\ud83e\uddcd", "Gastric Bypass": "\u2696\ufe0f",
+  "Limb Lengthening Surgery": "\ud83e\uddb4", "Gender Reassignment Surgery": "\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f",
+  "LASIK": "\ud83d\udc41\ufe0f", "Dental Implant": "\ud83e\uddb7", "Knee Replacement": "\ud83e\uddb5",
+  "Hip Replacement": "\ud83e\uddb4", "Colonoscopy": "\ud83c\udfe5", "IVF": "\ud83d\udc76",
+  "Stem Cell Therapy": "\ud83e\uddec", "Exosome Therapy": "\ud83e\uddeb",
+  "PRP Therapy": "\ud83e\ude78", "Plasma Exchange Therapy": "\ud83e\ude78",
+  "NAD+ IV Injection": "\u26a1", "Peptide Therapy": "\ud83e\uddea",
+  "Ozone Therapy": "\ud83c\udf2c\ufe0f", "Hyperbaric Oxygen Therapy": "\ud83e\udec1",
+  "Biochip Implantation": "\ud83e\udde0", "Advanced Health Screening": "\ud83d\udcca",
+  "Testosterone Replacement Therapy": "\ud83d\udcaa", "Human Growth Hormone": "\ud83c\udf31"
+};
+
+function getIcon(name) {
+  return procedureIcons[name] || '\u2728';
+}
+
+/* =========================
    CURRENCY CONVERSION
 ========================= */
 const CURRENCY_RATES = {
@@ -38,18 +74,11 @@ function setCurrency(currency) {
   if (!CURRENCY_RATES[currency]) return;
   currentCurrency = currency;
   localStorage.setItem('preferredCurrency', currency);
-
   const currencyDropdown = document.getElementById('currencyDropdown');
   if (currencyDropdown) currencyDropdown.value = currency;
-
   const menuOverlay = document.getElementById('menuOverlay');
-  if (menuOverlay) {
-    menuOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  // Re-render everything
-  if (allData.length > 0) renderAll();
+  if (menuOverlay) { menuOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+  if (allData.length > 0 && PROCEDURE_NAME) renderAll();
 }
 
 /* =========================
@@ -106,7 +135,7 @@ const CITY_REGION = {
   'Los Angeles': 'NA_W', 'San Diego': 'NA_W', 'San Jose': 'NA_W', 'Phoenix': 'NA_W',
   'Toronto': 'NA_E', 'Calgary': 'NA_W', 'Vancouver': 'NA_W',
   'Mexico City': 'LATAM_MX', 'Tijuana': 'LATAM_MX', 'Cancun': 'LATAM_MX',
-  'Buenos Aires': 'LATAM_S', 'Rio de Janeiro': 'LATAM_S', 'Bogot\u00e1': 'LATAM_S', 'Medell\u00edn': 'LATAM_S', 'San Jose': 'LATAM_MX',
+  'Buenos Aires': 'LATAM_S', 'Rio de Janeiro': 'LATAM_S', 'Bogot\u00e1': 'LATAM_S', 'Medell\u00edn': 'LATAM_S',
   'London': 'EU_W', 'Paris': 'EU_W', 'Amsterdam': 'EU_W', 'Brussels': 'EU_W', 'Dublin': 'EU_W', 'Luxembourg': 'EU_W',
   'Berlin': 'EU_C', 'Vienna': 'EU_C', 'Zurich': 'EU_C', 'Prague': 'EU_C', 'Warsaw': 'EU_C', 'Budapest': 'EU_C', 'Bratislava': 'EU_C', 'Zagreb': 'EU_C', 'Ljubljana': 'EU_C',
   'Rome': 'EU_S', 'Madrid': 'EU_S', 'Barcelona': 'EU_S', 'Lisbon': 'EU_S', 'Athens': 'EU_S',
@@ -145,8 +174,7 @@ const REGION_FLIGHT = {
 
 function getFlightCost(from, to) {
   if (from === to) return 0;
-  const r1 = CITY_REGION[from];
-  const r2 = CITY_REGION[to];
+  const r1 = CITY_REGION[from], r2 = CITY_REGION[to];
   if (!r1 || !r2) return 700;
   if (r1 === r2) return REGION_FLIGHT[`${r1}-${r2}`] || 200;
   return REGION_FLIGHT[`${r1}-${r2}`] || REGION_FLIGHT[`${r2}-${r1}`] || 700;
@@ -174,19 +202,65 @@ const HOTEL_COSTS = {
    DATA
 ========================= */
 let allData = [];
-let botoxData = [];
+let procedureData = [];
 
-const PROCEDURE_NAME = 'Botox';
+/* =========================
+   DYNAMIC SEO + PAGE TEXT
+========================= */
+function updateSEO(name) {
+  const icon = getIcon(name);
+  document.title = `${name} Cost Worldwide \u2014 Compare Prices Including Flights & Hotels | Renoo.me`;
 
-// Related procedures (same category)
-const RELATED_PROCEDURES = [
-  { name: 'Facelift', icon: '✨' },
-  { name: 'Rhinoplasty', icon: '👃' },
-  { name: 'Hair Transplant', icon: '💇' },
-  { name: 'Dental Veneers', icon: '🦷' },
-  { name: 'Liposuction', icon: '🏋️' },
-  { name: 'Breast Augmentation', icon: '🩺' }
-];
+  const metaDesc = document.getElementById('metaDescription');
+  if (metaDesc) metaDesc.content = `How much does ${name} cost? Compare ${name} prices worldwide including flights and hotels. Find affordable ${name} abroad.`;
+
+  const ogTitle = document.getElementById('ogTitle');
+  if (ogTitle) ogTitle.content = `${name} Cost Worldwide \u2014 Compare Prices Including Flights & Hotels`;
+
+  const ogDesc = document.getElementById('ogDescription');
+  if (ogDesc) ogDesc.content = `Compare ${name} prices worldwide. Find affordable ${name} abroad including total trip costs.`;
+
+  const canonical = document.getElementById('canonicalUrl');
+  if (canonical) canonical.href = `https://renoo.me/procedure.html?procedure=${encodeURIComponent(name)}`;
+
+  const sd = document.getElementById('structuredData');
+  if (sd) {
+    sd.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": `${name} Cost Worldwide`,
+      "description": `Compare ${name} prices worldwide including flights and hotels.`,
+      "url": `https://renoo.me/procedure.html?procedure=${encodeURIComponent(name)}`,
+      "isPartOf": { "@type": "WebSite", "name": "Renoo.me", "url": "https://renoo.me/" }
+    });
+  }
+}
+
+function updatePageText(name) {
+  const icon = getIcon(name);
+  const el = (id) => document.getElementById(id);
+
+  if (el('procHeroTitle')) el('procHeroTitle').textContent = name;
+  if (el('procHeroSubtitle')) el('procHeroSubtitle').textContent = `Compare ${name} prices worldwide (including flights & hotels)`;
+  if (el('countryTableTitle')) el('countryTableTitle').textContent = `Average ${name} Cost by Country`;
+  if (el('calcDesc')) el('calcDesc').textContent = `See what ${name} would actually cost you, including flights and hotels.`;
+  if (el('whyPricesVaryTitle')) el('whyPricesVaryTitle').textContent = `Why ${name} Prices Vary So Much`;
+  if (el('topCitiesTitle')) el('topCitiesTitle').textContent = `Top Cities for ${name}`;
+}
+
+/* =========================
+   RELATED PROCEDURES (dynamic by category)
+========================= */
+function getRelatedProcedures(name) {
+  for (const [category, procs] of Object.entries(PROCEDURE_CATEGORIES)) {
+    if (procs.includes(name)) {
+      return procs.filter(p => p !== name).map(p => ({ name: p, icon: getIcon(p) }));
+    }
+  }
+  // Not in any category — return first 6 procedures from other categories
+  const all = Object.values(PROCEDURE_CATEGORIES).flat().filter(p => p !== name);
+  return all.slice(0, 6).map(p => ({ name: p, icon: getIcon(p) }));
+}
 
 /* =========================
    POPULATE CITY SELECT (grouped by continent)
@@ -194,7 +268,6 @@ const RELATED_PROCEDURES = [
 function populateCitySelectGrouped(selectEl, cities) {
   const grouped = {};
   CONTINENT_ORDER.forEach(c => { grouped[c] = []; });
-
   cities.forEach(city => {
     const cityData = allData.find(d => d.city === city);
     const country = cityData?.country;
@@ -202,7 +275,6 @@ function populateCitySelectGrouped(selectEl, cities) {
     if (!grouped[continent]) grouped[continent] = [];
     grouped[continent].push({ city, country });
   });
-
   CONTINENT_ORDER.forEach(continent => {
     if (!grouped[continent] || grouped[continent].length === 0) return;
     const optgroup = document.createElement('optgroup');
@@ -225,9 +297,8 @@ function renderCountryTable() {
   const tbody = document.getElementById('countryTableBody');
   if (!tbody) return;
 
-  // Aggregate by country
   const countryMap = {};
-  botoxData.forEach(d => {
+  procedureData.forEach(d => {
     const c = d.country;
     if (!countryMap[c]) countryMap[c] = { prices: [], lows: [], highs: [] };
     countryMap[c].prices.push(d.price_mid_usd);
@@ -235,7 +306,6 @@ function renderCountryTable() {
     countryMap[c].highs.push(d.price_high_usd);
   });
 
-  // Calculate averages
   const countries = Object.entries(countryMap).map(([country, data]) => {
     const avg = Math.round(data.prices.reduce((a, b) => a + b, 0) / data.prices.length);
     const low = Math.min(...data.lows);
@@ -243,18 +313,18 @@ function renderCountryTable() {
     return { country, avg, low, high };
   });
 
-  // Sort by average price ascending
   countries.sort((a, b) => a.avg - b.avg);
 
-  // Get USA average for comparison
-  const usaAvg = countries.find(c => c.country === 'USA')?.avg || 937;
+  const usaEntry = countries.find(c => c.country === 'USA' || c.country === 'United States');
+  const usaAvg = usaEntry?.avg || countries[countries.length - 1]?.avg || 1000;
 
   let html = '';
   countries.forEach(c => {
     const flag = countryFlags[c.country] || '';
     const savings = usaAvg - c.avg;
     const savingsPct = Math.round((savings / usaAvg) * 100);
-    const savingsLabel = c.country === 'USA'
+    const isBaseline = c.country === 'USA' || c.country === 'United States';
+    const savingsLabel = isBaseline
       ? '<span class="proc-table-baseline">Baseline</span>'
       : savings > 0
         ? `<span class="proc-table-save">Save ${savingsPct}%</span>`
@@ -264,7 +334,7 @@ function renderCountryTable() {
       <div class="proc-table-row">
         <span class="proc-table-col-country">${flag} ${c.country}</span>
         <span class="proc-table-col-price">${formatPrice(c.avg)}</span>
-        <span class="proc-table-col-range">${formatPrice(c.low)} &ndash; ${formatPrice(c.high)}</span>
+        <span class="proc-table-col-range">${formatPrice(c.low)} \u2013 ${formatPrice(c.high)}</span>
         <span class="proc-table-col-savings">${savingsLabel}</span>
       </div>
     `;
@@ -277,9 +347,8 @@ function renderTopCities() {
   const grid = document.getElementById('topCitiesGrid');
   if (!grid) return;
 
-  // Pick top cities by lowest price
-  const sorted = [...botoxData]
-    .filter(d => CITY_REGION[d.city]) // only cities with flight data
+  const sorted = [...procedureData]
+    .filter(d => CITY_REGION[d.city])
     .sort((a, b) => a.price_mid_usd - b.price_mid_usd)
     .slice(0, 12);
 
@@ -291,7 +360,7 @@ function renderTopCities() {
         <div class="proc-city-card-flag">${flag}</div>
         <div class="proc-city-card-name">${d.city}</div>
         <div class="proc-city-card-price">${formatPrice(d.price_mid_usd)}</div>
-        <div class="proc-city-card-range">${formatPrice(d.price_low_usd)} &ndash; ${formatPrice(d.price_high_usd)}</div>
+        <div class="proc-city-card-range">${formatPrice(d.price_low_usd)} \u2013 ${formatPrice(d.price_high_usd)}</div>
       </a>
     `;
   });
@@ -303,15 +372,13 @@ function renderRelatedProcedures() {
   const container = document.getElementById('relatedProcedures');
   if (!container) return;
 
-  // Check which related procedures exist in data
-  const available = RELATED_PROCEDURES.filter(rp =>
-    allData.some(d => d.procedure === rp.name)
-  );
+  const related = getRelatedProcedures(PROCEDURE_NAME);
+  const available = related.filter(rp => allData.some(d => d.procedure === rp.name));
 
   let html = '';
   available.forEach(rp => {
     html += `
-      <a href="/?procedure=${encodeURIComponent(rp.name)}" class="proc-related-card">
+      <a href="procedure.html?procedure=${encodeURIComponent(rp.name)}" class="proc-related-card">
         <span class="proc-related-icon">${rp.icon}</span>
         <span class="proc-related-name">${rp.name}</span>
       </a>
@@ -326,15 +393,13 @@ function renderCalculator() {
   const destSelect = document.getElementById('calcDestCity');
   if (!homeSelect || !destSelect) return;
 
-  // Get cities that have Botox data AND flight region data
-  const botoxCities = [...new Set(botoxData.map(d => d.city))].filter(c => CITY_REGION[c]).sort();
+  const procCities = [...new Set(procedureData.map(d => d.city))].filter(c => CITY_REGION[c]).sort();
 
-  // Clear and repopulate
   homeSelect.innerHTML = '<option value="">Select your city...</option>';
   destSelect.innerHTML = '<option value="">Select destination...</option>';
 
-  populateCitySelectGrouped(homeSelect, botoxCities);
-  populateCitySelectGrouped(destSelect, botoxCities);
+  populateCitySelectGrouped(homeSelect, procCities);
+  populateCitySelectGrouped(destSelect, procCities);
 
   homeSelect.addEventListener('change', calculateTrip);
   destSelect.addEventListener('change', calculateTrip);
@@ -352,15 +417,15 @@ function calculateTrip() {
 
   const flightCost = getFlightCost(homeCity, destCity);
   const hotelCost = HOTEL_COSTS[destCity] || 400;
-  const destProc = botoxData.find(d => d.city === destCity)?.price_mid_usd || 300;
-  const homeProc = botoxData.find(d => d.city === homeCity)?.price_mid_usd;
+  const destProc = procedureData.find(d => d.city === destCity)?.price_mid_usd || 2000;
+  const homeProc = procedureData.find(d => d.city === homeCity)?.price_mid_usd;
   const totalTrip = flightCost + hotelCost + destProc;
   const savings = homeProc ? (homeProc - totalTrip) : null;
 
   resultsDiv.innerHTML = `
     ${homeProc && savings && savings > 0 ? `
       <div class="trip-savings-banner">
-        <div class="savings-icon">💰</div>
+        <div class="savings-icon">\ud83d\udcb0</div>
         <div class="savings-content">
           <div class="savings-amount">Save ${formatPrice(savings)}</div>
           <div class="savings-subtitle">Even with flight + hotel included</div>
@@ -368,7 +433,7 @@ function calculateTrip() {
       </div>
     ` : homeProc && savings && savings < 0 ? `
       <div class="trip-cost-more-banner">
-        <div class="cost-more-icon">✈️</div>
+        <div class="cost-more-icon">\u2708\ufe0f</div>
         <div class="cost-more-content">
           <div class="cost-more-amount">Only ${formatPrice(Math.abs(savings))} more</div>
           <div class="cost-more-subtitle">For a medical vacation with flight + hotel included</div>
@@ -376,31 +441,22 @@ function calculateTrip() {
       </div>
     ` : !homeProc ? `
       <div class="trip-note">
-        Botox price data isn't available in ${homeCity} &mdash; showing trip cost only.
+        ${PROCEDURE_NAME} price data isn\u2019t available in ${homeCity} \u2014 showing trip cost only.
       </div>
     ` : ''}
 
     <div class="trip-breakdown">
       <div class="trip-breakdown-title">Trip Cost Breakdown:</div>
       <div class="trip-row">
-        <div class="trip-row-label">
-          <span class="trip-row-icon">✈️</span>
-          Round-trip flight (${homeCity} → ${destCity})
-        </div>
+        <div class="trip-row-label"><span class="trip-row-icon">\u2708\ufe0f</span> Round-trip flight (${homeCity} \u2192 ${destCity})</div>
         <div class="trip-row-value">${formatPrice(flightCost)}</div>
       </div>
       <div class="trip-row">
-        <div class="trip-row-label">
-          <span class="trip-row-icon">🏨</span>
-          7-night hotel in ${destCity}
-        </div>
+        <div class="trip-row-label"><span class="trip-row-icon">\ud83c\udfe8</span> 7-night hotel in ${destCity}</div>
         <div class="trip-row-value">${formatPrice(hotelCost)}</div>
       </div>
       <div class="trip-row">
-        <div class="trip-row-label">
-          <span class="trip-row-icon">💉</span>
-          Botox procedure
-        </div>
+        <div class="trip-row-label"><span class="trip-row-icon">${getIcon(PROCEDURE_NAME)}</span> ${PROCEDURE_NAME} procedure</div>
         <div class="trip-row-value">${formatPrice(destProc)}</div>
       </div>
       <div class="trip-row trip-row-total">
@@ -409,14 +465,14 @@ function calculateTrip() {
       </div>
       ${homeProc ? `
         <div class="trip-row trip-row-comparison">
-          <div class="trip-row-label">Botox in ${homeCity}</div>
+          <div class="trip-row-label">${PROCEDURE_NAME} in ${homeCity}</div>
           <div class="trip-row-value">${formatPrice(homeProc)}</div>
         </div>
       ` : ''}
     </div>
 
-    <a href="city.html?city=${encodeURIComponent(destCity)}&procedure=${encodeURIComponent(PROCEDURE_NAME)}&country=${encodeURIComponent(botoxData.find(d => d.city === destCity)?.country || '')}" class="trip-travel-cta">
-      <span class="trip-travel-cta-inner">View ${destCity} Botox details →</span>
+    <a href="city.html?city=${encodeURIComponent(destCity)}&procedure=${encodeURIComponent(PROCEDURE_NAME)}&country=${encodeURIComponent(procedureData.find(d => d.city === destCity)?.country || '')}" class="trip-travel-cta">
+      <span class="trip-travel-cta-inner">View ${destCity} ${PROCEDURE_NAME} details \u2192</span>
     </a>
   `;
 }
@@ -425,8 +481,98 @@ function renderAll() {
   renderCountryTable();
   renderTopCities();
   renderRelatedProcedures();
-  // Re-run calculator if cities are selected
   calculateTrip();
+}
+
+/* =========================
+   BROWSE LANDING (no procedure param)
+========================= */
+function renderBrowseLanding() {
+  document.getElementById('procDynamicContent').style.display = 'none';
+  document.getElementById('procBrowseLanding').style.display = 'block';
+
+  const container = document.getElementById('procLandingCategories');
+  if (!container) return;
+
+  const procedures = [...new Set(allData.map(d => d.procedure))].filter(Boolean);
+
+  let html = '';
+  for (const [category, categoryProcs] of Object.entries(PROCEDURE_CATEGORIES)) {
+    const available = categoryProcs.filter(p => procedures.includes(p));
+    if (available.length === 0) continue;
+    html += `<div class="proc-landing-category">
+      <h3 class="proc-landing-category-title">${category}</h3>
+      <div class="proc-landing-items">
+        ${available.map(proc => `
+          <a href="procedure.html?procedure=${encodeURIComponent(proc)}" class="proc-landing-item">
+            <span class="proc-landing-item-icon">${getIcon(proc)}</span>
+            <span class="proc-landing-item-name">${proc}</span>
+          </a>
+        `).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Uncategorized
+  const allCategorized = Object.values(PROCEDURE_CATEGORIES).flat();
+  const uncategorized = procedures.filter(p => !allCategorized.includes(p));
+  if (uncategorized.length > 0) {
+    html += `<div class="proc-landing-category">
+      <h3 class="proc-landing-category-title">Other</h3>
+      <div class="proc-landing-items">
+        ${uncategorized.map(proc => `
+          <a href="procedure.html?procedure=${encodeURIComponent(proc)}" class="proc-landing-item">
+            <span class="proc-landing-item-icon">${getIcon(proc)}</span>
+            <span class="proc-landing-item-name">${proc}</span>
+          </a>
+        `).join('')}
+      </div>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+/* =========================
+   COLLAPSIBLE SECTIONS
+========================= */
+function setupCollapsibleSections() {
+  const toggleBtn = document.getElementById('toggleCountryTable');
+  const content = document.getElementById('countryTableContent');
+  if (toggleBtn && content) {
+    toggleBtn.addEventListener('click', () => {
+      const isActive = toggleBtn.classList.contains('active');
+      toggleBtn.classList.toggle('active', !isActive);
+      content.style.display = isActive ? 'none' : 'block';
+    });
+  }
+}
+
+/* =========================
+   MENU MEGA-NAV (Browse Procedures in hamburger menu)
+========================= */
+function populateMenuMegaNav() {
+  const container = document.getElementById('menuMegaNavCategories');
+  if (!container) return;
+
+  const procedures = [...new Set(allData.map(d => d.procedure))].filter(Boolean);
+
+  let html = '';
+  for (const [category, categoryProcs] of Object.entries(PROCEDURE_CATEGORIES)) {
+    const available = categoryProcs.filter(p => procedures.includes(p));
+    if (available.length === 0) continue;
+    html += `<div class="menu-mega-nav-category">
+      <h4 class="menu-mega-nav-cat-title">${category}</h4>
+      ${available.map(proc => `
+        <a href="procedure.html?procedure=${encodeURIComponent(proc)}" class="menu-mega-nav-item">
+          <span>${getIcon(proc)}</span>
+          <span>${proc}</span>
+        </a>
+      `).join('')}
+    </div>`;
+  }
+
+  container.innerHTML = html;
 }
 
 /* =========================
@@ -438,27 +584,26 @@ function initMenu() {
   const close = document.getElementById('menuClose');
 
   if (hamburger && overlay) {
-    hamburger.addEventListener('click', () => {
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
+    hamburger.addEventListener('click', () => { overlay.classList.add('active'); document.body.style.overflow = 'hidden'; });
   }
   if (close && overlay) {
-    close.addEventListener('click', () => {
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-    });
+    close.addEventListener('click', () => { overlay.classList.remove('active'); document.body.style.overflow = ''; });
   }
   if (overlay) {
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) { overlay.classList.remove('active'); document.body.style.overflow = ''; } });
+  }
+
+  // Browse Procedures expandable
+  const browseProc = document.getElementById('menuBrowseProcedures');
+  const procDropdown = document.getElementById('menuProcedureDropdown');
+  if (browseProc && procDropdown) {
+    browseProc.addEventListener('click', () => {
+      browseProc.classList.toggle('expanded');
+      procDropdown.classList.toggle('open');
     });
   }
 
-  // Browse cities dropdown
+  // Browse Cities expandable
   const browseCities = document.getElementById('menuBrowseCities');
   const cityDropdown = document.getElementById('menuCityDropdown');
   if (browseCities && cityDropdown) {
@@ -478,7 +623,8 @@ function initMenu() {
       const city = menuDestSelect.value;
       if (!city) return;
       const cityData = allData.find(d => d.city === city);
-      window.location.href = `city.html?city=${encodeURIComponent(city)}&procedure=${encodeURIComponent(PROCEDURE_NAME)}&country=${encodeURIComponent(cityData?.country || '')}`;
+      const proc = PROCEDURE_NAME || 'Botox';
+      window.location.href = `city.html?city=${encodeURIComponent(city)}&procedure=${encodeURIComponent(proc)}&country=${encodeURIComponent(cityData?.country || '')}`;
     });
   }
 
@@ -494,8 +640,27 @@ fetch('data.json')
   .then(r => r.json())
   .then(data => {
     allData = data;
-    botoxData = data.filter(d => d.procedure === PROCEDURE_NAME);
+
+    // Check if procedure is valid
+    if (!PROCEDURE_NAME || !data.some(d => d.procedure === PROCEDURE_NAME)) {
+      // Show browse landing
+      renderBrowseLanding();
+      populateMenuMegaNav();
+      initMenu();
+      return;
+    }
+
+    procedureData = data.filter(d => d.procedure === PROCEDURE_NAME);
+
+    // Show dynamic content, hide landing
+    document.getElementById('procDynamicContent').style.display = '';
+    document.getElementById('procBrowseLanding').style.display = 'none';
+
+    updateSEO(PROCEDURE_NAME);
+    updatePageText(PROCEDURE_NAME);
     renderAll();
     renderCalculator();
+    setupCollapsibleSections();
+    populateMenuMegaNav();
     initMenu();
   });

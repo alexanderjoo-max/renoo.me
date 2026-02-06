@@ -721,6 +721,7 @@ fetch("data.json")
     // Populate mega nav with available procedures
     const procedures = [...new Set(ALL.map(d => d.procedure))].filter(Boolean).sort((a, b) => a.localeCompare(b));
     populateMegaNav(procedures);
+    populateMenuMegaNav();
 
     // Restore previously selected procedure, or fall back to "Liposuction"
     if (els.procedureSelect) {
@@ -939,7 +940,7 @@ function renderMarkers(data) {
       <div>
         <div class="popup-title">${flag ? flag + " " : ""}${escapeHtml(d.city)}</div>
         <div class="popup-row">${escapeHtml(d.country)}</div>
-        <div class="popup-row">${escapeHtml(procedureLabel(d.procedure))}</div>
+        <div class="popup-row"><a href="procedure.html?procedure=${encodeURIComponent(stripParens(d.procedure))}" class="procedure-link" onclick="event.stopPropagation()">${escapeHtml(procedureLabel(d.procedure))}</a></div>
         <div class="popup-row"><strong>Typical price:</strong> ${formatPrice(d.price_usd)}</div>
         <div class="popup-view-clinics" data-city-id="${d._id}">View Details →</div>
       </div>
@@ -1039,7 +1040,7 @@ function renderResults(data) {
     item.innerHTML = `
       <div class="result-left">
         <div class="result-city">${flag ? flag + " " : ""}${escapeHtml(d.city)}${badges}</div>
-        <div class="result-meta">${escapeHtml(d.country)} • ${escapeHtml(stripParens(d.procedure))}</div>
+        <div class="result-meta">${escapeHtml(d.country)} • <a href="procedure.html?procedure=${encodeURIComponent(stripParens(d.procedure))}" class="procedure-link" onclick="event.stopPropagation()">${escapeHtml(stripParens(d.procedure))}</a></div>
         <div class="result-view-clinics">View Details →</div>
       </div>
       <div class="result-price">${escapeHtml(price)}</div>
@@ -1369,6 +1370,16 @@ if (menuOverlay) {
   });
 }
 
+// Browse Procedures expandable toggle
+const menuBrowseProcedures = document.getElementById('menuBrowseProcedures');
+const menuProcedureDropdown = document.getElementById('menuProcedureDropdown');
+if (menuBrowseProcedures && menuProcedureDropdown) {
+  menuBrowseProcedures.addEventListener('click', () => {
+    menuBrowseProcedures.classList.toggle('expanded');
+    menuProcedureDropdown.classList.toggle('open');
+  });
+}
+
 // Browse Cities expandable toggle
 const menuBrowseCities = document.getElementById('menuBrowseCities');
 const menuCityDropdown = document.getElementById('menuCityDropdown');
@@ -1377,6 +1388,28 @@ if (menuBrowseCities && menuCityDropdown) {
     menuBrowseCities.classList.toggle('open');
     menuCityDropdown.classList.toggle('open');
   });
+}
+
+/* Populate the hamburger menu mega-nav with procedure links */
+function populateMenuMegaNav() {
+  const container = document.getElementById('menuMegaNavCategories');
+  if (!container || !ALL || ALL.length === 0) return;
+  const procedures = [...new Set(ALL.map(d => d.procedure ? stripParens(d.procedure) : null))].filter(Boolean);
+  let html = '';
+  for (const [category, categoryProcs] of Object.entries(PROCEDURE_CATEGORIES)) {
+    const available = categoryProcs.filter(p => procedures.includes(p));
+    if (available.length === 0) continue;
+    html += `<div class="menu-mega-nav-category">
+      <h4 class="menu-mega-nav-cat-title">${category}</h4>
+      ${available.map(proc => `
+        <a href="procedure.html?procedure=${encodeURIComponent(proc)}" class="menu-mega-nav-item">
+          <span>${procedureIcon(proc)}</span>
+          <span>${proc}</span>
+        </a>
+      `).join('')}
+    </div>`;
+  }
+  container.innerHTML = html;
 }
 
 

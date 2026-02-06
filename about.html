@@ -70,12 +70,21 @@
       </div>
 
       <nav class="menu-nav">
-        <a href="procedure.html" class="menu-row">
+        <div class="menu-row menu-row-expandable" id="menuBrowseProcedures">
           <div class="menu-row-text">
-            <div class="menu-row-title">💉 Botox Prices Worldwide</div>
+            <div class="menu-row-title">💉 Browse Procedures</div>
             <div class="menu-row-desc">Compare costs across countries</div>
           </div>
-        </a>
+          <svg class="menu-row-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="menu-procedure-dropdown" id="menuProcedureDropdown">
+          <div class="menu-mega-nav-categories" id="menuMegaNavCategories">
+            <!-- Populated by JS -->
+          </div>
+        </div>
 
         <a href="compare.html" class="menu-row">
           <div class="menu-row-text">
@@ -147,7 +156,7 @@
     <p>&copy; 2026 Renoo.me. All rights reserved.</p>
   </footer>
 
-  <!-- Hamburger menu JS -->
+  <!-- Hamburger menu JS + Browse Procedures mega-nav -->
   <script>
     (function() {
       var hamburger = document.getElementById('hamburgerMenu');
@@ -174,6 +183,58 @@
           }
         });
       }
+
+      // Browse Procedures expandable toggle
+      var browseProc = document.getElementById('menuBrowseProcedures');
+      var procDropdown = document.getElementById('menuProcedureDropdown');
+      if (browseProc && procDropdown) {
+        browseProc.addEventListener('click', function() {
+          browseProc.classList.toggle('expanded');
+          procDropdown.classList.toggle('open');
+        });
+      }
+
+      // Procedure categories and icons for mega-nav
+      var PROCEDURE_CATEGORIES = {
+        "Beauty": ["Botox", "Facelift", "Rhinoplasty", "Hair Transplant", "Dental Veneers"],
+        "Body": ["Breast Augmentation", "Brazilian Butt Lift", "Liposuction", "Tummy Tuck", "Gastric Bypass", "Limb Lengthening Surgery", "Gender Reassignment Surgery"],
+        "Medical": ["LASIK", "Dental Implant", "Knee Replacement", "Hip Replacement", "Colonoscopy", "IVF"],
+        "Biohacking": ["Stem Cell Therapy", "Exosome Therapy", "PRP Therapy", "Plasma Exchange Therapy", "NAD+ IV Injection", "Peptide Therapy", "Ozone Therapy", "Hyperbaric Oxygen Therapy", "Biochip Implantation", "Advanced Health Screening", "Testosterone Replacement Therapy", "Human Growth Hormone"]
+      };
+      var procedureIcons = {
+        "Botox":"💉","Facelift":"✨","Rhinoplasty":"👃","Hair Transplant":"💇","Dental Veneers":"😁",
+        "Breast Augmentation":"🍒","Brazilian Butt Lift":"🍑","Liposuction":"💪","Tummy Tuck":"🤰","Gastric Bypass":"⚖️",
+        "Limb Lengthening Surgery":"🦴","Gender Reassignment Surgery":"🏳️‍⚧️",
+        "LASIK":"👁️","Dental Implant":"🦷","Knee Replacement":"🦵","Hip Replacement":"🦴","Colonoscopy":"🏥","IVF":"👶",
+        "Stem Cell Therapy":"🧬","Exosome Therapy":"🧫","PRP Therapy":"🩸","Plasma Exchange Therapy":"🩸",
+        "NAD+ IV Injection":"⚡","Peptide Therapy":"🧪","Ozone Therapy":"🌬️","Hyperbaric Oxygen Therapy":"🫁",
+        "Biochip Implantation":"🧠","Advanced Health Screening":"📊",
+        "Testosterone Replacement Therapy":"💪","Human Growth Hormone":"🌱"
+      };
+
+      // Fetch data and populate mega-nav
+      fetch('data.json').then(function(r) { return r.json(); }).then(function(data) {
+        var container = document.getElementById('menuMegaNavCategories');
+        if (!container) return;
+        var procedures = [];
+        var seen = {};
+        data.forEach(function(d) {
+          if (d.procedure && !seen[d.procedure]) { seen[d.procedure] = true; procedures.push(d.procedure); }
+        });
+        var html = '';
+        Object.keys(PROCEDURE_CATEGORIES).forEach(function(category) {
+          var categoryProcs = PROCEDURE_CATEGORIES[category];
+          var available = categoryProcs.filter(function(p) { return procedures.indexOf(p) !== -1; });
+          if (available.length === 0) return;
+          html += '<div class="menu-mega-nav-category"><h4 class="menu-mega-nav-cat-title">' + category + '</h4>';
+          available.forEach(function(proc) {
+            var icon = procedureIcons[proc] || '✨';
+            html += '<a href="procedure.html?procedure=' + encodeURIComponent(proc) + '" class="menu-mega-nav-item"><span>' + icon + '</span><span>' + proc + '</span></a>';
+          });
+          html += '</div>';
+        });
+        container.innerHTML = html;
+      }).catch(function() {});
     })();
   </script>
 </body>
