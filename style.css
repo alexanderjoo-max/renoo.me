@@ -1716,7 +1716,7 @@ html {
 .city-main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 20px 100px;
+  padding: 80px 24px 100px;
 }
 
 /* Redesigned city header */
@@ -3447,7 +3447,7 @@ html.in-overlay .mobile-back-link {
 }
 
 .proc-container {
-  max-width: 860px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
@@ -3459,18 +3459,26 @@ html.in-overlay .mobile-back-link {
 }
 
 .proc-hero-title {
-  font-size: 48px;
-  font-weight: 700;
-  margin: 0 0 12px 0;
-  letter-spacing: -1px;
+  font-size: 42px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
   line-height: 1.1;
 }
 
 .proc-hero-subtitle {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.65);
-  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 16px;
   line-height: 1.5;
+}
+
+.proc-hero-desc {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  line-height: 1.6;
+  max-width: 640px;
 }
 
 /* Sections */
@@ -3479,7 +3487,7 @@ html.in-overlay .mobile-back-link {
 }
 
 .proc-section h2 {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 600;
   margin: 0 0 16px 0;
   color: #fff;
@@ -3797,16 +3805,24 @@ html.in-overlay .mobile-back-link {
     padding: 80px 16px 60px;
   }
 
+  .proc-main {
+    padding: 80px 20px 60px;
+  }
+
   .proc-hero-title {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .proc-hero-subtitle {
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  .proc-hero-desc {
+    font-size: 14px;
   }
 
   .proc-section h2 {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .proc-table-header,
@@ -3823,6 +3839,16 @@ html.in-overlay .mobile-back-link {
   .proc-calc-selectors {
     flex-direction: column;
     gap: 12px;
+    align-items: center;
+  }
+
+  .proc-calc-field {
+    width: 100%;
+    text-align: center;
+  }
+
+  .proc-calc-label {
+    text-align: center;
   }
 
   .proc-calc-arrow {
@@ -3859,7 +3885,7 @@ html.in-overlay .mobile-back-link {
 ========================= */
 .menu-procedure-dropdown {
   display: none;
-  padding: 0 12px 12px;
+  padding: 12px 12px 12px;
 }
 
 .menu-procedure-dropdown.open {

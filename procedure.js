@@ -35,6 +35,42 @@ function getIcon(name) {
 }
 
 /* =========================
+   PROCEDURE DESCRIPTIONS
+========================= */
+const procedureDescriptions = {
+  "Botox": "Botox is an injectable treatment that temporarily relaxes facial muscles to reduce fine lines and wrinkles. It's the world's most popular non-surgical cosmetic procedure, with treatments typically lasting 3\u20136 months.",
+  "Facelift": "A facelift (rhytidectomy) is a surgical procedure that tightens sagging skin and repositions underlying tissue to create a more youthful facial appearance. Results typically last 7\u201310 years.",
+  "Rhinoplasty": "Rhinoplasty (nose reshaping) is a surgical procedure that alters the shape, size, or proportions of the nose for cosmetic or functional reasons, such as improving breathing.",
+  "Hair Transplant": "Hair transplant surgery moves hair follicles from a donor area (usually the back of the head) to thinning or balding areas. Modern FUE and DHI techniques leave minimal scarring.",
+  "Dental Veneers": "Dental veneers are thin, custom-made shells bonded to the front of teeth to improve their appearance. They can fix chips, stains, gaps, and minor misalignment for a brighter smile.",
+  "Breast Augmentation": "Breast augmentation uses implants or fat transfer to increase breast size, restore volume, or improve symmetry. It\u2019s one of the most commonly performed cosmetic surgeries worldwide.",
+  "Brazilian Butt Lift": "A Brazilian Butt Lift (BBL) uses fat transfer from other body areas to enhance the shape and volume of the buttocks, creating a more contoured silhouette.",
+  "Liposuction": "Liposuction is a body contouring procedure that removes stubborn fat deposits from targeted areas like the abdomen, thighs, and arms using suction techniques.",
+  "Tummy Tuck": "A tummy tuck (abdominoplasty) removes excess skin and fat from the abdomen while tightening the underlying muscles, often sought after significant weight loss or pregnancy.",
+  "Gastric Bypass": "Gastric bypass surgery reduces the stomach size and reroutes the digestive system to aid significant, long-term weight loss for patients with obesity-related health conditions.",
+  "Limb Lengthening Surgery": "Limb lengthening surgery uses gradual bone distraction to increase height or correct leg length discrepancies. The process typically takes several months with careful rehabilitation.",
+  "Gender Reassignment Surgery": "Gender reassignment surgery encompasses a range of procedures to align physical characteristics with gender identity. It requires thorough evaluation and a multidisciplinary care team.",
+  "LASIK": "LASIK is a refractive eye surgery that reshapes the cornea using a laser to correct nearsightedness, farsightedness, and astigmatism, often eliminating the need for glasses or contacts.",
+  "Dental Implant": "Dental implants are titanium posts surgically placed into the jawbone to serve as artificial tooth roots. They provide a permanent, natural-looking replacement for missing teeth.",
+  "Knee Replacement": "Knee replacement surgery replaces a damaged knee joint with an artificial implant to relieve pain and restore mobility, most commonly needed due to arthritis or injury.",
+  "Hip Replacement": "Hip replacement surgery replaces a worn or damaged hip joint with a prosthetic implant, significantly reducing pain and improving mobility for patients with severe hip conditions.",
+  "Colonoscopy": "A colonoscopy is a diagnostic procedure that uses a flexible camera to examine the inside of the colon. It\u2019s the gold standard for colorectal cancer screening.",
+  "IVF": "In vitro fertilization (IVF) is an assisted reproductive technology where eggs are fertilized outside the body and transferred to the uterus, offering hope to those experiencing infertility.",
+  "Stem Cell Therapy": "Stem cell therapy uses the body\u2019s own regenerative cells to repair damaged tissues and reduce inflammation. It\u2019s used for joint pain, autoimmune conditions, and anti-aging.",
+  "Exosome Therapy": "Exosome therapy delivers cell-derived signaling vesicles to promote tissue repair, reduce inflammation, and support regeneration at the cellular level.",
+  "PRP Therapy": "Platelet-Rich Plasma (PRP) therapy uses concentrated platelets from your own blood to accelerate healing in joints, tendons, skin, and hair restoration.",
+  "Plasma Exchange Therapy": "Plasma exchange (plasmapheresis) filters and replaces blood plasma to remove harmful antibodies. It\u2019s explored both for autoimmune conditions and longevity protocols.",
+  "NAD+ IV Injection": "NAD+ IV therapy delivers nicotinamide adenine dinucleotide directly into the bloodstream to boost cellular energy, support brain function, and slow aging at the molecular level.",
+  "Peptide Therapy": "Peptide therapy uses short chains of amino acids to target specific biological functions such as growth hormone release, immune regulation, tissue repair, and fat metabolism.",
+  "Ozone Therapy": "Ozone therapy introduces medical-grade ozone to the body to boost oxygen utilization, stimulate the immune system, and support detoxification.",
+  "Hyperbaric Oxygen Therapy": "Hyperbaric Oxygen Therapy (HBOT) involves breathing pure oxygen in a pressurized chamber to accelerate healing, reduce inflammation, and enhance recovery.",
+  "Biochip Implantation": "Biochip implantation places a small electronic device under the skin to monitor health metrics like glucose, temperature, or hormone levels in real time.",
+  "Advanced Health Screening": "Advanced health screening provides comprehensive diagnostics including full-body MRI, blood biomarkers, genetic testing, and AI-driven risk analysis for early disease detection.",
+  "Testosterone Replacement Therapy": "Testosterone Replacement Therapy (TRT) restores optimal testosterone levels in men experiencing fatigue, low libido, or muscle loss due to hormonal decline.",
+  "Human Growth Hormone": "Human Growth Hormone (HGH) therapy supplements declining growth hormone levels to support muscle mass, bone density, energy, and recovery in aging adults."
+};
+
+/* =========================
    CURRENCY CONVERSION
 ========================= */
 const CURRENCY_RATES = {
@@ -240,8 +276,13 @@ function updatePageText(name) {
   const icon = getIcon(name);
   const el = (id) => document.getElementById(id);
 
-  if (el('procHeroTitle')) el('procHeroTitle').textContent = name;
+  if (el('procHeroTitle')) el('procHeroTitle').textContent = `${icon} ${name}`;
   if (el('procHeroSubtitle')) el('procHeroSubtitle').textContent = `Compare ${name} prices worldwide (including flights & hotels)`;
+  if (el('procHeroDesc')) {
+    const desc = procedureDescriptions[name] || '';
+    el('procHeroDesc').textContent = desc;
+    el('procHeroDesc').style.display = desc ? '' : 'none';
+  }
   if (el('countryTableTitle')) el('countryTableTitle').textContent = `Average ${name} Cost by Country`;
   if (el('calcDesc')) el('calcDesc').textContent = `See what ${name} would actually cost you, including flights and hotels.`;
   if (el('whyPricesVaryTitle')) el('whyPricesVaryTitle').textContent = `Why ${name} Prices Vary So Much`;
