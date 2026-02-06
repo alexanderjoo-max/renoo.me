@@ -512,8 +512,8 @@ function calculateTrip() {
       ` : ''}
     </div>
 
-    <a href="city.html?city=${encodeURIComponent(destCity)}&procedure=${encodeURIComponent(PROCEDURE_NAME)}&country=${encodeURIComponent(procedureData.find(d => d.city === destCity)?.country || '')}" class="trip-travel-cta">
-      <span class="trip-travel-cta-inner">View ${destCity} ${PROCEDURE_NAME} details \u2192</span>
+    <a href="travel.html#city=${encodeURIComponent(destCity)}" class="trip-travel-cta" target="_blank" rel="noopener">
+      <span class="trip-travel-cta-inner">\u2708\ufe0f Compare flight + hotel prices</span>
     </a>
   `;
 }
