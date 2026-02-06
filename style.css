@@ -2919,6 +2919,11 @@ html {
 /* =========================
    COMPARE PAGE
 ========================= */
+.compare-main {
+  max-width: 720px;
+  padding-top: 80px;
+}
+
 .compare-page-selectors {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
