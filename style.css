@@ -2628,7 +2628,7 @@ html {
   margin: 0 auto;
   display: block;
   padding: 16px 32px;
-  background: #22c55e;
+  background: linear-gradient(135deg, #593a96, #9b2d7b, #ee3b6d);
   color: #fff;
   border: none;
   border-radius: 12px;
@@ -2636,11 +2636,13 @@ html {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(89, 58, 150, 0.3);
 }
 
 .cta-button:hover {
-  background: #16a34a;
+  background: linear-gradient(135deg, #4a2e80, #872568, #d9305e);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(89, 58, 150, 0.4);
 }
 
 @media (max-width: 768px) {
@@ -2878,20 +2880,20 @@ html {
 .about-cta-button {
   display: inline-block;
   padding: 14px 32px;
-  background: #3b82f6;
+  background: linear-gradient(135deg, #593a96, #9b2d7b, #ee3b6d);
   color: #fff;
   text-decoration: none;
   font-size: 17px;
   font-weight: 600;
   border-radius: 12px;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(89, 58, 150, 0.3);
 }
 
 .about-cta-button:hover {
-  background: #2563eb;
+  background: linear-gradient(135deg, #4a2e80, #872568, #d9305e);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 6px 20px rgba(89, 58, 150, 0.4);
 }
 
 .about-footer {
