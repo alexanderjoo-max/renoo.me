@@ -230,7 +230,6 @@ async function loadData() {
     renderPage();
     populateDestinationDropdown();
     populateDepartureCities();
-    populateMenuMegaNav();
   } catch (e) {
     console.error('Failed to load data:', e);
   }
@@ -395,7 +394,7 @@ function runInlineCompare() {
 
     html += `
       <div class="comparison-row">
-        <div class="comparison-procedure-col"><a href="procedure.html?procedure=${encodeURIComponent(proc)}" class="procedure-link">${icon} ${proc}</a></div>
+        <div class="comparison-procedure-col">${icon} ${proc}</div>
         <div class="comparison-price-col">${price1Html}</div>
         <div class="comparison-price-col">${price2Html}</div>
       </div>
@@ -524,16 +523,6 @@ if (menuOverlay) {
   });
 }
 
-// Browse Procedures expandable toggle
-const menuBrowseProcedures = document.getElementById('menuBrowseProcedures');
-const menuProcedureDropdown = document.getElementById('menuProcedureDropdown');
-if (menuBrowseProcedures && menuProcedureDropdown) {
-  menuBrowseProcedures.addEventListener('click', () => {
-    menuBrowseProcedures.classList.toggle('expanded');
-    menuProcedureDropdown.classList.toggle('open');
-  });
-}
-
 // Browse Cities expandable toggle
 const menuBrowseCities = document.getElementById('menuBrowseCities');
 const menuCityDropdown = document.getElementById('menuCityDropdown');
@@ -542,37 +531,6 @@ if (menuBrowseCities && menuCityDropdown) {
     menuBrowseCities.classList.toggle('open');
     menuCityDropdown.classList.toggle('open');
   });
-}
-
-/* Procedure categories for hamburger mega-nav */
-const PROCEDURE_CATEGORIES = {
-  "Beauty": ["Botox", "Facelift", "Rhinoplasty", "Hair Transplant", "Dental Veneers"],
-  "Body": ["Breast Augmentation", "Brazilian Butt Lift", "Liposuction", "Tummy Tuck", "Gastric Bypass", "Limb Lengthening Surgery", "Gender Reassignment Surgery"],
-  "Medical": ["LASIK", "Dental Implant", "Knee Replacement", "Hip Replacement", "Colonoscopy", "IVF"],
-  "Biohacking": ["Stem Cell Therapy", "Exosome Therapy", "PRP Therapy", "Plasma Exchange Therapy", "NAD+ IV Injection", "Peptide Therapy", "Ozone Therapy", "Hyperbaric Oxygen Therapy", "Biochip Implantation", "Advanced Health Screening", "Testosterone Replacement Therapy", "Human Growth Hormone"]
-};
-
-/* Populate the hamburger menu mega-nav with procedure links */
-function populateMenuMegaNav() {
-  const container = document.getElementById('menuMegaNavCategories');
-  if (!container || !allData || allData.length === 0) return;
-  const procedures = [...new Set(allData.map(d => d.procedure ? stripParens(d.procedure) : null))].filter(Boolean);
-  let html = '';
-  for (const [category, categoryProcs] of Object.entries(PROCEDURE_CATEGORIES)) {
-    const available = categoryProcs.filter(p => procedures.includes(p));
-    if (available.length === 0) continue;
-    html += `<div class="menu-mega-nav-category">
-      <h4 class="menu-mega-nav-cat-title">${category}</h4>
-      ${available.map(proc => {
-        const icon = procedureIcons[proc] || '✨';
-        return `<a href="procedure.html?procedure=${encodeURIComponent(proc)}" class="menu-mega-nav-item">
-          <span>${icon}</span>
-          <span>${proc}</span>
-        </a>`;
-      }).join('')}
-    </div>`;
-  }
-  container.innerHTML = html;
 }
 
 // Initialize on page load
@@ -758,7 +716,7 @@ const CITY_REGION = {
   // South Asia
   'Delhi': 'SA', 'Mumbai': 'SA',
   // Southeast Asia
-  'Bangkok': 'SEA', 'Singapore': 'SEA', 'Kuala Lumpur': 'SEA', 'Ho Chi Minh City': 'SEA', 'Bali': 'SEA', 'Jakarta': 'SEA', 'Manila': 'SEA',
+  'Bangkok': 'SEA', 'Singapore': 'SEA', 'Kuala Lumpur': 'SEA', 'Ho Chi Minh City': 'SEA', 'Bali': 'SEA', 'Jakarta': 'SEA', 'Manila': 'SEA', 'Surabaya': 'SEA',
   // East Asia
   'Seoul': 'EA', 'Tokyo': 'EA', 'Beijing': 'EA', 'Shanghai': 'EA', 'Hong Kong': 'EA', 'Taipei': 'EA',
   // Central Asia
@@ -823,13 +781,13 @@ function getFlightCost(from, to) {
 // Average 7-night hotel costs (USD)
 const HOTEL_COSTS = {
   // Southeast Asia
-  'Bangkok': 1000, 'Ho Chi Minh City': 450, 'Kuala Lumpur': 450, 'Bali': 550, 'Jakarta': 400, 'Manila': 350, 'Singapore': 1200,
+  'Bangkok': 700, 'Ho Chi Minh City': 450, 'Kuala Lumpur': 450, 'Bali': 550, 'Jakarta': 400, 'Surabaya': 350, 'Manila': 350, 'Singapore': 1200,
   // East Asia
-  'Seoul': 700, 'Tokyo': 900, 'Beijing': 550, 'Shanghai': 600, 'Hong Kong': 900, 'Taipei': 550,
+  'Seoul': 800, 'Tokyo': 900, 'Beijing': 550, 'Shanghai': 600, 'Hong Kong': 900, 'Taipei': 550,
   // South Asia
   'Delhi': 250, 'Mumbai': 300,
   // Turkey
-  'Istanbul': 600, 'Bodrum': 700,
+  'Istanbul': 700, 'Bodrum': 700,
   // Middle East / North Africa
   'Dubai': 700, 'Tel Aviv': 750, 'Cairo': 250,
   // Western Europe
@@ -843,7 +801,7 @@ const HOTEL_COSTS = {
   // Eastern Europe
   'Moscow': 450, 'Bucharest': 300, 'Sofia': 250,
   // North America
-  'New York City': 2000, 'Miami': 2200, 'Los Angeles': 1600, 'Chicago': 1200, 'Dallas': 900, 'Houston': 900, 'Austin': 1000, 'San Antonio': 800, 'San Diego': 1100, 'Phoenix': 800, 'Jacksonville': 700, 'Philadelphia': 1000, 'San Jose': 1300, 'Toronto': 1000, 'Calgary': 800, 'Vancouver': 1100,
+  'New York City': 2000, 'Miami': 2000, 'Los Angeles': 1600, 'Chicago': 1200, 'Dallas': 900, 'Houston': 900, 'Austin': 1000, 'San Antonio': 800, 'San Diego': 1100, 'Phoenix': 800, 'Jacksonville': 700, 'Philadelphia': 1000, 'San Jose': 1300, 'Toronto': 1000, 'Calgary': 800, 'Vancouver': 1100,
   // Latin America
   'Mexico City': 350, 'Tijuana': 250, 'Cancun': 500, 'Buenos Aires': 350, 'Rio de Janeiro': 400, 'Bogotá': 300, 'Medellín': 280,
   // Central Asia

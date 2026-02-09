@@ -19707,7 +19707,13 @@
     "source": "Clinic websites + aggregators",
     "caveats": "Growing medical tourism sector",
     "lat": -6.2088,
-    "lng": 106.8456
+    "lng": 106.8456,
+    "clinics": [
+      {
+        "name": "Tanam Gigi",
+        "contact": "https://www.instagram.com/tanamgigi"
+      }
+    ]
   },
   {
     "procedure": "Dental Veneers (Full Mouth)",
@@ -24262,5 +24268,205 @@
     "confidence": "High",
     "source": "US clinics",
     "caveats": "Recovery centers avail"
+  },
+  {
+    "procedure": "Dental Implant",
+    "category": "Dental",
+    "city": "Surabaya",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "price_low_usd": 800,
+    "price_high_usd": 1500,
+    "price_mid_usd": 1100,
+    "currency": "IDR",
+    "included": "Implant, crown",
+    "notes": "Bone graft extra",
+    "confidence": "Medium",
+    "source": "Local clinics (Tanam Gigi)",
+    "caveats": "Varies by brand",
+    "clinics": [
+      {
+        "name": "Tanam Gigi",
+        "contact": "https://www.instagram.com/tanamgigi",
+        "notes": "Specialist in Dental Implants"
+      }
+    ],
+    "lat": -7.2575,
+    "lng": 112.7521
+  },
+  {
+    "procedure": "Dental Veneers",
+    "category": "Dental",
+    "city": "Jakarta",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "price_low_usd": 300,
+    "price_high_usd": 600,
+    "price_mid_usd": 450,
+    "currency": "IDR",
+    "included": "Consultation, procedure",
+    "notes": "Composite/Porcelain",
+    "confidence": "Medium",
+    "source": "Local clinics (Vinir.id)",
+    "caveats": "Price per tooth",
+    "clinics": [
+      {
+        "name": "Vinir.id",
+        "contact": "https://www.instagram.com/vinir.id",
+        "notes": "Specialist in Veneers"
+      }
+    ],
+    "lat": -6.2088,
+    "lng": 106.8456
+  },
+  {
+    "procedure": "Dental Veneers",
+    "category": "Dental",
+    "city": "Surabaya",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "price_low_usd": 300,
+    "price_high_usd": 600,
+    "price_mid_usd": 450,
+    "currency": "IDR",
+    "included": "Consultation, procedure",
+    "notes": "Composite/Porcelain",
+    "confidence": "Medium",
+    "source": "Local clinics (Vinir.id)",
+    "caveats": "Price per tooth",
+    "clinics": [
+      {
+        "name": "Vinir.id",
+        "contact": "https://www.instagram.com/vinir.id",
+        "notes": "Specialist in Veneers"
+      }
+    ],
+    "lat": -7.2575,
+    "lng": 112.7521
+  },
+  {
+    "procedure": "Dental Veneers",
+    "category": "Dental",
+    "city": "Bali",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "price_low_usd": 300,
+    "price_high_usd": 600,
+    "price_mid_usd": 450,
+    "currency": "IDR",
+    "included": "Consultation, procedure",
+    "notes": "Composite/Porcelain",
+    "confidence": "Medium",
+    "source": "Local clinics (Vinir.id)",
+    "caveats": "Price per tooth",
+    "clinics": [
+      {
+        "name": "Vinir.id",
+        "contact": "https://www.instagram.com/vinir.id",
+        "notes": "Specialist in Veneers"
+      }
+    ],
+    "lat": -8.4095,
+    "lng": 115.1889
+  },
+  {
+    "procedure": "Clear Aligners",
+    "category": "Dental",
+    "city": "Jakarta",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "price_low_usd": 1000,
+    "price_high_usd": 2000,
+    "price_mid_usd": 1500,
+    "currency": "IDR",
+    "included": "Aligner set, consult",
+    "notes": "Invisible braces",
+    "confidence": "High",
+    "source": "Local clinics (Rata.id)",
+    "caveats": "Mild to moderate cases",
+    "clinics": [
+      {
+        "name": "Rata.id",
+        "contact": "https://www.instagram.com/rata.id",
+        "notes": "Clear Aligners Specialist"
+      }
+    ],
+    "lat": -6.2088,
+    "lng": 106.8456
+  },
+  {
+    "procedure": "Clear Aligners",
+    "category": "Dental",
+    "city": "Surabaya",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "price_low_usd": 1000,
+    "price_high_usd": 2000,
+    "price_mid_usd": 1500,
+    "currency": "IDR",
+    "included": "Aligner set, consult",
+    "notes": "Invisible braces",
+    "confidence": "High",
+    "source": "Local clinics (Rata.id)",
+    "caveats": "Mild to moderate cases",
+    "clinics": [
+      {
+        "name": "Rata.id",
+        "contact": "https://www.instagram.com/rata.id",
+        "notes": "Clear Aligners Specialist"
+      }
+    ],
+    "lat": -7.2575,
+    "lng": 112.7521
+  },
+  {
+    "procedure": "Clear Aligners",
+    "category": "Dental",
+    "city": "Bali",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "price_low_usd": 1000,
+    "price_high_usd": 2000,
+    "price_mid_usd": 1500,
+    "currency": "IDR",
+    "included": "Aligner set, consult",
+    "notes": "Invisible braces",
+    "confidence": "High",
+    "source": "Local clinics (Rata.id)",
+    "caveats": "Mild to moderate cases",
+    "clinics": [
+      {
+        "name": "Rata.id",
+        "contact": "https://www.instagram.com/rata.id",
+        "notes": "Clear Aligners Specialist"
+      }
+    ],
+    "lat": -8.4095,
+    "lng": 115.1889
+  },
+  {
+    "procedure": "Clear Aligners",
+    "category": "Dental",
+    "city": "Bandung",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "price_low_usd": 1000,
+    "price_high_usd": 2000,
+    "price_mid_usd": 1500,
+    "currency": "IDR",
+    "included": "Aligner set, consult",
+    "notes": "Invisible braces",
+    "confidence": "High",
+    "source": "Local clinics (Rata.id)",
+    "caveats": "Mild to moderate cases",
+    "clinics": [
+      {
+        "name": "Rata.id",
+        "contact": "https://www.instagram.com/rata.id",
+        "notes": "Clear Aligners Specialist"
+      }
+    ],
+    "lat": -6.9175,
+    "lng": 107.6191
   }
 ]
