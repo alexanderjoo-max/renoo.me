@@ -412,6 +412,30 @@ function renderClinics() {
     c.Procedure?.toLowerCase().includes(cleanProc)
   );
 
+  // Also include clinics from the JSON data (allData) which might have been manually added
+  const currentCityData = allData.find(d =>
+    d.city?.toLowerCase() === cityName.toLowerCase() &&
+    d.procedure?.toLowerCase() === procedure.toLowerCase()
+  );
+
+  if (currentCityData && currentCityData.clinics && Array.isArray(currentCityData.clinics)) {
+    currentCityData.clinics.forEach(jsonClinic => {
+      // Check for duplicate by name
+      if (!clinics.some(c => c.Clinic_Name?.toLowerCase() === jsonClinic.name?.toLowerCase())) {
+        clinics.push({
+          Clinic_Name: jsonClinic.name,
+          Price_USD_Low: currentCityData.price_low_usd,
+          Price_USD_High: currentCityData.price_high_usd,
+          Address: jsonClinic.address || '',
+          Phone: jsonClinic.phone || '',
+          Website: jsonClinic.contact || jsonClinic.url || '',
+          Certifications: '',
+          Languages: 'English' // Default assumption if added manually
+        });
+      }
+    });
+  }
+
   const clinicList = document.getElementById('clinicList');
 
   if (clinics.length === 0) {
