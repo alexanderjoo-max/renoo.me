@@ -3894,6 +3894,502 @@ html.in-overlay .mobile-back-link {
 }
 
 /* =========================
+   IN-PAGE NAVIGATION
+========================= */
+.proc-nav {
+  position: sticky;
+  top: 60px;
+  z-index: 50;
+  margin: -16px -24px 40px;
+  padding: 0 24px;
+  background: rgba(20, 20, 30, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.proc-nav-inner {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 12px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.proc-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.proc-nav-link {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.proc-nav-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.proc-nav-link.active {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(89, 58, 150, 0.4), rgba(155, 45, 123, 0.3));
+}
+
+/* Hero Value Points */
+.proc-hero-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.proc-hero-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.proc-hero-value-icon {
+  font-size: 14px;
+}
+
+/* Info Grid (What Is It) */
+.proc-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.proc-info-card {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.proc-info-card-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.proc-info-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  color: #fff;
+}
+
+.proc-info-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+/* Two-Column Layout */
+.proc-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.proc-col-card {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.proc-col-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: #fff;
+}
+
+.proc-col-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.proc-col-card li {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+}
+
+.proc-good-candidates {
+  border-color: rgba(34, 197, 94, 0.2);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.proc-good-candidates h3 {
+  color: #22c55e;
+}
+
+.proc-not-suitable {
+  border-color: rgba(251, 191, 36, 0.2);
+  background: rgba(251, 191, 36, 0.05);
+}
+
+.proc-not-suitable h3 {
+  color: #fbbf24;
+}
+
+/* Steps */
+.proc-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.proc-step {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.proc-step-number {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #593a96, #9b2d7b);
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.proc-step-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 4px 0 6px 0;
+  color: #fff;
+}
+
+.proc-step-content p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+/* Quick Facts */
+.proc-quick-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+.proc-quick-fact {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.proc-quick-fact-label {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.proc-quick-fact-value {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Benefits Grid */
+.proc-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.proc-benefit-card {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.proc-benefit-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #fff;
+}
+
+.proc-benefit-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.proc-benefit-card li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 6px;
+}
+
+.proc-evidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Timeline */
+.proc-timeline {
+  position: relative;
+  padding-left: 48px;
+  margin-bottom: 24px;
+}
+
+.proc-timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(89, 58, 150, 0.6), rgba(155, 45, 123, 0.4));
+  border-radius: 1px;
+}
+
+.proc-timeline-item {
+  position: relative;
+  padding-bottom: 28px;
+}
+
+.proc-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.proc-timeline-marker {
+  position: absolute;
+  left: -48px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 26, 46, 0.95);
+  border: 2px solid rgba(89, 58, 150, 0.5);
+  border-radius: 50%;
+  font-size: 13px;
+}
+
+.proc-timeline-content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 4px 0 6px 0;
+  color: #fff;
+}
+
+.proc-timeline-content p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.proc-typical-plan {
+  padding: 16px 20px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Expanded Safety */
+.proc-common-effects {
+  border-color: rgba(251, 191, 36, 0.2);
+  background: rgba(251, 191, 36, 0.05);
+}
+
+.proc-common-effects h3 {
+  color: #fbbf24;
+}
+
+.proc-rare-risks {
+  border-color: rgba(248, 113, 113, 0.2);
+  background: rgba(248, 113, 113, 0.05);
+}
+
+.proc-rare-risks h3 {
+  color: #f87171;
+}
+
+.proc-protocols {
+  border-color: rgba(34, 197, 94, 0.2);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.proc-protocols h3 {
+  color: #22c55e;
+}
+
+.proc-screening-note {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* FAQ Accordion */
+.proc-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.proc-faq-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.proc-faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: inherit;
+}
+
+.proc-faq-question:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.proc-faq-icon {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.proc-faq-item.open .proc-faq-icon {
+  transform: rotate(180deg);
+}
+
+.proc-faq-answer {
+  display: none;
+  padding: 0 20px 18px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.proc-faq-item.open .proc-faq-answer {
+  display: block;
+}
+
+/* Responsive - new sections */
+@media (max-width: 768px) {
+  .proc-nav {
+    margin: -8px -20px 28px;
+    padding: 0 20px;
+  }
+
+  .proc-nav-link {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .proc-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .proc-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proc-benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proc-step {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .proc-quick-facts {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .proc-timeline {
+    padding-left: 44px;
+  }
+
+  .proc-timeline-marker {
+    left: -44px;
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+
+  .proc-col-card {
+    padding: 16px;
+  }
+
+  .proc-info-card {
+    padding: 16px;
+  }
+
+  .proc-benefit-card {
+    padding: 16px;
+  }
+}
+
+/* =========================
    BROWSE PROCEDURES MENU MEGA-NAV
 ========================= */
 .menu-procedure-dropdown {

@@ -284,8 +284,15 @@ function updatePageText(name) {
   }
   if (el('countryTableTitle')) el('countryTableTitle').textContent = `Average ${name} Cost by Country`;
   if (el('calcDesc')) el('calcDesc').textContent = `See what ${name} would actually cost you, including flights and hotels.`;
-  if (el('whyPricesVaryTitle')) el('whyPricesVaryTitle').textContent = `Why ${name} Prices Vary So Much`;
   if (el('topCitiesTitle')) el('topCitiesTitle').textContent = `Top Cities for ${name}`;
+  if (el('whatIsItTitle')) el('whatIsItTitle').textContent = `What Is ${name}?`;
+  if (el('whyChooseTitle')) el('whyChooseTitle').textContent = `Why People Choose ${name}`;
+  if (el('howItWorksTitle')) el('howItWorksTitle').textContent = `How ${name} Works`;
+  if (el('benefitsTitle')) el('benefitsTitle').textContent = `${name} Benefits`;
+  if (el('whoIsItForTitle')) el('whoIsItForTitle').textContent = `Who Is ${name} For?`;
+  if (el('resultsTitle')) el('resultsTitle').textContent = `${name} Results & Expectations`;
+  if (el('costsTitle')) el('costsTitle').textContent = `${name} Cost Factors`;
+  if (el('faqTitle')) el('faqTitle').textContent = `Frequently Asked Questions About ${name}`;
 }
 
 /* =========================
@@ -517,11 +524,167 @@ function calculateTrip() {
   `;
 }
 
+/* =========================
+   RENDER NEW CONTENT SECTIONS
+========================= */
+function renderHeroValues() {
+  const container = document.getElementById('procHeroValues');
+  if (!container) return;
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME];
+  if (!content || !content.heroValues) { container.style.display = 'none'; return; }
+
+  container.innerHTML = content.heroValues.map(v =>
+    `<div class="proc-hero-value"><span class="proc-hero-value-icon">${v.icon}</span><span>${v.text}</span></div>`
+  ).join('');
+}
+
+function renderWhatIsIt() {
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.whatIsIt;
+  if (!content) return;
+  const el = (id) => document.getElementById(id);
+  if (el('whatIsItDefinition')) el('whatIsItDefinition').textContent = content.definition;
+  if (el('whatIsItPurpose')) el('whatIsItPurpose').textContent = content.purpose;
+  if (el('whatIsItHowItWorks')) el('whatIsItHowItWorks').textContent = content.howItWorks;
+}
+
+function renderWhyChoose() {
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.whyChoose;
+  if (!content) return;
+  const el = (id) => document.getElementById(id);
+  if (el('whyChooseGoals')) el('whyChooseGoals').innerHTML = content.goals.map(g => `<li>${g}</li>`).join('');
+  if (el('whyChooseUseCases')) el('whyChooseUseCases').innerHTML = content.useCases.map(u => `<li>${u}</li>`).join('');
+}
+
+function renderHowItWorksSteps() {
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.howItWorks;
+  if (!content) return;
+  const el = (id) => document.getElementById(id);
+
+  if (el('howItWorksSteps')) {
+    el('howItWorksSteps').innerHTML = content.steps.map((s, i) =>
+      `<div class="proc-step"><div class="proc-step-number">${i + 1}</div><div class="proc-step-content"><h4>${s.title}</h4><p>${s.desc}</p></div></div>`
+    ).join('');
+  }
+  if (el('howItWorksDuration')) el('howItWorksDuration').textContent = content.duration;
+  if (el('howItWorksSetting')) el('howItWorksSetting').textContent = content.setting;
+  if (el('howItWorksAnesthesia')) el('howItWorksAnesthesia').textContent = content.anesthesia;
+}
+
+function renderBenefits() {
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.benefits;
+  if (!content) return;
+  const el = (id) => document.getElementById(id);
+  if (el('benefitsPhysical')) el('benefitsPhysical').innerHTML = content.physical.map(b => `<li>${b}</li>`).join('');
+  if (el('benefitsMental')) el('benefitsMental').innerHTML = content.mental.map(b => `<li>${b}</li>`).join('');
+  if (el('benefitsLongTerm')) el('benefitsLongTerm').innerHTML = content.longTerm.map(b => `<li>${b}</li>`).join('');
+  if (el('benefitsEvidence')) el('benefitsEvidence').textContent = '\uD83D\uDCCA Evidence Level: ' + content.evidenceLevel;
+}
+
+function renderWhoIsItFor() {
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.whoIsItFor;
+  if (!content) return;
+  const el = (id) => document.getElementById(id);
+  if (el('whoIsItForGood')) el('whoIsItForGood').innerHTML = content.goodCandidates.map(c => `<li>${c}</li>`).join('');
+  if (el('whoIsItForNot')) el('whoIsItForNot').innerHTML = content.notSuitableFor.map(c => `<li>${c}</li>`).join('');
+  if (el('whoIsItForScreening')) el('whoIsItForScreening').innerHTML = `<strong>Medical Screening:</strong> ${content.screeningRequired}`;
+}
+
+function renderResults() {
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.results;
+  if (!content) return;
+  const el = (id) => document.getElementById(id);
+  if (el('resultsImmediate')) el('resultsImmediate').textContent = content.immediate;
+  if (el('resultsShortTerm')) el('resultsShortTerm').textContent = content.shortTerm;
+  if (el('resultsMediumTerm')) el('resultsMediumTerm').textContent = content.mediumTerm;
+  if (el('resultsLongTerm')) el('resultsLongTerm').textContent = content.longTerm;
+  if (el('resultsTypicalPlan')) el('resultsTypicalPlan').innerHTML = `<strong>Typical Treatment Plan:</strong> ${content.typicalPlan}`;
+}
+
+function renderSafetyExpanded() {
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.safety;
+  if (!content) return;
+  const el = (id) => document.getElementById(id);
+  if (el('safetyCommonEffects')) el('safetyCommonEffects').innerHTML = content.commonEffects.map(e => `<li>${e}</li>`).join('');
+  if (el('safetyRareRisks')) el('safetyRareRisks').innerHTML = content.rareRisks.map(r => `<li>${r}</li>`).join('');
+  if (el('safetyProtocols')) el('safetyProtocols').innerHTML = content.protocols.map(p => `<li>${p}</li>`).join('');
+}
+
+function renderFaq() {
+  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.faq;
+  if (!content) return;
+  const el = (id) => document.getElementById(id);
+  if (el('faqList')) {
+    el('faqList').innerHTML = content.map((item, i) =>
+      `<div class="proc-faq-item" data-faq="${i}"><button class="proc-faq-question" onclick="toggleFaq(${i})"><span>${item.q}</span><span class="proc-faq-icon">\u25BC</span></button><div class="proc-faq-answer">${item.a}</div></div>`
+    ).join('');
+  }
+}
+
+function toggleFaq(index) {
+  const item = document.querySelector(`.proc-faq-item[data-faq="${index}"]`);
+  if (item) item.classList.toggle('open');
+}
+
+function renderNewSections() {
+  if (!PROCEDURE_CONTENT[PROCEDURE_NAME]) return;
+  renderHeroValues();
+  renderWhatIsIt();
+  renderWhyChoose();
+  renderHowItWorksSteps();
+  renderBenefits();
+  renderWhoIsItFor();
+  renderResults();
+  renderSafetyExpanded();
+  renderFaq();
+}
+
+/* =========================
+   IN-PAGE NAVIGATION
+========================= */
+function initProcNav() {
+  const nav = document.getElementById('procNav');
+  if (!nav) return;
+
+  const links = nav.querySelectorAll('.proc-nav-link');
+  const sections = [];
+
+  links.forEach(link => {
+    const id = link.getAttribute('href').replace('#', '');
+    const section = document.getElementById(id);
+    if (section) sections.push({ id, el: section, link });
+  });
+
+  function updateActiveLink() {
+    const scrollPos = window.scrollY + 130;
+    let active = sections[0];
+    for (const section of sections) {
+      if (section.el.offsetTop <= scrollPos) active = section;
+    }
+    links.forEach(l => l.classList.remove('active'));
+    if (active) active.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActiveLink, { passive: true });
+  updateActiveLink();
+
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = link.getAttribute('href').replace('#', '');
+      const target = document.getElementById(id);
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 110, behavior: 'smooth' });
+      }
+    });
+  });
+}
+
 function renderAll() {
   renderCountryTable();
   renderTopCities();
   renderRelatedProcedures();
   calculateTrip();
+  renderNewSections();
 }
 
 /* =========================
@@ -701,6 +864,7 @@ fetch('data.json')
     renderAll();
     renderCalculator();
     setupCollapsibleSections();
+    initProcNav();
     populateMenuMegaNav();
     initMenu();
   });

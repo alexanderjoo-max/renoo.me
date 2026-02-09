@@ -193,31 +193,28 @@
         <section class="proc-hero">
           <h1 class="proc-hero-title" id="procHeroTitle"></h1>
           <p class="proc-hero-desc" id="procHeroDesc"></p>
+          <div class="proc-hero-values" id="procHeroValues"></div>
         </section>
 
-        <!-- 2. Average Cost by Country (collapsible) -->
-        <section class="proc-section">
-          <button class="section-toggle" id="toggleCountryTable">
-            <span class="section-toggle-title" id="countryTableTitle">Average Cost by Country</span>
-            <span class="section-toggle-icon">&#9660;</span>
-          </button>
-          <div class="section-content" id="countryTableContent" style="display:none;">
-            <div class="proc-country-table">
-              <div class="proc-table-header">
-                <span class="proc-table-col-country">Country</span>
-                <span class="proc-table-col-price">Avg. Price</span>
-                <span class="proc-table-col-range">Range</span>
-                <span class="proc-table-col-savings">vs. USA</span>
-              </div>
-              <div id="countryTableBody">
-                <!-- Populated by JS -->
-              </div>
-            </div>
+        <!-- 2. In-Page Navigation -->
+        <nav class="proc-nav" id="procNav">
+          <div class="proc-nav-inner">
+            <a href="#procCalculator" class="proc-nav-link">Calculator</a>
+            <a href="#procWhatIsIt" class="proc-nav-link">What Is It</a>
+            <a href="#procWhyChoose" class="proc-nav-link">Why Choose</a>
+            <a href="#procHowItWorks" class="proc-nav-link">How It Works</a>
+            <a href="#procBenefits" class="proc-nav-link">Benefits</a>
+            <a href="#procWhoIsItFor" class="proc-nav-link">Who It's For</a>
+            <a href="#procResults" class="proc-nav-link">Results</a>
+            <a href="#procSafety" class="proc-nav-link">Safety</a>
+            <a href="#procCosts" class="proc-nav-link">Costs</a>
+            <a href="#procFaq" class="proc-nav-link">FAQ</a>
+            <a href="#procTopCities" class="proc-nav-link">Top Cities</a>
           </div>
-        </section>
+        </nav>
 
-        <!-- 3. Interactive Calculator -->
-        <section class="proc-section">
+        <!-- 3. Trip Cost Calculator -->
+        <section class="proc-section" id="procCalculator">
           <h2>Trip Cost Calculator</h2>
           <p class="proc-section-desc" id="calcDesc">See what this procedure would actually cost you, including flights and hotels.</p>
           <div class="proc-calculator">
@@ -233,47 +230,160 @@
                 </select>
               </div>
             </div>
-            <div id="calcResults" class="proc-calc-results">
-              <!-- Populated by JS -->
+            <div id="calcResults" class="proc-calc-results"></div>
+          </div>
+        </section>
+
+        <!-- 4. What Is This Procedure? -->
+        <section class="proc-section" id="procWhatIsIt">
+          <h2 id="whatIsItTitle">What Is This Procedure?</h2>
+          <div class="proc-info-grid">
+            <div class="proc-info-card">
+              <div class="proc-info-card-icon">📋</div>
+              <h3>Definition</h3>
+              <p id="whatIsItDefinition"></p>
+            </div>
+            <div class="proc-info-card">
+              <div class="proc-info-card-icon">🎯</div>
+              <h3>Purpose</h3>
+              <p id="whatIsItPurpose"></p>
+            </div>
+            <div class="proc-info-card">
+              <div class="proc-info-card-icon">⚙️</div>
+              <h3>How It Works</h3>
+              <p id="whatIsItHowItWorks"></p>
             </div>
           </div>
         </section>
 
-        <!-- 4. Why Prices Vary -->
-        <section class="proc-section">
-          <h2 id="whyPricesVaryTitle">Why Prices Vary So Much</h2>
-          <div class="proc-factors">
-            <div class="proc-factor">
-              <div class="proc-factor-icon">👨‍⚕️</div>
-              <div class="proc-factor-content">
-                <h3>Labor Costs</h3>
-                <p>Practitioner salaries are the largest cost driver. A specialist in New York earns 5-10x more than one in Bangkok, directly impacting what you pay.</p>
-              </div>
+        <!-- 5. Why People Choose This Procedure -->
+        <section class="proc-section" id="procWhyChoose">
+          <h2 id="whyChooseTitle">Why People Choose This Procedure</h2>
+          <div class="proc-two-col">
+            <div class="proc-col-card">
+              <h3>🎯 Common Goals</h3>
+              <ul id="whyChooseGoals"></ul>
             </div>
-            <div class="proc-factor">
-              <div class="proc-factor-icon">📋</div>
-              <div class="proc-factor-content">
-                <h3>Regulation & Overhead</h3>
-                <p>Stricter regulatory environments mean higher compliance costs. Clinic rent, insurance, and licensing fees in Western countries add significantly to the final price.</p>
-              </div>
-            </div>
-            <div class="proc-factor">
-              <div class="proc-factor-icon">💱</div>
-              <div class="proc-factor-content">
-                <h3>Currency & Purchasing Power</h3>
-                <p>Favorable exchange rates make destinations like Turkey, Thailand, and Mexico substantially cheaper for international patients without compromising quality.</p>
-              </div>
+            <div class="proc-col-card">
+              <h3>💡 Who It's Popular With</h3>
+              <ul id="whyChooseUseCases"></ul>
             </div>
           </div>
         </section>
 
-        <!-- 5. Safety & Standards -->
-        <section class="proc-section">
-          <h2>Safety & Standards</h2>
+        <!-- 6. How The Procedure Works -->
+        <section class="proc-section" id="procHowItWorks">
+          <h2 id="howItWorksTitle">How It Works</h2>
+          <div class="proc-steps" id="howItWorksSteps"></div>
+          <div class="proc-quick-facts">
+            <div class="proc-quick-fact">
+              <span class="proc-quick-fact-label">Duration:</span>
+              <span class="proc-quick-fact-value" id="howItWorksDuration"></span>
+            </div>
+            <div class="proc-quick-fact">
+              <span class="proc-quick-fact-label">Setting:</span>
+              <span class="proc-quick-fact-value" id="howItWorksSetting"></span>
+            </div>
+            <div class="proc-quick-fact">
+              <span class="proc-quick-fact-label">Anesthesia:</span>
+              <span class="proc-quick-fact-value" id="howItWorksAnesthesia"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Benefits -->
+        <section class="proc-section" id="procBenefits">
+          <h2 id="benefitsTitle">Benefits</h2>
+          <div class="proc-benefits-grid">
+            <div class="proc-benefit-card">
+              <h3>💪 Physical Benefits</h3>
+              <ul id="benefitsPhysical"></ul>
+            </div>
+            <div class="proc-benefit-card">
+              <h3>🧠 Mental &amp; Emotional</h3>
+              <ul id="benefitsMental"></ul>
+            </div>
+            <div class="proc-benefit-card">
+              <h3>⏳ Long-Term Benefits</h3>
+              <ul id="benefitsLongTerm"></ul>
+            </div>
+          </div>
+          <div class="proc-evidence-badge" id="benefitsEvidence"></div>
+        </section>
+
+        <!-- 8. Who This Is For -->
+        <section class="proc-section" id="procWhoIsItFor">
+          <h2 id="whoIsItForTitle">Who Is This For?</h2>
+          <div class="proc-two-col">
+            <div class="proc-col-card proc-good-candidates">
+              <h3>✅ Good Candidates</h3>
+              <ul id="whoIsItForGood"></ul>
+            </div>
+            <div class="proc-col-card proc-not-suitable">
+              <h3>⚠️ May Not Be Suitable For</h3>
+              <ul id="whoIsItForNot"></ul>
+            </div>
+          </div>
+          <div class="proc-screening-note" id="whoIsItForScreening"></div>
+        </section>
+
+        <!-- 9. Results & Expectations -->
+        <section class="proc-section" id="procResults">
+          <h2 id="resultsTitle">Results &amp; Expectations</h2>
+          <div class="proc-timeline">
+            <div class="proc-timeline-item">
+              <div class="proc-timeline-marker">⏱️</div>
+              <div class="proc-timeline-content">
+                <h4>Immediately After</h4>
+                <p id="resultsImmediate"></p>
+              </div>
+            </div>
+            <div class="proc-timeline-item">
+              <div class="proc-timeline-marker">📅</div>
+              <div class="proc-timeline-content">
+                <h4>1–2 Weeks</h4>
+                <p id="resultsShortTerm"></p>
+              </div>
+            </div>
+            <div class="proc-timeline-item">
+              <div class="proc-timeline-marker">📆</div>
+              <div class="proc-timeline-content">
+                <h4>1–3 Months</h4>
+                <p id="resultsMediumTerm"></p>
+              </div>
+            </div>
+            <div class="proc-timeline-item">
+              <div class="proc-timeline-marker">🗓️</div>
+              <div class="proc-timeline-content">
+                <h4>Long-Term</h4>
+                <p id="resultsLongTerm"></p>
+              </div>
+            </div>
+          </div>
+          <div class="proc-typical-plan" id="resultsTypicalPlan"></div>
+        </section>
+
+        <!-- 10. Safety, Risks & Side Effects -->
+        <section class="proc-section" id="procSafety">
+          <h2>Safety, Risks &amp; Side Effects</h2>
           <div class="proc-safety">
+            <div class="proc-safety-block proc-common-effects">
+              <h3>Common Side Effects</h3>
+              <ul id="safetyCommonEffects"></ul>
+            </div>
+            <div class="proc-safety-block proc-rare-risks">
+              <h3>Rare Risks</h3>
+              <ul id="safetyRareRisks"></ul>
+            </div>
+            <div class="proc-safety-block proc-protocols">
+              <h3>Safety Protocols</h3>
+              <ul id="safetyProtocols"></ul>
+            </div>
+          </div>
+          <div class="proc-safety" style="margin-top: 20px;">
             <div class="proc-safety-block">
               <h3>Accreditation to Look For</h3>
-              <ul id="safetyAccreditation">
+              <ul>
                 <li><strong>JCI (Joint Commission International)</strong> &mdash; the gold standard for international hospital accreditation</li>
                 <li><strong>Board-certified practitioners</strong> &mdash; verify credentials in the country's medical registry</li>
                 <li><strong>GCR (Global Clinic Rating)</strong> &mdash; independent quality scoring for medical tourism clinics</li>
@@ -292,21 +402,68 @@
           </div>
         </section>
 
-        <!-- 6. Internal Links -->
-        <section class="proc-section">
-          <h2 id="topCitiesTitle">Top Cities</h2>
-          <div class="proc-city-grid" id="topCitiesGrid">
-            <!-- Populated by JS -->
+        <!-- 11. Cost Factors -->
+        <section class="proc-section" id="procCosts">
+          <h2 id="costsTitle">Cost Factors</h2>
+          <button class="section-toggle" id="toggleCountryTable">
+            <span class="section-toggle-title" id="countryTableTitle">Average Cost by Country</span>
+            <span class="section-toggle-icon">&#9660;</span>
+          </button>
+          <div class="section-content" id="countryTableContent" style="display:none;">
+            <div class="proc-country-table">
+              <div class="proc-table-header">
+                <span class="proc-table-col-country">Country</span>
+                <span class="proc-table-col-price">Avg. Price</span>
+                <span class="proc-table-col-range">Range</span>
+                <span class="proc-table-col-savings">vs. USA</span>
+              </div>
+              <div id="countryTableBody"></div>
+            </div>
+          </div>
+          <div class="proc-factors" style="margin-top: 28px;">
+            <div class="proc-factor">
+              <div class="proc-factor-icon">👨‍⚕️</div>
+              <div class="proc-factor-content">
+                <h3>Labor Costs</h3>
+                <p>Practitioner salaries are the largest cost driver. A specialist in New York earns 5-10x more than one in Bangkok, directly impacting what you pay.</p>
+              </div>
+            </div>
+            <div class="proc-factor">
+              <div class="proc-factor-icon">📋</div>
+              <div class="proc-factor-content">
+                <h3>Regulation &amp; Overhead</h3>
+                <p>Stricter regulatory environments mean higher compliance costs. Clinic rent, insurance, and licensing fees in Western countries add significantly to the final price.</p>
+              </div>
+            </div>
+            <div class="proc-factor">
+              <div class="proc-factor-icon">💱</div>
+              <div class="proc-factor-content">
+                <h3>Currency &amp; Purchasing Power</h3>
+                <p>Favorable exchange rates make destinations like Turkey, Thailand, and Mexico substantially cheaper for international patients without compromising quality.</p>
+              </div>
+            </div>
           </div>
         </section>
 
+        <!-- 12. FAQ -->
+        <section class="proc-section" id="procFaq">
+          <h2 id="faqTitle">Frequently Asked Questions</h2>
+          <div class="proc-faq-list" id="faqList"></div>
+        </section>
+
+        <!-- 13. Top Cities -->
+        <section class="proc-section" id="procTopCities">
+          <h2 id="topCitiesTitle">Top Cities</h2>
+          <div class="proc-city-grid" id="topCitiesGrid"></div>
+        </section>
+
+        <!-- 14. Related Procedures -->
         <section class="proc-section">
           <h2>Related Procedures</h2>
-          <div class="proc-related" id="relatedProcedures">
-            <!-- Populated by JS -->
-          </div>
+          <div class="proc-related" id="relatedProcedures"></div>
         </section>
 
+        <!-- 15. Final CTA -->
         <div class="proc-cta">
           <a href="/" class="about-cta-button">Explore All Procedures on the Map &#8594;</a>
         </div>
@@ -318,6 +475,7 @@
     <p>&copy; 2026 Renoo.me. All rights reserved.</p>
   </footer>
 
+  <script src="procedure-content.js"></script>
   <script src="procedure.js"></script>
 </body>
 
