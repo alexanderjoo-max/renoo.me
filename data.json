@@ -20001,7 +20001,13 @@
     "source": "Clinic websites + aggregators",
     "caveats": "Resort recovery destination, limited specialty procedures",
     "lat": -8.3405,
-    "lng": 115.092
+    "lng": 115.092,
+    "clinics": [
+      {
+        "name": "Tanam Gigi",
+        "contact": "https://www.instagram.com/tanamgigi"
+      }
+    ]
   },
   {
     "procedure": "Dental Veneers (Full Mouth)",
