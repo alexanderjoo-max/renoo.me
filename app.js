@@ -454,7 +454,8 @@ const PROCEDURE_CATEGORIES = {
     "Facelift",
     "Rhinoplasty",
     "Hair Transplant",
-    "Dental Veneers"
+    "Dental Veneers",
+    "Clear Aligners"
   ],
   "Body": [
     "Breast Augmentation",
