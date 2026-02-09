@@ -19929,7 +19929,14 @@
     "source": "Clinic websites + aggregators",
     "caveats": "Resort recovery destination, limited specialty procedures",
     "lat": -8.3405,
-    "lng": 115.092
+    "lng": 115.092,
+    "clinics": [
+      {
+        "name": "Anaya Aesthetics",
+        "contact": "https://anaya-aesthetics.com/",
+        "notes": "Botox, PRP, Fillers, HIFU"
+      }
+    ]
   },
   {
     "procedure": "Brazilian Butt Lift (BBL)",
@@ -22765,7 +22772,14 @@
     "source": "Clinic websites + medical tourism aggregators",
     "caveats": "Tourist-oriented clinics",
     "lat": -8.3405,
-    "lng": 115.092
+    "lng": 115.092,
+    "clinics": [
+      {
+        "name": "Anaya Aesthetics",
+        "contact": "https://anaya-aesthetics.com/",
+        "notes": "Botox, PRP, Fillers, HIFU"
+      }
+    ]
   },
   {
     "procedure": "Peptide Therapy",
