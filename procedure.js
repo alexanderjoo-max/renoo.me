@@ -656,13 +656,17 @@ function initProcNav() {
   });
 
   function updateActiveLink() {
-    const scrollPos = window.scrollY + 130;
+    const scrollPos = window.scrollY + 140;
     let active = sections[0];
     for (const section of sections) {
-      if (section.el.offsetTop <= scrollPos) active = section;
+      const top = section.el.getBoundingClientRect().top + window.scrollY;
+      if (top <= scrollPos) active = section;
     }
     links.forEach(l => l.classList.remove('active'));
-    if (active) active.link.classList.add('active');
+    if (active) {
+      active.link.classList.add('active');
+      active.link.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    }
   }
 
   window.addEventListener('scroll', updateActiveLink, { passive: true });
@@ -674,7 +678,8 @@ function initProcNav() {
       const id = link.getAttribute('href').replace('#', '');
       const target = document.getElementById(id);
       if (target) {
-        window.scrollTo({ top: target.offsetTop - 110, behavior: 'smooth' });
+        const top = target.getBoundingClientRect().top + window.scrollY - 120;
+        window.scrollTo({ top, behavior: 'smooth' });
       }
     });
   });

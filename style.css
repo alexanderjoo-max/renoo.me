@@ -3963,24 +3963,26 @@ html.in-overlay .mobile-back-link {
   top: 60px;
   z-index: 50;
   margin: -16px -24px 40px;
-  padding: 0 24px;
   background: rgba(20, 20, 30, 0.95);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.proc-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .proc-nav-inner {
   display: flex;
   gap: 6px;
-  overflow-x: auto;
-  padding: 12px 0;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.proc-nav-inner::-webkit-scrollbar {
-  display: none;
+  padding: 12px 24px;
+  width: max-content;
+  min-width: 100%;
 }
 
 .proc-nav-link {
@@ -4397,7 +4399,10 @@ html.in-overlay .mobile-back-link {
 @media (max-width: 768px) {
   .proc-nav {
     margin: -8px -20px 28px;
-    padding: 0 20px;
+  }
+
+  .proc-nav-inner {
+    padding: 10px 20px;
   }
 
   .proc-nav-link {
