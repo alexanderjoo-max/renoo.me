@@ -665,7 +665,13 @@ function initProcNav() {
     links.forEach(l => l.classList.remove('active'));
     if (active) {
       active.link.classList.add('active');
-      active.link.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      // Scroll nav horizontally to show active link (without scrolling the page)
+      const navEl = nav;
+      const linkRect = active.link.getBoundingClientRect();
+      const navRect = navEl.getBoundingClientRect();
+      if (linkRect.left < navRect.left || linkRect.right > navRect.right) {
+        navEl.scrollLeft += linkRect.left - navRect.left - 24;
+      }
     }
   }
 
