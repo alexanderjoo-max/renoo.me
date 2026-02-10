@@ -276,6 +276,7 @@ function updatePageText(name) {
   const icon = getIcon(name);
   const el = (id) => document.getElementById(id);
 
+  if (el('headerProcedureName')) el('headerProcedureName').textContent = `${icon} ${name}`;
   if (el('procHeroTitle')) el('procHeroTitle').textContent = `${icon} ${name}`;
   if (el('procHeroDesc')) {
     const desc = procedureDescriptions[name] || '';

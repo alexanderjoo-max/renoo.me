@@ -111,6 +111,21 @@ html {
   display: block;
 }
 
+.header-procedure-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.header-procedure-name:empty {
+  display: none;
+}
+
 .header-search {
   flex: 1;
   max-width: 400px;
@@ -1818,6 +1833,53 @@ html {
 
 
 /* Bottom Section - Trip Calculator + Collapsible Sections */
+/* City Procedure Intro */
+.city-procedure-intro {
+  padding: 0 0 24px 0;
+}
+
+.city-procedure-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 16px 0;
+}
+
+.city-procedure-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.city-procedure-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+}
+
+.city-procedure-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #c084fc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.city-procedure-link:hover {
+  color: #d8b4fe;
+}
+
 .city-bottom-section {
   background: rgba(0, 0, 0, 0.25);
   margin: 0 -20px;

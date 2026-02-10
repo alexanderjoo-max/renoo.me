@@ -260,6 +260,13 @@ function renderPage() {
   if (cityHeaderName) cityHeaderName.textContent = `${flag} ${cityName}`;
   if (cityHeaderProcedure) cityHeaderProcedure.textContent = `${icon} ${procedure}`;
 
+  // Set procedure name in fixed header bar
+  const headerProcName = document.getElementById('headerProcedureName');
+  if (headerProcName) headerProcName.textContent = `${icon} ${procedure}`;
+
+  // Populate procedure intro section
+  renderProcedureIntro(procedure, icon);
+
   // Set city header (large hero text)
   const cityStatsHeader = document.getElementById('cityStatsHeader');
 
@@ -576,6 +583,36 @@ document.addEventListener('DOMContentLoaded', () => {
   // Setup collapsible sections
   setupCollapsibleSections();
 });
+
+/* =========================
+   PROCEDURE INTRO ON CITY PAGE
+========================= */
+function renderProcedureIntro(procName, icon) {
+  const section = document.getElementById('cityProcedureIntro');
+  if (!section) return;
+
+  const content = typeof PROCEDURE_CONTENT !== 'undefined' ? PROCEDURE_CONTENT[procName] : null;
+  if (!content) return;
+
+  const descEl = document.getElementById('cityProcedureDesc');
+  if (descEl && content.whatIsIt?.definition) {
+    descEl.textContent = content.whatIsIt.definition;
+  }
+
+  const chipsEl = document.getElementById('cityProcedureChips');
+  if (chipsEl && content.heroValues) {
+    chipsEl.innerHTML = content.heroValues.map(v =>
+      `<span class="city-procedure-chip"><span>${v.icon}</span>${v.text}</span>`
+    ).join('');
+  }
+
+  const linkEl = document.getElementById('cityProcedureLink');
+  const linkNameEl = document.getElementById('cityProcedureLinkName');
+  if (linkEl) linkEl.href = `procedure.html?procedure=${encodeURIComponent(procName)}`;
+  if (linkNameEl) linkNameEl.textContent = procName;
+
+  section.style.display = '';
+}
 
 /* =========================
    COLLAPSIBLE SECTIONS

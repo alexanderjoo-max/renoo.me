@@ -63,6 +63,7 @@
       <div class="header-logo">
         <a href="/"><img src="/logo-white.svg" alt="Renoo.me" /></a>
       </div>
+      <span class="header-procedure-name" id="headerProcedureName"></span>
       <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
         <span></span>
         <span></span>
@@ -221,6 +222,15 @@
       <div class="city-stats-header" id="cityStatsHeader"></div>
     </section>
 
+    <!-- Procedure Intro -->
+    <section class="city-procedure-intro" id="cityProcedureIntro" style="display:none;">
+      <p class="city-procedure-desc" id="cityProcedureDesc"></p>
+      <div class="city-procedure-chips" id="cityProcedureChips"></div>
+      <a class="city-procedure-link" id="cityProcedureLink" href="#">
+        Learn more about <span id="cityProcedureLinkName"></span> &rarr;
+      </a>
+    </section>
+
     <!-- Bottom Section: Trip Calculator + Collapsible Sections -->
     <div class="city-bottom-section">
       <!-- Trip Calculator -->
@@ -288,6 +298,7 @@
     </div>
   </main>
 
+  <script src="procedure-content.js"></script>
   <script src="city.js?v=3"></script>
 </body>
 
