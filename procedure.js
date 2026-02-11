@@ -4,6 +4,15 @@
 const urlParams = new URLSearchParams(window.location.search);
 const PROCEDURE_NAME = urlParams.get('procedure');
 
+function stripParens(s) {
+  return (s ?? "").toString().replace(/\s*\([^)]*\)\s*/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function matchesProcedure(dataName, targetName) {
+  if (!dataName || !targetName) return false;
+  return stripParens(dataName).toLowerCase() === stripParens(targetName).toLowerCase();
+}
+
 /* =========================
    PROCEDURE CATEGORIES (mirrors app.js)
 ========================= */
@@ -31,7 +40,7 @@ const procedureIcons = {
 };
 
 function getIcon(name) {
-  return procedureIcons[name] || '\u2728';
+  return procedureIcons[name] || procedureIcons[stripParens(name)] || '\u2728';
 }
 
 /* =========================
@@ -279,7 +288,7 @@ function updatePageText(name) {
   if (el('headerProcedureName')) el('headerProcedureName').textContent = `${icon} ${name}`;
   if (el('procHeroTitle')) el('procHeroTitle').textContent = `${icon} ${name}`;
   if (el('procHeroDesc')) {
-    const desc = procedureDescriptions[name] || '';
+    const desc = procedureDescriptions[name] || procedureDescriptions[stripParens(name)] || '';
     el('procHeroDesc').textContent = desc;
     el('procHeroDesc').style.display = desc ? '' : 'none';
   }
@@ -300,13 +309,14 @@ function updatePageText(name) {
    RELATED PROCEDURES (dynamic by category)
 ========================= */
 function getRelatedProcedures(name) {
+  const stripped = stripParens(name).toLowerCase();
   for (const [category, procs] of Object.entries(PROCEDURE_CATEGORIES)) {
-    if (procs.includes(name)) {
-      return procs.filter(p => p !== name).map(p => ({ name: p, icon: getIcon(p) }));
+    if (procs.some(p => stripParens(p).toLowerCase() === stripped)) {
+      return procs.filter(p => stripParens(p).toLowerCase() !== stripped).map(p => ({ name: p, icon: getIcon(p) }));
     }
   }
   // Not in any category — return first 6 procedures from other categories
-  const all = Object.values(PROCEDURE_CATEGORIES).flat().filter(p => p !== name);
+  const all = Object.values(PROCEDURE_CATEGORIES).flat().filter(p => stripParens(p).toLowerCase() !== stripped);
   return all.slice(0, 6).map(p => ({ name: p, icon: getIcon(p) }));
 }
 
@@ -421,7 +431,7 @@ function renderRelatedProcedures() {
   if (!container) return;
 
   const related = getRelatedProcedures(PROCEDURE_NAME);
-  const available = related.filter(rp => allData.some(d => d.procedure === rp.name));
+  const available = related.filter(rp => allData.some(d => matchesProcedure(d.procedure, rp.name)));
 
   let html = '';
   available.forEach(rp => {
@@ -526,12 +536,25 @@ function calculateTrip() {
 }
 
 /* =========================
+   CONTENT LOOKUP (fuzzy match for parenthetical variants)
+========================= */
+function getProcContent(name) {
+  if (!name || typeof PROCEDURE_CONTENT === 'undefined') return null;
+  if (PROCEDURE_CONTENT[name]) return PROCEDURE_CONTENT[name];
+  const stripped = stripParens(name).toLowerCase();
+  for (const key of Object.keys(PROCEDURE_CONTENT)) {
+    if (stripParens(key).toLowerCase() === stripped) return PROCEDURE_CONTENT[key];
+  }
+  return null;
+}
+
+/* =========================
    RENDER NEW CONTENT SECTIONS
 ========================= */
 function renderHeroValues() {
   const container = document.getElementById('procHeroValues');
   if (!container) return;
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME];
+  const content = getProcContent(PROCEDURE_NAME);
   if (!content || !content.heroValues) { container.style.display = 'none'; return; }
 
   container.innerHTML = content.heroValues.map(v =>
@@ -540,7 +563,7 @@ function renderHeroValues() {
 }
 
 function renderWhatIsIt() {
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.whatIsIt;
+  const content = getProcContent(PROCEDURE_NAME)?.whatIsIt;
   if (!content) return;
   const el = (id) => document.getElementById(id);
   if (el('whatIsItDefinition')) el('whatIsItDefinition').textContent = content.definition;
@@ -549,7 +572,7 @@ function renderWhatIsIt() {
 }
 
 function renderWhyChoose() {
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.whyChoose;
+  const content = getProcContent(PROCEDURE_NAME)?.whyChoose;
   if (!content) return;
   const el = (id) => document.getElementById(id);
   if (el('whyChooseGoals')) el('whyChooseGoals').innerHTML = content.goals.map(g => `<li>${g}</li>`).join('');
@@ -557,7 +580,7 @@ function renderWhyChoose() {
 }
 
 function renderHowItWorksSteps() {
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.howItWorks;
+  const content = getProcContent(PROCEDURE_NAME)?.howItWorks;
   if (!content) return;
   const el = (id) => document.getElementById(id);
 
@@ -572,7 +595,7 @@ function renderHowItWorksSteps() {
 }
 
 function renderBenefits() {
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.benefits;
+  const content = getProcContent(PROCEDURE_NAME)?.benefits;
   if (!content) return;
   const el = (id) => document.getElementById(id);
   if (el('benefitsPhysical')) el('benefitsPhysical').innerHTML = content.physical.map(b => `<li>${b}</li>`).join('');
@@ -582,7 +605,7 @@ function renderBenefits() {
 }
 
 function renderWhoIsItFor() {
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.whoIsItFor;
+  const content = getProcContent(PROCEDURE_NAME)?.whoIsItFor;
   if (!content) return;
   const el = (id) => document.getElementById(id);
   if (el('whoIsItForGood')) el('whoIsItForGood').innerHTML = content.goodCandidates.map(c => `<li>${c}</li>`).join('');
@@ -591,7 +614,7 @@ function renderWhoIsItFor() {
 }
 
 function renderResults() {
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.results;
+  const content = getProcContent(PROCEDURE_NAME)?.results;
   if (!content) return;
   const el = (id) => document.getElementById(id);
   if (el('resultsImmediate')) el('resultsImmediate').textContent = content.immediate;
@@ -602,7 +625,7 @@ function renderResults() {
 }
 
 function renderSafetyExpanded() {
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.safety;
+  const content = getProcContent(PROCEDURE_NAME)?.safety;
   if (!content) return;
   const el = (id) => document.getElementById(id);
   if (el('safetyCommonEffects')) el('safetyCommonEffects').innerHTML = content.commonEffects.map(e => `<li>${e}</li>`).join('');
@@ -611,7 +634,7 @@ function renderSafetyExpanded() {
 }
 
 function renderFaq() {
-  const content = PROCEDURE_CONTENT[PROCEDURE_NAME]?.faq;
+  const content = getProcContent(PROCEDURE_NAME)?.faq;
   if (!content) return;
   const el = (id) => document.getElementById(id);
   if (el('faqList')) {
@@ -627,7 +650,7 @@ function toggleFaq(index) {
 }
 
 function renderNewSections() {
-  if (!PROCEDURE_CONTENT[PROCEDURE_NAME]) return;
+  if (!getProcContent(PROCEDURE_NAME)) return;
   renderHeroValues();
   renderWhatIsIt();
   renderWhyChoose();
@@ -863,8 +886,8 @@ fetch('data.json')
   .then(data => {
     allData = data;
 
-    // Check if procedure is valid
-    if (!PROCEDURE_NAME || !data.some(d => d.procedure === PROCEDURE_NAME)) {
+    // Check if procedure is valid (fuzzy match to handle parenthetical variants)
+    if (!PROCEDURE_NAME || !data.some(d => matchesProcedure(d.procedure, PROCEDURE_NAME))) {
       // Show browse landing
       renderBrowseLanding();
       populateMenuMegaNav();
@@ -872,7 +895,7 @@ fetch('data.json')
       return;
     }
 
-    procedureData = data.filter(d => d.procedure === PROCEDURE_NAME);
+    procedureData = data.filter(d => matchesProcedure(d.procedure, PROCEDURE_NAME));
 
     // Show dynamic content, hide landing
     document.getElementById('procDynamicContent').style.display = '';
