@@ -264,6 +264,9 @@ function renderPage() {
   const headerProcName = document.getElementById('headerProcedureName');
   if (headerProcName) headerProcName.textContent = `${icon} ${procedure}`;
 
+  // Show proc-nav in header with links to procedure page
+  initCityProcNav(procedure);
+
   // Populate procedure intro section
   renderProcedureIntro(procedure, icon);
 
@@ -583,6 +586,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // Setup collapsible sections
   setupCollapsibleSections();
 });
+
+/* =========================
+   PROCEDURE NAV ON CITY PAGE
+========================= */
+function initCityProcNav(procName) {
+  const nav = document.getElementById('procNav');
+  if (!nav) return;
+
+  const procUrl = `procedure.html?procedure=${encodeURIComponent(procName)}`;
+
+  // Set href on all nav links to point to procedure page sections
+  nav.querySelectorAll('.proc-nav-link').forEach(link => {
+    const section = link.getAttribute('data-section');
+    if (section) link.href = `${procUrl}#${section}`;
+  });
+
+  nav.style.display = '';
+  document.body.classList.add('has-proc-nav');
+}
 
 /* =========================
    PROCEDURE INTRO ON CITY PAGE

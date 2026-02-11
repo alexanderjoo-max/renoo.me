@@ -646,17 +646,23 @@ function initProcNav() {
   const nav = document.getElementById('procNav');
   if (!nav) return;
 
+  const header = document.getElementById('fixedHeader');
+  const getHeaderH = () => header ? header.offsetHeight : 100;
+
   const links = nav.querySelectorAll('.proc-nav-link');
   const sections = [];
 
   links.forEach(link => {
-    const id = link.getAttribute('href').replace('#', '');
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    const id = href.replace('#', '');
     const section = document.getElementById(id);
     if (section) sections.push({ id, el: section, link });
   });
 
   function updateActiveLink() {
-    const scrollPos = window.scrollY + 140;
+    const headerH = getHeaderH();
+    const scrollPos = window.scrollY + headerH + 20;
     let active = sections[0];
     for (const section of sections) {
       const top = section.el.getBoundingClientRect().top + window.scrollY;
@@ -665,12 +671,10 @@ function initProcNav() {
     links.forEach(l => l.classList.remove('active'));
     if (active) {
       active.link.classList.add('active');
-      // Scroll nav horizontally to show active link (without scrolling the page)
-      const navEl = nav;
       const linkRect = active.link.getBoundingClientRect();
-      const navRect = navEl.getBoundingClientRect();
+      const navRect = nav.getBoundingClientRect();
       if (linkRect.left < navRect.left || linkRect.right > navRect.right) {
-        navEl.scrollLeft += linkRect.left - navRect.left - 24;
+        nav.scrollLeft += linkRect.left - navRect.left - 24;
       }
     }
   }
@@ -681,10 +685,13 @@ function initProcNav() {
   links.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const id = link.getAttribute('href').replace('#', '');
+      const href = link.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      const id = href.replace('#', '');
       const target = document.getElementById(id);
       if (target) {
-        const top = target.getBoundingClientRect().top + window.scrollY - 120;
+        const headerH = getHeaderH();
+        const top = target.getBoundingClientRect().top + window.scrollY - headerH - 10;
         window.scrollTo({ top, behavior: 'smooth' });
       }
     });
@@ -871,6 +878,11 @@ fetch('data.json')
     document.getElementById('procDynamicContent').style.display = '';
     document.getElementById('procBrowseLanding').style.display = 'none';
 
+    // Show proc-nav in header
+    const procNav = document.getElementById('procNav');
+    if (procNav) procNav.style.display = '';
+    document.body.classList.add('has-proc-nav');
+
     updateSEO(PROCEDURE_NAME);
     updatePageText(PROCEDURE_NAME);
     renderAll();
@@ -879,4 +891,17 @@ fetch('data.json')
     initProcNav();
     populateMenuMegaNav();
     initMenu();
+
+    // Scroll to hash section if arriving from another page
+    if (window.location.hash) {
+      const hashId = window.location.hash.replace('#', '');
+      const target = document.getElementById(hashId);
+      if (target) {
+        setTimeout(() => {
+          const header = document.getElementById('fixedHeader');
+          const headerH = header ? header.offsetHeight : 100;
+          window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - headerH - 10, behavior: 'smooth' });
+        }, 300);
+      }
+    }
   });
