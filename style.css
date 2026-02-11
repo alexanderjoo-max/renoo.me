@@ -109,21 +109,6 @@ html {
   display: block;
 }
 
-.header-procedure-name {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-}
-
-.header-procedure-name:empty {
-  display: none;
-}
-
 .header-search {
   flex: 1;
   max-width: 400px;
@@ -3970,10 +3955,10 @@ html.in-overlay .mobile-back-link {
   display: none;
 }
 
-/* When proc-nav is visible, push content down */
-.has-proc-nav .proc-main,
-.has-proc-nav .city-main {
-  padding-top: 120px;
+/* When proc-nav is in the header, push content down */
+header.has-proc-nav ~ .proc-main,
+header.has-proc-nav ~ .city-main {
+  padding-top: 110px;
 }
 
 .proc-nav-inner {

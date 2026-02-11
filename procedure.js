@@ -285,7 +285,6 @@ function updatePageText(name) {
   const icon = getIcon(name);
   const el = (id) => document.getElementById(id);
 
-  if (el('headerProcedureName')) el('headerProcedureName').textContent = `${icon} ${name}`;
   if (el('procHeroTitle')) el('procHeroTitle').textContent = `${icon} ${name}`;
   if (el('procHeroDesc')) {
     const desc = procedureDescriptions[name] || procedureDescriptions[stripParens(name)] || '';
@@ -743,7 +742,7 @@ function renderBrowseLanding() {
 
   let html = '';
   for (const [category, categoryProcs] of Object.entries(PROCEDURE_CATEGORIES)) {
-    const available = categoryProcs.filter(p => procedures.includes(p));
+    const available = categoryProcs.filter(p => procedures.some(dp => matchesProcedure(dp, p)));
     if (available.length === 0) continue;
     html += `<div class="proc-landing-category">
       <h3 class="proc-landing-category-title">${category}</h3>
@@ -760,7 +759,7 @@ function renderBrowseLanding() {
 
   // Uncategorized
   const allCategorized = Object.values(PROCEDURE_CATEGORIES).flat();
-  const uncategorized = procedures.filter(p => !allCategorized.includes(p));
+  const uncategorized = procedures.filter(p => !allCategorized.some(cp => matchesProcedure(cp, p)));
   if (uncategorized.length > 0) {
     html += `<div class="proc-landing-category">
       <h3 class="proc-landing-category-title">Other</h3>
@@ -804,7 +803,7 @@ function populateMenuMegaNav() {
 
   let html = '';
   for (const [category, categoryProcs] of Object.entries(PROCEDURE_CATEGORIES)) {
-    const available = categoryProcs.filter(p => procedures.includes(p));
+    const available = categoryProcs.filter(p => procedures.some(dp => matchesProcedure(dp, p)));
     if (available.length === 0) continue;
     html += `<div class="menu-mega-nav-category">
       <h4 class="menu-mega-nav-cat-title">${category}</h4>
@@ -900,11 +899,6 @@ fetch('data.json')
     // Show dynamic content, hide landing
     document.getElementById('procDynamicContent').style.display = '';
     document.getElementById('procBrowseLanding').style.display = 'none';
-
-    // Show proc-nav in header
-    const procNav = document.getElementById('procNav');
-    if (procNav) procNav.style.display = '';
-    document.body.classList.add('has-proc-nav');
 
     updateSEO(PROCEDURE_NAME);
     updatePageText(PROCEDURE_NAME);

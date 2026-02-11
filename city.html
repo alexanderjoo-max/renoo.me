@@ -58,31 +58,20 @@
 
 
   <!-- Header -->
-  <header id="fixedHeader" class="fixed-header">
+  <header id="fixedHeader" class="fixed-header has-proc-nav">
     <div class="header-content">
       <div class="header-logo">
         <a href="/"><img src="/logo-white.svg" alt="Renoo.me" /></a>
       </div>
-      <span class="header-procedure-name" id="headerProcedureName"></span>
       <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
     </div>
-    <nav class="proc-nav" id="procNav" style="display:none;">
-      <div class="proc-nav-inner">
-        <a class="proc-nav-link" data-section="procCalculator">Calculator</a>
-        <a class="proc-nav-link" data-section="procWhatIsIt">What Is It</a>
-        <a class="proc-nav-link" data-section="procWhyChoose">Why Choose</a>
-        <a class="proc-nav-link" data-section="procHowItWorks">How It Works</a>
-        <a class="proc-nav-link" data-section="procBenefits">Benefits</a>
-        <a class="proc-nav-link" data-section="procWhoIsItFor">Who It's For</a>
-        <a class="proc-nav-link" data-section="procResults">Results</a>
-        <a class="proc-nav-link" data-section="procSafety">Safety</a>
-        <a class="proc-nav-link" data-section="procCosts">Costs</a>
-        <a class="proc-nav-link" data-section="procFaq">FAQ</a>
-        <a class="proc-nav-link" data-section="procTopCities">Top Cities</a>
+    <nav class="proc-nav" id="procNav">
+      <div class="proc-nav-inner" id="procNavInner">
+        <!-- Populated by JS -->
       </div>
     </nav>
   </header>

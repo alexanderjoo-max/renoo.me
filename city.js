@@ -260,12 +260,8 @@ function renderPage() {
   if (cityHeaderName) cityHeaderName.textContent = `${flag} ${cityName}`;
   if (cityHeaderProcedure) cityHeaderProcedure.textContent = `${icon} ${procedure}`;
 
-  // Set procedure name in fixed header bar
-  const headerProcName = document.getElementById('headerProcedureName');
-  if (headerProcName) headerProcName.textContent = `${icon} ${procedure}`;
-
-  // Show proc-nav in header with links to procedure page
-  initCityProcNav(procedure);
+  // Populate proc-nav links in header to point to procedure page
+  populateCityProcNav(procedure);
 
   // Populate procedure intro section
   renderProcedureIntro(procedure, icon);
@@ -590,20 +586,28 @@ document.addEventListener('DOMContentLoaded', () => {
 /* =========================
    PROCEDURE NAV ON CITY PAGE
 ========================= */
-function initCityProcNav(procName) {
-  const nav = document.getElementById('procNav');
-  if (!nav) return;
+function populateCityProcNav(procName) {
+  const container = document.getElementById('procNavInner');
+  if (!container) return;
 
   const procUrl = `procedure.html?procedure=${encodeURIComponent(procName)}`;
+  const sections = [
+    { id: 'procCalculator', label: 'Calculator' },
+    { id: 'procWhatIsIt', label: 'What Is It' },
+    { id: 'procWhyChoose', label: 'Why Choose' },
+    { id: 'procHowItWorks', label: 'How It Works' },
+    { id: 'procBenefits', label: 'Benefits' },
+    { id: 'procWhoIsItFor', label: 'Who It\'s For' },
+    { id: 'procResults', label: 'Results' },
+    { id: 'procSafety', label: 'Safety' },
+    { id: 'procCosts', label: 'Costs' },
+    { id: 'procFaq', label: 'FAQ' },
+    { id: 'procTopCities', label: 'Top Cities' }
+  ];
 
-  // Set href on all nav links to point to procedure page sections
-  nav.querySelectorAll('.proc-nav-link').forEach(link => {
-    const section = link.getAttribute('data-section');
-    if (section) link.href = `${procUrl}#${section}`;
-  });
-
-  nav.style.display = '';
-  document.body.classList.add('has-proc-nav');
+  container.innerHTML = sections.map(s =>
+    `<a href="${procUrl}#${s.id}" class="proc-nav-link">${s.label}</a>`
+  ).join('');
 }
 
 /* =========================
