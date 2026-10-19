@@ -5172,3 +5172,26 @@ body {
     background: linear-gradient(90deg, var(--accent-soft), transparent);
   }
 }
+
+/* Map popups: dark to match the site */
+.mapboxgl-popup-content {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip { border-top-color: var(--bg); }
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip { border-bottom-color: var(--bg); }
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip { border-right-color: var(--bg); }
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip { border-left-color: var(--bg); }
+.mapboxgl-popup-close-button { color: var(--text-secondary); }
+.mapboxgl-popup-close-button:hover { color: var(--text); background: transparent; }
+.popup-title { color: var(--text); }
+.popup-row { color: var(--text-secondary); }
+.popup-row strong { color: var(--text); }
+.popup-row .procedure-link { color: var(--accent); }
+.popup-row .procedure-link:hover { color: var(--text); }
