@@ -664,12 +664,21 @@ function renderNewSections() {
 /* =========================
    IN-PAGE NAVIGATION
 ========================= */
+// The nav is a sidebar on wide screens and a sticky bar under the header otherwise,
+// so the scroll offset only includes it in the latter case.
+const PROC_NAV_SIDEBAR_MQ = window.matchMedia('(min-width: 1200px)');
+
+function getScrollOffset() {
+  const header = document.getElementById('fixedHeader');
+  const nav = document.getElementById('procNav');
+  let offset = header ? header.offsetHeight : 64;
+  if (nav && !PROC_NAV_SIDEBAR_MQ.matches) offset += nav.offsetHeight;
+  return offset;
+}
+
 function initProcNav() {
   const nav = document.getElementById('procNav');
   if (!nav) return;
-
-  const header = document.getElementById('fixedHeader');
-  const getHeaderH = () => header ? header.offsetHeight : 100;
 
   const links = nav.querySelectorAll('.proc-nav-link');
   const sections = [];
@@ -683,7 +692,7 @@ function initProcNav() {
   });
 
   function updateActiveLink() {
-    const headerH = getHeaderH();
+    const headerH = getScrollOffset();
     const scrollPos = window.scrollY + headerH + 20;
     let active = sections[0];
     for (const section of sections) {
@@ -712,7 +721,7 @@ function initProcNav() {
       const id = href.replace('#', '');
       const target = document.getElementById(id);
       if (target) {
-        const headerH = getHeaderH();
+        const headerH = getScrollOffset();
         const top = target.getBoundingClientRect().top + window.scrollY - headerH - 10;
         window.scrollTo({ top, behavior: 'smooth' });
       }
@@ -734,6 +743,7 @@ function renderAll() {
 function renderBrowseLanding() {
   document.getElementById('procDynamicContent').style.display = 'none';
   document.getElementById('procBrowseLanding').style.display = 'block';
+  document.body.classList.add('proc-browse');
 
   const container = document.getElementById('procLandingCategories');
   if (!container) return;
@@ -915,9 +925,7 @@ fetch('data.json')
       const target = document.getElementById(hashId);
       if (target) {
         setTimeout(() => {
-          const header = document.getElementById('fixedHeader');
-          const headerH = header ? header.offsetHeight : 100;
-          window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - headerH - 10, behavior: 'smooth' });
+          window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - getScrollOffset() - 10, behavior: 'smooth' });
         }, 300);
       }
     }

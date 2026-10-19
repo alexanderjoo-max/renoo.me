@@ -40,7 +40,10 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css?v=3">
   <script>
     // When loaded inside an iframe (overlay), hide header and adjust layout
     if (window !== window.top) {
@@ -58,22 +61,23 @@
 
 
   <!-- Header -->
-  <header id="fixedHeader" class="fixed-header has-proc-nav">
+  <header id="fixedHeader" class="fixed-header">
     <div class="header-content">
       <div class="header-logo">
         <a href="/"><img src="/logo-white.svg" alt="Renoo.me" /></a>
       </div>
+      <nav class="header-links" aria-label="Main">
+        <a href="/" class="header-link">Map</a>
+        <a href="procedure.html" class="header-link">Procedures</a>
+        <a href="compare.html" class="header-link">Compare</a>
+        <a href="about.html" class="header-link">About</a>
+      </nav>
       <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
     </div>
-    <nav class="proc-nav" id="procNav">
-      <div class="proc-nav-inner" id="procNavInner">
-        <!-- Populated by JS -->
-      </div>
-    </nav>
   </header>
 
   <!-- HAMBURGER MENU OVERLAY -->
@@ -191,6 +195,7 @@
 
   <!-- Main Content -->
   <main class="city-main">
+    <div class="city-layout">
     <!-- City Header -->
     <section class="city-header-redesign">
       <!-- Back to Map Link -->
@@ -235,9 +240,8 @@
       </a>
     </section>
 
-    <!-- Bottom Section: Trip Calculator + Collapsible Sections -->
-    <div class="city-bottom-section">
-      <!-- Trip Calculator -->
+    <!-- Trip Calculator (sticky sidebar on wide screens) -->
+    <aside class="city-aside">
       <section class="city-section trip-calculator-section">
         <h2 class="section-title">✈️ Trip Cost Calculator</h2>
         <p class="section-subtitle">Estimate your total trip cost including flights and accommodation</p>
@@ -253,7 +257,10 @@
           </div>
         </div>
       </section>
+    </aside>
 
+    <!-- Collapsible Sections -->
+    <div class="city-bottom-section">
       <!-- Top Clinics (Collapsible) -->
       <section class="city-section collapsible-section">
         <button class="section-toggle active" id="toggleClinics">
@@ -299,6 +306,7 @@
           </div>
         </div>
       </section>
+    </div>
     </div>
   </main>
 
