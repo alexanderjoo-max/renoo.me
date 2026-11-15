@@ -50,6 +50,38 @@ const world = feature(topo, topo.objects.countries);
 world.features = world.features.filter((f) => f.id !== '010').map((f) => ({ type: 'Feature', properties: { id: f.id || `x-${f.properties.name}`, name: f.properties.name, d: withData.has(f.id) ? 1 : 0 }, geometry: { type: f.geometry.type, coordinates: round(f.geometry.coordinates) } }));
 out('assets/world.json', JSON.stringify(world));
 
+// Higher-detail shapes for larger screens (Natural Earth 1:50m)
+const topoHi = JSON.parse(read('node_modules/world-atlas/countries-50m.json'));
+const round1 = (c) => (typeof c[0] === 'number' ? [Math.round(c[0] * 20) / 20, Math.round(c[1] * 20) / 20] : c.map(round1));
+const dedupe = (ring) => ring.filter((pt, i) => i === 0 || pt[0] !== ring[i - 1][0] || pt[1] !== ring[i - 1][1]);
+const cleanPoly = (poly) => poly.map(dedupe).filter((ring) => ring.length >= 4);
+const worldHi = feature(topoHi, topoHi.objects.countries);
+worldHi.features = worldHi.features.filter((f) => f.id !== '010').map((f) => {
+  const coords = round1(f.geometry.coordinates);
+  const geometry = f.geometry.type === 'Polygon' ? { type: 'Polygon', coordinates: cleanPoly(coords) } : { type: 'MultiPolygon', coordinates: coords.map(cleanPoly).filter((p) => p.length) };
+  return { type: 'Feature', properties: { id: f.id || `x-${f.properties.name}`, name: f.properties.name, d: withData.has(f.id) ? 1 : 0 }, geometry };
+});
+out('assets/world-hi.json', JSON.stringify(worldHi));
+
+// Dot matrix of the land surface: a grid of points, kept where they fall on land
+const inRing = (pt, ring) => { let inside = false; for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const [xi, yi] = ring[i], [xj, yj] = ring[j]; if ((yi > pt[1]) !== (yj > pt[1]) && pt[0] < ((xj - xi) * (pt[1] - yi)) / (yj - yi) + xi) inside = !inside; } return inside; };
+const inPoly = (pt, poly) => inRing(pt, poly[0]) && !poly.slice(1).some((hole) => inRing(pt, hole));
+const landPolys = world.features.flatMap((f) => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates)).map((poly) => {
+  let x0 = 180, x1 = -180, y0 = 90, y1 = -90;
+  for (const [x, y] of poly[0]) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  return { poly, x0, x1, y0, y1 };
+});
+const dots = [];
+const STEP = 1.35;
+for (let lat = -56, row = 0; lat <= 80; lat += STEP, row++) {
+  const dLng = STEP / Math.max(0.2, Math.cos((lat * Math.PI) / 180));
+  for (let lng = -180 + (row % 2 ? dLng / 2 : 0); lng < 180; lng += dLng) {
+    const pt = [lng, lat];
+    if (landPolys.some((l) => lng >= l.x0 && lng <= l.x1 && lat >= l.y0 && lat <= l.y1 && inPoly(pt, l.poly))) dots.push(Math.round(lng * 100) / 100, Math.round(lat * 100) / 100);
+  }
+}
+out('assets/land-dots.json', JSON.stringify(dots));
+
 // ---------- Data for the map and tools ----------
 const compares = comparePages(data);
 const appData = {

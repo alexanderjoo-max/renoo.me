@@ -10,7 +10,7 @@
   var map = null, mapPromise = null;
   // path: travel | treatment | gaps | null (nothing chosen yet)
   var S = { path: null, cat: '', country: null, proc: null, sort: 'pct', scope: 'world', gap: null };
-  var CHEAP = [46, 230, 197], MID = [124, 134, 255], DEAR = [255, 92, 150];
+  var CHEAP = [25, 245, 193], MID = [58, 160, 255], DEAR = [255, 77, 125];
 
   // ---------- Small helpers ----------
   var money = function (n) { return R.money(n); };
@@ -43,11 +43,12 @@
     mapPromise = new Promise(function (resolve, reject) {
       var s = doc.createElement('script'); s.src = '/assets/map.js?v=' + R.cfg.v; s.onload = resolve; s.onerror = reject; doc.head.appendChild(s);
     }).then(function () {
-      return window.RenooMap.create($('globeMap'), { onCountry: onMapCountry, tip: mapTip });
+      return window.RenooMap.create($('globeMap'), { onCountry: onMapCountry, tip: mapTip, onMove: hudMove });
     }).then(function (api) {
       map = api; R.map = api; globeEl.classList.add('is-ready');
+      map.setNodes(D.cities.map(function (ct) { return [ct[3], ct[2]]; }));
       padMap(true); paintMap(); focus();
-      if (hint && isDesktop()) { hint.hidden = false; hint.textContent = 'Drag to turn the globe. Ctrl + scroll to zoom.'; }
+      if (hint && isDesktop()) { hint.hidden = false; hint.textContent = 'DRAG TO ROTATE · CTRL + SCROLL TO ZOOM · CLICK A COUNTRY'; }
       R.track('map_loaded', { ms: Date.now() - t0 });
       return api;
     }).catch(function () { mapPromise = null; });
@@ -55,9 +56,16 @@
   }
   function padMap(instant) {
     if (!map) return;
-    var p = isDesktop() ? { left: 460, top: 60, right: 0, bottom: 0 }
-      : { left: 0, right: 0, top: 60, bottom: Math.round(stage.clientHeight * (sheet.getAttribute('data-snap') === 'peek' ? 0.2 : 0.56)) };
+    var p = isDesktop() ? { left: 400, top: 48, right: 0, bottom: 0 }
+      : { left: 0, right: 0, top: 48, bottom: Math.round(stage.clientHeight * (sheet.getAttribute('data-snap') === 'peek' ? 0.2 : 0.56)) };
     if (instant) map.map.setPadding(p); else map.setPadding(p);
+  }
+  // Live readout of where the globe is pointing
+  var hudRead = $('hudRead');
+  function hudMove(lat, lng, zoom) {
+    if (!hudRead) return;
+    var f = function (v, pos, neg) { return Math.abs(v).toFixed(2).padStart(6, '0') + '° ' + (v >= 0 ? pos : neg); };
+    hudRead.textContent = 'LAT ' + f(lat, 'N', 'S') + '  LNG ' + f(lng, 'E', 'W') + '  ALT ' + zoom.toFixed(2);
   }
   function mapTip(id) {
     var c = byId[id]; if (!c || !D) return null;
@@ -76,7 +84,7 @@
   // What the globe shows for the current state
   function paintMap() {
     if (!map || !D) return;
-    var colors = {}, labels = [], arcs = [], cities = [], selected = null, home = R.home().slug, showLegend = false;
+    var colors = {}, labels = [], arcs = [], cities = [], reticles = [], selected = null, home = R.home().slug, showLegend = false;
     if (S.path === 'treatment' && S.proc) {
       var cells = D.prices[S.proc], slugs = Object.keys(cells), vals = slugs.map(function (s) { return cells[s][1]; });
       var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), span = Math.log(hi) - Math.log(lo) || 1;
@@ -87,14 +95,16 @@
       if (S.country && want.indexOf(S.country) < 0) want.push(S.country);
       want.forEach(function (s) { labels.push({ lng: C[s].lng, lat: C[s].lat, text: C[s].n + ' ' + money(cells[s][1]), color: colors[C[s].id].c, home: s === home }); });
       selected = S.country ? C[S.country].id : null;
+      if (S.country) reticles.push({ lng: C[S.country].lng, lat: C[S.country].lat, color: colors[C[S.country].id].c });
       showLegend = true;
       legend.innerHTML = '<div class="legend-title">' + esc(P[S.proc].n) + ', typical price</div><div class="legend-bar"></div><div class="legend-ends"><span>' + money(lo) + '</span><span>' + money(hi) + '</span></div>';
       if (S.country && cells[home] && S.country !== home) arcs.push({ from: [C[home].lng, C[home].lat], to: [C[S.country].lng, C[S.country].lat] });
     } else if (S.path === 'travel') {
       var list = destinations();
-      list.forEach(function (d) { var t = d.med == null ? null : 1 - Math.max(0, Math.min(1, (d.med + 20) / 100)); colors[C[d.s].id] = t == null ? { c: '#3a4a80', h: 0.04 } : { c: heat(t), h: t }; });
+      list.forEach(function (d) { var t = d.med == null ? null : 1 - Math.max(0, Math.min(1, (d.med + 20) / 100)); colors[C[d.s].id] = t == null ? { c: '#1d4a78', h: 0.04 } : { c: heat(t), h: t }; });
       if (S.country) {
         selected = C[S.country].id;
+        reticles.push({ lng: C[S.country].lng, lat: C[S.country].lat, color: '#7fe3ff' });
         D.cities.forEach(function (ct) { if (ct[1] === S.country) { cities.push({ lng: ct[3], lat: ct[2], color: '#ffffff' }); labels.push({ lng: ct[3], lat: ct[2], text: ct[0], color: '#ffffff' }); } });
         if (labels.length > 6) labels = labels.slice(0, 6);
         if (S.country !== home && C[home]) arcs.push({ from: [C[home].lng, C[home].lat], to: [C[S.country].lng, C[S.country].lat] });
@@ -103,21 +113,20 @@
         legend.innerHTML = '<div class="legend-title">Median price vs ' + esc(homeName()) + '</div><div class="legend-bar"></div><div class="legend-ends"><span>Much cheaper</span><span>Pricier</span></div>';
       }
     } else {
-      if (!S.path) destinations().forEach(function (d) { var t = d.med == null ? 0.5 : 1 - Math.max(0, Math.min(1, (d.med + 20) / 100)); colors[C[d.s].id] = { c: heat(t), h: t * 0.7 }; });
-      if (!S.path && C[home]) colors[C[home].id] = { c: heat(1), h: 0.75 };
       var gaps = gapList();
       var shown = S.gap ? gaps.filter(function (g) { return g.p === S.gap; }) : gaps.slice(0, isDesktop() ? 9 : 6);
       shown.forEach(function (g) {
         arcs.push({ from: [C[g.hi].lng, C[g.hi].lat], to: [C[g.lo].lng, C[g.lo].lat] });
-        if (S.path) { colors[C[g.hi].id] = { c: heat(1), h: 1 }; if (!colors[C[g.lo].id]) colors[C[g.lo].id] = { c: heat(0), h: 0.05 }; }
+        colors[C[g.hi].id] = { c: heat(1), h: S.path ? 1 : 0.5 }; if (!colors[C[g.lo].id]) colors[C[g.lo].id] = { c: heat(0), h: 0.05 };
         cities.push({ lng: C[g.hi].lng, lat: C[g.hi].lat, color: heat(1) }, { lng: C[g.lo].lng, lat: C[g.lo].lat, color: heat(0) });
       });
       if (S.gap && shown[0]) {
         var g0 = shown[0];
+        reticles.push({ lng: C[g0.hi].lng, lat: C[g0.hi].lat, color: heat(1) }, { lng: C[g0.lo].lng, lat: C[g0.lo].lat, color: heat(0) });
         labels.push({ lng: C[g0.hi].lng, lat: C[g0.hi].lat, text: C[g0.hi].n + ' ' + money(g0.hiP), color: heat(1) }, { lng: C[g0.lo].lng, lat: C[g0.lo].lat, text: C[g0.lo].n + ' ' + money(g0.loP), color: heat(0) });
       }
     }
-    map.setCountries(colors, selected); map.setArcs(arcs); map.setCities(cities); map.setLabels(labels);
+    map.setCountries(colors, selected); map.setArcs(arcs); map.setCities(cities); map.setLabels(labels); map.setReticles(reticles);
     legend.hidden = !showLegend;
     map.spin(!S.country && !S.gap && !(S.path === 'treatment' && S.proc));
   }

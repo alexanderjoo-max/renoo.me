@@ -57,6 +57,11 @@ ${icon(c.icon, 'ico ico-lg ico-accent')}
     <div class="globe-fallback" aria-hidden="true"></div>
     <div class="globe-map" id="globeMap"></div>
   </div>
+  <div class="hud" aria-hidden="true">
+    <i class="hud-c hud-tl"></i><i class="hud-c hud-tr"></i><i class="hud-c hud-bl"></i><i class="hud-c hud-br"></i>
+    <div class="hud-read" id="hudRead">LAT 038.00° N  LNG 032.00° W  ALT 1.95</div>
+    <div class="hud-status"><b>RENOO PRICE INDEX</b><span>${num(data.rows.length)} PRICE ROWS</span><span>${data.procedures.length} PROCEDURES</span><span>${data.countries.length} COUNTRIES</span><span>${cities} CITIES</span><span>DATA ${fmtDate(data.updated).toUpperCase()}</span><span>FX ECB ${fmtDate(data.fx.date).toUpperCase()}</span><span>DRAG TO ROTATE</span><span>CTRL + SCROLL TO ZOOM</span></div>
+  </div>
   <div class="map-ui">
     <div class="legend" id="legend" hidden></div>
     <p class="map-hint" id="mapHint" hidden></p>
