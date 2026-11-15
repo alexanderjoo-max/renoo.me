@@ -1,5 +1,5 @@
 // Renders every content page (category, procedure, country, procedure-in-country, compare, hubs).
-import { SITE, REFERENCE_COUNTRIES, COMPARE_PAIRS } from '../../content/site.mjs';
+import { SITE, STAGE, REFERENCE_COUNTRIES, COMPARE_PAIRS } from '../../content/site.mjs';
 import { esc, px, pxRange, usdText, rangeText, fmtDate, plural, flag, pctWords, pctShort, icon, ICONS, catChip, breadcrumbs, faqBlock, ld, num } from './html.mjs';
 
 const REG_RE = /regulat|legal|prescription|licen[cs]|approved|\bFDA\b|restrict|COFEPRIS|ICMR|\bDHA\b|ministry|oversight/i;
@@ -19,12 +19,27 @@ const countryLink = (c, href) => `<a href="${href || c.url}"><span class="flag" 
 const mapCta = (href, label) => `<a class="btn" href="${href}">${icon(ICONS.globe, 'ico ico-sm')}${esc(label)}</a>`;
 
 function fxNote(data, extra = '') {
-  return `<p class="note" data-fx-note>Prices are stored in US dollars and shown in US dollars. ${extra}</p>`;
+  return `<p class="note"><span data-fx-note>Prices are stored in US dollars and shown in US dollars.</span> ${extra}</p>`;
 }
+const METHOD_LINK = STAGE.seo ? ' <a href="/methodology">How Renoo collects prices</a>.' : '';
 function sourceNote(cells, data) {
   const sources = [...new Set(cells.flatMap((c) => c.sources))];
   const updated = cells.map((c) => c.updated).sort().pop();
-  return `<p class="note"><strong>Source:</strong> ${esc(sources.slice(0, 6).join('; '))}${sources.length > 6 ? `; and ${sources.length - 6} more source types` : ''}. <strong>Last updated:</strong> <time datetime="${updated}">${fmtDate(updated)}</time>. Figures are estimates for comparison, not quotes. <a href="/methodology">How Renoo collects prices</a>.</p>`;
+  return `<p class="note"><strong>Source:</strong> ${esc(sources.slice(0, 6).join('; '))}${sources.length > 6 ? `; and ${sources.length - 6} more source types` : ''}. <strong>Last updated:</strong> <time datetime="${updated}">${fmtDate(updated)}</time>. Prices are indicative ranges for comparison only.${METHOD_LINK}</p>`;
+}
+
+// A strip showing every country's typical price for one procedure, from cheapest to most expensive.
+// marks: [{ cell, below }] are the countries called out with a label.
+function spectrum(proc, marks) {
+  if (proc.cells.length < 3) return '';
+  const lo = Math.log(proc.cheapest.typical), span = Math.log(proc.priciest.typical) - lo || 1;
+  const pos = (c) => Math.round(((Math.log(c.typical) - lo) / span) * 1000) / 10;
+  const ticks = proc.cells.map((c) => `<i style="left:${pos(c)}%"></i>`).join('');
+  const pins = marks.filter((m) => m.cell).map((m) => { const x = pos(m.cell); return `<span class="spectrum-mark${m.below ? ' is-below' : ''}${x > 78 ? ' is-right' : x < 22 ? ' is-left' : ''}" style="left:${x}%"><b>${esc(m.cell.country.name)}</b> ${px(m.cell.typical)}</span>`; }).join('');
+  return `<figure class="spectrum">
+  <div class="spectrum-track" role="img" aria-label="Typical price of ${esc(proc.phrase)} in ${proc.cells.length} countries, from ${usdText(proc.cheapest.typical)} in ${esc(proc.cheapest.country.name)} to ${usdText(proc.priciest.typical)} in ${esc(proc.priciest.country.name)}">${ticks}${pins}</div>
+  <figcaption><span>Cheapest: ${esc(proc.cheapest.country.name)} ${px(proc.cheapest.typical)}</span><span>${proc.cells.length} countries, one line each</span><span>Most expensive: ${esc(proc.priciest.country.name)} ${px(proc.priciest.typical)}</span></figcaption>
+</figure>`;
 }
 
 // ---------- Safeguards ----------
@@ -34,7 +49,7 @@ function regulatoryNotes(rows) {
   return out;
 }
 function safeguard(data, { cat, proc = null, rows = [], place = null }) {
-  if (!cat.regulated) return '';
+  if (!STAGE.safeguards || !cat.regulated) return '';
   const subject = proc ? esc(proc.phrase) : `treatments in ${esc(cat.name)}`;
   const notes = regulatoryNotes(rows);
   const seen = new Set();
@@ -54,25 +69,29 @@ function safeguard(data, { cat, proc = null, rows = [], place = null }) {
 function guide(proc) {
   const c = proc.content;
   if (!c) return { html: `<section class="section" id="about"><h2>About ${esc(proc.phrase)}</h2><p class="placeholder">${gapTag('Missing content')} Renoo has no description, safety or recovery information for ${esc(proc.phrase)} yet.</p></section>`, faq: [] };
-  const strict = !!proc.noHowTo;
+  const strict = STAGE.safeguards && !!proc.noHowTo;
   const clean = (s) => (s && !(strict && DOSE_RE.test(s)) ? s : '');
   const w = c.whatIsIt || {}, h = c.howItWorks || {}, r = c.results || {}, s = c.safety || {}, who = c.whoIsItFor || {};
   const parts = [];
   const what = [clean(w.definition), clean(w.purpose), strict ? '' : w.howItWorks].filter(Boolean);
   if (what.length) parts.push(`<section class="section" id="about"><h2>What is ${esc(proc.phrase)}?</h2>${what.map((p) => `<p>${esc(p)}</p>`).join('')}</section>`);
+  const why = c.whyChoose || {};
+  if (!strict && (why.goals?.length || why.useCases?.length)) parts.push(`<section class="section" id="why"><h2>Why people choose ${esc(proc.phrase)}</h2><div class="cols">${why.goals?.length ? `<div><h3>Common goals</h3>${ul(why.goals)}</div>` : ''}${why.useCases?.length ? `<div><h3>Who it is popular with</h3>${ul(why.useCases)}</div>` : ''}</div></section>`);
   if (!strict && (h.steps?.length || h.duration)) {
     const facts = [['Duration', h.duration], ['Setting', h.setting], ['Anesthesia', h.anesthesia]].filter((f) => f[1]);
     parts.push(`<section class="section" id="how"><h2>How it is performed</h2>${facts.length ? `<dl class="facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>` : ''}${h.steps?.length ? `<ol class="steps">${h.steps.map((st) => `<li><strong>${esc(st.title)}.</strong> ${esc(st.desc)}</li>`).join('')}</ol>` : ''}</section>`);
   }
+  const ben = c.benefits || {};
+  if (!strict && (ben.physical?.length || ben.mental?.length || ben.longTerm?.length)) parts.push(`<section class="section" id="benefits"><h2>Benefits</h2><div class="cols">${ben.physical?.length ? `<div><h3>Physical</h3>${ul(ben.physical)}</div>` : ''}${ben.mental?.length ? `<div><h3>Mental and emotional</h3>${ul(ben.mental)}</div>` : ''}${ben.longTerm?.length ? `<div><h3>Long term</h3>${ul(ben.longTerm)}</div>` : ''}</div>${ben.evidenceLevel ? `<p><strong>Evidence level:</strong> ${esc(ben.evidenceLevel)}</p>` : ''}</section>`);
   if (!strict) {
-    const rec = [['Right after', r.immediate], ['Short term', r.shortTerm], ['Medium term', r.mediumTerm], ['Long term', r.longTerm]].filter((f) => f[1]);
+    const rec = [['Right after', r.immediate], ['Short term', r.shortTerm], ['Medium term', r.mediumTerm], ['Long term', r.longTerm], ['Typical plan', r.typicalPlan]].filter((f) => f[1]);
     if (rec.length) parts.push(`<section class="section" id="recovery"><h2>Recovery and results</h2><dl class="timeline">${rec.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></section>`);
   }
   const common = safe(s.commonEffects, strict), rare = safe(s.rareRisks, strict), prot = safe(s.protocols, strict);
   if (common.length || rare.length) parts.push(`<section class="section" id="safety"><h2>Safety and risks</h2><div class="cols">${common.length ? `<div><h3>Common side effects</h3>${ul(common)}</div>` : ''}${rare.length ? `<div><h3>Rare risks</h3>${ul(rare)}</div>` : ''}${prot.length ? `<div><h3>What a careful clinic does</h3>${ul(prot)}</div>` : ''}</div></section>`);
   const good = strict ? [] : who.goodCandidates || [], not = safe(who.notSuitableFor, strict), screen = clean(who.screeningRequired);
   if (good.length || not.length) parts.push(`<section class="section" id="who"><h2>Who it is for</h2><div class="cols">${good.length ? `<div><h3>Usually suitable</h3>${ul(good)}</div>` : ''}${not.length ? `<div><h3>May not be suitable</h3>${ul(not)}</div>` : ''}</div>${screen ? `<p><strong>Screening:</strong> ${esc(screen)}</p>` : ''}</section>`);
-  const faq = (c.faq || []).filter((f) => !/\$\s?\d/.test(f.a) && !(strict && (DOSE_RE.test(f.q) || DOSE_RE.test(f.a))));
+  const faq = (c.faq || []).filter((f) => !(STAGE.seo && /\$\s?\d/.test(f.a)) && !(strict && (DOSE_RE.test(f.q) || DOSE_RE.test(f.a))));
   return {
     html: parts.join('\n'), faq,
     definition: clean(w.definition),
@@ -84,10 +103,50 @@ function guide(proc) {
   };
 }
 
+// Trip cost calculator carried over from the old site (flight and hotel estimates in data/trip-estimates.json)
+function tripCalc(proc, cells, destCountry = null) {
+  const cities = cells.flatMap((c) => c.rows.map((r) => [r.city, c.country.name, r.typical]));
+  return `<section class="section" id="trip">
+  <h2>Trip cost calculator</h2>
+  <p>See what ${esc(proc.phrase)} would actually cost you, including flights and hotels.</p>
+  <form class="compare-form card" data-trip data-proc-name="${esc(proc.name)}"${destCountry ? ` data-dest-country="${esc(destCountry.name)}"` : ''}>
+    <label>Home city<select data-trip-home><option value="">Home city…</option></select></label>
+    <label>Destination city<select data-trip-dest><option value="">Destination city…</option></select></label>
+  </form>
+  <div data-trip-out aria-live="polite"></div>
+  <script type="application/json" data-trip-cities>${JSON.stringify(cities).replace(/</g, '\\u003c')}</script>
+</section>`;
+}
+const TRIP_SCRIPT = '<script src="/assets/trip.js" defer></script>';
+const CHOOSING = `<section class="section" id="choosing">
+  <h2>Choosing a clinic</h2>
+  <div class="cols">
+    <div><h3>Accreditation to look for</h3><ul>
+      <li><strong>JCI (Joint Commission International)</strong> — the gold standard for international hospital accreditation</li>
+      <li><strong>Board-certified practitioners</strong> — verify credentials in the country's medical registry</li>
+      <li><strong>GCR (Global Clinic Rating)</strong> — independent quality scoring for medical tourism clinics</li></ul></div>
+    <div><h3>Red flags checklist</h3><ul>
+      <li>Prices that seem too good to be true (well below country average)</li>
+      <li>No verifiable practitioner credentials or clinic registration</li>
+      <li>No before/after photos or patient reviews available</li>
+      <li>Pressure to commit or pay in full before consultation</li>
+      <li>Clinic does not provide written aftercare instructions</li></ul></div>
+  </div>
+</section>
+<section class="section" id="cost-factors">
+  <h2>Cost factors</h2>
+  <dl class="timeline">
+    <div><dt>Labor costs</dt><dd>Practitioner salaries are the largest cost driver. A specialist in New York earns 5-10x more than one in Bangkok, directly impacting what you pay.</dd></div>
+    <div><dt>Regulation and overhead</dt><dd>Stricter regulatory environments mean higher compliance costs. Clinic rent, insurance, and licensing fees in Western countries add significantly to the final price.</dd></div>
+    <div><dt>Currency and purchasing power</dt><dd>Favorable exchange rates make destinations like Turkey, Thailand, and Mexico substantially cheaper for international patients without compromising quality.</dd></div>
+  </dl>
+</section>`;
+
 const comparePath = (proc, a, b) => `/compare/${proc.slug}/${a.slug}-vs-${b.slug}`;
 export function comparePages(data) {
   const bySlug = Object.fromEntries(data.countries.map((c) => [c.slug, c]));
   const out = [];
+  if (!STAGE.seo) return out;
   for (const [aS, bS] of COMPARE_PAIRS) {
     const a = bySlug[aS], b = bySlug[bS];
     if (!a || !b) continue;
@@ -120,12 +179,12 @@ export function procedurePage(data, proc, compares) {
 <td class="n">${c.rows.length}</td><td>${confTag(c.confidence)}</td><td>${esc(c.sources.join('; '))}</td><td><time datetime="${c.updated}">${fmtDate(c.updated)}</time></td></tr>`).join('\n');
 
   const faq = [];
-  if (!single) {
+  if (STAGE.seo && !single) {
     faq.push({ q: `Which country is cheapest for ${proc.phrase}?`, a: `Of the ${n} countries Renoo tracks, ${lo.country.name} has the lowest typical price for ${proc.phrase} at ${usdText(lo.typical)} (range ${rangeText(lo.low, lo.high)}).` });
     faq.push({ q: `Where is ${proc.phrase} most expensive?`, a: `${hi.country.name} has the highest typical price in Renoo's data at ${usdText(hi.typical)} (range ${rangeText(hi.low, hi.high)}).` });
     if (us && lo !== us) faq.push({ q: `How much can I save on ${proc.phrase} compared with the United States?`, a: `The typical US price is ${usdText(us.typical)}. In ${lo.country.inName} it is ${usdText(lo.typical)}, which is ${pctWords(data.savingsVs(lo, base(data)), 'the US price')}. Travel, accommodation and follow-up care are not included in these figures.` });
   }
-  faq.push({ q: `How current are these ${proc.short} prices?`, a: `The price rows for ${proc.phrase} were last changed on ${fmtDate(proc.updated)}. Each row in the table shows its own date and source type.` });
+  if (STAGE.seo) faq.push({ q: `How current are these ${proc.short} prices?`, a: `The price rows for ${proc.phrase} were last changed on ${fmtDate(proc.updated)}. Each row in the table shows its own date and source type.` });
   faq.push(...g.faq);
 
   const related = cat.procedures.filter((p) => p !== proc);
@@ -150,6 +209,7 @@ ${breadcrumbs(crumbs)}
     ${us ? `<div class="stat" data-home-stat data-proc="${proc.slug}"><span class="stat-label" data-home-stat-label>United States</span><strong data-home-stat-value>${px(us.typical)}</strong><span>typical price</span></div>` : ''}
     <div class="stat"><span class="stat-label">Coverage</span><strong>${n}</strong><span>${n === 1 ? 'country' : 'countries'}, ${plural(offerRows, 'city', 'cities')}</span></div>
   </div>
+  ${spectrum(proc, [{ cell: us, below: true }])}
   <p class="hero-actions">${mapCta(`/?path=treatment&procedure=${proc.slug}`, 'Open the price heatmap')}</p>
 </header>
 <section class="section" id="prices">
@@ -162,8 +222,10 @@ ${breadcrumbs(crumbs)}
   </table></div>
   ${sourceNote(proc.cells, data)}
 </section>
+${single ? '' : tripCalc(proc, proc.cells)}
 ${safeguard(data, { cat, proc, rows: proc.rows })}
 ${g.html}
+${CHOOSING}
 ${faqBlock(faq, `${proc.short} cost: questions and answers`)}
 <section class="section" id="related">
   <h2>Related</h2>
@@ -172,7 +234,7 @@ ${faqBlock(faq, `${proc.short} cost: questions and answers`)}
   <p><a href="${cat.url}">All ${esc(cat.name)} prices</a> · <a href="/procedures">All procedures</a> · <a href="/countries">All countries</a></p>
 </section>
 </main>`;
-  return { path, title, description, jsonld, body, accent: cat.color, track: { event: 'procedure_view', procedure: proc.slug, category: cat.slug } };
+  return { path, title, description, jsonld, body, accent: cat.color, scripts: single ? '' : TRIP_SCRIPT, track: { event: 'procedure_view', procedure: proc.slug, category: cat.slug } };
 }
 
 // ---------- Procedure in country ----------
@@ -209,7 +271,7 @@ export function comboPage(data, cell, compares) {
   }).join('\n');
 
   const clinics = cell.clinics;
-  const clinicRows = clinics.map((c) => `<tr><th scope="row">${esc(c.name)}</th><td>${esc(c.city)}</td><td class="n">${c.low && c.high ? pxRange(c.low, c.high) : '—'}</td><td>${esc(c.certifications || '') || '—'}</td><td>${c.website ? `<a href="${esc(c.website)}" rel="nofollow noopener external" target="_blank" data-clinic="${esc(c.name)}">Website<span class="sr-only"> of ${esc(c.name)} (opens in a new tab)</span></a>` : '—'}</td></tr>`).join('\n');
+  const clinicRows = clinics.map((c) => `<tr><th scope="row">${esc(c.name)}${c.address ? `<span class="sub">${esc(c.address)}</span>` : c.notes ? `<span class="sub">${esc(c.notes)}</span>` : ''}</th><td>${esc(c.city)}</td><td class="n">${c.low && c.high ? pxRange(c.low, c.high) : '—'}</td><td>${esc(c.certifications || '') || '—'}</td><td>${c.website ? `<a href="${esc(c.website)}" rel="nofollow noopener external" target="_blank" data-clinic="${esc(c.name)}">Website<span class="sr-only"> of ${esc(c.name)} (opens in a new tab)</span></a>` : '—'}</td></tr>`).join('\n');
 
   const faq = [{ q: `How much does ${proc.phrase} cost in ${country.inName}?`, a: `${proc.Phrase} in ${country.inName} typically costs ${range}, with a typical price of ${usdText(cell.typical)}. This is based on ${plural(cell.rows.length, 'city', 'cities')} tracked by Renoo.${basis}` }];
   if (!isBase && us) faq.push({ q: `Is ${proc.phrase} cheaper in ${country.inName} than in the United States?`, a: p > 0 ? `Yes. The typical price in ${country.inName} is ${usdText(cell.typical)} against ${usdText(us.typical)} in the United States, about ${p}% less. Travel and accommodation are not included.` : p < 0 ? `No. The typical price in ${country.inName} is ${usdText(cell.typical)} against ${usdText(us.typical)} in the United States, about ${-p}% more.` : `The typical price is about the same: ${usdText(cell.typical)} in ${country.inName} and ${usdText(us.typical)} in the United States.` });
@@ -217,6 +279,7 @@ export function comboPage(data, cell, compares) {
   if (cell.included) faq.push({ q: `What is included in the price?`, a: `The price rows for ${country.inName} describe the price as covering: ${cell.included}. Ask the clinic for a written quote, because what is included varies.` });
   if (n > 1) faq.push({ q: `How does ${country.inName} rank for ${proc.phrase} prices?`, a: `${country.name} ranks ${rank} of ${n} countries from cheapest to most expensive by typical price. The cheapest is ${proc.cheapest.country.name} (${usdText(proc.cheapest.typical)}) and the most expensive is ${proc.priciest.country.name} (${usdText(proc.priciest.typical)}).` });
   faq.push({ q: 'Where do these prices come from and how old are they?', a: `Source type: ${cell.sources.join('; ')}. Confidence: ${cell.confidence}. The rows were last changed on ${fmtDate(cell.updated)}. They are estimates for comparison, not quotes.` });
+  if (!STAGE.seo) faq.length = 0;
 
   const others = proc.cells.filter((c) => c !== cell && !c.noindex).slice(0, 8);
   const sameCat = country.cells.filter((c) => c.proc.cat === cat && c !== cell && !c.noindex);
@@ -247,6 +310,7 @@ ${breadcrumbs(crumbs)}
     <div class="stat"><span class="stat-label">vs <span data-vs-label>${esc(base(data).name)}</span></span>${vsCell(cell, data, 'strong')}<span>at typical prices</span></div>
     ${n > 1 ? `<div class="stat"><span class="stat-label">Price rank</span><strong>${rank}<small> of ${n}</small></strong><span>cheapest first</span></div>` : ''}
   </div>
+  ${spectrum(proc, [{ cell }, { cell: isBase ? null : us, below: true }])}
   <p class="hero-actions">${mapCta(`/?path=treatment&procedure=${proc.slug}&country=${country.slug}`, 'See it on the map')}<a class="btn btn-ghost" href="/travel?city=${encodeURIComponent(cell.rows[0].city)}">Flights and hotels</a></p>
 </header>
 <section class="section" id="prices">
@@ -269,9 +333,10 @@ ${n > 1 ? `<section class="section" id="compare">
   </table></div>
   <p><a href="${proc.url}">See all ${n} countries for ${esc(proc.short)}</a></p>
 </section>` : ''}
+${n > 1 ? tripCalc(proc, proc.cells, country) : ''}
 ${clinics.length ? `<section class="section" id="clinics">
   <h2>Clinics listed for ${esc(proc.short)} in ${esc(country.inName)}</h2>
-  <p class="note">Details are as listed in Renoo's clinic data and have not been independently verified. A listing is not a recommendation.</p>
+  ${STAGE.safeguards ? `<p class="note">Details are as listed in Renoo's clinic data and have not been independently verified. A listing is not a recommendation.</p>` : ''}
   <div class="table-wrap"><table class="data">
     <caption>${plural(clinics.length, 'clinic')} listed</caption>
     <thead><tr><th scope="col">Clinic</th><th scope="col">City</th><th scope="col">Listed price</th><th scope="col">Accreditation as listed</th><th scope="col">Link</th></tr></thead>
@@ -292,7 +357,7 @@ ${faqBlock(faq, `${proc.short} in ${country.inName}: questions and answers`)}
   <p><a href="${country.url}">All procedure prices in ${esc(country.inName)}</a> · <a href="${cat.url}">${esc(cat.name)}</a></p>
 </section>
 </main>`;
-  return { path, title, description, jsonld, body, accent: cat.color, noindex: cell.noindex, track: { event: 'procedure_view', procedure: proc.slug, category: cat.slug, country: country.slug } };
+  return { path, title, description, jsonld, body, accent: cat.color, noindex: cell.noindex, scripts: n > 1 ? TRIP_SCRIPT : '', track: { event: 'procedure_view', procedure: proc.slug, category: cat.slug, country: country.slug } };
 }
 
 // ---------- Country page ----------
@@ -325,6 +390,7 @@ export function countryPage(data, country, compares) {
   if (best && best.p > 0) faq.push({ q: `Which procedure has the biggest price gap in ${country.inName}?`, a: `${best.c.proc.Phrase}: typical price ${usdText(best.c.typical)} in ${country.inName} against ${usdText(b.procedures[best.c.proc.slug].typical)} in the United States, about ${best.p}% less.` });
   faq.push({ q: `Which cities in ${country.inName} does Renoo cover?`, a: `${cities.join(', ')}.` });
   faq.push({ q: 'How current are these prices?', a: `The price rows for ${country.inName} were last changed on ${fmtDate(country.updated)}. Each row shows its own date.` });
+  if (!STAGE.seo) faq.length = 0;
 
   const myPairs = [...new Map(compares.filter((c) => c.a === country || c.b === country).map((c) => [`${c.a.slug}-${c.b.slug}`, c])).values()];
   const pairLinks = myPairs.map((pr) => { const first = compares.find((c) => c.a === pr.a && c.b === pr.b); return `<li><a href="/compare?a=${pr.a.slug}&amp;b=${pr.b.slug}">${esc(pr.a.name)} vs ${esc(pr.b.name)}</a> <span class="muted">e.g. <a href="${first.path}">${esc(first.proc.short)}</a></span></li>`; }).join('');
@@ -354,12 +420,12 @@ ${breadcrumbs(crumbs)}
   </table></div>
   ${sourceNote(country.cells, data)}
 </section>
-<section class="section" id="regulation">
+${!STAGE.safeguards ? '' : `<section class="section" id="regulation">
   <h2>Regulatory notes for ${esc(country.inName)}</h2>
   <p><strong>Legal status of each therapy:</strong> ${gapTag('Not yet verified by Renoo')}</p>
   ${regItems ? `<p>These notes were recorded with the price data. They are not a legal assessment.</p><ul>${regItems}</ul>` : `<p>Renoo's price data holds no regulatory notes for ${esc(country.inName)}.</p>`}
   <p>A price or clinic listing does not mean a treatment is approved or legal for you. Consult a qualified doctor and check the rules in ${esc(country.inName)} and in your home country before travelling.</p>
-</section>
+</section>`}
 <section class="section" id="cities">
   <h2>Cities covered</h2>
   <ul class="links">${cityItems}</ul>
@@ -413,7 +479,8 @@ ${procs.map((p) => `<h3 id="status-${p.slug}">${esc(p.name)}</h3>
   const faq = [{ q: `Which ${cat.name} procedures does Renoo compare?`, a: `${procs.map((p) => p.name).join(', ')}.` }];
   if (gap) faq.push({ q: `Where is the biggest price gap in ${cat.name}?`, a: `${gap.proc.Phrase}: the typical price is ${usdText(gap.high.typical)} in ${gap.high.country.inName} and ${usdText(gap.low.typical)} in ${gap.low.country.inName}, a difference of about ${gap.pct}%.` });
   for (const p of procs.slice(0, 3)) if (p.cells.length > 1) faq.push({ q: `Which country is cheapest for ${p.phrase}?`, a: `${p.cheapest.country.name}, at a typical price of ${usdText(p.cheapest.typical)}, is the lowest of the ${p.cells.length} countries Renoo tracks.` });
-  if (cat.regulated) faq.push({ q: `Is it legal to get ${cat.name === 'Peptides' ? 'peptide therapy' : 'these treatments'} abroad?`, a: 'Renoo has not verified the legal status of these treatments in any country and does not state it. Rules differ between countries. Consult a qualified doctor and check the rules in both the country of treatment and your home country.' });
+  if (!STAGE.seo) faq.length = 0;
+  if (STAGE.safeguards && cat.regulated) faq.push({ q: `Is it legal to get ${cat.name === 'Peptides' ? 'peptide therapy' : 'these treatments'} abroad?`, a: 'Renoo has not verified the legal status of these treatments in any country and does not state it. Rules differ between countries. Consult a qualified doctor and check the rules in both the country of treatment and your home country.' });
 
   const jsonld = ld.graph([
     ld.breadcrumbs(crumbs), ld.webPage({ path, title, description, updated: procs.map((p) => p.updated).sort().pop() }),
@@ -553,14 +620,14 @@ export function countriesIndex(data) {
 <div class="table-wrap"><table class="data"><caption>Countries tracked by Renoo</caption>
 <thead><tr><th scope="col">Country</th><th scope="col">Procedures</th><th scope="col">Cities</th><th scope="col">Median vs United States</th><th scope="col">Clinics listed</th></tr></thead>
 <tbody>${rows}</tbody></table></div>
-<p class="note">Median vs United States is the middle value of the price differences for the procedures tracked in both countries, at typical prices. <a href="/methodology">Methodology</a>.</p></section></main>`;
+<p class="note">Median vs United States is the middle value of the price differences for the procedures tracked in both countries, at typical prices.${METHOD_LINK}</p></section></main>`;
   return { path, title, description, jsonld, body };
 }
 
 export function compareIndex(data, compares) {
   const path = '/compare', crumbs = [HOME, { name: 'Compare', url: path }];
   const title = 'Compare procedure prices between two countries | Renoo';
-  const description = `Pick two countries and see every procedure Renoo tracks in both, side by side. Includes ${compares.length} ready-made comparisons for common travel routes.`;
+  const description = `Pick two countries and see every procedure Renoo tracks in both, side by side.${compares.length ? ` Includes ${compares.length} ready-made comparisons for common travel routes.` : ''}`;
   const pairs = new Map();
   for (const c of compares) { const k = `${c.a.slug}|${c.b.slug}`; if (!pairs.has(k)) pairs.set(k, { a: c.a, b: c.b, list: [] }); pairs.get(k).list.push(c); }
   const lists = [...pairs.values()].map((pr) => `<details class="pair"><summary>${flag(pr.a.iso2)} ${esc(pr.a.name)} vs ${flag(pr.b.iso2)} ${esc(pr.b.name)} <span class="muted">${plural(pr.list.length, 'procedure')}</span></summary><ul class="links">${pr.list.map((c) => `<li><a href="${c.path}">${esc(c.proc.name)}</a></li>`).join('')}</ul></details>`).join('\n');
@@ -574,13 +641,13 @@ export function compareIndex(data, compares) {
     <button type="button" class="btn btn-ghost btn-icon" data-compare-swap aria-label="Swap countries">${icon(ICONS.swap, 'ico ico-sm')}</button>
     <label>Destination<select name="b" data-compare-b></select></label>
   </form>
-  <noscript><p class="placeholder">The compare tool needs JavaScript. The ready-made comparisons below work without it.</p></noscript>
+  <noscript><p class="placeholder">The compare tool needs JavaScript. Without it, open a <a href="/countries">country page</a> to see its prices.</p></noscript>
   <div data-compare-out aria-live="polite"></div>
 </section>
-<section class="section" id="pairs">
+${lists ? `<section class="section" id="pairs">
   <h2>Ready-made comparisons</h2>
   <p>These pages cover common travel routes. The list of routes is editorial; it is not based on traffic data.</p>
   ${lists}
-</section></main>`;
+</section>` : ''}</main>`;
   return { path, title, description, jsonld, body, scripts: '<script src="/assets/compare.js" defer></script>' };
 }

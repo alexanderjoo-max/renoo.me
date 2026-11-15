@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { transform } from 'esbuild';
 import { feature } from 'topojson-client';
-import { SITE, ALLOWED_CRAWLERS, BLOCKED_CRAWLERS } from '../content/site.mjs';
+import { SITE, STAGE, ALLOWED_CRAWLERS, BLOCKED_CRAWLERS } from '../content/site.mjs';
 import { loadData } from './lib/data.mjs';
 import { layout, abs } from './lib/html.mjs';
 import { procedurePage, comboPage, countryPage, categoryPage, comparePage, comparePages, proceduresIndex, countriesIndex, compareIndex } from './lib/pages.mjs';
@@ -38,8 +38,7 @@ for (const f of readdirSync(join(root, 'src/js'))) {
   const js = await transform(read(`src/js/${f}`).replaceAll('__V__', assetVersion), { loader: 'js', minify: true, target: 'es2019' });
   out(`assets/${f}`, js.code); sizes[f] = js.code.length;
 }
-cpSync(join(root, 'node_modules/@fontsource-variable/onest/files/onest-latin-wght-normal.woff2'), join(dist, 'assets/fonts/onest.woff2'), { recursive: true });
-cpSync(join(root, 'node_modules/@fontsource-variable/unbounded/files/unbounded-latin-wght-normal.woff2'), join(dist, 'assets/fonts/unbounded.woff2'));
+cpSync(join(root, 'node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2'), join(dist, 'assets/fonts/inter.woff2'), { recursive: true });
 cpSync(join(root, 'node_modules/maplibre-gl/dist/maplibre-gl.js'), join(dist, 'assets/vendor/maplibre-gl.js'), { recursive: true });
 cpSync(join(root, 'node_modules/maplibre-gl/dist/maplibre-gl.css'), join(dist, 'assets/vendor/maplibre-gl.css'));
 
@@ -64,6 +63,7 @@ const appData = {
   pairs: [...new Set(compares.map((c) => `${c.a.slug}|${c.b.slug}`))],
 };
 out('assets/app-data.json', JSON.stringify(appData));
+out('assets/trip.json', JSON.stringify((({ cityRegion, flight, hotel, defaultFlight, defaultHotel }) => ({ cityRegion, flight, hotel, defaultFlight, defaultHotel }))(JSON.parse(read('data/trip-estimates.json')))));
 
 const ctx = {
   data, assetVersion,
@@ -80,7 +80,8 @@ for (const p of data.procedures) add('procedure', procedurePage(data, p, compare
 for (const c of data.countries) add('country', countryPage(data, c, compares), c.updated);
 for (const c of data.cells) add('procedure-in-country', comboPage(data, c, compares), c.updated);
 for (const c of compares) add('compare', comparePage(data, c, compares), [c.ca.updated, c.cb.updated].sort().pop());
-add('trust', methodologyPage(data)); add('trust', aboutPage(data)); add('trust', disclaimerPage(data));
+add('trust', aboutPage(data));
+if (STAGE.seo) { add('trust', methodologyPage(data)); add('trust', disclaimerPage(data)); }
 add('travel', travelPage(data));
 add('system', notFoundPage(data));
 add('system', legacyRedirectPage(data, 'procedure')); add('system', legacyRedirectPage(data, 'city'));
@@ -103,7 +104,7 @@ const indexable = pages.filter((p) => !p.noindex);
 const lastmod = (p) => (p.updated > SITE.released ? p.updated : SITE.released);
 out('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexable.map((p) => `<url><loc>${abs(p.path)}</loc><lastmod>${lastmod(p)}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 
-out('robots.txt', `# Renoo welcomes search engines and AI crawlers.
+out('robots.txt', !STAGE.seo ? `User-agent: *\nAllow: /\n\nSitemap: ${SITE.url}/sitemap.xml\n` : `# Renoo welcomes search engines and AI crawlers.
 # The crawler list is kept in content/site.mjs (ALLOWED_CRAWLERS, BLOCKED_CRAWLERS).
 User-agent: *
 Allow: /
@@ -115,7 +116,7 @@ Sitemap: ${SITE.url}/sitemap.xml
 `);
 
 const cityCount = new Set(data.rows.map((r) => `${r.city}|${r.country.slug}`)).size;
-out('llms.txt', `# Renoo
+if (STAGE.seo) out('llms.txt', `# Renoo
 
 > Renoo compares what clinics charge for ${data.procedures.length} medical, wellness and aesthetic procedures in ${cityCount} cities across ${data.countries.length} countries. Prices are ranges in US dollars with a source type, a confidence rating and a last-updated date. They are estimates for comparison, not quotes, and nothing on the site is medical advice. Price data last changed on ${data.updated}.
 
@@ -127,7 +128,7 @@ Every page is plain HTML with a one-paragraph answer at the top and a price tabl
 - \`/{procedure}-in-{country}\`: one procedure in one country, price by city, clinics listed. Example: ${abs('/dental-implant-in-thailand')}
 - \`/country/{country}\`: every procedure tracked in one country. Example: ${abs('/country/thailand')}
 - \`/category/{section}\`: one section of the site. Example: ${abs('/category/dental')}
-- \`/compare/{procedure}/{country-a}-vs-{country-b}\`: two countries side by side. Example: ${abs(compares[0].path)}
+- \`/compare/{procedure}/{country-a}-vs-{country-b}\`: two countries side by side. Example: ${abs(compares[0]?.path || '/compare')}
 
 ## Data
 
@@ -154,7 +155,7 @@ ${data.countries.map((c) => `- [${c.name}](${abs(c.url)}): ${c.cells.length} pro
 - Contact: ${SITE.email}
 `);
 
-out('api/prices.json', JSON.stringify({
+if (STAGE.seo) out('api/prices.json', JSON.stringify({
   name: 'Renoo procedure prices by country', url: abs('/api/prices.json'), documentation: abs('/methodology'),
   currency: 'USD', dataLastChanged: data.updated,
   notes: 'Country-level figures. low and high span the cities tracked in the country; typical is the median of city typical prices. Estimates for comparison, not quotes.',

@@ -24,6 +24,12 @@ export const ALLOWED_CRAWLERS = [
 ];
 export const BLOCKED_CRAWLERS = [];
 
+// What is switched on. The redesign is being delivered in stages:
+//   safeguards: regulatory-status boxes, "consult a doctor" notes and the no-dosing text filter (Phase 5)
+//   seo:        methodology and disclaimer pages, generated FAQs, compare pages, llms.txt, JSON endpoint (Phase 6)
+// Set a stage to true and rebuild to switch it on.
+export const STAGE = { safeguards: false, seo: false };
+
 export const CATEGORIES = [
   {
     slug: 'mens-health',

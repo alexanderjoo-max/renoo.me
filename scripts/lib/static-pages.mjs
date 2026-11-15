@@ -1,6 +1,6 @@
 // Trust pages (methodology, about, medical disclaimer), the travel page, the 404 page,
 // and small redirect pages that keep the old query-string URLs working.
-import { SITE } from '../../content/site.mjs';
+import { SITE, STAGE } from '../../content/site.mjs';
 import { esc, fmtDate, breadcrumbs, ld, num, plural } from './html.mjs';
 
 const HOME = { name: 'Home', url: '/' };
@@ -55,6 +55,22 @@ export function methodologyPage(data) {
 
 export function aboutPage(data) {
   const cities = new Set(data.rows.map((r) => `${r.city}|${r.country.slug}`)).size;
+  // Until the content stage is switched on, the About page keeps the wording of the old site.
+  if (!STAGE.seo) return simple(data, {
+    path: '/about', name: 'About',
+    title: 'About Renoo.me — Transparent Healthcare Pricing, Worldwide',
+    description: 'Renoo.me is a global medical procedure price comparison platform. We make healthcare pricing transparent and easy to understand.',
+    html: `<header class="hero"><h1>Transparent Healthcare Pricing, Worldwide</h1>
+<p class="answer">Renoo.me is a global medical procedure price comparison platform. We make healthcare pricing transparent and easy to understand — whether you're considering treatment locally or exploring medical tourism abroad.</p></header>
+<section class="section"><h2>What We Do</h2>
+<p>Compare typical pricing for medical procedures across hundreds of cities worldwide. Save 50–80% by exploring quality care options in destinations like Bangkok, Istanbul, and Mexico City.</p></section>
+<section class="section"><h2>Popular Procedures</h2>
+<ul><li><strong>Cosmetic:</strong> Botox, rhinoplasty, liposuction</li><li><strong>Dental:</strong> Implants, veneers</li><li><strong>Fertility:</strong> IVF treatment</li><li><strong>Orthopedic:</strong> Hip and knee replacements</li><li><strong>Eye Surgery:</strong> LASIK</li></ul></section>
+<section class="section"><h2>Want to add your clinic?</h2>
+<p>Got a bug that's bugging you? Have opinions so hot they could melt titanium? We genuinely want to hear from you — compliments, complaints, or just a vibe check.</p>
+<p><a href="mailto:${SITE.email}">${SITE.email}</a></p>
+<p class="hero-actions"><a class="btn" href="/">Start Exploring Prices →</a></p></section>`,
+  });
   return simple(data, {
     path: '/about', name: 'About',
     title: 'About Renoo: procedure prices compared by country | Renoo',
@@ -100,11 +116,11 @@ export function travelPage(data) {
     title: 'Flights and hotels for treatment abroad | Renoo',
     description: 'Search flight and hotel prices for a trip to a treatment destination. The search is provided by a travel partner.',
     html: `<header class="hero"><h1 id="travelTitle">Flights and hotels</h1>
-<p class="answer" id="travelSub">Search flight and hotel prices for your trip. Procedure prices on Renoo do not include travel.</p></header>
+<p class="answer" id="travelSub">Find flights and hotels for your medical tourism trip.</p></header>
 <section class="section"><h2>Search</h2>
 <div class="travel-widget card"><div id="tpwl-search" data-destination=""></div><div id="tpwl-tickets"></div><div id="tpwl-modals"></div></div>
 <noscript><p class="placeholder">The flight and hotel search needs JavaScript.</p></noscript>
-<p class="note">The search is provided by a travel partner. Renoo may earn a commission on bookings.</p>
+${STAGE.seo ? '<p class="note">The search is provided by a travel partner. Renoo may earn a commission on bookings.</p>' : ''}
 <p><a href="/countries">Browse destinations</a> · <a href="/">Back to the price map</a></p></section>`,
     extra: { scripts: `<script>(function(){var q=new URLSearchParams(location.search).get('city')||new URLSearchParams(location.hash.slice(1)).get('city');if(q){q=q.replace(/[<>]/g,'');document.getElementById('travelTitle').textContent='Flights and hotels to '+q;document.title='Flights and hotels to '+q+' | Renoo';}var s=document.createElement('script');s.async=1;s.src='https://emrldtp.cc/NDkyMDM5.js?t=492039';document.head.appendChild(s);})();</script>` },
   });

@@ -1,5 +1,5 @@
 // Shared HTML building blocks: escaping, prices, the page shell, tables, FAQ and JSON-LD.
-import { SITE } from '../../content/site.mjs';
+import { SITE, STAGE } from '../../content/site.mjs';
 
 export const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 export const abs = (path) => `${SITE.url}${path === '/' ? '/' : path}`;
@@ -53,7 +53,7 @@ export function faqBlock(faq, heading = 'Questions and answers') {
 export const ld = {
   breadcrumbs: (items) => ({ '@type': 'BreadcrumbList', itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, item: abs(it.url) })) }),
   webPage: ({ path, title, description, updated }) => ({ '@type': 'WebPage', '@id': `${abs(path)}#webpage`, url: abs(path), name: title, description, inLanguage: 'en', ...(updated ? { dateModified: updated } : {}), isPartOf: { '@type': 'WebSite', '@id': `${SITE.url}/#website`, name: SITE.name, url: `${SITE.url}/` } }),
-  faq: (faq) => ({ '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }),
+  faq: (faq) => faq.length && ({ '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }),
   offer: ({ name, serviceType, area, low, high, count, path }) => ({
     '@type': 'Service', name, serviceType, url: abs(path),
     ...(area ? { areaServed: area.map((a) => ({ '@type': 'Country', name: a })) } : {}),
@@ -64,7 +64,7 @@ export const ld = {
 };
 
 // ---------- Page shell ----------
-const NAV = [['/', 'Map'], ['/procedures', 'Procedures'], ['/countries', 'Countries'], ['/compare', 'Compare'], ['/methodology', 'Methodology']];
+const NAV = [['/', 'Map'], ['/procedures', 'Procedures'], ['/countries', 'Countries'], ['/compare', 'Compare'], STAGE.seo ? ['/methodology', 'Methodology'] : ['/about', 'About']];
 
 export function layout(ctx, page) {
   const { data, assetVersion } = ctx;
@@ -97,8 +97,7 @@ export function layout(ctx, page) {
 <meta name="theme-color" content="#05070d">
 <meta name="google-site-verification" content="vqFYYebbN6-s_Q4LNZOU4WV6Y1y2qMtVcvH4r-k9gBM">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="preload" href="/assets/fonts/onest.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css${v}">
 <script>document.documentElement.className='js';window.dataLayer=window.dataLayer||[];</script>
 <script type="application/ld+json">${jsonld}</script>
@@ -112,7 +111,7 @@ ${extraHead}</head>
     <button class="home-pill" type="button" data-home-open hidden aria-haspopup="dialog"><span data-home-flag></span><span data-home-label>Home country</span></button>
     <details class="mobile-menu">
       <summary aria-label="Menu">${icon(ICONS.menu)}</summary>
-      <nav aria-label="Mobile">${nav}<a href="/about">About</a><a href="/medical-disclaimer">Medical disclaimer</a></nav>
+      <nav aria-label="Mobile">${nav}${STAGE.seo ? '<a href="/about">About</a><a href="/medical-disclaimer">Medical disclaimer</a>' : ''}<a href="/travel">Flights and hotels</a></nav>
     </details>
   </div>
 </header>
@@ -121,18 +120,18 @@ ${body}
   <div class="wrap footer-grid">
     <div>
       <img src="/logo-white.svg" alt="Renoo.me" width="116" height="20" loading="lazy">
-      <p>Renoo compares what clinics charge for medical, wellness and aesthetic procedures in ${data.countries.length} countries. Prices are estimates for comparison, not quotes.</p>
-      <p>Price data last changed on ${fmtDate(data.updated)}.</p>
+      <p>Compare medical, wellness and aesthetic procedure prices in ${data.countries.length} countries. Prices are indicative ranges for comparison only.</p>
+      <p>Price data last updated ${fmtDate(data.updated)}.</p>
     </div>
     <nav aria-label="Sections"><h2>Sections</h2><ul>${footCats}</ul></nav>
     <nav aria-label="Explore"><h2>Explore</h2><ul>
       <li><a href="/">Price map</a></li><li><a href="/procedures">All procedures</a></li><li><a href="/countries">All countries</a></li><li><a href="/compare">Compare two countries</a></li><li><a href="/travel">Flights and hotels</a></li>
     </ul></nav>
     <nav aria-label="About Renoo"><h2>About</h2><ul>
-      <li><a href="/methodology">Methodology</a></li><li><a href="/about">About Renoo</a></li><li><a href="/medical-disclaimer">Medical disclaimer</a></li><li><a href="mailto:${SITE.email}">${SITE.email}</a></li>
+      ${STAGE.seo ? '<li><a href="/methodology">Methodology</a></li>' : ''}<li><a href="/about">About Renoo</a></li>${STAGE.seo ? '<li><a href="/medical-disclaimer">Medical disclaimer</a></li>' : ''}<li><a href="mailto:${SITE.email}">${SITE.email}</a></li>
     </ul></nav>
   </div>
-  <p class="wrap footer-legal">Renoo does not provide medical advice and is not a clinic. Talk to a qualified doctor before any treatment. <a href="/medical-disclaimer">Read the medical disclaimer</a>.</p>
+  <p class="wrap footer-legal">${STAGE.seo ? 'Renoo does not provide medical advice and is not a clinic. Talk to a qualified doctor before any treatment. <a href="/medical-disclaimer">Read the medical disclaimer</a>.' : '© 2026 Renoo.me. All rights reserved.'}</p>
 </footer>
 <dialog class="home-dialog" id="homeDialog" aria-labelledby="homeDialogTitle">
   <form method="dialog">
