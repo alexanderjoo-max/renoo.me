@@ -95,15 +95,14 @@ export const CATEGORIES = [
     intro: 'Dental work is one of the most common reasons people travel for treatment. This section compares clinic prices for implants, veneers and aligners in each country.',
   },
   {
-    // Holding section for existing procedures that fit none of the seven sections above.
+    // Eighth section, kept by the owner's decision (2026-11-15) for procedures outside the seven above.
     slug: 'medical',
     name: 'Medical & Surgical',
     color: '#B8C6E6',
     icon: '<rect x="3.500" y="3.500" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/>',
     regulated: false,
-    holding: true,
-    tagline: 'Other medical procedures tracked by Renoo.',
-    intro: 'These procedures were already on Renoo before the site was reorganised and do not belong to any of the seven main sections: joint replacement, eye surgery, fertility treatment, weight-loss surgery, diagnostics and gender-affirming surgery.',
+    tagline: 'Joint replacement, eye surgery, fertility, weight-loss surgery and diagnostics.',
+    intro: 'Hospital and specialist procedures: joint replacement, eye surgery, fertility treatment, weight-loss surgery, diagnostics and gender reassignment surgery. This section compares hospital and clinic prices in each country.',
   },
 ];
 
@@ -145,13 +144,13 @@ export const PROCEDURES = {
   'Dental Veneers': { slug: 'dental-veneers', name: 'Dental Veneers (Per Tooth)', short: 'Veneers, per tooth', phrase: 'a dental veneer', category: 'dental', contentKey: 'Dental Veneers', basis: 'per tooth' },
   'Clear Aligners': { slug: 'clear-aligners', name: 'Clear Aligners', short: 'Clear aligners', phrase: 'clear aligners', category: 'dental', contentKey: null, unsure: 'The old site listed this under Beauty. Moved to Dental now that a Dental section exists.' },
 
-  'Gastric Bypass': { slug: 'gastric-bypass', name: 'Gastric Bypass', short: 'Gastric bypass', phrase: 'gastric bypass surgery', category: 'medical', contentKey: 'Gastric Bypass', unsure: 'Weight-loss surgery fits none of the seven sections.' },
-  'Colonoscopy': { slug: 'colonoscopy', name: 'Colonoscopy', short: 'Colonoscopy', phrase: 'a colonoscopy', category: 'medical', contentKey: 'Colonoscopy', unsure: 'A diagnostic procedure that fits none of the seven sections.' },
-  'IVF (Fertility Treatment)': { slug: 'ivf', name: 'IVF (Fertility Treatment)', short: 'IVF', phrase: 'IVF', category: 'medical', contentKey: 'IVF', basis: 'per cycle', unsure: 'Fertility treatment fits none of the seven sections.' },
-  'Hip Replacement': { slug: 'hip-replacement', name: 'Hip Replacement', short: 'Hip replacement', phrase: 'a hip replacement', category: 'medical', contentKey: 'Hip Replacement', unsure: 'Orthopedic surgery fits none of the seven sections.' },
-  'Knee Replacement': { slug: 'knee-replacement', name: 'Knee Replacement', short: 'Knee replacement', phrase: 'a knee replacement', category: 'medical', contentKey: 'Knee Replacement', unsure: 'Orthopedic surgery fits none of the seven sections.' },
-  'LASIK': { slug: 'lasik', name: 'LASIK', short: 'LASIK', phrase: 'LASIK', category: 'medical', contentKey: 'LASIK', unsure: 'Eye surgery fits none of the seven sections.' },
-  'Gender Reassignment Surgery': { slug: 'gender-reassignment-surgery', name: 'Gender Reassignment Surgery', short: 'Gender reassignment', phrase: 'gender reassignment surgery', category: 'medical', contentKey: 'Gender Reassignment Surgery', unsure: 'Fits none of the seven sections. It is not cosmetic surgery, so it was not placed there.' },
+  'Gastric Bypass': { slug: 'gastric-bypass', name: 'Gastric Bypass', short: 'Gastric bypass', phrase: 'gastric bypass surgery', category: 'medical', contentKey: 'Gastric Bypass' },
+  'Colonoscopy': { slug: 'colonoscopy', name: 'Colonoscopy', short: 'Colonoscopy', phrase: 'a colonoscopy', category: 'medical', contentKey: 'Colonoscopy' },
+  'IVF (Fertility Treatment)': { slug: 'ivf', name: 'IVF (Fertility Treatment)', short: 'IVF', phrase: 'IVF', category: 'medical', contentKey: 'IVF', basis: 'per cycle' },
+  'Hip Replacement': { slug: 'hip-replacement', name: 'Hip Replacement', short: 'Hip replacement', phrase: 'a hip replacement', category: 'medical', contentKey: 'Hip Replacement' },
+  'Knee Replacement': { slug: 'knee-replacement', name: 'Knee Replacement', short: 'Knee replacement', phrase: 'a knee replacement', category: 'medical', contentKey: 'Knee Replacement' },
+  'LASIK': { slug: 'lasik', name: 'LASIK', short: 'LASIK', phrase: 'LASIK', category: 'medical', contentKey: 'LASIK' },
+  'Gender Reassignment Surgery': { slug: 'gender-reassignment-surgery', name: 'Gender Reassignment Surgery', short: 'Gender reassignment', phrase: 'gender reassignment surgery', category: 'medical', contentKey: 'Gender Reassignment Surgery' },
 };
 
 // Country names as they should read, keyed by every spelling found in the data.
