@@ -1,0 +1,516 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Testosterone Replacement Therapy \\(TRT\\)"
+        }
+      ],
+      "destination": "/procedure/testosterone-replacement-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Testosterone Replacement Therapy"
+        }
+      ],
+      "destination": "/procedure/testosterone-replacement-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Hair Transplant \\(3000 grafts\\)"
+        }
+      ],
+      "destination": "/procedure/hair-transplant",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Hair Transplant"
+        }
+      ],
+      "destination": "/procedure/hair-transplant",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "NAD\\+ IV Injection"
+        }
+      ],
+      "destination": "/procedure/nad-iv-injection",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Hyperbaric Oxygen Therapy \\(HBOT\\)"
+        }
+      ],
+      "destination": "/procedure/hyperbaric-oxygen-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Hyperbaric Oxygen Therapy"
+        }
+      ],
+      "destination": "/procedure/hyperbaric-oxygen-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Ozone Therapy"
+        }
+      ],
+      "destination": "/procedure/ozone-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Plasma Exchange \\(TPE\\) Therapy"
+        }
+      ],
+      "destination": "/procedure/plasma-exchange-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Plasma Exchange Therapy"
+        }
+      ],
+      "destination": "/procedure/plasma-exchange-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Advanced Health Screening"
+        }
+      ],
+      "destination": "/procedure/advanced-health-screening",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Biochip Implantation"
+        }
+      ],
+      "destination": "/procedure/biochip-implantation",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Peptide Therapy"
+        }
+      ],
+      "destination": "/procedure/peptide-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Stem Cell Therapy"
+        }
+      ],
+      "destination": "/procedure/stem-cell-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Exosome Therapy"
+        }
+      ],
+      "destination": "/procedure/exosome-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Human Growth Hormone \\(HGH\\)"
+        }
+      ],
+      "destination": "/procedure/human-growth-hormone",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Human Growth Hormone"
+        }
+      ],
+      "destination": "/procedure/human-growth-hormone",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Botox"
+        }
+      ],
+      "destination": "/procedure/botox",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "PRP Therapy"
+        }
+      ],
+      "destination": "/procedure/prp-therapy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Facelift"
+        }
+      ],
+      "destination": "/procedure/facelift",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Rhinoplasty"
+        }
+      ],
+      "destination": "/procedure/rhinoplasty",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Breast Augmentation"
+        }
+      ],
+      "destination": "/procedure/breast-augmentation",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Brazilian Butt Lift \\(BBL\\)"
+        }
+      ],
+      "destination": "/procedure/brazilian-butt-lift",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Brazilian Butt Lift"
+        }
+      ],
+      "destination": "/procedure/brazilian-butt-lift",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Liposuction"
+        }
+      ],
+      "destination": "/procedure/liposuction",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Tummy Tuck"
+        }
+      ],
+      "destination": "/procedure/tummy-tuck",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Limb Lengthening Surgery"
+        }
+      ],
+      "destination": "/procedure/limb-lengthening-surgery",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Dental Implant"
+        }
+      ],
+      "destination": "/procedure/dental-implant",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Dental Veneers \\(Full Mouth\\)"
+        }
+      ],
+      "destination": "/procedure/dental-veneers-full-mouth",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Dental Veneers"
+        }
+      ],
+      "destination": "/procedure/dental-veneers-full-mouth",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Clear Aligners"
+        }
+      ],
+      "destination": "/procedure/clear-aligners",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Gastric Bypass"
+        }
+      ],
+      "destination": "/procedure/gastric-bypass",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Colonoscopy"
+        }
+      ],
+      "destination": "/procedure/colonoscopy",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "IVF \\(Fertility Treatment\\)"
+        }
+      ],
+      "destination": "/procedure/ivf",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "IVF"
+        }
+      ],
+      "destination": "/procedure/ivf",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Hip Replacement"
+        }
+      ],
+      "destination": "/procedure/hip-replacement",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Knee Replacement"
+        }
+      ],
+      "destination": "/procedure/knee-replacement",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "LASIK"
+        }
+      ],
+      "destination": "/procedure/lasik",
+      "permanent": true
+    },
+    {
+      "source": "/procedure",
+      "has": [
+        {
+          "type": "query",
+          "key": "procedure",
+          "value": "Gender Reassignment Surgery"
+        }
+      ],
+      "destination": "/procedure/gender-reassignment-surgery",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}
